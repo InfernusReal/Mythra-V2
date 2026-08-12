@@ -28,7 +28,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme]);
 
   useEffect(() => {
-    if (!pathname.startsWith("/app")) return;
+    if (!pathname?.startsWith("/app")) return;
     const version = preferenceVersion.current;
     void fetch("/api/v2/preferences/theme").then(async (response) => {
       if (!response.ok) return;
