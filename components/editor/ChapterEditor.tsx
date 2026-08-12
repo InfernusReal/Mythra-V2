@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import { Extension, Mark, mergeAttributes } from "@tiptap/core";
 import { Plugin } from "@tiptap/pm/state";
 import Heading from "@tiptap/extension-heading";
@@ -14,6 +14,12 @@ import { useDurableChapter } from "@/lib/writing/use-durable-chapter";
 import { tiptapAdapter } from "@/lib/editor/adapter";
 import type { WritingPosition } from "@/domains/writing/application/continuation-ports";
 import { useWritingContinuation } from "@/lib/writing/use-writing-continuation";
+import { ConflictBanner } from "./ConflictBanner";
+import { EditorCanvas } from "./EditorCanvas";
+import { EditorToolbar } from "./EditorToolbar";
+import { FocusMode } from "./FocusMode";
+import { RecoveryDrawer } from "./RecoveryDrawer";
+import { WordTarget } from "./WordTarget";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -196,42 +202,19 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         <nav aria-label="Breadcrumb">
           <a href={`/app/projects/${model.project.id}`}>{model.project.title}</a><span>/</span><span>{model.chapter.title}</span>
         </nav>
-        <button onClick={changeFocusMode} aria-pressed={focusMode}>Focus</button>
+        <FocusMode active={focusMode} onChange={changeFocusMode} />
       </header>
       <nav className="chapter-switcher" aria-label="Nearby chapters">
         {model.navigation.previousChapterId ? <a href={`/app/chapters/${model.navigation.previousChapterId}`}>Previous chapter</a> : <span>First chapter</span>}
         {model.navigation.nextChapterId ? <a href={`/app/chapters/${model.navigation.nextChapterId}`}>Next chapter</a> : <span>Latest chapter</span>}
       </nav>
-      <div className="editor-toolbar" role="toolbar" aria-label="Text formatting">
-        <button onClick={() => editor?.chain().focus().toggleBold().run()} aria-pressed={editor?.isActive("bold")}>Bold</button>
-        <button onClick={() => editor?.chain().focus().toggleItalic().run()} aria-pressed={editor?.isActive("italic")}>Italic</button>
-        <button onClick={() => editor?.chain().focus().undo().run()}>Undo</button>
-        <button onClick={() => editor?.chain().focus().redo().run()}>Redo</button>
-        <button onClick={() => void durability.checkpoint()}>Checkpoint</button>
-      </div>
-      <EditorContent editor={editor} />
+      <EditorToolbar editor={editor} onCheckpoint={() => void durability.checkpoint()} />
+      <EditorCanvas editor={editor} />
       {hardStopMessage ? <p className="editor-limit" role="alert">{hardStopMessage}</p> : null}
-      {durability.conflict ? (
-        <section className="conflict-banner" aria-labelledby="conflict-title">
-          <h2 id="conflict-title">Two versions need your choice</h2>
-          <p>Your local draft and the saved version are both preserved.</p>
-          <div className="conflict-actions">
-            <button onClick={() => durability.setCompareOpen(!durability.compareOpen)}>Compare</button>
-            <button onClick={() => void durability.resolveConflict("KEEP_LOCAL")}>Keep local as new version</button>
-            <button onClick={() => void durability.resolveConflict("KEEP_SERVER")}>Keep server</button>
-            <button onClick={() => void durability.resolveConflict("DUPLICATE_RECOVERY")}>Duplicate as recovery copy</button>
-          </div>
-          {durability.compareOpen ? (
-            <div className="revision-compare">
-              <article><h3>Local draft</h3><pre>{deriveChapterText(durability.conflict.localDocument).plainText}</pre></article>
-              <article><h3>Saved version</h3><pre>{deriveChapterText(durability.conflict.serverDocument).plainText}</pre></article>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
+      {durability.recoveryNotice ? <RecoveryDrawer chapterId={model.chapter.id} notice={durability.recoveryNotice} onDismiss={durability.dismissRecovery} /> : null}
+      {durability.conflict ? <ConflictBanner conflict={durability.conflict} compareOpen={durability.compareOpen} onCompare={() => durability.setCompareOpen(!durability.compareOpen)} onResolve={(resolution) => void durability.resolveConflict(resolution)} /> : null}
       <footer className="editor-status" role="status">
-        <span>{wordCount} words</span>
-        {delta !== null ? <span>{delta >= 0 ? `${delta} remaining` : `${Math.abs(delta)} over target`}</span> : <span>No target</span>}
+        <WordTarget wordCount={wordCount} delta={delta} />
         <span>Autosave on</span>
       </footer>
     </div>

@@ -1,6 +1,6 @@
 import { Prisma, type PrismaClient } from "@/app/generated/prisma/client";
 import type { ExternalPrincipal, SessionActor } from "../domain/identity";
-import type { IdentityRecord, IdentityRepository } from "../application/ports";
+import type { IdentityRecord, IdentityRepository, UserPreferenceReadModel } from "../application/ports";
 
 export class PrismaIdentityRepository implements IdentityRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -98,5 +98,16 @@ export class PrismaIdentityRepository implements IdentityRepository {
       where: { userId_workspaceId: { userId: actor.userId, workspaceId: actor.workspaceId } },
       data: input
     });
+  }
+
+  async getPreference(actor: SessionActor): Promise<UserPreferenceReadModel> {
+    const preference = await this.prisma.userPreference.findUniqueOrThrow({
+      where: { userId_workspaceId: { userId: actor.userId, workspaceId: actor.workspaceId } },
+      select: { theme: true, locale: true }
+    });
+    if (preference.theme !== "light" && preference.theme !== "dark" && preference.theme !== "system") {
+      return { theme: "system", locale: preference.locale };
+    }
+    return preference as UserPreferenceReadModel;
   }
 }

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { AuthenticateUser } from "@/domains/accounts/application/authenticate";
+import { ManagePreferences } from "@/domains/accounts/application/preferences";
 import type { ExternalAuthAdapter } from "@/domains/accounts/application/ports";
 import { DevelopmentAuthAdapter } from "@/domains/accounts/infrastructure/development-auth-adapter";
 import { OidcAuthAdapter } from "@/domains/accounts/infrastructure/oidc-auth-adapter";
@@ -36,6 +37,10 @@ export function createAuthenticateUser(): AuthenticateUser {
     logger.child({ module: "accounts" }),
     noOpMetrics
   );
+}
+
+export function createPreferenceService(): ManagePreferences {
+  return new ManagePreferences(new PrismaIdentityRepository(getPrisma()), logger.child({ module: "preferences" }));
 }
 
 export async function optionalActor(): Promise<SessionActor | null> {

@@ -12,8 +12,14 @@ export interface IdentityRecord {
   createdWorkspace: boolean;
 }
 
+export interface UserPreferenceReadModel {
+  theme: "light" | "dark" | "system";
+  locale: string;
+}
+
 export interface IdentityRepository {
   resolveOrProvision(principal: ExternalPrincipal, correlationId: string): Promise<IdentityRecord>;
   findActor(userId: string, workspaceId: string, sessionId: string): Promise<SessionActor | null>;
+  getPreference(actor: SessionActor): Promise<UserPreferenceReadModel>;
   updatePreference(actor: SessionActor, input: { locale?: string; theme?: string }): Promise<void>;
 }

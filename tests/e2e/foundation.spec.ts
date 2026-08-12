@@ -25,6 +25,11 @@ test.describe("Sub-gate 0 authenticated shell", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await expect(page.locator("body")).toHaveCSS("background-color", "rgb(17, 18, 20)");
     await page.screenshot({ path: "test-results/foundation-dark.png", fullPage: true });
+    await expect.poll(async () => page.evaluate(async () => {
+      const response = await fetch("/api/v2/preferences/theme");
+      const envelope = await response.json() as { data?: { theme?: string } };
+      return envelope.data?.theme;
+    })).toBe("dark");
     await page.getByRole("combobox", { name: "Theme" }).selectOption("light");
     await expect(page.locator("body")).toHaveCSS("background-color", "rgb(250, 250, 249)");
     await page.screenshot({ path: "test-results/foundation-light.png", fullPage: true });
@@ -39,6 +44,9 @@ test.describe("Sub-gate 0 authenticated shell", () => {
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
     await expect(page.getByRole("button", { name: /Commands/ })).toBeFocused();
+
+    await page.locator('select[aria-label="Theme"]').selectOption("dark", { force: true });
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
     await page.addScriptTag({ path: path.resolve("node_modules/axe-core/axe.min.js") });
     const violations = await page.evaluate(async () => {
@@ -60,5 +68,16 @@ test.describe("Sub-gate 0 authenticated shell", () => {
     expect(Math.round(rail!.y + rail!.height)).toBe(viewport!.height);
     await expect(page.getByText("Writing", { exact: true })).toBeVisible();
     await page.screenshot({ path: "test-results/foundation-mobile.png", fullPage: true });
+  });
+
+  test("enforces the reduced-motion baseline in the browser", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "chromium", "Reduced motion is verified once in the desktop project.");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await signIn(page);
+    const computed = await page.locator(".command-trigger").evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { animationDuration: style.animationDuration, transitionDuration: style.transitionDuration, scrollBehavior: style.scrollBehavior };
+    });
+    expect(computed).toEqual({ animationDuration: "1e-05s", transitionDuration: "1e-05s", scrollBehavior: "auto" });
   });
 });

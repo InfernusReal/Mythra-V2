@@ -76,6 +76,21 @@ test.describe("Sub-gate 1 project, chapter, and editor core", () => {
     await page.screenshot({ path: "test-results/editor-core-mobile.png", fullPage: true });
   });
 
+  test("accepts an IME composition lifecycle and durably restores the composed text", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "chromium", "The baseline IME lifecycle is verified in the desktop project.");
+    await signIn(page);
+    await createFirstChapter(page, `IME baseline ${Date.now()}`);
+    const editor = page.getByRole("textbox", { name: "Chapter manuscript" });
+    await editor.focus();
+    await editor.evaluate((element) => element.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true, data: "" })));
+    await page.keyboard.insertText("日本語入力");
+    await editor.evaluate((element) => element.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "日本語入力" })));
+    await expect(editor).toContainText("日本語入力");
+    await expect(page.locator(".command-bar .save-status")).toHaveText("Saved", { timeout: 10_000 });
+    await page.reload();
+    await expect(page.getByRole("textbox", { name: "Chapter manuscript" })).toContainText("日本語入力");
+  });
+
   test("returns a stable unauthenticated envelope for editor APIs", async ({ request }) => {
     const response = await request.post("/api/v2/projects", { data: { title: "Denied" } });
     expect(response.status()).toBe(401);

@@ -17,11 +17,17 @@ export interface DurabilityController {
   label: string;
   conflict: DraftConflictReadModel | null;
   compareOpen: boolean;
+  recoveryNotice: RecoveryNotice | null;
   setCompareOpen(value: boolean): void;
+  dismissRecovery(): void;
   onDocumentChange(document: ChapterDocument): void;
   checkpoint(label?: string): Promise<void>;
   resolveConflict(resolution: ConflictResolution): Promise<void>;
 }
+
+export type RecoveryNotice =
+  | { kind: "RECOVERED"; baseVersion: number }
+  | { kind: "STORAGE_UNAVAILABLE" };
 
 export function useDurableChapter(input: {
   chapterId: string;
@@ -34,6 +40,7 @@ export function useDurableChapter(input: {
   const [ready, setReady] = useState(false);
   const [conflict, setConflict] = useState<DraftConflictReadModel | null>(null);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [recoveryNotice, setRecoveryNotice] = useState<RecoveryNotice | null>(null);
   const router = useRouter();
   const versionRef = useRef(input.initialVersion);
   const documentRef = useRef(input.initialDocument);
@@ -157,11 +164,16 @@ export function useDurableChapter(input: {
       if (record.clientSaveId) pendingSaveRef.current = { clientSaveId: record.clientSaveId, generation: generationRef.current, baseVersion: record.baseVersion, document: record.document };
       applyDocumentRef.current(record.document);
       setState((current) => reduceSaveState(current, { type: "LOCAL_RECOVERED" }));
+      setRecoveryNotice({ kind: "RECOVERED", baseVersion: record.baseVersion });
       // Console trace S2-CLIENT-005: recoverable local draft applied; content is excluded.
       console.log(JSON.stringify({ level: "info", step: "S2-CLIENT-005", event: "autosave.local_recovered", chapterId, baseVersion: record.baseVersion, priorState: record.state }));
       queuedCheckpointRef.current = "Recovered session boundary";
       autosaveTimerRef.current = setTimeout(() => { void performSaveRef.current(); }, 250);
-    }).catch(() => setState("RECOVERABLE_LOCAL")).finally(() => setReady(true));
+    }).catch(() => {
+      setRecoveryNotice({ kind: "STORAGE_UNAVAILABLE" });
+      // Console trace S2-CLIENT-010: local recovery storage was unavailable; the canonical document remains writable.
+      console.log(JSON.stringify({ level: "warn", step: "S2-CLIENT-010", event: "autosave.recovery_storage_unavailable", chapterId }));
+    }).finally(() => setReady(true));
     const onOnline = () => { void performSaveRef.current(); };
     const onBeforeUnload = () => { void journal.flush(); };
     const checkpointFor = (reason: string) => {
@@ -222,5 +234,5 @@ export function useDurableChapter(input: {
     if (envelope.data.recoveryChapterId) router.push(`/app/chapters/${envelope.data.recoveryChapterId}`);
   }, [chapterId, conflict, router]);
 
-  return { ready, state, label: saveStateLabels[state], conflict, compareOpen, setCompareOpen, onDocumentChange, checkpoint, resolveConflict };
+  return { ready, state, label: saveStateLabels[state], conflict, compareOpen, recoveryNotice, setCompareOpen, dismissRecovery: () => setRecoveryNotice(null), onDocumentChange, checkpoint, resolveConflict };
 }
