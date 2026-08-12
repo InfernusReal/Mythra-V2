@@ -32,6 +32,8 @@
     "db:rollback:durability": "tsx scripts/verify-durability-db.ts rollback",
     "db:verify:continuation": "tsx scripts/verify-continuation-db.ts verify",
     "db:rollback:continuation": "tsx scripts/verify-continuation-db.ts rollback",
+    "db:verify:structure": "tsx scripts/verify-structure-core-db.ts verify",
+    "db:rollback:structure": "tsx scripts/verify-structure-core-db.ts rollback",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

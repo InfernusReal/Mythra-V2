@@ -18,6 +18,7 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
       <section className="project-home" aria-labelledby="project-home-title">
         <p className="eyebrow">Project</p>
         <h1 id="project-home-title">{model.project.title}</h1>
+        <a className="structure-link" href={`/app/projects/${model.project.id}/structure`}>Open Structure</a>
         {model.activeChapter ? (
           <>
             <a className="continue-writing" href={`/app/chapters/${model.activeChapter.id}`}>Continue Writing</a>

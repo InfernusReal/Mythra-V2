@@ -16,6 +16,7 @@ export function AppShell({ children, saveStatus = "No document open" }: { childr
       </header>
       <nav className="app-rail" aria-label="Primary navigation">
         <a href="/app" aria-current="page" title="Home"><span aria-hidden="true">H</span><span className="sr-only">Home</span></a>
+        <a href="/app" title="Projects"><span aria-hidden="true">P</span><span className="sr-only">Projects</span></a>
         <a href="/app/settings" title="Settings"><span aria-hidden="true">S</span><span className="sr-only">Settings</span></a>
       </nav>
       <main className="shell-main">{children}</main>

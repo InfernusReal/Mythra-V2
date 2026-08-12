@@ -204,6 +204,10 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         </nav>
         <FocusMode active={focusMode} onChange={changeFocusMode} />
       </header>
+      <div className="editor-structure-action"><a href={`/app/projects/${model.project.id}/structure`} onClick={() => {
+        // Console trace S4-UI-015: editor-to-Structure navigation requested after continuation state capture remains active.
+        console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));
+      }}>Structure</a></div>
       <nav className="chapter-switcher" aria-label="Nearby chapters">
         {model.navigation.previousChapterId ? <a href={`/app/chapters/${model.navigation.previousChapterId}`}>Previous chapter</a> : <span>First chapter</span>}
         {model.navigation.nextChapterId ? <a href={`/app/chapters/${model.navigation.nextChapterId}`}>Next chapter</a> : <span>Latest chapter</span>}
