@@ -1,43 +1,69 @@
-# Mythra V2 Implementation Path
+# Mythra V2 Pathway Execution Ledger
 
 ## 1. Purpose and authority
 
-`Path.md` is the evidence-backed implementation ledger for Mythra V2. It is the repository's **Pathway V2** record required by the Bible's phase acceptance template.
+`Path.md` is the canonical, evidence-backed **Pathway V2 execution ledger** required by the Bible's phase acceptance template. “Path”, “Pathway V2 entry”, and “execution ledger” refer to this file; no separate `Pathway.md` is required.
 
 - The Bible defines the product and engineering truth.
 - `WorkPlan.md` defines the approved implementation sequence.
 - `Path.md` records what actually happened.
 
-This file must never claim that planned work is implemented. Every implementation statement must point to repository files, tests, commands/results, migrations, screenshots/artifacts, or remote Git evidence. If actual work diverges from `WorkPlan.md`, the phase entry must state the divergence, why it occurred, whether the Bible permits it, and whether the plan was corrected.
+This file must never claim that planned work is implemented. Every implementation statement must point to repository files, tests, commands/results, migrations, screenshots/artifacts, or remote Git evidence. If actual work diverges from `WorkPlan.md`, the sub-gate/phase entry must state the divergence, why it occurred, whether the Bible or an authorized ruling permits it, and whether the plan was corrected.
 
 Entries are chronological. Corrections are appended or explicitly marked; implementation history is evidence, not product authority.
 
 ## 2. Mandatory update protocol
 
-For each implementation run and each phase:
+For each implementation run, original-capability sub-gate, and delivery phase:
 
-1. Record date/time, phase, baseline branch/commit, intended slice, and source sections before coding.
+1. Record date/time, delivery phase, Sub-gate number, predecessor-gate evidence, baseline branch/commit, intended slice, and source sections before coding.
 2. Record every created, modified, moved, or deleted file and its purpose.
-3. Describe code behavior and implementation method at the same depth as the corresponding `WorkPlan.md` phase.
+3. Describe code behavior and implementation method at the same depth as the corresponding `WorkPlan.md` sub-gate and containing phase.
 4. Record schema/migrations, API/contracts, UI/interaction, state ownership, security/privacy, observability, accessibility, performance, recovery, and operational effects.
 5. Record every validation command and exact pass/fail/blocked result. Never convert a skipped check into a pass.
-6. Compare actual work side by side with the phase scope, global acceptance contract, Bible coverage matrix, and anti-goals.
+6. Compare actual work side by side with the sub-gate row, containing phase scope, global acceptance contract, Bible coverage matrix, authorized rulings, and anti-goals.
 7. Classify each item as `Verified`, `Implemented-not-verified`, `Planned-later`, `Bible-optional`, `Bible-future`, or `Gap`.
-8. Fix every in-scope `Gap` before phase completion. If blocked, leave the phase incomplete.
+8. Fix every in-scope `Gap` before sub-gate completion. If blocked, leave the sub-gate and containing phase incomplete.
 9. Record the final diff scope, commit hash/message, pushed branch, GitHub remote, and remote verification.
-10. Do not start the next phase until the current phase exit gate is verified and pushed.
+10. Do not start the next original capability until the current Sub-gate is verified, audited, committed, pushed, and remotely confirmed. A macro-phase summary never substitutes for predecessor evidence.
 
-## 3. Phase status
+## 3. Delivery phase and capability status
 
 | Phase | Bible roadmap mapping | Status | Evidence entry | Remote state |
 | --- | --- | --- | --- | --- |
-| Planning baseline | Plan/ledger creation and source audit | Verified | Entry P0 below | Pushed and verified on `main` |
+| Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
+| Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified locally | Entry P1 below | Pending correction push |
 | 1. Trusted Writing Foundation | 0–3 | Not started | — | — |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
+
+### 3.1 Mandatory capability sub-gate status
+
+| Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0 | Foundation | 1 | Not started | None | — | — |
+| 1 | Project + Chapter + Editor Core | 1 | Not started | Sub-gate 0 required | — | — |
+| 2 | Durability | 1 | Not started | Sub-gate 1 required | — | — |
+| 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
+| 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
+| 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
+| 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
+| 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
+| 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
+| 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
+| 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
+| 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
+| 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
+| 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
+| 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
+| 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
+| 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
+| 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
+
+The first eligible product capability is Sub-gate 0. Every later row is locked until its predecessor's Pathway entry and remote commit are verified.
 
 ## 4. Entry P0 — Planning baseline and source audit
 
@@ -152,7 +178,82 @@ None. The repository had no application baseline and this run is limited to stud
 - **Remote verification:** local `HEAD` and `refs/heads/main` both resolved to `3991251f1212b2e83e0681a0819e38c5ae6e337f`; GitHub default branch resolved to `main`
 - **Audit-ledger commit:** this evidence update is committed and verified immediately after the content commit; its hash is reported in the final handoff because a commit cannot contain its own hash.
 
-## 5. Reusable implementation entry template
+## 5. Entry P1 — Original-gate restoration and implementation-ruling audit
+
+### 5.1 Run identity
+
+- **Date:** 12 August 2026
+- **Delivery phase:** planning correction; no product phase or capability started
+- **Sub-gate:** none; all Sub-gates 0–17 remain `Not started`
+- **Baseline branch/commit:** `main` at `09fbb8b143ac2e28e128803d6868a633a169d621`
+- **Correction branch:** `agent/workplan-subgates-audit`
+- **Source:** Mythra V2 Product + Engineering Implementation Bible v2.2 plus user-authorized post-freeze implementation/commercial decisions
+- **Intended scope:** amend only `WorkPlan.md` and `Path.md`; produce no application code
+
+### 5.2 Source verification
+
+- Re-read and visually inspected Bible pages 15–16 for the literal Semantic Zoom ladder and the eight Relevant Now outputs, including Because and Consequences.
+- Re-read and visually inspected page 23 for the section 7.6 projection fields and section 7.7.1 eligible causal nodes. Confirmed the projection list omits explicit Because/Consequences even though section 4.9 makes them first-class outputs.
+- Re-read and visually inspected pages 67–68. Confirmed all fourteen critical E2E scenarios belong to section 31.2 and visual regression is the separate section 31.3.
+- Re-read and visually inspected pages 70–71. Confirmed phases 0–17 are coherent capability phases with distinct writing-flow gates and that the Pathway V2 entry is part of every gate's acceptance evidence.
+
+### 5.3 Findings accepted and corrections made
+
+| Finding | Classification | Correction |
+| --- | --- | --- |
+| Six macro gates could mask original phases 0–17 | Gap | Restored Sub-gates 0–17 as the controlling execution state machine; every predecessor requires separate evidence, audit, commit, push, and remote verification. |
+| Phase 2 claimed causal endpoints whose domains arrive in Phase 3 | Gap | Phase 2 now defines the full enum/adapter interfaces but activates only milestone, chapter-outline, scene, Narrative Intent, manuscript-block, and Story Change endpoints. Future endpoint creation is rejected until its adapter is registered. |
+| Notes/Capture after-the-fact conversions were referenced before their sources existed | Gap | Phase 2 keeps dormant conversion interfaces only. Phase 3 activates Capture, entity, Note, and timeline conversions in Sub-gates 8, 9, and 11 respectively. |
+| Phase 3's combined scope could also bypass internal sub-gate dependencies | Derived gap | Context cards, Capture targets, Search providers, entity-state endpoints, and timeline endpoints now activate only in their owning ordered sub-gates. Search + Language is explicitly before Timeline + Research. |
+| Because/Consequences absent from the “complete” durable field list | Specification clarification | Added explicit `becauseItems[]` and `consequenceItems[]` to both initial and durable `NarrativeDirectiveProjection` contracts. |
+| Semantic Zoom ladder omitted Plot/Volume Outlines and placed Chapter before Chapter Outline | Authorized implementation ruling | Locked `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`, with milestones cross-cutting and optional levels skippable. |
+| Frozen `$10 Entry / $25 Pro` pricing is commercially superseded | Authorized commercial erratum | Required Pricing Decision ADR: USD 15 Mythra Core with full deterministic V2; dormant future USD 25 Mythra Intelligence only when AI exists. Removed non-AI Entry/Pro gating and analytics assumptions. |
+| `Path.md` versus “Pathway V2 entry” terminology | Cleanup | Declared `Path.md` the canonical Pathway V2 execution ledger in its title and authority section. |
+| E2E source wording cited 31.2–31.3 together | Cleanup | Corrected to fourteen E2Es in 31.2 plus a separate visual-regression matrix in 31.3. |
+
+### 5.4 Files changed and application code
+
+- **`WorkPlan.md`:** restored mandatory sub-gates, staged domain/provider activation, locked directive and Semantic Zoom contracts, applied the pricing erratum, and tightened gate/audit/completion language.
+- **`Path.md`:** strengthened Pathway authority, added the Sub-gate 0–17 status ledger, updated the execution protocol, and added this correction entry.
+- **Application code/migrations/configuration:** none. No Mythra capability is implemented or verified by this planning correction.
+
+### 5.5 Conformance audit
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Exactly eighteen original capability rows exist | Verified locally | `WorkPlan.md` section 4.1 contains Sub-gate 0 through Sub-gate 17 exactly once. |
+| Predecessor gating is mandatory | Verified locally | `WorkPlan.md` sections 1.2, 4.1, phase headers, exit gates, global contract, and definition of complete. |
+| Pathway tracks every sub-gate | Verified locally | `Path.md` section 3.1 contains all eighteen locked status rows. |
+| Phase 2 exposes no nonexistent active endpoint | Verified locally | Active adapter list is limited to domains available by Sub-gate 6; future discriminants reject creation. |
+| Phase 3 provider order is internally possible | Verified locally | Sub-gates 7–11 register context/conversion/search/causal adapters only after canonical source domains exist. |
+| Because and Consequences are first-class | Verified locally | `becauseItems[]` and `consequenceItems[]` appear in v1 and durable projection contracts. |
+| Semantic coordinate is unambiguous | Verified locally | One ruled ladder, outline IDs, cross-cutting milestone semantics, optional-skip behavior, and coordinate tests are specified. |
+| Pricing cannot regress to two non-AI tiers | Verified locally | Core/Intelligence erratum, anti-goal, ADR requirement, billing scope, metrics, exit gate, and coverage matrix agree. |
+| E2E/visual section references are exact | Verified locally | E2Es cite 31.2; visual regression cites 31.3 separately. |
+| Product implementation status remains honest | Verified locally | Every capability row remains `Not started`; this entry records documentation only. |
+
+### 5.6 Validation and contradiction audit
+
+- **Markdown structure:** six macro-phase headings, balanced code fences, correct blank lines after headings, and `git diff --check` with no whitespace errors. Result: pass.
+- **Sub-gate uniqueness:** `WorkPlan.md` contains exactly eighteen control rows and `Path.md` exactly eighteen status rows; both sets are unique and complete from 0 through 17. Result: pass.
+- **Predecessor chain:** every WorkPlan control row 1–17 explicitly references the immediately preceding Sub-gate. Result: pass; no missing predecessor reference.
+- **Source coverage regression:** all numbered source rows 0–39 and appendices A–E remain present. Result: pass.
+- **Dependency-order audit:** Phase 2 activates only existing causal endpoints and rejects reserved future types; Phase 3 registers Capture, entity-state, Search/context, and timeline providers only after their canonical domains exist. Result: pass.
+- **Semantic/directive exactness:** the ruled ladder appears identically in the authority ruling and Phase 2; `becauseItems[]` and `consequenceItems[]` appear in the authority ruling, v1 compiler, and durable projection. Result: pass.
+- **Pricing audit:** executable Phase 5 scope, metrics, files, method, and exit gate use USD 15 Core/full deterministic access and dormant future USD 25 Intelligence. The old `$10 Entry / $25 Pro` phrase remains only inside explicitly labeled superseded/erratum history. Result: pass.
+- **Testing citation audit:** executable plan cites fourteen E2Es in section 31.2 and visual regression separately in 31.3. The combined citation remains only in this historical finding row. Result: pass.
+- **Scope audit:** working tree contains modifications only to `WorkPlan.md` and `Path.md`; no application/source/config/migration file and no PDF render remains. Result: pass.
+- **Remote verification:** pending commit and push.
+
+### 5.7 Git evidence
+
+- **Status:** locally audited; pending correction commit and push
+- **Branch:** `agent/workplan-subgates-audit`
+- **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`
+- **Commit/push/remote verification:** pending
+- **GitHub CLI note:** the cached `gh` token was invalid at the start of this run; local Git credentials will be tested for branch push. PR creation requires renewed `gh auth login` if the token remains invalid.
+
+## 6. Reusable implementation entry template
 
 Copy this section for every bounded implementation run. Do not delete fields; use `Not applicable` with a reason when a category genuinely does not apply.
 
@@ -162,6 +263,8 @@ Copy this section for every bounded implementation run. Do not delete fields; us
 
 - Date/time and timezone:
 - Work-plan phase:
+- Mandatory Sub-gate:
+- Predecessor Sub-gate commit/remote verification:
 - Bible roadmap phase(s):
 - Bible sections/subsections:
 - Baseline branch/commit:
@@ -259,6 +362,10 @@ Also answer:
 - Could logs, analytics, traces, errors, admin, or tests leak content?
 - Could a query load an unbounded project/graph?
 - Did an AI/tool proposal become canonical without approval?
+- Did the current Sub-gate activate a later endpoint, conversion target, context card, search provider, or billing capability before its canonical source domain and predecessor gate existed?
+- Does every directive representation preserve explicit `becauseItems[]` and `consequenceItems[]` rather than folding them into generic context?
+- Does Semantic Zoom preserve the ruled outline-aware coordinate order while keeping milestones cross-cutting and structure optional?
+- Does billing preserve USD 15 Core/full deterministic V2 and keep USD 25 Intelligence dormant until AI exists?
 - Did implementation add non-V2 product scope?
 
 #### H. Deviations, gaps, and repair
@@ -282,30 +389,30 @@ Also answer:
 - PR URL/status if a PR is used:
 - Rollback/revert point:
 
-## 6. Final V2 audit template
+## 7. Final V2 audit template
 
 The final Phase 6 entry must include this additional audit.
 
-### 6.1 Original roadmap coverage
+### 7.1 Original roadmap coverage
 
-List Bible phases 0–17 individually with macro-phase owner, files, tests, and verified commit.
+List Bible phases 0–17 individually with macro-phase owner, predecessor-gate evidence, files, tests, and distinct verified remote commit. Prove from timestamps/commits that no later original capability started before its predecessor passed.
 
-### 6.2 Full source coverage
+### 7.2 Full source coverage
 
 List Bible sections 0–39 and appendices A–E individually. No row may remain `Planned-later` for V2 requirements. Optional/future rows must cite the source language and implemented seam/non-goal.
 
-### 6.3 Critical scenarios
+### 7.3 Critical scenarios
 
-Record results for all fourteen Bible E2E scenarios, visual matrix, appendix E.6 causal tests, and appendix D doctrine questions.
+Record results for all fourteen Bible E2E scenarios from section 31.2, the separate visual-regression matrix from section 31.3, appendix E.6 causal tests, and appendix D doctrine questions.
 
-### 6.4 Contradiction report
+### 7.4 Contradiction report
 
 Record the searches/reviews used to test optionality, ownership, truth dimensions, freshness, recovery, quota/export, privacy, scale bounds, no-AI core, and future scope. Every conflict must cite its fix commit.
 
-### 6.5 Launch evidence
+### 7.5 Launch evidence
 
 Record all eleven section 38.1 launch conditions, backup/restore drill, billing/downgrade behavior, friction instrumentation, security/privacy review, accessibility/mobile/IME review, and the ten-paying-author validation measurement plan.
 
-### 6.6 Final Git proof
+### 7.6 Final Git proof
 
 Record the commit containing the final audited `WorkPlan.md` and `Path.md`, push result, remote commit verification, and release/tag state if used.
