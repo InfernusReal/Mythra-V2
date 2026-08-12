@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | Sub-gates 0–3 passed; macro audit pending | Entries S0, S1, S2, and S3 below | S3 content remotely verified; S3 evidence and Phase 1 macro-audit pushes remain |
+| 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit complete** | Entries S0, S1, S2, S3, and Phase 1 macro audit below | All four sub-gates, audit repairs, and their evidence are pushed/remotely verified; macro-ledger commit is pushed immediately after this entry |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -47,7 +47,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
-| 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content commit `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` pushed/remotely verified; evidence push follows |
+| 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
@@ -667,6 +667,154 @@ No unresolved WorkPlan deviation remains. Audit iterations found and repaired:
 - **Remote/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks the branch.
 - **Rollback/revert point:** S2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d`; SQL rollback is `prisma/migrations/20260812210000_continuation/rollback.sql` after exporting metadata if required.
 - **Evidence-ledger commit:** this entry is committed/pushed next; its hash is recorded in the Phase 1 audit because a commit cannot contain its own hash.
+
+## 8. Entry Phase 1 - Trusted Writing Foundation macro conformance audit
+
+### 8.1 Run identity, authority, and immutable sequence
+
+- **Audit date:** 2026-08-12 (Asia/Karachi).
+- **Authorized scope:** delivery Phase 1 and original capability Sub-gates 0-3 only.
+- **Source owners:** `WorkPlan.md` sections 2.2, 5.1-5.4, 11.1-11.2 and the Bible's original phases 0-3, durability, continuation, security, accessibility, testing, deployment, and acceptance contracts.
+- **Baseline:** S3 evidence commit `d98b27a7238d2ec72c5af4e94beef68958e19625`, already pushed and remotely verified.
+- **Audit-repair content:** `0a98d61338cc941764122165afffd324851be0d3` (`Close Phase 1 audit gaps`), 21 files, 320 insertions, 39 deletions. Push succeeded; local HEAD and `git ls-remote` both returned the full SHA.
+- **Branch/PR:** `agent/workplan-subgates-audit`; draft PR #1, `https://github.com/InfernusReal/Mythra-V2/pull/1`.
+- **Capability lock:** Sub-gate 4 has not started. No Structure, Milestone, causal, context resolver/card, Capture, Universe, Search, Timeline, billing, analytics collection, or AI source/domain/route was activated.
+
+The pushed commit order proves the mandatory predecessor chain:
+
+| Capability | Pre-code ledger | Content | Evidence | Predecessor proof |
+| --- | --- | --- | --- | --- |
+| S0 Foundation | foundation plan preceded content | `8459d6601885e019c56f1c3d757c1d4f5645f618` | `d0421ab61964aa406f6664f7e92bf156c67b463c` | no predecessor |
+| S1 Editor Core | `c8b4a0859ea2a53c668a3bf87233156d92cbffa6` | `0883070a6ba7cc04c285c1adce3652107a5d1511` | `bee0dae6b77faa59d33f6ecf2a425afcec847243` | S0 evidence predates S1 plan/content |
+| S2 Durability | `60ed5d3d03130ba508fb7c42809a985a71b54dfb` | `674ff4895a0cab50f8b6f30fbe800bbc97e52568` | `8e011bef6409656e5a1c443355b3ccf35dd5462d` | S1 evidence predates S2 plan/content |
+| S3 Continuation | `43cc745f14be578c99baa19bc56944d9edfea1a8` | `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` | `d98b27a7238d2ec72c5af4e94beef68958e19625` | S2 evidence predates S3 plan/content |
+| Phase 1 repair | macro audit followed S3 evidence | `0a98d61338cc941764122165afffd324851be0d3` | this entry | repairs only Phase 1 requirements |
+
+### 8.2 Completed scope side by side with WorkPlan section 5.1
+
+| WorkPlan scope | Actual implementation and evidence | Result |
+| --- | --- | --- |
+| TypeScript/server React foundation and pinned rails | Next.js 16, React 19, strict TypeScript, zero-warning ESLint, Vitest coverage, Playwright dual viewport, PostgreSQL/Prisma 7, deterministic environment schema, CI | Verified |
+| Architecture and platform boundaries | Eight ADRs freeze runtime/auth/editor/persistence/storage/jobs/testing/deployment; `domains/*` owns semantics, `lib/*` owns adapters/composition, routes remain transport composition | Verified |
+| Identity and first workspace | External identity seam, internal User/Workspace/active Member/role/session, idempotent first-use provisioning, signed secure session, production OIDC and development-only adapter | Verified by S0 service/session/DB tests |
+| Stable API and safety | `/api/v2`, stable envelopes/request IDs, origin/CSRF guard, secure cookies, rate-limit seam, archive/grace semantics, content-safe logger | Verified by API/security/unit tests |
+| Calm shell | Exact 48px command bar/rail, calm centered canvas, save/status seams, authenticated empty state, reserved desktop context seam, mobile single column/bottom rail | Verified by foundation E2E and screenshots |
+| Theme/accessibility/i18n baseline | Exact Light/Dark and Cream tokens, apply-before-paint cache, owned persisted theme endpoint, editor typography independence, visible focus, non-color labels, reduced motion, message boundary, Unicode and IME baseline | Verified by service/E2E/axe/computed-style tests |
+| Title to first keystroke | Title-only Project creation and direct `Write first chapter`; optional structure remains absent | Verified by S1 service/DB/E2E |
+| Canonical Project/Chapter/editor core | Stable UUID Project/Chapter/document/block IDs, chapter ordering, active chapter, document version, derived text/word count, TipTap adapter | Verified |
+| Minimal author UI | One-chapter editor, breadcrumbs/switcher, Bold/Italic/Undo/Redo, Focus/Escape, command palette, checkpoint, word target and opt-in hard stop | Verified by keyboard/E2E/unit tests |
+| Hidden future commands | Checkpoint active; Capture/outline/milestone/context are registry reservations only and render no dead controls | Verified by registry tests/source audit |
+| Never-lose-text durability | IndexedDB pending/recovery journal, explicit state machine, 750ms autosave, idempotent receipts, optimistic versions, conflict variants/actions, checkpoints/revisions | Verified by S2 unit/service/DB/E2E |
+| Named durability components | `ConflictBanner`, `RecoveryDrawer`, `RevisionDiff`, `RestoreActions`, `SaveIndicator` are explicit modules; degraded recovery remains factual and writable | Verified |
+| Exact continuation | Owned session restores active chapter, stable block/cursor/selection, scroll, inert context mode/pins and timestamp only after durability is ready | Verified by exact S3 DB/E2E |
+| Project Home | Dominant Continue Writing, five-item bounded recent context, archived/stale fallback, empty-project action | Verified |
+| Reversible persistence | Four forward migrations and four reviewed rollbacks; every sub-gate preserves predecessors | Verified on real PostgreSQL |
+| Failure isolation | Typing/IndexedDB never wait for network; continuation/theme retain local state on dependency failure; context/search/billing are absent; telemetry is local content-safe transport/no-op metrics | Verified |
+
+### 8.3 WorkPlan section 5.2 file inventory
+
+- **Schema/migrations:** `prisma/schema.prisma`, four migration/rollback pairs, seed and all four DB verifier scripts exist.
+- **Accounts/auth:** types, ports, authenticate/preferences services, OIDC/development adapters, memory/Prisma repositories, session/runtime and callback/preference surfaces exist.
+- **Writing:** Project/Chapter/document/durability/continuation domain, application ports/services, Prisma repository and editor adapter exist.
+- **Routes/screens:** sign-in, app home/shell, Project creation/Home, chapter editor, settings, and project/chapter/editor/draft/checkpoint/conflict/continuation/preferences APIs exist.
+- **Named components:** shell, `ChapterEditor`, `EditorCanvas`, `EditorToolbar`, `WordTarget`, `FocusMode`, `SaveIndicator`, `ConflictBanner`, `RecoveryDrawer`, `RevisionDiff`, `RestoreActions` exist as modules.
+- **Client durability:** draft journal, save state machine, durable chapter hook and continuation hook exist.
+- **Platform seams:** env/config, envelopes/errors, CSRF/rate limit, logger/metrics, storage, jobs/outbox and ownership-scoped repositories exist.
+- **Tests/fixtures:** unit/service/component/E2E/stress layers cover Unicode, IME composition, offline, conflict, accessibility, themes, exact continuation and a 10,000-block document. Deterministic fixtures are built inside tests rather than stored as mutable prose files.
+
+### 8.4 Coding-method conformance
+
+1. Each original capability was planned, committed, pushed and remotely verified before its successor began.
+2. Domain schemas/types and repository/application ports preceded route/UI composition.
+3. PostgreSQL is canonical. IndexedDB is pending/recovery manuscript state; localStorage is metadata/theme cache, never canonical prose.
+4. Server components resolve bounded read models; client components own interaction, local durability and focus/position restoration.
+5. Every write uses actor/workspace/project ownership, strict Zod contracts, stable envelopes and content-redacted instrumentation.
+6. Each migration has an independent rollback and was exercised against real PostgreSQL.
+7. The audit implemented missing named files/endpoints and executable proof; it did not reinterpret or narrow the WorkPlan.
+
+### 8.5 Audit findings and completed repairs
+
+| Finding before repair | Repair in `0a98d61` | Closure evidence |
+| --- | --- | --- |
+| Unicode passed but no executed composition-event baseline | Added `compositionstart` -> Japanese insertion -> `compositionend` -> PostgreSQL acknowledgement -> reload | targeted and final editor-core E2E pass |
+| Reduced-motion CSS existed without browser execution | Added `reducedMotion: reduce` emulation and computed 0.01ms/auto assertions | foundation E2E pass |
+| WorkPlan-named editor/durability modules were inline | Extracted eight named production components without changing canonical flow | lint/typecheck/full E2E pass |
+| Recovery state had no explicit drawer | Added recovery/storage-degradation notice, dismiss action and redacted traces | recovery E2Es pass |
+| Preference row/settings existed but named theme endpoint did not | Added strict `ManagePreferences`, owned GET/PUT repository/API, server hydration and local-first failure isolation | service test, persisted-theme E2E, production route |
+| Preference hydration requested `/sign-in`, causing 401 console noise | Restricted canonical hydration to authenticated `/app`; local prepaint remains global | foundation rerun pass |
+| Dark `#8B82FF` used as white-text action fill measured 3.11:1 | Preserved required accent/focus token; added `#5B4FE9` action fill with 5.62:1 contrast | deterministic Dark axe pass on desktop/mobile |
+| Two production-build attempts omitted required `DATABASE_URL` | Operator invocation corrected with the full production/OIDC environment | final optimized build pass; not a product defect |
+
+No in-scope gap remains. `WorkPlan.md` required no textual correction because the findings were implementation/evidence omissions, not plan contradictions.
+
+### 8.6 Final validation and stress evidence
+
+| Check | Final result |
+| --- | --- |
+| lint/typecheck | Pass: zero-warning ESLint and strict `tsc --noEmit` |
+| coverage | Pass: 19 files, 55 tests; 89.23% statements, 76.82% branches, 85.93% functions, 92.46% lines |
+| stress | Pass: 2 files/4 tests including 10,000-block document and concurrent boundaries |
+| final full E2E | Pass: 36 entries, 20 applicable passes, 16 explicit cross-device de-duplication skips, zero failures |
+| production build | Pass: compile/type/page/static generation; all S0-S3 routes plus `/api/v2/preferences/theme` emitted |
+| continuation rollback drill | Pass: recent=5, session=1, cursor=14, scroll=777, pins=50, stale ignored, archived fallback; rollback left zero continuation tables and preserved five predecessor tables; deploy/reverify passed |
+| durability after rollback | Pass: version=5, receipt replay, 3 conflicts, 2 revisions, recovery, 2 same-base attempts -> 1 winner/1 conflict, cross-workspace save=false |
+| dependency audit | Pass: `found 0 vulnerabilities` |
+| diff/trace audit | Pass: `git diff --check`; all direct console calls have adjacent trace comments |
+| visual review | Pass: Light/Dark/mobile shell, editor and Project Home/restored-editor screenshots were inspected for hierarchy, focus, contrast and responsive layout |
+
+The 16 E2E skips are deliberate matrix de-duplication, not missing coverage: desktop persistence scenarios execute once in Chromium, mobile layout/theme cases execute on Pixel 7, and shared API/accessibility cases execute where declared.
+
+### 8.7 Authoritative final console/log instrumentation ledger
+
+Final source has **47 direct `console.log` calls** (including the structured transport), **13 structured `this.logger.*` call sites**, and **60 instrumented execution call sites**. A literal-path source audit proved every direct console call has an immediately preceding `// Console trace ...` comment: `TRACE_COMMENT_AUDIT=PASS`. This supersedes historical line numbers shifted by the component extraction.
+
+| File | Comment -> call lines | Steps and comment contract |
+| --- | --- | --- |
+| `components/editor/ChapterEditor.tsx` | 83-84, 113-114, 121-122, 131-132, 142-143, 169-170, 181-182, 192-193 | `S3-BLOCK-001`; `S1-EDITOR-CLIENT-001/002/004/005/006/007/003`; comments identify repair/editor/focus/hard-stop steps and exclude prose/clipboard |
+| `components/editor/RecoveryDrawer.tsx` | 7-8 | `S2-CLIENT-009`; recovery acknowledgement, content excluded |
+| `components/projects/ProjectCreator.tsx` | 39-40 | `S1-FLOW-001`; navigation, title/document excluded |
+| `components/projects/StartFirstChapter.tsx` | 17-18 | `S3-HOME-CLIENT-001`; empty project writable, content excluded |
+| `components/shell/CommandPalette.tsx` | 14-15, 20-21 | `S1-COMMAND-001/002`; open/close/focus, selection/content excluded |
+| `components/theming/ThemeProvider.tsx` | 40-41, 43-44, 53-54, 57-58, 60-61 | `S0-THEME-002/003/001/004/005`; hydration/change/ack/degraded retention, enum only |
+| `domains/accounts/application/authenticate.ts` | 17-18, 28-29 | structured `S0-AUTH-001/002`; credential excluded |
+| `domains/accounts/application/preferences.ts` | 13-14, 21-22 | structured `S0-PREFERENCE-001/002`; owned enum read/write only |
+| `domains/writing/application/commands.ts` | 15-16, 24-25, 31-32 | structured `S1-PROJECT-001`, `S1-CHAPTER-001`, `S1-EDITOR-001`; title/document excluded |
+| `domains/writing/application/continuation.ts` | 11-12, 19-20 | structured `S3-CONTINUATION-001/002`; bounded position metadata only |
+| `domains/writing/application/durability.ts` | 20-21, 27-28, 34-35, 42-43 | structured `S2-SAVE-001`, `S2-CHECKPOINT-001`, `S2-CONFLICT-001/002`; content/variants excluded |
+| `lib/indexed-db/draft-journal.ts` | 46-47, 65-66, 75-76 | `S2-JOURNAL-002/001/003`; metadata-only read/write/clear |
+| `lib/observability/logger.ts` | 15-16 | `S0-LOG-001`; sole structured console transport after forbidden-key validation |
+| `lib/writing/use-durable-chapter.ts` | 80-81, 107-108, 129-130, 135-136, 153-154, 168-169, 174-175, 181-182, 232-233 | `S2-CLIENT-003/001/002/004/007/005/010/008/006`; all durability and degraded transitions, content excluded |
+| `lib/writing/use-writing-continuation.ts` | 70-71, 79-80, 85-86, 92-93, 95-96, 104-105, 119-120, 132-133 | `S3-CLIENT-001/002/005/004/005/003/007/006`; metadata restore/save/degraded/freeze/flush, content excluded |
+| `scripts/verify-continuation-db.ts` | 48-49, 63-64 | `S3-DB-001/002`; bounded ownership/position/rollback facts |
+| `scripts/verify-durability-db.ts` | 86-87, 101-102 | `S2-DB-001/002`; idempotency/concurrency/conflict/rollback facts |
+| `scripts/verify-editor-core-db.ts` | 61-62, 90-91 | `S1-DB-001/002`; constraints/ownership/rollback facts |
+| `scripts/verify-foundation-db.ts` | 65-66, 91-92 | `S0-DB-001/002`; identity/ownership/rollback facts |
+
+### 8.8 Phase 1 exit-gate proof
+
+| WorkPlan section 5.4 requirement | Evidence | Result |
+| --- | --- | --- |
+| Authentication -> calm shell/first workspace | auth service/DB plus foundation E2E | Verified |
+| Title -> one chapter -> keystroke without setup | exact editor-core E2E plus S1 service/DB | Verified |
+| Reload/close-before-ack/offline/two-device retain text | durability E2E plus IndexedDB/service/DB concurrency | Verified |
+| Continue restores exact chapter/block/cursor/scroll | equality assertions and scroll delta <=2px plus DB session round trip | Verified |
+| Context/search/billing/telemetry failure cannot block editor | later domains absent; no critical-path imports; local-first degraded tests; local logger/no-op metrics | Verified |
+| Light/Dark, keyboard, reduced motion, Unicode/IME, logs, ownership, rollback pass | deterministic Dark axe, focus, computed motion, IME reload, trace audit, ownership DB tests, rollback/deploy drill | Verified |
+| S0-S3 distinct evidence/remote commits | immutable SHA chain in 8.1 | Verified |
+
+### 8.9 Doctrine, scope, and final determination
+
+- Structure, scenes, world data, Capture filing and causality remain absent/optional; S4 remains the next locked owner.
+- No milestone exists; no hierarchy/timeline/reference fact can become causal; no structural/causal write can edit prose.
+- PostgreSQL remains canonical. IndexedDB is a pending/recovery journal; localStorage is metadata/theme cache only.
+- Stale continuation writes are rejected and archived targets fall back deterministically.
+- Billing/quota/downgrade/export are inactive; existing prose cannot be gated.
+- Support failures cannot block typing; no context/search/billing import exists, and theme/continuation/durability retain local state.
+- Forbidden-key logger tests and metadata-only traces prevent content leakage; reads are explicitly bounded.
+- No AI, future endpoint/provider, directive, Semantic Zoom, pricing/entitlement or non-V2 capability was activated.
+- `becauseItems[]`, `consequenceItems[]`, ruled Semantic Zoom order and USD 15 Core/USD 25 future Intelligence remain unaltered plan contracts.
+
+**Phase result: PASS - Phase 1 Trusted Writing Foundation is complete.** S0-S3 and the macro exit gate are implemented, tested, audited and remotely backed; no in-scope compliance gap remains. The content rollback point is S3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`; audit repairs are `0a98d61338cc941764122165afffd324851be0d3`. This ledger entry is committed/pushed next; its own SHA cannot be embedded in itself, so the final response and remote HEAD verification record it. Sub-gate 4 remains locked until that push is verified.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
