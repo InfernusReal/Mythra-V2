@@ -45,7 +45,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
-| 1 | Project + Chapter + Editor Core | 1 | Not started | Sub-gate 0 required | — | — |
+| 1 | Project + Chapter + Editor Core | 1 | Planned; code not started | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Pre-code ledger push pending |
 | 2 | Durability | 1 | Not started | Sub-gate 1 required | — | — |
 | 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
@@ -192,6 +192,35 @@ Doctrine questions for Sub-gate 0 all resolve safely: no structure/scenes/world/
 - **Remote verification:** local `HEAD` and `refs/heads/agent/workplan-subgates-audit` both resolved to `8459d6601885e019c56f1c3d757c1d4f5645f618` immediately after push.
 - **Evidence-ledger commit:** this immutable evidence update is committed and pushed separately; its hash is recorded in the next entry because a commit cannot contain its own hash.
 - **Rollback/revert point:** baseline `eee9cf73d9eef893a7f27190a57ca84047a35cc0` until the content commit exists.
+
+## 5. Entry S1 — Project + Chapter + Editor Core
+
+### 5.1 Pre-code identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; recorded before Sub-gate 1 product code.
+- **Work-plan phase:** Phase 1 — Trusted Writing Foundation.
+- **Mandatory Sub-gate:** 1 — Project + Chapter + Editor Core.
+- **Predecessor proof:** Sub-gate 0 content commit `8459d6601885e019c56f1c3d757c1d4f5645f618`; evidence commit and remote branch head `d0421ab61964aa406f6664f7e92bf156c67b463c`, verified with `git ls-remote`.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `d0421ab61964aa406f6664f7e92bf156c67b463c`.
+- **Bible scope:** sections 1–2, 8, 9, 13–18, 23–26, 29, 31, 33–36; roadmap Phase 1 and acceptance template 33.1; Appendix B document rules.
+- **Authorized capability:** minimal Project title creation, optional-placement Chapter creation, versioned structured ChapterDocument with stable block IDs/reference-mark support, one active chapter route/read model, Mythra editor adapter, minimal toolbar, Focus mode, advisory word target, compact breadcrumbs, and reserved/hide-only keyboard seams.
+- **Explicit exclusions:** no IndexedDB journal, autosave/version conflict UI, ChapterRevision/DraftConflict, recovery, continuation/session restoration, structure, Capture, or later-domain activation. Those remain locked to Sub-gates 2+.
+
+### 5.2 Plan before code
+
+- Add a separately reversible Project/Chapter migration with ownership, ordering, active-chapter, document-version, word-count, target, and explicit hard-stop opt-in fields; do not add durability tables.
+- Define transport schemas and ChapterDocument domain invariants before routes. Keep Tiptap/ProseMirror types inside the editor adapter.
+- Implement ownership-scoped repositories and services for minimal project creation, chapter creation with optional placement, one-chapter editor read, and metadata update. Routes remain thin and use stable envelopes.
+- Implement Project title → dominant Write first chapter → New Chapter → immediate typing in a centered manuscript. Load one active chapter only.
+- Add stable paragraph IDs, derived plain text/word count, invisible reference-mark schema support, tiny formatting toolbar, Focus mode, advisory target/delta, Project/optional Volume/Chapter breadcrumb, Return-to-Chapter history seam, and hidden rather than dead later commands.
+- Every operational boundary receives a `Console trace S1-*` adjacent comment and content-safe structured log call. Editor input/prose/document JSON must never be logged.
+- Verify SQL forward/rollback/forward, workspace isolation including indirect chapter IDs, domain/document migrations, route/service behavior, Unicode/IME, keyboard/focus, Light/Dark/mobile visuals, active-chapter-only loading, performance with a large document fixture, and the exact writing-flow exit.
+
+### 5.3 Pre-code status
+
+- **Code status:** not started when this entry was written.
+- **Gate state:** eligible but locked until this entry is committed, pushed, and remotely verified.
+- **Planned Git boundary:** separate Sub-gate 1 content commit and evidence-ledger commit after all gaps are repaired.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
