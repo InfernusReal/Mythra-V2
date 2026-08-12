@@ -11,8 +11,7 @@ const themeScript = `(()=>{try{const t=localStorage.getItem('mythra.theme')||'sy
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head><Script id="mythra-theme-bootstrap" strategy="beforeInteractive">{themeScript}</Script></head>
-      <body><ThemeProvider>{children}</ThemeProvider></body>
+      <body><Script id="mythra-theme-bootstrap" strategy="beforeInteractive">{themeScript}</Script><ThemeProvider>{children}</ThemeProvider></body>
     </html>
   );
 }

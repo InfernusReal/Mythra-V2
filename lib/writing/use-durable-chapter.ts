@@ -12,6 +12,7 @@ interface ErrorEnvelope { error?: { code: string; message: string; details?: { c
 interface SuccessEnvelope<T> { data?: T; error?: { message: string } }
 
 export interface DurabilityController {
+  ready: boolean;
   state: SaveState;
   label: string;
   conflict: DraftConflictReadModel | null;
@@ -30,6 +31,7 @@ export function useDurableChapter(input: {
 }): DurabilityController {
   const chapterId = input.chapterId;
   const [state, setState] = useState<SaveState>("CLEAN");
+  const [ready, setReady] = useState(false);
   const [conflict, setConflict] = useState<DraftConflictReadModel | null>(null);
   const [compareOpen, setCompareOpen] = useState(false);
   const router = useRouter();
@@ -159,7 +161,7 @@ export function useDurableChapter(input: {
       console.log(JSON.stringify({ level: "info", step: "S2-CLIENT-005", event: "autosave.local_recovered", chapterId, baseVersion: record.baseVersion, priorState: record.state }));
       queuedCheckpointRef.current = "Recovered session boundary";
       autosaveTimerRef.current = setTimeout(() => { void performSaveRef.current(); }, 250);
-    }).catch(() => setState("RECOVERABLE_LOCAL"));
+    }).catch(() => setState("RECOVERABLE_LOCAL")).finally(() => setReady(true));
     const onOnline = () => { void performSaveRef.current(); };
     const onBeforeUnload = () => { void journal.flush(); };
     const checkpointFor = (reason: string) => {
@@ -220,5 +222,5 @@ export function useDurableChapter(input: {
     if (envelope.data.recoveryChapterId) router.push(`/app/chapters/${envelope.data.recoveryChapterId}`);
   }, [chapterId, conflict, router]);
 
-  return { state, label: saveStateLabels[state], conflict, compareOpen, setCompareOpen, onDocumentChange, checkpoint, resolveConflict };
+  return { ready, state, label: saveStateLabels[state], conflict, compareOpen, setCompareOpen, onDocumentChange, checkpoint, resolveConflict };
 }

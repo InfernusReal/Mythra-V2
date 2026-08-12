@@ -8,7 +8,7 @@ export function getPrisma(): PrismaClient {
   if (!globalForPrisma.mythraPrisma) {
     const env = getEnv();
     globalForPrisma.mythraPrisma = new PrismaClient({
-      adapter: new PrismaPg({ connectionString: env.DATABASE_URL }),
+      adapter: new PrismaPg({ connectionString: env.DATABASE_URL, max: env.NODE_ENV === "production" ? 10 : 1 }),
       transactionOptions: { maxWait: 5_000, timeout: 10_000 }
     });
   }

@@ -116,10 +116,21 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .project-create { display: grid; gap: 16px; max-width: 420px; margin-top: 24px; }
 .project-summary, .new-project { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .project-summary h2, .new-project h2 { margin: 0 0 8px; }
+.project-summary h2 a { color: inherit; }
 .project-create label { display: grid; gap: 8px; font-weight: 650; }
 .project-create input { min-height: 44px; padding: 8px 12px; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
 .form-error, .editor-limit { color: var(--danger); }
 .primary-link { display: inline-block; color: var(--accent); font-weight: 700; }
+.project-home { width: min(100%, 680px); }
+.project-home h1 { margin: 8px 0 20px; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.04em; }
+.continue-writing { display: inline-flex; min-height: 48px; align-items: center; padding: 0 20px; color: white; background: var(--accent); border-radius: 8px; font-weight: 750; text-decoration: none; }
+.continuation-fact, .empty-project p { color: var(--text-muted); line-height: 1.6; }
+.empty-project, .recent-chapters { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.recent-chapters h2, .empty-project h2 { margin: 0 0 12px; font-size: 1rem; }
+.recent-chapters ol { list-style: none; margin: 0; padding: 0; }
+.recent-chapters li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.recent-chapters a { color: var(--text); }
+.recent-chapters span { color: var(--text-muted); font-size: .8125rem; white-space: nowrap; }
 .editor-layout { width: min(100%, 780px); min-height: calc(100vh - 128px); display: grid; grid-template-rows: auto auto auto 1fr auto; align-self: stretch; }
 .editor-header, .editor-toolbar, .editor-status { display: flex; align-items: center; gap: 10px; }
 .editor-header { justify-content: space-between; padding-bottom: 12px; }

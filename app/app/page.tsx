@@ -16,8 +16,8 @@ export default async function EmptyAppPage() {
         <h1 id="empty-title">{projects.length ? "Your projects" : "Start with a title"}</h1>
         {projects.map((project) => (
           <article className="project-summary" key={project.id}>
-            <h2>{project.title}</h2>
-            {project.activeChapterId ? <a className="primary-link" href={`/app/chapters/${project.activeChapterId}`}>Return to chapter</a> : null}
+            <h2><a href={`/app/projects/${project.id}`}>{project.title}</a></h2>
+            <a className="primary-link" href={`/app/projects/${project.id}`}>Open project</a>
           </article>
         ))}
         <section className="new-project" aria-labelledby="new-project-title">

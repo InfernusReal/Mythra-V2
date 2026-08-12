@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Extension, Mark, mergeAttributes } from "@tiptap/core";
+import { Plugin } from "@tiptap/pm/state";
 import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import StarterKit from "@tiptap/starter-kit";
@@ -11,6 +12,8 @@ import { deriveChapterText, exceedsExplicitHardStop, wordTargetDelta } from "@/d
 import type { DurabilityController } from "@/lib/writing/use-durable-chapter";
 import { useDurableChapter } from "@/lib/writing/use-durable-chapter";
 import { tiptapAdapter } from "@/lib/editor/adapter";
+import type { WritingPosition } from "@/domains/writing/application/continuation-ports";
+import { useWritingContinuation } from "@/lib/writing/use-writing-continuation";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -52,15 +55,30 @@ const StoryReference = Mark.create({
 
 const StableBlockIds = Extension.create({
   name: "stableBlockIds",
-  onUpdate() {
-    this.editor.state.doc.descendants((node, position) => {
-      if ((node.type.name === "paragraph" || node.type.name === "heading") && !node.attrs.blockId) {
-        this.editor.commands.command(({ tr }) => {
-          tr.setNodeMarkup(position, undefined, { ...node.attrs, blockId: crypto.randomUUID() });
-          return true;
+  addProseMirrorPlugins() {
+    return [new Plugin({
+      appendTransaction(transactions, _oldState, newState) {
+        if (!transactions.some((transaction) => transaction.docChanged)) return null;
+        const seen = new Set<string>();
+        const transaction = newState.tr;
+        let repaired = 0;
+        newState.doc.descendants((node, position) => {
+          if (node.type.name !== "paragraph" && node.type.name !== "heading") return true;
+          const current = typeof node.attrs.blockId === "string" ? node.attrs.blockId : null;
+          if (!current || seen.has(current)) {
+            const blockId = crypto.randomUUID();
+            transaction.setNodeMarkup(position, undefined, { ...node.attrs, blockId });
+            seen.add(blockId);
+            repaired += 1;
+          } else seen.add(current);
+          return false;
         });
+        if (!repaired) return null;
+        // Console trace S3-BLOCK-001: missing/duplicate block anchors were repaired before document emission; prose is excluded.
+        console.log(JSON.stringify({ level: "info", step: "S3-BLOCK-001", event: "continuation.block_anchors_repaired", repairedBlockCount: repaired }));
+        return transaction;
       }
-    });
+    })];
   }
 });
 
@@ -68,7 +86,7 @@ function countWords(text: string): number {
   return text.trim() ? text.trim().split(/\s+/u).length : 0;
 }
 
-export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
+export function ChapterEditor({ model, initialSession }: { model: ChapterEditorReadModel; initialSession: WritingPosition }) {
   const [focusMode, setFocusMode] = useState(false);
   const [wordCount, setWordCount] = useState(model.chapter.wordCount);
   const [hardStopMessage, setHardStopMessage] = useState<string | null>(null);
@@ -134,6 +152,7 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
   useEffect(() => {
     durabilityRef.current = durability;
   }, [durability]);
+  useWritingContinuation({ editor, durableReady: durability.ready, projectId: model.project.id, chapterId: model.chapter.id, initialSession });
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -175,7 +194,7 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
     <div className={focusMode ? "editor-layout focus-mode" : "editor-layout"}>
       <header className="editor-header">
         <nav aria-label="Breadcrumb">
-          <a href="/app">{model.project.title}</a><span>/</span><span>{model.chapter.title}</span>
+          <a href={`/app/projects/${model.project.id}`}>{model.project.title}</a><span>/</span><span>{model.chapter.title}</span>
         </nav>
         <button onClick={changeFocusMode} aria-pressed={focusMode}>Focus</button>
       </header>
