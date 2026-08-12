@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–2 passed | Entries S0, S1, and S2 below | Sub-gates 0–2 pushed and remotely verified; Sub-gate 3 becomes eligible after the S2 evidence commit is pushed |
+| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–2 passed | Entries S0, S1, S2, and S3 below | Sub-gates 0–2 pushed and remotely verified; Sub-gate 3 eligible |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -46,8 +46,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
-| 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content commit `674ff4895a0cab50f8b6f30fbe800bbc97e52568` pushed and remotely verified; evidence push follows this entry |
-| 3 | Continuation | 1 | Not started | Sub-gate 2 evidence commit and remote verification required | — | Locked until this S2 evidence update is pushed |
+| 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
+| 3 | Continuation | 1 | Planned; code not started | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Pre-code ledger push pending |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
@@ -511,6 +511,46 @@ The final implementation has no unresolved WorkPlan deviation. Audit iterations 
 - **Remote URL/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks this branch.
 - **Rollback/revert point:** S1 evidence commit `bee0dae6b77faa59d33f6ecf2a425afcec847243`; SQL rollback is `prisma/migrations/20260812190000_durability/rollback.sql` after preserving user drafts/revisions/conflicts.
 - **Evidence-ledger commit:** this entry is committed, pushed, and remotely verified next. Its own hash is recorded in the S3 pre-code entry and final handoff because a commit cannot contain itself.
+
+## 7. Entry S3 — Continuation
+
+### 7.1 Pre-code identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; recorded before Sub-gate 3 product code.
+- **Work-plan phase:** Phase 1 — Trusted Writing Foundation.
+- **Mandatory Sub-gate:** 3 — Continuation.
+- **Predecessor proof:** Sub-gate 2 content commit `674ff4895a0cab50f8b6f30fbe800bbc97e52568`; evidence commit and remote branch head `8e011bef6409656e5a1c443355b3ccf35dd5462d`, verified with `git ls-remote`.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `8e011bef6409656e5a1c443355b3ccf35dd5462d`.
+- **Bible scope:** sections 1.3, 8.2–8.3, 9.1–9.3, 13–19, 23–26, 29, 31–36; roadmap Phase 3/Continuation and acceptance template 33.1.
+- **Authorized capability:** exact active-chapter/position restoration, a continuation/session record, `ProjectContinuationReadModel`, Project Home, recent chapter context, empty-project behavior, one-click Continue Writing, independent context mode/pin seams, and offline active-editor preservation.
+- **Explicit exclusions:** no Capture, context resolver/cards, structure, search, analytics event collection, outline, milestone, billing, or later endpoint activation.
+
+### 7.2 Plan before code
+
+- Add an independently reversible `WritingSessionState` table keyed by user/project with workspace-owned project and active-chapter validation; store block ID, document selection positions, scroll anchor, context-panel mode seam, bounded pin-ID seam, and `capturedAt` independent of analytics.
+- Define `ProjectContinuationReadModel`, strict update transport schema, repository port, service, and content-safe S3 logs before routes/UI. Project reads remain ownership-scoped and recent chapters are bounded.
+- Implement `GET/PUT /api/v2/projects/{id}/continuation`. A stale/missing/archived active chapter falls back deterministically to the latest eligible chapter; an empty project returns a factual model with no fabricated destination.
+- Implement Project Home at `/app/projects/{id}` with the dominant Continue Writing action, active/recent chapter facts, and an empty-project Write first chapter path. Change the project list to route through Project Home while preserving direct return-to-chapter utility.
+- Implement a client continuation controller that persists a minimal local session snapshot synchronously, debounces the server seam, and restores only after stable editor hydration. Restore a stable block/cursor anchor first, bounded selection as fallback, then scroll; start session tracking without changing the S2 journal/canonical content contract.
+- Keep context mode and pin IDs inert data seams. They must restore without mounting a resolver or implying that context is available.
+- Preserve required load order: server shell/read model; S2 local journal recovery/version comparison; stable editor hydration; inert context seed; autosave/journal; session restoration. No analytics or projection fetch may enter the critical path.
+- Add adjacent `Console trace S3-*` comments/log calls at every continuation transition/boundary. Emit IDs, counts, enums, positions, and timestamps only; never prose/document/selection text.
+- Verify exact active chapter, cursor/block, scroll and context-seam round trips; one-click return; empty project; local fallback; ownership; bounded recent/pins; failure non-blocking behavior; S0–S2 regression; migration forward/rollback/redeploy; desktop/mobile/theme/keyboard/Unicode; content-redacted console output.
+
+### 7.3 Planned files and budgets
+
+- **Persistence:** `prisma/schema.prisma`, `prisma/migrations/20260812210000_continuation/{migration.sql,rollback.sql}`.
+- **Domain/application/infrastructure:** continuation types/ports/service under `domains/writing`, ownership-scoped Prisma repository integration, runtime composition.
+- **Routes/screens/components:** continuation API, Project Home route/component, editor session controller, editor integration, bounded layout CSS and project navigation updates.
+- **Tests/scripts:** continuation unit/service/E2E suites and a real-PostgreSQL verification/rollback script; existing regression suites remain active.
+- **Measurable bounds:** at most 5 recent chapters; at most 50 inert pin IDs; update input positions are nonnegative bounded integers; local storage holds one metadata-only session record per project and no manuscript body; server session writes debounce at 500 ms or slower; no unbounded project/manuscript load.
+- **Exit measurement:** a returning author reaches the prior active chapter and restored editor selection/scroll working position through one Project Home action; empty project has an unambiguous first-chapter action; offline edits continue through S2; all verification layers and the Phase 1 macro audit pass.
+
+### 7.4 Pre-code status
+
+- **Code status:** not started when this entry was written.
+- **Gate state:** eligible but locked until this pre-code entry is committed, pushed, and remotely verified.
+- **Planned Git boundary:** separate S3 content commit, S3 evidence-ledger commit, and Phase 1 side-by-side macro-audit commit after all four original capability gates pass.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
