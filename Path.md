@@ -31,7 +31,7 @@ For each implementation run and each phase:
 
 | Phase | Bible roadmap mapping | Status | Evidence entry | Remote state |
 | --- | --- | --- | --- | --- |
-| Planning baseline | Plan/ledger creation and source audit | In progress | Entry P0 below | Not yet pushed |
+| Planning baseline | Plan/ledger creation and source audit | Verified | Entry P0 below | Pushed and verified on `main` |
 | 1. Trusted Writing Foundation | 0–3 | Not started | — | — |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
@@ -131,21 +131,26 @@ None. The repository had no application baseline and this run is limited to stud
 
 ### 4.8 Validation performed
 
-To be completed after file audit. Required before this planning entry closes:
-
-- Markdown structure/link/path check.
-- Source-section coverage count and phase mapping check.
-- Contradiction search against optionality, causality, ownership, freshness, quota/export, privacy, and AI boundaries.
-- Git diff/status scope check.
-- Commit and push verification.
+- **Complete-source review:** extracted and read PDF pages 1–84 in order; separately rendered the implementation-critical pages listed in section 4.3 and visually confirmed their tables/diagrams. Result: pass.
+- **Source heading audit:** extracted major headings from the PDF and confirmed source sections 0–39 and appendices A–E are present. Result: pass.
+- **Plan coverage audit:** verified a source coverage row for each numbered section 0–39 and each appendix A–E. Result: pass; no missing owner.
+- **Roadmap consolidation audit:** verified six macro-phase headings and contiguous original-phase mappings `0–3`, `4–6`, `7–11`, `12–13`, `14–16`, and `17 + launch`. Result: pass; phases 0–17 are neither skipped nor multiply owned.
+- **Requirement vocabulary audit:** checked the plan for every implementation-critical system/domain term, including Uninterrupted Writing Time, all eight compounding systems, Narrative Semantic Zoom, directive/coordinate projections, durability, billing, security, operations, internationalization, and agent seams. Initial implied-only findings were corrected as described in section 4.7; final result: pass.
+- **Markdown structural audit:** six phase headings, balanced code fence count, required blank lines after headings, and no missing required-term findings. Result: pass.
+- **Contradiction audit:** reviewed optionality versus integrity, milestone links versus ownership, hierarchy/chronology/causality, canonical state versus projections, synchronous truth versus eventual freshness, creative softness versus hard integrity, downgrade/quota versus read/export, Peek/Open focus, no-AI core versus proposal tools, content privacy, bounded queries, and V2 versus future scope. Result: pass; no unresolved contradiction.
+- **Scoped Git audit:** only `WorkPlan.md` and `Path.md` were staged. `git diff --cached --check` initially found six Markdown hard-break trailing spaces; they were removed and the check then passed. No QA render or source PDF entered the commit.
+- **Remote audit:** after push, `git rev-parse HEAD` and `git ls-remote origin refs/heads/main` returned the same full commit; GitHub reported a non-empty repository with default branch `main`. Result: pass.
 
 ### 4.9 Git evidence
 
-- **Status:** pending
-- **Branch:** pending initial branch creation
-- **Commit:** pending
-- **Remote:** pending configuration to `https://github.com/InfernusReal/Mythra-V2.git`
-- **Remote verification:** pending
+- **Status:** planning content committed, pushed, and remotely verified
+- **Branch:** `main`, created as the initial/default branch because the supplied repository had no refs
+- **Content commit:** `3991251f1212b2e83e0681a0819e38c5ae6e337f` — `Plan Mythra V2 implementation`
+- **Committed scope:** `WorkPlan.md` and `Path.md`, 1,077 inserted lines; no application code or PDF intermediates
+- **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`
+- **Push:** `main -> main`, upstream tracking established
+- **Remote verification:** local `HEAD` and `refs/heads/main` both resolved to `3991251f1212b2e83e0681a0819e38c5ae6e337f`; GitHub default branch resolved to `main`
+- **Audit-ledger commit:** this evidence update is committed and verified immediately after the content commit; its hash is reported in the final handoff because a commit cannot contain its own hash.
 
 ## 5. Reusable implementation entry template
 

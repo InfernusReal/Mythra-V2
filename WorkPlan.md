@@ -59,6 +59,8 @@ Every design, schema, endpoint, component, job, warning, quota, and test must pr
 
 Every feature must also pass the Bible's friction test: shorten the path to writing, avoid unnecessary route changes, infer/propagate/defer maintenance work, and measurably protect writing flow.
 
+The six delivery phases preserve all eight compounding systems as named product capabilities: Zero-friction continuation, Contextual Writing Field, Progressive Structure, Live Story Model, Causal Story Fabric, Instant Capture, Invisible reliability, and Future Story Intelligence. Consolidation changes delivery boundaries only; it does not collapse or remove any system.
+
 ### 2.1 Orthogonal truth invariant
 
 The code and UI must never conflate:
