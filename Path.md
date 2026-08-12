@@ -32,7 +32,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Phase | Bible roadmap mapping | Status | Evidence entry | Remote state |
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
-| Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified locally | Entry P1 below | Pending correction push |
+| Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | Not started | — | — |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
@@ -243,15 +243,18 @@ None. The repository had no application baseline and this run is limited to stud
 - **Pricing audit:** executable Phase 5 scope, metrics, files, method, and exit gate use USD 15 Core/full deterministic access and dormant future USD 25 Intelligence. The old `$10 Entry / $25 Pro` phrase remains only inside explicitly labeled superseded/erratum history. Result: pass.
 - **Testing citation audit:** executable plan cites fourteen E2Es in section 31.2 and visual regression separately in 31.3. The combined citation remains only in this historical finding row. Result: pass.
 - **Scope audit:** working tree contains modifications only to `WorkPlan.md` and `Path.md`; no application/source/config/migration file and no PDF render remains. Result: pass.
-- **Remote verification:** pending commit and push.
+- **Remote verification:** pass. Local content commit and `refs/heads/agent/workplan-subgates-audit` both resolved to `0963fb09fb6f959ad0f1e5bbabe1fbc89b1fb4ad` after push.
 
 ### 5.7 Git evidence
 
-- **Status:** locally audited; pending correction commit and push
+- **Status:** audited, committed, pushed, and remotely verified
 - **Branch:** `agent/workplan-subgates-audit`
 - **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`
-- **Commit/push/remote verification:** pending
-- **GitHub CLI note:** the cached `gh` token was invalid at the start of this run; local Git credentials will be tested for branch push. PR creation requires renewed `gh auth login` if the token remains invalid.
+- **Content commit:** `0963fb09fb6f959ad0f1e5bbabe1fbc89b1fb4ad` — `Restore original capability gates`
+- **Push:** upstream tracking established for `origin/agent/workplan-subgates-audit`; Git reported a new remote branch.
+- **Remote verification:** `git ls-remote origin refs/heads/agent/workplan-subgates-audit` returned `0963fb09fb6f959ad0f1e5bbabe1fbc89b1fb4ad`, exactly matching the local content commit.
+- **Audit-ledger commit:** this evidence update is committed and pushed immediately after the verified content commit; its hash is reported in the final handoff because a commit cannot contain its own hash.
+- **GitHub CLI note:** Git push succeeded through the configured Git credentials. The cached `gh` token remains invalid, so no pull request was opened; PR creation requires renewed `gh auth login -h github.com`.
 
 ## 6. Reusable implementation entry template
 
