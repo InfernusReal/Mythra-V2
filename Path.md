@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–1 passed | Entries S0 and S1 below | Sub-gates 0–1 pushed and remotely verified; Sub-gate 2 eligible |
+| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–2 passed | Entries S0, S1, and S2 below | Sub-gates 0–2 pushed and remotely verified; Sub-gate 3 becomes eligible after the S2 evidence commit is pushed |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -46,8 +46,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
-| 2 | Durability | 1 | Planned; code not started | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Pre-code ledger push pending |
-| 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
+| 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content commit `674ff4895a0cab50f8b6f30fbe800bbc97e52568` pushed and remotely verified; evidence push follows this entry |
+| 3 | Continuation | 1 | Not started | Sub-gate 2 evidence commit and remote verification required | — | Locked until this S2 evidence update is pushed |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
@@ -389,6 +389,128 @@ Doctrine answers: no structure, scene, world, Capture, filing, milestone, causal
 - **Code status:** not started when this entry was written.
 - **Gate state:** eligible but locked until this pre-code entry is committed, pushed, and remotely verified.
 - **Planned Git boundary:** separate Sub-gate 2 content commit and evidence-ledger commit after the never-lose-text gate and conformance audit pass.
+
+### 6.4 Files changed
+
+The content commit changes 30 files (1,218 insertions, 12 deletions). The bounded groups and precise purposes are:
+
+| Files | Action | Purpose and WorkPlan mapping |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260812190000_durability/{migration.sql,rollback.sql}` | Modified/created | Add independently reversible `ChapterRevision`, `DraftConflict`, and `ChapterSaveReceipt` durability persistence, constraints, indexes, and relations for Sub-gate 2 only. |
+| `domains/writing/application/{durability-ports.ts,durability.ts}`; `domains/writing/infrastructure/prisma-durability-repository.ts`; `lib/writing/runtime.ts` | Created/modified | Define strict durability ports/application orchestration and a workspace-owned, serializable, optimistic/idempotent PostgreSQL implementation. |
+| `app/api/v2/chapters/[id]/{draft,checkpoint}/route.ts`; `app/api/v2/draft-conflicts/[id]/route.ts`; `lib/contracts/errors.ts` | Created/modified | Add thin validated save/checkpoint/conflict routes using stable envelopes and explicit retryable/integrity codes. |
+| `lib/indexed-db/draft-journal.ts`; `lib/writing/{save-state-machine.ts,use-durable-chapter.ts}` | Created | Add the chapter-scoped IndexedDB journal, explicit save state machine, autosave/retry/checkpoint/conflict lifecycle, and local recovery. |
+| `components/editor/{ChapterEditor.tsx,SaveIndicator.tsx}`; `components/shell/AppShell.tsx`; `app/globals.css` | Modified/created | Integrate durability without remounting the editor; provide truthful global state, checkpoint, Compare and all resolution controls; preserve desktop/mobile writing. |
+| `domains/writing/domain/chapter-document.ts`; `lib/editor/adapter.ts` | Modified | Preserve the editor/domain boundary while accepting the existing bold, italic, and reference marks in validated `ChapterDocument` JSON. |
+| `app/api/v2/auth/development/route.ts` | Modified | Isolate browser-test sign-in traffic from the production limiter: production remains 10 requests/window; nonproduction uses 1,000. |
+| `scripts/verify-durability-db.ts`; `package.json` | Created/modified | Add real-PostgreSQL forward/rollback, idempotency, concurrency, conflict, revision, recovery, and ownership verification commands. |
+| `tests/e2e/durability.spec.ts`; `tests/service/durability-service.test.ts`; `tests/unit/{draft-journal,save-state-machine,chapter-document}.test.ts`; existing S0/S1 E2Es | Created/modified | Exercise never-lose-text flows, state and bounded-journal behavior, content redaction, Unicode/rich document validity, and regression compatibility. |
+
+Generated SQL was derived from the reviewed Prisma input and then manually checked for UUID/JSONB defaults, unique retry keys, foreign-key actions, check constraints, and reverse dependency order. No S3 continuation table or later-domain table was added.
+
+### 6.5 Code and behavior implemented
+
+- **Canonical durability:** a valid save must carry `baseVersion`, a stable `clientSaveId`, and validated versioned `ChapterDocument`. `bodyText` and `wordCount` are derived server-side. A serializable transaction compares the canonical version and increments it exactly once. A matching retry receipt returns the original result; a reused ID with different content fails integrity validation.
+- **Conflict safety:** a stale base creates a durable conflict containing both local and server variants. The conflict is committed before `CONFLICT` is returned. Resolution is author-selected: Keep Server closes without mutation; Keep Local writes a new monotonic version and archives the displaced server form; Duplicate creates a recovery chapter; Compare is an explicit two-pane UI and does not write.
+- **Journal/recovery:** one IndexedDB record per chapter is updated after a 75 ms debounce and flushed before every network request. Recent journal storage is bounded to 100 records. Memory and local journal stay authoritative until a matching server acknowledgement; the same pending save ID is reused after a response-loss retry.
+- **Save states:** `CLEAN`, `DIRTY_LOCAL`, `SAVING`, `OFFLINE_DIRTY`, `CONFLICT`, and `RECOVERABLE_LOCAL` are explicit transitions. The global command bar displays one calm state label. Offline/network failures retain content and retry on the browser `online` event.
+- **Checkpoint policy:** manual `Ctrl/Cmd+S`, author labels, session visibility boundaries, significant 15-minute intervals, and an explicit destructive-action seam create checkpoints. Retries use unique IDs and `skipDuplicates`, preventing permanent revisions per keystroke.
+- **Security/ownership/privacy:** every repository operation traverses workspace/project ownership. Neither document variants, prose, selection, clipboard, nor error payloads enter telemetry. Conflict records are inaccessible cross-workspace. Production auth throttling is unchanged.
+- **Degraded behavior:** journal or server dependency failure leaves the editor writable and visibly local/offline; context, search, billing, analytics, and continuation were neither imported nor required. Focus mode keeps the same mounted durability hook.
+- **UI and accessibility:** checkpoint and conflict controls are native buttons with factual labels. Light/dark desktop and 390 px mobile layouts retain the global status and Commands control. The editor remains keyboard operable and contenteditable; Unicode/rich document input remains accepted.
+
+### 6.6 Console trace inventory
+
+Every S2 transition/boundary has an adjacent identifying comment. Line references are for content commit `674ff4895a0cab50f8b6f30fbe800bbc97e52568`; the comment is on the first line shown and its `console.log`/central logger call is on the following line unless stated.
+
+| Trace | Comment / emission location | What is emitted; content exclusion |
+| --- | --- | --- |
+| `S2-SAVE-001` | `domains/writing/application/durability.ts:20–21` | Request/workspace/chapter IDs, version, retry ID, replay flag, derived word count; no document/prose. Central logger terminates at `lib/observability/logger.ts:16`. |
+| `S2-CHECKPOINT-001` | `domains/writing/application/durability.ts:27–28` | IDs, version, replay flag; no label/document. |
+| `S2-CONFLICT-001` | `domains/writing/application/durability.ts:34–35` | Authorized lookup metadata and server version; no variants. |
+| `S2-CONFLICT-002` | `domains/writing/application/durability.ts:42–43` | Resolution enum, IDs/version/recovery ID; no variants. |
+| `S2-JOURNAL-002` | `lib/indexed-db/draft-journal.ts:46–47` | Read result, state and base version; no journal document. |
+| `S2-JOURNAL-001` | `lib/indexed-db/draft-journal.ts:65–66` | Chapter/state/base version/pending-ID boolean; no document. |
+| `S2-JOURNAL-003` | `lib/indexed-db/draft-journal.ts:75–76` | Cleared chapter ID only. |
+| `S2-CLIENT-003` | `lib/writing/use-durable-chapter.ts:71–72` | Conflict ID/server version; no variants. |
+| `S2-CLIENT-001` | `lib/writing/use-durable-chapter.ts:98–99` | Save/checkpoint start IDs and base version; no document. |
+| `S2-CLIENT-002` | `lib/writing/use-durable-chapter.ts:120–121` | Acknowledged version/change flag; no document. |
+| `S2-CLIENT-004` | `lib/writing/use-durable-chapter.ts:126–127` | Locally retained state metadata; error and document excluded. |
+| `S2-CLIENT-007` | `lib/writing/use-durable-chapter.ts:144–145` | Global state transition enum only. |
+| `S2-CLIENT-005` | `lib/writing/use-durable-chapter.ts:158–159` | Recovery metadata; recovered document excluded. |
+| `S2-CLIENT-008` | `lib/writing/use-durable-chapter.ts:167–168` | Checkpoint lifecycle reason and chapter ID; prose excluded. |
+| `S2-CLIENT-006` | `lib/writing/use-durable-chapter.ts:218–219` | Explicit resolution result metadata; documents excluded. |
+| `S2-DB-001` | `scripts/verify-durability-db.ts:86–87` | Aggregate verification values and synthetic IDs; no content. |
+| `S2-DB-002` | `scripts/verify-durability-db.ts:101–102` | Rollback table counts only. |
+
+The browser E2E collects console output and asserts that its unique manuscript sentinel is absent. Trace comments explicitly state the boundary purpose and exclusion rule; no S2 log uses a document, prose, local/server variant, selection, clipboard, or raw exception as a field.
+
+### 6.7 Validation and stress evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm.cmd run lint` | Pass | ESLint completed with zero warnings/errors. |
+| `npm.cmd run typecheck` | Pass | TypeScript no-emit check completed with zero diagnostics. |
+| `npm.cmd run test:coverage` | Pass | 16 files/49 tests; statements 91.34%, branches 82.70%, functions 86.20%, lines 94.50%. |
+| `npm.cmd run test:stress` | Pass | 2 files/4 tests, including a 10,000-block document and foundation stress. |
+| Full Playwright suite | Pass | 24 scenarios: 14 passed and 10 intentional project/browser matrix skips; all S0/S1 regressions and six S2 never-lose-text scenarios passed. |
+| S2 E2E: canonical reload | Pass | Structured Unicode draft autosaved and reloaded from canonical server state. |
+| S2 E2E: failed acknowledgement/page close | Pass | IndexedDB journal recovered after a failed acknowledgement and new page. |
+| S2 E2E: close before server response | Pass | Pending journal survived closing before server acknowledgement. |
+| S2 E2E: offline/retry | Pass | Offline edit remained writable/local and synchronized after connectivity returned. |
+| S2 E2E: two devices/conflict | Pass | Both variants remained available; Compare and Keep Local produced a new version. |
+| S2 E2E: checkpoint/redaction | Pass | `Ctrl+S` created exactly one explicit checkpoint and console text excluded the manuscript sentinel. |
+| `npm.cmd run build` | Pass | Production Next build completed; draft, checkpoint, and conflict routes were emitted. |
+| `npm.cmd audit --audit-level=high` | Pass | Zero known vulnerabilities. |
+| `db:verify:durability -> db:rollback:durability -> db:verify:editor -> db:deploy -> db:verify:durability` | Pass | Forward version 5; receipt replay true; 3 conflict paths; 2 revisions; recovery copy true; same-base concurrency had 2 attempts/1 winner/1 conflict; cross-workspace save false. Rollback removed 0 remaining durability tables and preserved both S1 tables; redeploy and reverify passed. |
+| Desktop light visual review | Pass | `test-results/editor-core-light.png`: centered manuscript, global Saved locally, checkpoint toolbar control, Autosave on footer. |
+| Mobile dark visual review at 390 px | Pass | `test-results/editor-core-mobile.png`: Mythra, Saved locally, and Commands visible without collision; toolbar/editor readable. |
+
+### 6.8 Side-by-side conformance audit
+
+| WorkPlan requirement | Actual evidence | Classification |
+| --- | --- | --- |
+| Memory plus debounced IndexedDB journal; local authoritative until acknowledgement | `draft-journal.ts`, `use-durable-chapter.ts`; close/recovery E2Es | Verified |
+| Six explicit, calm save states | `save-state-machine.ts`, global `SaveIndicator`; unit/E2E/visual checks | Verified |
+| `baseVersion` + `clientSaveId`, monotonic increment, idempotent retry | strict schemas, receipt uniqueness, serializable transaction; DB verifier | Verified |
+| Preserve both conflict variants; Compare/Keep Local/Keep Server/Duplicate | conflict persistence, route, UI, three mutation branches; service/DB/E2E checks | Verified |
+| Explicit and policy checkpoints, no revision per keystroke | manual/lifecycle/significant/destructive seam logic, unique checkpoint IDs; E2E/DB verifier | Verified |
+| Independently reversible S2 persistence only | migration and rollback SQL; full rollback/redeploy drill | Verified |
+| Reload, close, offline/network, retry and two-device conflict retain recoverable text | six durability E2Es plus DB concurrency verifier | Verified |
+| Logs/traces exclude author content | adjacent trace inventory and sentinel browser assertion | Verified |
+| Ownership and failures do not block writing | workspace-scoped queries, cross-workspace DB denial, local/offline states | Verified |
+| No continuation or later-domain activation | no session/continuation/structure/context/capture/search/billing model or route in commit | Verified |
+
+Doctrine answers: structure/scenes/world/Capture/causality remain optional and absent; no milestone or causality type exists; no structural or causal write edits prose; PostgreSQL `Chapter` remains canonical and IndexedDB is explicitly a pending/recovery journal; no derived projection was introduced; quota/downgrade/export behavior is untouched; support/context/search/billing/analytics are not imported into the editor; no log or test artifact emits content; reads remain single-chapter or bounded to 100 journals; no AI tool exists; no later endpoint/provider/context card is active; directive/semantic-zoom/pricing rules are unchanged and not instantiated by S2; no non-V2 product scope was added.
+
+### 6.9 Deviations, findings, and repairs
+
+The final implementation has no unresolved WorkPlan deviation. Audit iterations found and repaired the following before the gate result:
+
+1. Journal recovery initially hydrated without scheduling the recovered content for save; recovery now marks it dirty and schedules autosave, with E2E proof.
+2. Response-loss retry initially generated a fresh `clientSaveId`; a pending ID is now retained and reused until acknowledgement.
+3. Conflict creation initially threw inside the transaction, which would roll back the conflict record; the transaction now returns an outcome and raises the transport conflict only after commit.
+4. Checkpoint retry could race to duplicate creation; `createMany(...skipDuplicates)` plus canonical lookup makes it idempotent.
+5. Durability validation exposed that existing bold/italic editor marks were missing from the domain contract; the versioned schema now accepts bold, italic, and reference marks and tests cover them.
+6. Browser-suite authentication exhausted the development-only limiter; the production limit remains 10 while nonproduction is isolated at 1,000 for deterministic test traffic.
+7. A transient footer label could disagree with the canonical command-bar save state; the footer now states the stable policy `Autosave on`, leaving one truthful state display.
+8. Mobile initially hid status and then clipped Commands; compact CSS now keeps both visible, confirmed by isolated mobile E2E and visual inspection.
+9. A conflict comparison assertion was globally ambiguous; the test now scopes it to the comparison panel without changing behavior.
+
+`WorkPlan.md` required no correction. Remaining work is Sub-gate 3 only and remains locked until this evidence commit is pushed and remotely verified.
+
+### 6.10 Gate and Git evidence
+
+- **Gate result:** **PASS — Sub-gate 2 never-lose-text durability is implemented and verified.** This is not the Phase 1 macro pass; Sub-gate 3 remains mandatory.
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Pre-code ledger commit:** `60ed5d3d03130ba508fb7c42809a985a71b54dfb` — `Plan Sub-gate 2 durability`, pushed and remotely verified before S2 product code.
+- **Content commit:** `674ff4895a0cab50f8b6f30fbe800bbc97e52568` — `Implement Sub-gate 2 durability`.
+- **Commit scope:** 30 files, 1,218 insertions, 12 deletions; staged diff checking passed.
+- **Push result:** remote branch advanced `60ed5d3..674ff48`.
+- **Remote verification:** local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both returned `674ff4895a0cab50f8b6f30fbe800bbc97e52568` immediately after push.
+- **Remote URL/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks this branch.
+- **Rollback/revert point:** S1 evidence commit `bee0dae6b77faa59d33f6ecf2a425afcec847243`; SQL rollback is `prisma/migrations/20260812190000_durability/rollback.sql` after preserving user drafts/revisions/conflicts.
+- **Evidence-ledger commit:** this entry is committed, pushed, and remotely verified next. Its own hash is recorded in the S3 pre-code entry and final handoff because a commit cannot contain itself.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
