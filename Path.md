@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
+| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 pre-code plan recorded** | Entry S4 below | S4 planning commit pending push; no S4 application code yet |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -48,7 +48,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content `0883070a6ba7cc04c285c1adce3652107a5d1511` and evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` pushed/remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
-| 4 | Structure Core | 2 | Eligible; not started | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | — | No S4 code or pre-code ledger exists |
+| 4 | Structure Core | 2 | **In progress — pre-code plan only** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | Entry S4 | Planning commit pending; application baseline remains `44c883bd264b7a06c8c6843dd2da91e0108ff355` |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
@@ -833,6 +833,112 @@ The initial Phase 1 macro ledger was pushed as `b71a7b08bd7fe97f3fb62902cc39c540
 | Final correction ledger and remote recheck | `Path.md` correction commit `543fe83345d1ec2066a21010046e9a6025175c2e`; GitHub Actions run `31612678269`, job `94167700949`: all install, generation, lint, typecheck, 55-test coverage and build steps passed in 1m20s | **PASS.** Canonical dashboard and correction evidence are remotely verified at the same green branch state. |
 
 The corrected determination is **PASS** only after commits `88861d08d07ba1c53be5c4add4141d3a1c096a38` and `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`, correction ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and successful final remote run `31612678269`. No application test, build step, or Phase 1 gate remains failed.
+
+## 9. Entry S4 — Structure Core
+
+### 9.1 Run identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; pre-code entry recorded before any S4 application or migration change.
+- **Work-plan phase:** Phase 2 — Progressive and Causal Story Core.
+- **Mandatory Sub-gate:** 4 — Structure Core.
+- **Predecessor evidence:** Sub-gate 3 content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61`, evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and GitHub Actions run `31612678269` all passed and were remotely verified. S4 is therefore eligible.
+- **Bible roadmap/source:** phase 4; sections 3, 5, 10, 12.1, 12.5, 16–18, 20, 26, 31, 33, 35, 37; appendices B and C. Text was re-extracted from the supplied 84-page v2.2 PDF and rendered pages 9, 15, 30, 31, 43–48, 70–71, 74, and 84 were checked for hierarchy, workspace, Semantic Zoom, schema/API, gate, and doctrine meaning.
+- **Authorized ruling:** the coordinate is `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`; absent optional levels are skipped, `Milestone/Thread` is cross-cutting rather than an ownership parent, and Chapter Outline is an abstraction lens rather than a prerequisite to writing a Chapter.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `44c883bd264b7a06c8c6843dd2da91e0108ff355` (`Refresh Path status and evidence tables`), clean working tree before this ledger edit.
+- **Intended slice:** only the complete S4 Structure Core. Milestone persistence/UI, causal objects/relations, timeline, entities, Notes, Capture, Search, contextual cards, billing, automation workers, and AI remain locked to their later gates.
+- **Pre-existing changes:** none. PDF renders under ignored `tmp/` are evidence intermediates and will not enter product commits.
+
+### 9.2 Plan before code
+
+#### Canonical scope and invariants
+
+1. Add `Plot`, optional `PlotOutline`, ordered `Volume`, optional `VolumeOutline`, optional/unattached-placeholder `ChapterOutline`, optional `Scene`, `NarrativeIntent`, generalized non-causal `StoryReference`, generic `ObjectRevision`, and per-user `StructureViewState` persistence.
+2. Extend `Chapter` with optional volume membership while keeping prose-first chapters valid with no plot setup, volume, outline, scene, intent, or reference. A chapter does not need a `ChapterOutline`; outline rows are created only by explicit content entry or explicit bulk placeholder creation.
+3. Keep containment and relevance separate: a volume owns ordered chapter membership; a scene is an optional lens connected to a chapter/outline; `StoryReference` represents cross-cutting relevance and backlinks; no S4 table or operation gives a milestone ownership over a chapter.
+4. Store freeform outline document/text and optional purpose, emotional movement, revealed-information list, entity/location reference keys, future milestone-link keys, soft word target, scene stubs, provenance, and version. Entity/location/milestone values are unresolved reference keys in S4, not fabricated later-domain objects.
+5. Treat Discovery, Guided, and Architect as persisted presentation preferences over one schema. They never change validation, create required setup, or fork the project type.
+6. Implement deterministic volume/chapter-range and chapter-outline-placeholder scaffold planning, advisory allocation expectations, and preview-before-apply rebalance. S4 generates no milestone placeholder, cadence date, or milestone allocation.
+7. Implement explicit prose-first chapter assignment to volumes and outline-block-to-scene conversion with source provenance and reversible backlinks. Define typed dormant `note` and `capture` conversion ports that return dependency-unavailable until their canonical gates; expose no active UI for them.
+8. Keep target words and other creative constraints advisory by default; an author must explicitly enable any supported hard limit. S4 warnings do not reject ordinary creative writes.
+9. Support Narrative Intent for plot, volume, chapter, scene, and paragraph selection with plain text plus tension, revelation, emotion, pacing, ambiguity, atmosphere, or custom category. Milestone and entity-arc adapters do not exist in S4.
+10. Implement the ruled Semantic Coordinate projection with optional `plotOutlineId`/`volumeOutlineId`, ordered ancestors, cross-cutting relevance, optional-level skipping, and stable prose/selection anchor metadata.
+11. Increment the existing canonical `Project.structuralVersion` in the same database transaction as every S4 structure/reference/intent write; emit a content-free transactional outbox invalidation; create an `ObjectRevision` snapshot before mutable-object replacement.
+
+#### UI, state, performance, and writing-flow plan
+
+- Build one `/app/projects/[id]/structure` workspace with active Outline, Volumes, Chapters, Relationships, and Semantic Zoom lenses. Milestones and Causal lenses are absent until S5/S6; no disabled or fake empty lens is rendered.
+- Use inline create/edit controls, explicit keyboard-operable move/promote/demote actions, and preview dialogs for reorder/renumber/rebalance. Drag gestures may be added only as a redundant affordance; no requirement depends on them.
+- Persist collapse/expansion, selected lens/mode, active semantic anchor, cursor, selection, scroll position, and future pin IDs by `(userId, projectId)`. Reversible zoom restores the recorded position and never mutates prose.
+- Return bounded overview pages and neighborhood slices. Default and maximum node/edge budgets will be encoded as constants; large lists use windowed range slices and grouped overflow summaries instead of rendering an entire structure graph.
+- Preserve the existing editor and Project Home paths. Structure support failure cannot block opening, typing, local journaling, saving, recovery, or continuation.
+
+#### Planned files
+
+| File or area | Action | Planned responsibility |
+| --- | --- | --- |
+| `prisma/schema.prisma` and `prisma/migrations/20260812*_structure_core/{migration,rollback}.sql` | Modify/create | S4 enums, canonical tables, ownership constraints, ordering/reference/revision/outbox indexes, chapter volume seam, and reviewed reversal. |
+| `domains/structure/domain/{types,invariants,semantic-coordinate,scaffold}.ts` | Create | Canonical S4 types, optionality/ownership/order rules, ruled coordinate builder, deterministic allocation/rebalance planning. |
+| `domains/references/domain/story-reference.ts` | Create | General non-causal source/target vocabulary, block anchors, provenance/backlink contract, and validation. |
+| `domains/structure/application/{ports,service,conversion}.ts` | Create | Ownership-scoped commands/queries, previews and apply operations, revisions/outbox orchestration, and dormant future conversion interfaces. |
+| `domains/structure/infrastructure/prisma-structure-repository.ts` | Create | Bounded Prisma reads and transactional writes with structural-version compare/increment and child-ID workspace guards. |
+| `lib/structure/runtime.ts` | Create | Composition root for the S4 service and logger. |
+| `app/api/v2/projects/[id]/structure/**/route.ts` and `app/api/v2/structure/**/route.ts` | Create | Bounded overview, explicit object writes, preview/apply scaffold/reorder, view-state, intent/reference, and scene conversion routes using stable envelopes. |
+| `components/structure/*.tsx` | Create | Shared Structure shell, active lens navigation, outline tree, volume lane, chapter grid, scaffold/reorder previews, Semantic Zoom viewport, relationship list, and inline intent/scene controls. |
+| `app/app/projects/[id]/structure/page.tsx` and existing navigation surfaces | Create/modify | Authenticated server-owned read model and discoverable, optional navigation into Structure without obstructing Continue Writing. |
+| `docs/adr/0005-structure-core.md`, `docs/architecture/structure-core.md`, `docs/api/structure.md` | Create | Schema semantics, ruled ladder, reference/causality boundary, adapter lifecycle, API contracts, budgets, failure/recovery and migration strategy. |
+| `scripts/verify-structure-core-db.ts` and `package.json` | Create/modify | Real PostgreSQL ownership, optionality, ordering, version/outbox/revision, constraint and rollback verification commands. |
+| `tests/unit`, `tests/service`, `tests/component`, `tests/stress`, `tests/e2e` S4 files | Create | Property/invariant/service/UI/load/writing-position tests and the S4 writing-flow gate. |
+
+The final file ledger will replace this forecast with every actual created, modified, generated, or deleted path and explain any difference.
+
+#### API and mutation plan
+
+- `GET /api/v2/projects/:id/structure` returns one bounded structure read model with cursor/range/budget metadata and active lenses only.
+- Explicit POST/PATCH operations create/update plot, outlines, volumes, scenes, intents, and references. Chapter membership, promote/demote, and ordering changes require `expectedStructuralVersion` and return the stable mutation envelope.
+- `/scaffold/preview` and `/scaffold/apply`, plus `/reorder/preview` and `/reorder/apply`, separate advisory calculation from canonical mutation. Apply requests carry a deterministic plan token/hash and expected version so a stale preview cannot be committed.
+- View-state persistence is user preference state, not story truth. It cannot increment the project structural version or enter story revisions.
+- All child identifiers are resolved through the actor workspace and project before mutation. Lists and Semantic Zoom neighborhoods enforce page/node/edge ceilings server-side.
+
+#### Console instrumentation plan
+
+Every operational transition receives an adjacent `// Console trace S4-...` comment and a safe call. Server code uses the existing structured logger transport; browser-only interactions use direct `console.log` with IDs/counts/mode names only. No title, outline prose, Narrative Intent text, manuscript text, revealed information, note, provenance note, or user-entered reference label may be logged. The final S4 entry will list the exact comment and call/transport line for every site after formatting stabilizes, and an automated adjacency/content audit must pass before the gate is called complete.
+
+Planned step families are: `S4-STRUCTURE` read/write; `S4-SCAFFOLD` preview/apply; `S4-ORDER` preview/apply; `S4-SCENE` conversion; `S4-INTENT`; `S4-REFERENCE`; `S4-ZOOM`; `S4-VIEW`; `S4-DB`; and `S4-UI`. Rejected and stale operations log stable error codes and identifiers only through the existing content-safe request boundary.
+
+#### Migration, recovery, and measurable validation
+
+- Forward migration adds S4 objects and optional Chapter membership without rewriting existing prose rows. Rollback removes only S4 objects/columns after an explicit verification run; existing Phase 1 Project, Chapter body, revision, conflict, receipt, and session-state data must remain readable and byte-equivalent.
+- Property tests will cover randomized unique ordering, rebalance determinism, optional-level Semantic Coordinates, no required outline, reference preservation, and idempotent preview/apply behavior.
+- Service/repository tests will cover cross-workspace and cross-project denial, stale structural version rejection, atomic version+outbox+revision writes, bounded pagination, content-safe logs, and dormant Note/Capture conversion rejection.
+- Stress targets: at least 10,000 chapters/outline placeholders distributed across volumes in domain planning tests; bounded server read model never exceeds its declared node/edge/page budgets; repeated reorder/scaffold plans remain deterministic; no quadratic all-edge client payload is produced.
+- UI/E2E targets: zero-structure author continues writing; planner opens active S4 lenses, scaffolds/reorders via preview, preserves expansion/zoom position, and returns to editor with exact chapter plus cursor/selection/scroll restored. Keyboard-only and axe serious/critical checks, Light/Dark, desktop/mobile, reduced motion, and focus restoration must pass.
+- Quality gates: Prisma generate/validate, migration forward/rollback/forward and real DB verification, lint, strict typecheck, unit/service/component/stress/E2E, coverage, production build, `git diff --check`, generated-client review, and remote GitHub Actions.
+
+### 9.3 Pre-code conformance audit
+
+| S4 requirement | Planned evidence | Current classification | Gate action |
+| --- | --- | --- | --- |
+| Structure remains optional for discovery writing | Nullable relationships, zero-structure read model, existing writing E2E regression | Planned; exact | Must pass before S4 completion. |
+| Canonical hierarchy and ownership/relevance split | DB FKs plus domain invariants and reference model | Planned; exact | Milestone ownership is prohibited. |
+| Freeform/rich optional outlines and optional metadata | JSON document/text plus optional fields/reference keys | Planned; exact | Do not materialize empty outline rows implicitly. |
+| Three presentation modes, one schema | Per-user view-state enum only | Planned; exact | Mode cannot alter validation. |
+| Deterministic scaffold and preview-before-apply | Pure planner plus versioned apply token | Planned; exact | No milestone data in S4 planner. |
+| Existing-domain after-the-fact operations | chapter-to-volume and outline-block-to-scene with backlinks | Planned; exact | Note/Capture stay dormant. |
+| Narrative Intent active targets only | plot/volume/chapter/scene/paragraph adapters | Planned; exact | Milestone/entity-arc rejected. |
+| One Structure shell with active lenses only | five S4 lenses; no dormant lens UI | Planned; exact | S5/S6 add their own lenses later. |
+| Ruled Semantic Zoom and position preservation | coordinate projection plus persisted view state/editor return test | Planned; exact | Milestone remains cross-cutting. |
+| Bounded large-project rendering | server budgets, slices, overflow clusters, stress assertions | Planned; exact | Full graph payload is forbidden. |
+| Transactional durability seams | version compare/increment, outbox and revisions in each story-write transaction | Planned; exact | View-state excluded from story version. |
+| S4 writing-flow exit gate | zero-setup writing plus large planner and exact focus restoration | Planned; exact | No S5 code may start until verified/pushed. |
+
+No plan contradiction or dependency inversion was found. S4 does not activate milestones, causal relations, timeline events, entity states, Capture-derived objects, Notes, billing, or AI. It adds no prose mutation path. `becauseItems[]`/`consequenceItems[]`, future pricing, and later endpoint contracts are unaffected. At this pre-code point all S4 items remain **Planned**, not implemented; the gate remains **in progress**.
+
+### 9.4 Pre-code Git evidence
+
+- **Intended commit scope:** `Path.md` only.
+- **Application code status:** unchanged from baseline `44c883bd264b7a06c8c6843dd2da91e0108ff355`.
+- **Plan commit/push/remote CI:** pending; this subsection will be amended after remote verification without rewriting the historical pre-code facts.
+- **Rollback point:** baseline `44c883bd264b7a06c8c6843dd2da91e0108ff355`.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
