@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gate 0 locally verified | Entry S0 below | Sub-gate 0 push pending; Sub-gates 1–3 locked |
+| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gate 0 passed | Entry S0 below | Sub-gate 0 pushed and remotely verified; Sub-gate 1 eligible |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -44,7 +44,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 
 | Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Foundation | 1 | Verified locally; remote gate pending | None | Entry S0 | Content/evidence commits pending |
+| 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Not started | Sub-gate 0 required | — | — |
 | 2 | Durability | 1 | Not started | Sub-gate 1 required | — | — |
 | 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
@@ -97,10 +97,10 @@ The source review, runtime decision, and intended Sub-gate 0 boundary were state
 
 ### 4.4 Current status
 
-- **Capability status:** Implemented and verified locally; remote commit/push verification is the final gate requirement.
+- **Capability status:** Passed: implemented, audited, committed, pushed, and remotely verified.
 - **Application claims:** Sub-gate 0 Foundation only. Sub-gates 1–3 remain locked and no Project, Chapter, editor, IndexedDB, autosave, revision, conflict, or continuation persistence exists.
 - **Validation:** all local static, unit, service, component, stress, PostgreSQL migration/rollback, authenticated E2E, responsive, theme, accessibility, and production-build checks pass. Detailed evidence follows.
-- **Git evidence:** pending separate content and evidence commits, push, and remote verification.
+- **Git evidence:** content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` matches the remote branch; this ledger evidence commit follows separately.
 
 ### 4.5 Files and implementation evidence
 
@@ -181,13 +181,16 @@ Doctrine questions for Sub-gate 0 all resolve safely: no structure/scenes/world/
 - **Migration repair:** removed unnecessary `pgcrypto` extension after disposable PostgreSQL rejected it; forward/rollback/forward verification then passed.
 - **E2E harness repair:** port conflict, concurrent PGlite prepared-statement limits, and child-process shutdown made earlier runs non-passing. The final isolated single-worker hidden-server run returned exit code 0. The repository added concurrency recovery for first-use identity and verified eight concurrent attempts independently.
 - **Remaining local gaps:** none for Sub-gate 0.
-- **Remaining gate action:** commit, push, remote verification, then update this ledger with immutable Git evidence. Sub-gate 1 remains locked until that completes.
+- **Remaining local or remote gaps:** none for Sub-gate 0. Sub-gate 1 becomes eligible only after this evidence-only ledger commit is pushed and remotely verified.
 
 ### 4.10 Git and remote evidence
 
 - **Scoped diff:** only Phase 1/Sub-gate 0 application foundation, tests, generated Next guidance, and this ledger entry; `WorkPlan.md` is unchanged.
 - **Branch:** `agent/workplan-subgates-audit`.
-- **Content commit/push/remote verification:** pending.
+- **Content commit:** `8459d6601885e019c56f1c3d757c1d4f5645f618` — `Implement Sub-gate 0 foundation`.
+- **Push:** `agent/workplan-subgates-audit` advanced from `eee9cf7` to `8459d66` on `https://github.com/InfernusReal/Mythra-V2.git`.
+- **Remote verification:** local `HEAD` and `refs/heads/agent/workplan-subgates-audit` both resolved to `8459d6601885e019c56f1c3d757c1d4f5645f618` immediately after push.
+- **Evidence-ledger commit:** this immutable evidence update is committed and pushed separately; its hash is recorded in the next entry because a commit cannot contain its own hash.
 - **Rollback/revert point:** baseline `eee9cf73d9eef893a7f27190a57ca84047a35cc0` until the content commit exists.
 
 ## 5. Entry P0 — Planning baseline and source audit
