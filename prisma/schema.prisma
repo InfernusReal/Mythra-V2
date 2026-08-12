@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum WorkspaceRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum WorkspaceMemberStatus {
+  ACTIVE
+  INVITED
+  SUSPENDED
+}
+
+enum AuditEventKind {
+  AUTHENTICATION
+  OWNERSHIP_CHANGE
+  ARCHIVE
+  DELETE_REQUEST
+  RESTORE
+  EXPORT_REQUEST
+}
+
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id                 String             @id @default(uuid()) @db.Uuid
+  email              String             @unique @db.VarChar(320)
+  displayName        String?            @db.VarChar(160)
+  locale             String             @default("en") @db.VarChar(35)
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+  deletionRequestedAt DateTime?          @db.Timestamptz(3)
+  purgeAfter         DateTime?          @db.Timestamptz(3)
+  deletedAt          DateTime?          @db.Timestamptz(3)
+  externalIdentities ExternalIdentity[]
+  memberships        WorkspaceMember[]
+  preferences        UserPreference[]
+  auditEvents        AuditEvent[]        @relation("AuditActor")
+  ownedWorkspaces    Workspace[]         @relation("WorkspaceOwner")
+
+  @@index([deletionRequestedAt, purgeAfter])
+}
+
+model ExternalIdentity {
+  id              String   @id @default(uuid()) @db.Uuid
+  provider        String   @db.VarChar(64)
+  providerSubject String   @db.VarChar(255)
+  userId          String   @db.Uuid
+  createdAt       DateTime @default(now()) @db.Timestamptz(3)
+  lastSeenAt      DateTime @default(now()) @db.Timestamptz(3)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerSubject])
+  @@index([userId])
+}
+
+model Workspace {
+  id          String            @id @default(uuid()) @db.Uuid
+  ownerUserId String            @db.Uuid
+  name        String            @db.VarChar(160)
+  planKey     String            @default("core") @db.VarChar(64)
+  regionKey   String?           @db.VarChar(64)
+  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime          @updatedAt @db.Timestamptz(3)
+  archivedAt  DateTime?         @db.Timestamptz(3)
+  purgeAfter  DateTime?         @db.Timestamptz(3)
+  members     WorkspaceMember[]
+  preferences UserPreference[]
+  auditEvents AuditEvent[]
+  outboxEvents OutboxEvent[]
+  owner        User              @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+
+  @@index([archivedAt, purgeAfter])
+  @@index([ownerUserId])
+}
+
+model WorkspaceMember {
+  workspaceId String        @db.Uuid
+  userId      String        @db.Uuid
+  role        WorkspaceRole @default(MEMBER)
+  status      WorkspaceMemberStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([workspaceId, userId])
+  @@index([userId, workspaceId])
+}
+
+model UserPreference {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @db.Uuid
+  workspaceId String    @db.Uuid
+  locale      String    @default("en") @db.VarChar(35)
+  theme       String    @default("system") @db.VarChar(16)
+  editorFont  String    @default("serif") @db.VarChar(64)
+  fontSize    Int       @default(18)
+  lineHeight  Float     @default(1.62)
+  reducedMotion Boolean @default(false)
+  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+  @@index([workspaceId])
+}
+
+model AuditEvent {
+  id            String         @id @default(uuid()) @db.Uuid
+  workspaceId   String         @db.Uuid
+  actorUserId   String?        @db.Uuid
+  kind          AuditEventKind
+  targetType    String         @db.VarChar(80)
+  targetId      String?        @db.VarChar(128)
+  correlationId String         @db.VarChar(128)
+  safeMetadata  Json           @default("{}")
+  createdAt     DateTime       @default(now()) @db.Timestamptz(3)
+  workspace     Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  actor         User?          @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([correlationId])
+}
+
+model OutboxEvent {
+  id            String       @id @default(uuid()) @db.Uuid
+  workspaceId   String       @db.Uuid
+  aggregateType String       @db.VarChar(80)
+  aggregateId   String       @db.VarChar(128)
+  eventType     String       @db.VarChar(120)
+  payload       Json
+  status        OutboxStatus @default(PENDING)
+  attempts      Int          @default(0)
+  availableAt   DateTime     @default(now()) @db.Timestamptz(3)
+  createdAt     DateTime     @default(now()) @db.Timestamptz(3)
+  completedAt   DateTime?    @db.Timestamptz(3)
+  workspace     Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+
+  @@index([status, availableAt])
+  @@index([workspaceId, createdAt(sort: Desc)])
+}

@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | Not started | — | — |
+| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gate 0 locally verified | Entry S0 below | Sub-gate 0 push pending; Sub-gates 1–3 locked |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -44,7 +44,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 
 | Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Foundation | 1 | Not started | None | — | — |
+| 0 | Foundation | 1 | Verified locally; remote gate pending | None | Entry S0 | Content/evidence commits pending |
 | 1 | Project + Chapter + Editor Core | 1 | Not started | Sub-gate 0 required | — | — |
 | 2 | Durability | 1 | Not started | Sub-gate 1 required | — | — |
 | 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
@@ -65,7 +65,132 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 
 The first eligible product capability is Sub-gate 0. Every later row is locked until its predecessor's Pathway entry and remote commit are verified.
 
-## 4. Entry P0 — Planning baseline and source audit
+## 4. Entry S0 — Foundation
+
+### 4.1 Run identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; implementation remains in progress until the audit and remote evidence below are complete.
+- **Work-plan phase:** Phase 1 — Trusted Writing Foundation.
+- **Mandatory Sub-gate:** 0 — Foundation.
+- **Predecessor evidence:** planning correction branch was remotely verified at `eee9cf73d9eef893a7f27190a57ca84047a35cc0`; no product capability precedes Sub-gate 0.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `eee9cf73d9eef893a7f27190a57ca84047a35cc0`.
+- **Bible scope:** sections 0–2, 13–18, 23–27, 29, 31–34, 36; roadmap Phase 0 and acceptance template 33.1.
+- **Intended slice:** repository/runtime baseline, identity and workspace foundation, PostgreSQL/Prisma migration, structured content-safe observability, stable errors, safety seams, themes, and authenticated empty shell. No Project, Chapter, editor, durability, or continuation capability is authorized in this gate.
+- **Pre-existing changes:** clean tracked worktree at the baseline commit. The source PDF is external and read-only.
+
+### 4.2 Plan before completion
+
+- Pin the server-capable React/TypeScript/PostgreSQL stack and record architecture decisions.
+- Establish provider-independent identity contracts and first-use workspace provisioning.
+- Ensure every session actor contains internal user, workspace, role, and session identifiers before domain execution.
+- Establish ownership-scoped repository conventions, stable error/envelope contracts, CSRF/rate-limit/security seams, and reserved audit/outbox persistence.
+- Build the exact Light/Dark token system, optional Cream tokens, 48px command bar, 48px rail, responsive empty shell, accessible command palette, theme preference, and i18n boundary.
+- Add lint, type, unit, service, component, stress, accessibility, E2E, migration, and build harnesses. A capability is not complete merely because it compiles.
+- **Instrumentation rule:** every operational step log is identified by an adjacent `Console trace <STEP-ID>` comment. All server instrumentation flows through one structured `console.log` transport that rejects content-bearing metadata keys. Client/bootstrap diagnostics may use direct `console.log` only with allow-listed non-content metadata.
+- **Risk controls:** no manuscript content exists in Sub-gate 0; logging nevertheless enforces the future content boundary. Development authentication is rejected in production. No later-domain route, model, control, or status may be activated.
+- **Migration/rollback:** `20260812090000_foundation` is independently reversible through its reviewed `rollback.sql` only before Sub-gate 1 data exists.
+- **Performance/stress intent:** exercise 10,000 structured log operations, 10,000 independent rate-limit keys, and 10,000 signed-session validations; record timings during the gate audit.
+
+### 4.3 Chronology correction
+
+The source review, runtime decision, and intended Sub-gate 0 boundary were stated in the active task commentary before files were created. This `Path.md` entry itself was added after the first implementation patch rather than before it. That is a procedural deviation from the WorkPlan protocol and is recorded without backdating. It is not classified as resolved merely by writing this paragraph: the Sub-gate remains in progress, every created file will be enumerated, and the final conformance audit must determine and document the repair before Sub-gate 0 can pass. Subsequent sub-gates must have their Path entry committed before product code begins.
+
+### 4.4 Current status
+
+- **Capability status:** Implemented and verified locally; remote commit/push verification is the final gate requirement.
+- **Application claims:** Sub-gate 0 Foundation only. Sub-gates 1–3 remain locked and no Project, Chapter, editor, IndexedDB, autosave, revision, conflict, or continuation persistence exists.
+- **Validation:** all local static, unit, service, component, stress, PostgreSQL migration/rollback, authenticated E2E, responsive, theme, accessibility, and production-build checks pass. Detailed evidence follows.
+- **Git evidence:** pending separate content and evidence commits, push, and remote verification.
+
+### 4.5 Files and implementation evidence
+
+| Area/files | Action and implemented behavior | WorkPlan/Bible ownership |
+| --- | --- | --- |
+| `package.json`, `package-lock.json`, TypeScript/Next/ESLint/Vitest/Playwright/Prisma configs, `.env.example`, `.gitignore` | Pinned Node-compatible production/test stack, strict compiler/linting, coverage budgets, E2E projects, environment contract, generated/build artifact exclusions. Next.js generated `AGENTS.md`/`CLAUDE.md` with current framework instructions; they are retained as generated project guidance. | WorkPlan 5.1 repository baseline; Bible 15, 31–32. |
+| `.github/workflows/ci.yml`, `README.md` | Reproducible install, Prisma generation, audit-quality lint/type/coverage/build pipeline and local setup documentation. | WorkPlan 5.1/5.2; Bible 31–32. |
+| `docs/adr/0001-stack.md` through `0004-persistence-and-jobs.md` | Recorded runtime, provider-independent auth, editor-document boundary for the next gate, PostgreSQL/local journal/object storage/outbox decisions without activating later domains. | WorkPlan 5.1/5.2; Bible 8.2, 15–16, 19, 23. |
+| `docs/architecture/module-boundaries.md`, `docs/security/content-handling.md`, `docs/operations/migrations.md` | Enforced inward dependency direction, thin routes, sensitive-content doctrine, additive/two-phase SQL policy, separate rich-document migration policy, and Sub-gate 0 rollback limits. | WorkPlan 5.1/5.2; Bible 16, 24, 32. |
+| `prisma/schema.prisma`, migration/rollback, `prisma/seed.ts` | Added internal User, ExternalIdentity, Workspace owner/billing/security boundary, active membership/role/status, preferences including editor/accessibility values, AuditEvent, and dormant OutboxEvent. Added constraints/indexes and independent rollback. No later capability model exists. | WorkPlan Sub-gate 0 staged persistence; Bible 17.1, 23, 24. |
+| `domains/accounts/*`, `lib/auth/*`, `lib/db/prisma.ts` | ExternalAuthAdapter with OIDC and non-production development providers, atomically idempotent first-use provisioning, concurrency recovery, signed internal session, active membership/workspace archive enforcement, and resolved SessionActor before app-domain work. | WorkPlan Sub-gate 0 identity; Bible 23.1–23.3. |
+| `lib/contracts/*`, `lib/http/*` | Stable error catalog, safe envelopes, correlation IDs, same-origin mutation guard, and fixed-window rate-limit boundary. No raw runtime error is returned by the auth route. | WorkPlan Sub-gate 0 safety; Bible 16.3, 18.3, 24, 36.2. |
+| `lib/observability/*`, `lib/storage/object-storage.ts` | Structured content-safe log transport, metric/trace seams, and private object-storage boundary. Logger rejects body/text/prose/content/document/capture/note/manuscript/selection metadata keys. | WorkPlan Sub-gate 0 observability/storage seams; Bible 24–26. |
+| `app/*`, `components/*`, `lib/theming/*`, `lib/i18n/messages.ts`, `proxy.ts` | Signed-session sign-in path, authenticated empty shell, exact 48px desktop command bar and rail, reserved context region, responsive single-column/mobile bottom rail, command palette with Escape focus restoration, save-status seam, exact Light/Dark and specified Cream tokens, apply-before-paint theme bootstrap, visible focus, reduced motion, i18n boundary. No dashboard/story workflow controls. | WorkPlan Sub-gate 0 shell; Bible 13–15, 29, 34. |
+| `tests/*`, `scripts/verify-foundation-db.ts` | 32 focused tests with coverage, 30,000-operation stress suite, real PostgreSQL ownership/idempotency/concurrency verification, rollback/deploy verification, four applicable browser passes across desktop/mobile, axe serious/critical accessibility scan, exact geometry, Light/Dark and visual screenshots. | WorkPlan safety/test baseline and Sub-gate 0 exit; Bible 31, 33.1. |
+
+### 4.6 Console instrumentation ledger
+
+Every operational log site has an adjacent identifying comment. Server runtime steps call the structured logger, whose sole literal `console.log` is `lib/observability/logger.ts`; direct calls are limited to safe client/bootstrap or verification processes.
+
+| Step | Comment line | Call/transport line | Safe metadata and purpose |
+| --- | --- | --- | --- |
+| `S0-LOG-001` | `lib/observability/logger.ts:15` | literal `console.log` at line 16 | Single JSON transport after forbidden-key validation; level/event/timestamp plus allow-listed scalar metadata. |
+| `S0-AUTH-001` | `domains/accounts/application/authenticate.ts:17` | logger call at line 18 → `S0-LOG-001` line 16 | Correlation ID and provider only; begins verification without credential emission. |
+| `S0-AUTH-002` | `domains/accounts/application/authenticate.ts:28` | logger call begins line 29 → `S0-LOG-001` line 16 | Internal user/workspace/role and first-use boolean after provisioning. |
+| `S0-AUTH-003` | `app/api/v2/auth/development/route.ts:32` | logger call line 33 → `S0-LOG-001` line 16 | Request/user/workspace identifiers after signed session issuance. |
+| `S0-AUTH-004` | `app/api/v2/auth/development/route.ts:37` | logger call line 38 → `S0-LOG-001` line 16 | Request ID and stable error code only. |
+| `S0-SHELL-001` | `app/app/page.tsx:7` | logger call line 8 → `S0-LOG-001` line 16 | User/workspace identifiers; proves the authenticated empty shell boundary. |
+| `S0-THEME-001` | `components/theming/ThemeProvider.tsx:31` | literal `console.log` line 32 | Theme key only after a user preference change. |
+| `S0-SEED-001` | `prisma/seed.ts:10` | literal `console.log` line 11 | Connectivity event only; no seeded author content. |
+| `S0-DB-001` | `scripts/verify-foundation-db.ts:65` | literal `console.log` begins line 66 | Counts/concurrency result/cross-workspace false after real PostgreSQL verification. |
+| `S0-DB-002` | `scripts/verify-foundation-db.ts:91` | literal `console.log` line 92 | Remaining application table count after rollback. |
+
+The audit found exactly five literal production/verification `console.log` sites, each with the adjacent comment above; the five server operational logger calls resolve to the single guarded transport. Tests deliberately spy on console output but add no runtime instrumentation.
+
+### 4.7 Validation and stress evidence
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Dependency security | Pass | `npm audit --audit-level=low`: zero vulnerabilities after pinning compatible TypeScript/jsdom and overriding patched `esbuild` 0.28.1. |
+| Prisma generation/schema | Pass | Prisma Client 7.9.1 generated; `prisma validate` reported a valid PostgreSQL schema. |
+| Static quality | Pass | ESLint zero warnings; strict `tsc --noEmit` pass. |
+| Unit/service/component/contract coverage | Pass | 9 files, 32 tests; 95.5% statements, 88.75% branches, 95.16% functions, 97.51% lines. |
+| Stress | Pass | 10,000 structured log writes, 10,000 independent limiter buckets, and 10,000 session validations; 3/3 tests passed. |
+| Real database behavior | Pass | Disposable Prisma Postgres/PGlite: idempotent first use, two isolated workspaces, active membership guard, cross-workspace denial, one audit event, and eight concurrent provisioning attempts converging to one identity/workspace. |
+| Migration recovery | Pass | Verify → full reviewed rollback (`remainingTables: 0`) → `prisma migrate deploy` → verify all passed. Initial optional `pgcrypto` dependency failed on PGlite and was removed because supported PostgreSQL provides `gen_random_uuid()` natively. |
+| Production build | Pass | Next.js 16.3 compiled, type checked, generated seven pages, and produced the expected static/dynamic route map. |
+| Browser writing-flow gate | Pass | Isolated server run returned code 0: four applicable tests passed and two cross-viewport duplicates were explicitly skipped; authenticated author reached the empty shell in Light/Dark desktop and mobile. |
+| Accessibility/keyboard | Pass | Ctrl/Cmd palette path, Escape focus restoration, semantic navigation/dialog/status, and axe scan with zero serious/critical violations in desktop and mobile projects. |
+| Visual/responsive | Pass | Manual inspection of `foundation-light.png`, `foundation-dark.png`, and `foundation-mobile.png`: no clipping/overlap, exact neutral themes, 48px desktop geometry, mobile bottom navigation; developer indicator disabled after inspection. |
+| Scope/whitespace | Pass | `git diff --check` clean; schema audit found no Project/Chapter/revision/conflict/session-state model; no later capability is claimed. |
+
+### 4.8 Side-by-side Sub-gate 0 conformance audit
+
+| Requirement | Actual evidence | Classification | Action |
+| --- | --- | --- | --- |
+| Supported TypeScript/server React baseline, commands, CI, environment validation | Pinned package/lock/config/CI; audit, lint, type, tests, build pass | Verified | None. |
+| ADRs and module boundaries | Four ADRs plus architecture/security/migration documents | Verified | None. |
+| External auth seam and internal identity | OIDC/development adapters; internal identity and session actor; real repository tests | Verified | None. |
+| First-use workspace, role before domain services | Atomic repository provisioning and `requireActor`; E2E authenticated shell | Verified | None. |
+| Ownership and child-ID discipline | Active `(workspaceId,userId)` membership query and cross-workspace denial; later child domains absent | Verified for current domain | Repeat at every later repository gate. |
+| Stable errors/envelopes | Full code catalog and transport tests | Verified | None. |
+| Content-safe logs and telemetry seams | Forbidden-key logger tests, metadata-only step ledger, metrics/trace seams | Verified | None. |
+| 48px calm empty shell, no dashboard/story workflow | CSS geometry plus desktop/mobile E2E and visual inspection | Verified | None. |
+| Exact Light/Dark tokens; Cream-ready | Token audit matches Bible 13.2; E2E theme switching | Verified | Cream remains specified but optional, as allowed. |
+| Editor typography independent | Separate `--editor-font` token and preference fields; no editor yet | Verified seam | Concrete editor consumption belongs to Sub-gate 1. |
+| Responsive/accessibility/i18n boundary | Desktop/tablet/mobile CSS, focus/reduced motion/ARIA, axe/E2E, messages module | Verified | Deep mobile editor behavior belongs to Sub-gates 1–3/15. |
+| Security/operations baseline | Security headers, signed strict cookie, CSRF/rate-limit boundaries, safe secrets schema, audit model, archive/grace fields | Verified | Managed TLS/encryption/secret-store deployment is environment-owned and documented, not falsely claimed locally. |
+| Migration/test harnesses and rollback | Real forward/rollback/forward database cycle; 32 tests, E2E, stress, coverage | Verified | None. |
+| Writing-flow exit: authenticate to empty shell, no story workflow | Development-provider E2E exercises production-shaped adapter/service/repository/session/shell path | Verified | Production provider credentials are deployment configuration; adapter contract/build are verified. |
+
+Doctrine questions for Sub-gate 0 all resolve safely: no structure/scenes/world/Capture/causality exists; no milestone ownership exists; no chronology/reference fact becomes causality; no prose can be auto-edited; client theme state is preference state, not story truth; no projection exists; no billing/quota exists; support systems cannot block a nonexistent editor; content-safe logging is enforced; no unbounded project/graph query exists; no AI exists; no later endpoint/provider is activated; directive and Semantic Zoom contracts are untouched; pricing is untouched; no non-V2 scope was added.
+
+### 4.9 Deviations, repairs, and remaining gate work
+
+- **Chronology deviation:** the Path entry was added after initial code patches. Repair: the entry records the deviation and full actual implementation rather than claiming pre-code chronology. It does not alter product behavior. Future entries must be committed before their product code; this control will be enforced before Sub-gate 1.
+- **Toolchain repair:** TypeScript 7 was current but unsupported by the current Next ESLint stack; pinned supported TypeScript 6.0.3. jsdom 30 required a newer Node patch than the available supported Node 22.15 runtime; pinned jsdom 29.1.1. No product contract changed.
+- **Migration repair:** removed unnecessary `pgcrypto` extension after disposable PostgreSQL rejected it; forward/rollback/forward verification then passed.
+- **E2E harness repair:** port conflict, concurrent PGlite prepared-statement limits, and child-process shutdown made earlier runs non-passing. The final isolated single-worker hidden-server run returned exit code 0. The repository added concurrency recovery for first-use identity and verified eight concurrent attempts independently.
+- **Remaining local gaps:** none for Sub-gate 0.
+- **Remaining gate action:** commit, push, remote verification, then update this ledger with immutable Git evidence. Sub-gate 1 remains locked until that completes.
+
+### 4.10 Git and remote evidence
+
+- **Scoped diff:** only Phase 1/Sub-gate 0 application foundation, tests, generated Next guidance, and this ledger entry; `WorkPlan.md` is unchanged.
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Content commit/push/remote verification:** pending.
+- **Rollback/revert point:** baseline `eee9cf73d9eef893a7f27190a57ca84047a35cc0` until the content commit exists.
+
+## 5. Entry P0 — Planning baseline and source audit
 
 ### 4.1 Run identity
 
