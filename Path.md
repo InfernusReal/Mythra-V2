@@ -254,7 +254,8 @@ None. The repository had no application baseline and this run is limited to stud
 - **Push:** upstream tracking established for `origin/agent/workplan-subgates-audit`; Git reported a new remote branch.
 - **Remote verification:** `git ls-remote origin refs/heads/agent/workplan-subgates-audit` returned `0963fb09fb6f959ad0f1e5bbabe1fbc89b1fb4ad`, exactly matching the local content commit.
 - **Audit-ledger commit:** this evidence update is committed and pushed immediately after the verified content commit; its hash is reported in the final handoff because a commit cannot contain its own hash.
-- **GitHub CLI note:** Git push succeeded through the configured Git credentials. The cached `gh` token remains invalid, so no pull request was opened; PR creation requires renewed `gh auth login -h github.com`.
+- **Pull request:** draft PR [#1 — Restore original Mythra V2 capability gates](https://github.com/InfernusReal/Mythra-V2/pull/1) opened against `main` after the evidence commit; GitHub reported two commits and exactly two changed files at creation.
+- **Authentication note:** Git push succeeded through configured Git credentials. The cached local `gh` token was invalid, but the authenticated GitHub connector created the draft PR without weakening remote verification.
 
 ## 6. Reusable implementation entry template
 
