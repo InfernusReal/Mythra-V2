@@ -48,6 +48,22 @@ enum ChapterStatus {
   ARCHIVED
 }
 
+enum ChapterRevisionKind {
+  CHECKPOINT
+  CONFLICT_SERVER
+}
+
+enum DraftConflictStatus {
+  OPEN
+  RESOLVED
+}
+
+enum DraftConflictResolution {
+  KEEP_LOCAL
+  KEEP_SERVER
+  DUPLICATE_RECOVERY
+}
+
 model User {
   id                 String             @id @default(uuid()) @db.Uuid
   email              String             @unique @db.VarChar(320)
@@ -140,9 +156,63 @@ model Chapter {
   archivedAt        DateTime?     @db.Timestamptz(3)
   project           Project       @relation("ProjectChapters", fields: [projectId], references: [id], onDelete: Restrict)
   activeForProject  Project?      @relation("ActiveChapter")
+  revisions         ChapterRevision[]
+  draftConflicts    DraftConflict[]
+  saveReceipts      ChapterSaveReceipt[]
 
   @@unique([projectId, sequenceIndex])
   @@index([projectId, status, updatedAt(sort: Desc)])
+}
+
+model ChapterRevision {
+  id           String              @id @default(uuid()) @db.Uuid
+  chapterId    String              @db.Uuid
+  version      Int
+  kind         ChapterRevisionKind
+  label        String?             @db.VarChar(240)
+  clientSaveId String?             @unique @db.Uuid
+  bodyDocument Json
+  bodyText     String
+  wordCount    Int
+  createdAt    DateTime            @default(now()) @db.Timestamptz(3)
+  chapter      Chapter             @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+
+  @@index([chapterId, createdAt(sort: Desc)])
+  @@index([chapterId, version])
+}
+
+model DraftConflict {
+  id             String                   @id @default(uuid()) @db.Uuid
+  chapterId      String                   @db.Uuid
+  clientSaveId   String                   @db.Uuid
+  baseVersion    Int
+  serverVersion  Int
+  localDocument  Json
+  serverDocument Json
+  status         DraftConflictStatus      @default(OPEN)
+  resolution     DraftConflictResolution?
+  resolvedVersion Int?
+  recoveryChapterId String?                 @db.Uuid
+  createdAt      DateTime                 @default(now()) @db.Timestamptz(3)
+  resolvedAt     DateTime?                @db.Timestamptz(3)
+  chapter        Chapter                  @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+
+  @@unique([chapterId, clientSaveId])
+  @@index([chapterId, status, createdAt(sort: Desc)])
+}
+
+model ChapterSaveReceipt {
+  id               String   @id @default(uuid()) @db.Uuid
+  chapterId        String   @db.Uuid
+  clientSaveId     String   @db.Uuid
+  bodyHash         String   @db.Char(64)
+  baseVersion      Int
+  resultingVersion Int
+  createdAt        DateTime @default(now()) @db.Timestamptz(3)
+  chapter          Chapter  @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+
+  @@unique([chapterId, clientSaveId])
+  @@index([chapterId, createdAt(sort: Desc)])
 }
 
 model WorkspaceMember {

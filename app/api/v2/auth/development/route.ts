@@ -9,7 +9,7 @@ import { requestIdFrom } from "@/lib/http/request-context";
 import { FixedWindowRateLimiter } from "@/lib/http/rate-limit";
 import { logger } from "@/lib/observability/logger";
 
-const limiter = new FixedWindowRateLimiter(10, 60_000);
+const limiter = new FixedWindowRateLimiter(process.env.NODE_ENV === "production" ? 10 : 1_000, 60_000);
 
 export async function POST(request: Request) {
   const requestId = requestIdFrom(request.headers);

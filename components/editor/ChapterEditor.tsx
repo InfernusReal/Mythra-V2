@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Extension, Mark, mergeAttributes } from "@tiptap/core";
 import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import StarterKit from "@tiptap/starter-kit";
 import type { ChapterEditorReadModel } from "@/domains/writing/application/ports";
-import { exceedsExplicitHardStop, wordTargetDelta } from "@/domains/writing/domain/chapter-document";
+import { deriveChapterText, exceedsExplicitHardStop, wordTargetDelta } from "@/domains/writing/domain/chapter-document";
+import type { DurabilityController } from "@/lib/writing/use-durable-chapter";
+import { useDurableChapter } from "@/lib/writing/use-durable-chapter";
 import { tiptapAdapter } from "@/lib/editor/adapter";
 
 const BlockParagraph = Paragraph.extend({
@@ -71,6 +73,7 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
   const [wordCount, setWordCount] = useState(model.chapter.wordCount);
   const [hardStopMessage, setHardStopMessage] = useState<string | null>(null);
   const hardStop = model.chapter.hardStopEnabled ? model.chapter.hardCharacterStop : null;
+  const durabilityRef = useRef<DurabilityController | null>(null);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -90,6 +93,7 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
       const nextWordCount = countWords(instance.getText());
       setWordCount(nextWordCount);
       setHardStopMessage(null);
+      durabilityRef.current?.onDocumentChange(tiptapAdapter.fromEngine(instance.getJSON()));
       // Console trace S1-EDITOR-CLIENT-002: local document state changed; only counts are emitted.
       console.log(JSON.stringify({ level: "info", step: "S1-EDITOR-CLIENT-002", event: "editor.local_changed", chapterId: model.chapter.id, wordCount: nextWordCount, characterCount: instance.state.doc.textContent.length }));
     },
@@ -118,6 +122,19 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
     }
   });
 
+  const durability = useDurableChapter({
+    chapterId: model.chapter.id,
+    initialDocument: model.chapter.document,
+    initialVersion: model.chapter.version,
+    applyDocument: (document) => {
+      editor?.commands.setContent(tiptapAdapter.toEngine(document), { emitUpdate: false });
+      setWordCount(deriveChapterText(document).wordCount);
+    }
+  });
+  useEffect(() => {
+    durabilityRef.current = durability;
+  }, [durability]);
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "f") {
@@ -128,6 +145,10 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
           console.log(JSON.stringify({ level: "info", step: "S1-EDITOR-CLIENT-006", event: "editor.focus_keyboard_toggled", chapterId: model.chapter.id, enabled: next }));
           return next;
         });
+      }
+      if ((event.metaKey || event.ctrlKey) && !event.shiftKey && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        void durabilityRef.current?.checkpoint();
       }
       if (event.key === "Escape" && focusMode) {
         setFocusMode(false);
@@ -167,13 +188,32 @@ export function ChapterEditor({ model }: { model: ChapterEditorReadModel }) {
         <button onClick={() => editor?.chain().focus().toggleItalic().run()} aria-pressed={editor?.isActive("italic")}>Italic</button>
         <button onClick={() => editor?.chain().focus().undo().run()}>Undo</button>
         <button onClick={() => editor?.chain().focus().redo().run()}>Redo</button>
+        <button onClick={() => void durability.checkpoint()}>Checkpoint</button>
       </div>
       <EditorContent editor={editor} />
       {hardStopMessage ? <p className="editor-limit" role="alert">{hardStopMessage}</p> : null}
+      {durability.conflict ? (
+        <section className="conflict-banner" aria-labelledby="conflict-title">
+          <h2 id="conflict-title">Two versions need your choice</h2>
+          <p>Your local draft and the saved version are both preserved.</p>
+          <div className="conflict-actions">
+            <button onClick={() => durability.setCompareOpen(!durability.compareOpen)}>Compare</button>
+            <button onClick={() => void durability.resolveConflict("KEEP_LOCAL")}>Keep local as new version</button>
+            <button onClick={() => void durability.resolveConflict("KEEP_SERVER")}>Keep server</button>
+            <button onClick={() => void durability.resolveConflict("DUPLICATE_RECOVERY")}>Duplicate as recovery copy</button>
+          </div>
+          {durability.compareOpen ? (
+            <div className="revision-compare">
+              <article><h3>Local draft</h3><pre>{deriveChapterText(durability.conflict.localDocument).plainText}</pre></article>
+              <article><h3>Saved version</h3><pre>{deriveChapterText(durability.conflict.serverDocument).plainText}</pre></article>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
       <footer className="editor-status" role="status">
         <span>{wordCount} words</span>
         {delta !== null ? <span>{delta >= 0 ? `${delta} remaining` : `${Math.abs(delta)} over target`}</span> : <span>No target</span>}
-        <span>Local draft only</span>
+        <span>Autosave on</span>
       </footer>
     </div>
   );

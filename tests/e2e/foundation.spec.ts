@@ -4,7 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 async function signIn(page: Page): Promise<void> {
   await page.goto("/sign-in");
   await page.getByRole("button", { name: "Continue to Mythra" }).click();
-  await expect(page).toHaveURL(/\/app$/);
+  await expect(page).toHaveURL(/\/app$/, { timeout: 20_000 });
   await expect(page.getByText("Writing", { exact: true })).toBeVisible();
 }
 

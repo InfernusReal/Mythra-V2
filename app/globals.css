@@ -135,6 +135,15 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .editor-prose p, .editor-prose h1, .editor-prose h2, .editor-prose h3 { max-width: 72ch; margin-inline: auto; }
 .editor-status { justify-content: space-between; border-top: 1px solid var(--border); padding: 10px 0; color: var(--text-muted); font-size: .8125rem; }
 .editor-limit { margin: 0; padding: 8px 0; font-size: .875rem; }
+.conflict-banner { margin: 12px 0; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); }
+.conflict-banner h2 { margin: 0 0 6px; font-size: 1rem; }
+.conflict-banner p { color: var(--text-muted); }
+.conflict-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.conflict-actions button { padding: 6px 10px; color: var(--text); border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+.revision-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.revision-compare article { min-width: 0; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+.revision-compare h3 { margin: 0 0 8px; font-size: .875rem; }
+.revision-compare pre { max-height: 240px; overflow: auto; white-space: pre-wrap; font: 14px/1.5 var(--editor-font); }
 .focus-mode { position: fixed; inset: 0; z-index: 30; width: auto; padding: 24px max(24px, calc((100vw - 780px)/2)); background: var(--bg); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
@@ -144,10 +153,14 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 }
 @media (max-width: 767px) {
   .app-shell { grid-template: 44px minmax(0, 1fr) 48px / 1fr; }
-  .command-bar { grid-column: 1; }
+  .command-bar { grid-column: 1; padding-inline: 8px; }
+  .command-actions { gap: 6px; }
+  .command-trigger { padding-inline: 6px; }
+  .command-trigger kbd { display: none; }
   .app-rail { grid-row: 3; flex-direction: row; justify-content: center; border-top: 1px solid var(--border); border-right: 0; padding: 6px 12px; }
   .shell-main { padding: 24px; }
-  .save-status, .command-bar > .command-actions > .theme-menu { display: none; }
+  .command-bar > .command-actions > .theme-menu { display: none; }
+  .save-status { max-width: 86px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

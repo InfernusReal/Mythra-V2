@@ -36,6 +36,8 @@ export const errors = {
   rateLimited: () => new AppError("RATE_LIMITED", "Too many requests. Try again shortly.", 429),
   dependencyUnavailable: () =>
     new AppError("DEPENDENCY_UNAVAILABLE", "A supporting service is temporarily unavailable.", 503),
+  retryable: () => new AppError("RETRYABLE", "The operation can be retried safely.", 503),
+  integrity: () => new AppError("INTEGRITY_ERROR", "The request conflicts with stored integrity constraints.", 409),
   internal: () => new AppError("INTERNAL", "The request could not be completed.", 500)
 } as const;
 

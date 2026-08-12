@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { CommandPalette } from "./CommandPalette";
 import { ThemeMenu } from "./ThemeMenu";
+import { SaveIndicator } from "@/components/editor/SaveIndicator";
 
 export function AppShell({ children, saveStatus = "No document open" }: { children: ReactNode; saveStatus?: string }) {
   return (
@@ -8,7 +9,7 @@ export function AppShell({ children, saveStatus = "No document open" }: { childr
       <header className="command-bar">
         <strong className="wordmark">Mythra</strong>
         <div className="command-actions">
-          <span className="save-status" role="status">{saveStatus}</span>
+          <SaveIndicator initialStatus={saveStatus} />
           <CommandPalette />
           <ThemeMenu />
         </div>

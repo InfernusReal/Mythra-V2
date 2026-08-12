@@ -20,6 +20,14 @@ describe("ChapterDocument v1", () => {
     expect(deriveChapterText(normalizeChapterDocument(document)).plainText).toBe("Alias");
   });
 
+  it("preserves the tiny toolbar formatting marks without changing derived prose", () => {
+    const document = emptyChapterDocument();
+    document.content[0]!.content = [{ type: "text", text: "Formatted", marks: [{ type: "bold" }, { type: "italic" }] }];
+    const normalized = normalizeChapterDocument(document);
+    expect(normalized.content[0]!.content?.[0]?.marks).toEqual([{ type: "bold" }, { type: "italic" }]);
+    expect(deriveChapterText(normalized).plainText).toBe("Formatted");
+  });
+
   it("rejects duplicate block IDs and unknown document versions", () => {
     const document = emptyChapterDocument();
     document.content.push({ ...document.content[0]! });

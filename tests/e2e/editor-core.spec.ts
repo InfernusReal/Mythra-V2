@@ -28,9 +28,9 @@ test.describe("Sub-gate 1 project, chapter, and editor core", () => {
     await editor.fill(prose);
     await expect(editor).toContainText(prose);
     await expect(page.getByText("5 words")).toBeVisible();
-    await expect(page.getByText("Local draft only")).toBeVisible();
+    await expect(page.locator(".editor-status")).toContainText("Autosave on");
     await expect(page.getByText("No target")).toBeVisible();
-    await expect(page.getByText("Local draft", { exact: true })).toBeVisible();
+    await expect(page.locator(".command-bar .save-status")).toHaveText(/Saved|Saving/);
 
     await page.waitForTimeout(600);
     await page.getByRole("button", { name: "Bold" }).click();

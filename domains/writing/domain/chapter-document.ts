@@ -5,7 +5,8 @@ const referenceMark = z.object({
   type: z.literal("storyReference"),
   attrs: z.object({ referenceId: z.string().uuid(), referenceType: z.string().min(1).max(80) })
 });
-const textNode = z.object({ type: z.literal("text"), text: z.string(), marks: z.array(referenceMark).optional() });
+const formatMark = z.object({ type: z.enum(["bold", "italic"]) });
+const textNode = z.object({ type: z.literal("text"), text: z.string(), marks: z.array(z.union([referenceMark, formatMark])).optional() });
 const paragraphNode = z.object({
   type: z.enum(["paragraph", "heading"]),
   attrs: z.object({ blockId: z.string().uuid(), level: z.number().int().min(1).max(3).optional() }),
