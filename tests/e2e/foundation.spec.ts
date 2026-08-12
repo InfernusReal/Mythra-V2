@@ -5,7 +5,7 @@ async function signIn(page: Page): Promise<void> {
   await page.goto("/sign-in");
   await page.getByRole("button", { name: "Continue to Mythra" }).click();
   await expect(page).toHaveURL(/\/app$/);
-  await expect(page.getByRole("heading", { name: "Your writing space is ready" })).toBeVisible();
+  await expect(page.getByText("Writing", { exact: true })).toBeVisible();
 }
 
 test.describe("Sub-gate 0 authenticated shell", () => {
@@ -14,7 +14,7 @@ test.describe("Sub-gate 0 authenticated shell", () => {
     const browserErrors: string[] = [];
     page.on("console", (message) => { if (message.type() === "error") browserErrors.push(message.text()); });
     await signIn(page);
-    await expect(page.getByText("Create project")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Write first chapter" })).toBeVisible();
 
     const commandBar = await page.locator(".command-bar").boundingBox();
     const rail = await page.locator(".app-rail").boundingBox();
@@ -58,7 +58,7 @@ test.describe("Sub-gate 0 authenticated shell", () => {
     expect(viewport).not.toBeNull();
     expect(rail).not.toBeNull();
     expect(Math.round(rail!.y + rail!.height)).toBe(viewport!.height);
-    await expect(page.getByRole("heading", { name: "Your writing space is ready" })).toBeVisible();
+    await expect(page.getByText("Writing", { exact: true })).toBeVisible();
     await page.screenshot({ path: "test-results/foundation-mobile.png", fullPage: true });
   });
 });

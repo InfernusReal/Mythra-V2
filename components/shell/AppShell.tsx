@@ -2,13 +2,13 @@ import type { ReactNode } from "react";
 import { CommandPalette } from "./CommandPalette";
 import { ThemeMenu } from "./ThemeMenu";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children, saveStatus = "No document open" }: { children: ReactNode; saveStatus?: string }) {
   return (
     <div className="app-shell">
       <header className="command-bar">
         <strong className="wordmark">Mythra</strong>
         <div className="command-actions">
-          <span className="save-status" role="status">No document open</span>
+          <span className="save-status" role="status">{saveStatus}</span>
           <CommandPalette />
           <ThemeMenu />
         </div>

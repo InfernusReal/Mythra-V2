@@ -113,6 +113,29 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .sign-in-card { width: min(100%, 440px); padding: 32px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
 .primary-action { width: 100%; min-height: 44px; margin-top: 20px; border: 0; border-radius: 8px; color: white; background: var(--accent); font-weight: 700; }
 .settings-panel { width: min(100%, 680px); }
+.project-create { display: grid; gap: 16px; max-width: 420px; margin-top: 24px; }
+.project-summary, .new-project { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.project-summary h2, .new-project h2 { margin: 0 0 8px; }
+.project-create label { display: grid; gap: 8px; font-weight: 650; }
+.project-create input { min-height: 44px; padding: 8px 12px; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.form-error, .editor-limit { color: var(--danger); }
+.primary-link { display: inline-block; color: var(--accent); font-weight: 700; }
+.editor-layout { width: min(100%, 780px); min-height: calc(100vh - 128px); display: grid; grid-template-rows: auto auto auto 1fr auto; align-self: stretch; }
+.editor-header, .editor-toolbar, .editor-status { display: flex; align-items: center; gap: 10px; }
+.editor-header { justify-content: space-between; padding-bottom: 12px; }
+.editor-header nav { display: flex; min-width: 0; gap: 8px; overflow: hidden; color: var(--text-muted); font-size: .875rem; white-space: nowrap; }
+.editor-header nav a { overflow: hidden; text-overflow: ellipsis; }
+.editor-header a { color: inherit; }
+.chapter-switcher { display: flex; justify-content: space-between; padding: 6px 0; color: var(--text-muted); font-size: .75rem; }
+.chapter-switcher a { color: var(--accent); }
+.editor-toolbar { border-block: 1px solid var(--border); padding: 6px 0; }
+.editor-toolbar button, .editor-header button { color: var(--text); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 5px 8px; }
+.editor-toolbar button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.editor-prose { min-height: 60vh; padding: 36px 0; font: 18px/1.62 var(--editor-font); outline: none; }
+.editor-prose p, .editor-prose h1, .editor-prose h2, .editor-prose h3 { max-width: 72ch; margin-inline: auto; }
+.editor-status { justify-content: space-between; border-top: 1px solid var(--border); padding: 10px 0; color: var(--text-muted); font-size: .8125rem; }
+.editor-limit { margin: 0; padding: 8px 0; font-size: .875rem; }
+.focus-mode { position: fixed; inset: 0; z-index: 30; width: auto; padding: 24px max(24px, calc((100vw - 780px)/2)); background: var(--bg); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 @media (max-width: 1279px) {
