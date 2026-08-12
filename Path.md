@@ -752,7 +752,7 @@ No in-scope gap remains. `WorkPlan.md` required no textual correction because th
 | Check | Final result |
 | --- | --- |
 | lint/typecheck | Pass: zero-warning ESLint and strict `tsc --noEmit` |
-| coverage | Pass: 19 files, 55 tests; 89.23% statements, 76.82% branches, 85.93% functions, 92.46% lines |
+| coverage | Pass after CI correction: 19 files, 55 tests; 88.54% statements, 76.47% branches, 85.15% functions, 91.61% lines |
 | stress | Pass: 2 files/4 tests including 10,000-block document and concurrent boundaries |
 | final full E2E | Pass: 36 entries, 20 applicable passes, 16 explicit cross-device de-duplication skips, zero failures |
 | production build | Pass: compile/type/page/static generation; all S0-S3 routes plus `/api/v2/preferences/theme` emitted |
@@ -815,6 +815,22 @@ Final source has **47 direct `console.log` calls** (including the structured tra
 - `becauseItems[]`, `consequenceItems[]`, ruled Semantic Zoom order and USD 15 Core/USD 25 future Intelligence remain unaltered plan contracts.
 
 **Phase result: PASS - Phase 1 Trusted Writing Foundation is complete.** S0-S3 and the macro exit gate are implemented, tested, audited and remotely backed; no in-scope compliance gap remains. The content rollback point is S3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`; audit repairs are `0a98d61338cc941764122165afffd324851be0d3`. This ledger entry is committed/pushed next; its own SHA cannot be embedded in itself, so the final response and remote HEAD verification record it. Sub-gate 4 remains locked until that push is verified.
+
+### 8.10 Post-audit CI correction and evidence reconciliation
+
+The initial Phase 1 macro ledger was pushed as `b71a7b08bd7fe97f3fb62902cc39c5406265eb87`. The next GitHub Actions run disproved one statement in section 8.6: the coverage result quoted there came from the audit-repair state before the last `usePathname` guard change. This section is an explicit correction; it does not erase the failed evidence.
+
+| Event | Evidence | Classification and action |
+| --- | --- | --- |
+| GitHub coverage failure on the audit branch | 18/19 files and 52/55 tests passed; all three `tests/component/shell.test.tsx` cases failed at `ThemeProvider.tsx` because the routerless test environment returned `null` from `usePathname()` and code invoked `pathname.startsWith` | **Gap.** The Phase 1 PASS and prior 89.23/76.82/85.93/92.46 coverage figures became unsupported pending repair. |
+| Nullable pathname repair | `ThemeProvider` now uses `if (!pathname?.startsWith("/app")) return;`; commit `88861d08d07ba1c53be5c4add4141d3a1c096a38`, pushed and remotely SHA-verified | **Verified repair.** The authenticated preference request remains restricted to `/app`; null/non-app contexts retain local prepaint behavior without requesting the endpoint. |
+| Exact local coverage rerun | `npm.cmd run test:coverage`: 19/19 files and 55/55 tests passed; statements 88.54%, branches 76.47%, functions 85.15%, lines 91.61% | **Verified.** These are the authoritative final coverage values and replace the premature values above. |
+| Local regression after nullable repair | lint and strict typecheck passed; stress 2 files/4 tests; full Playwright 36 entries with 20 applicable passes/16 intentional device-scope skips; production/OIDC build passed | **Verified.** No S0-S3 regression. |
+| First remote rerun after code repair | GitHub Actions run `31612142657`: dependency install, Prisma generation, lint, typecheck and coverage all passed; build failed because CI configured `AUTH_MODE=development` while `next build` correctly set production mode | **CI configuration gap, not application regression.** Security invariant remained intact; development auth was not allowed in production. |
+| CI production-auth repair | `.github/workflows/ci.yml` now builds with `AUTH_MODE=oidc`, complete issuer/audience/JWKS variables, HTTPS origin and deployment-form SSL URL; commit `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`, pushed and remotely SHA-verified | **Verified repair.** The workflow tests the deployment security posture instead of weakening `lib/env.ts`. |
+| Final remote verification | GitHub Actions run `31612422399`, job `94166827455`, head SHA `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`: all steps passed in 1m38s, including `npm ci`, `db:generate`, lint, typecheck, coverage and build | **PASS.** Remote CI is green. The action runner emitted a nonblocking Node 20 action-runtime deprecation annotation for `actions/checkout@v4` and `actions/setup-node@v4`; it did not fail or skip any step and is recorded for later workflow-maintenance ownership. |
+
+The corrected determination is **PASS** only after commits `88861d08d07ba1c53be5c4add4141d3a1c096a38` and `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe` and successful remote run `31612422399`. No application test, build step, or Phase 1 gate remains failed. This reconciliation entry is committed and pushed separately; its own remote CI run is checked before handoff.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
