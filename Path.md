@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 technical pass; evidence closure in progress** | Entry S4 below | S4 content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; CI run `31623924571`, job `94205355140`, passed; ledger remote check pending |
+| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 passed; Sub-gate 5 pre-code plan in progress** | Entries S4–S5 below | S4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -48,8 +48,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content `0883070a6ba7cc04c285c1adce3652107a5d1511` and evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` pushed/remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
-| 4 | Structure Core | 2 | **Technical pass; evidence closure in progress** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; CI `31623924571`/`94205355140` passed; ledger remote check pending |
-| 5 | Milestones | 2 | Locked; not started | Sub-gate 4 evidence-ledger commit and remote CI required | Entry S5 required before code | No S5 application code |
+| 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
+| 5 | Milestones | 2 | **In progress — pre-code plan only** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Planning commit pending; no S5 application code |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-The next product capability is Sub-gate 5, but it remains locked until this S4 evidence-ledger update is committed, pushed, and remotely verified. Sub-gates 0–3 are closed; S4 has a technical pass with evidence closure in progress; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
+The current eligible product capability is Sub-gate 5. Sub-gates 0–4 are closed; S5 is limited to this pre-code plan until its ledger commit is pushed and remotely verified; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -1116,7 +1116,58 @@ Doctrine audit answers: no new path makes structure/scenes/intent/reference mand
 - **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR `#1` remains the review surface.
 - **Remote verification:** GitHub Actions run `31623924571`, job `94205355140`, exact head SHA `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`, passed all steps in 2m1s.
 - **Content rollback/revert point:** predecessor evidence `543fe83345d1ec2066a21010046e9a6025175c2e`; S4 plan-only point `abcd402382aa1c8f391a68276c8a0330b06d9d29`; database-only reversal is the reviewed S4 rollback SQL and was proven independently.
-- **Evidence-ledger commit:** pending this update; its hash, push and remote run are recorded in the S5 predecessor proof after successful remote verification because a commit cannot contain its own hash.
+- **Evidence-ledger commit:** `ab766a8663a27aaf22a151067f65cd6a52fe37a3` (`Record Structure Core evidence`), pushed and remotely verified by GitHub Actions run `31624497993`, job `94207285676`; all CI steps passed in 1m58s. This is the immutable S5 predecessor proof.
+
+## 10. Entry S5 — Milestones
+
+### 10.1 Run identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; recorded before any S5 migration, domain, route, component or test file.
+- **Work-plan phase:** Phase 2 — Progressive and Causal Story Core.
+- **Mandatory Sub-gate:** 5 — Milestones.
+- **Predecessor evidence:** S4 plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`, content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`, evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; GitHub Actions run `31624497993`, job `94207285676`, passed. S5 is eligible.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `ab766a8663a27aaf22a151067f65cd6a52fe37a3`.
+- **Bible/WorkPlan scope:** Bible sections 3.3–3.5, 5, 10, 12.1/12.5, 16–18, 20, 26, 31, 33, 35 and appendices B/C; WorkPlan 6.1 Milestones, shared API/durability seams and 6.4 writing-flow gate.
+- **Capability boundary:** only `Milestone`, `ChapterMilestoneLink`, `MilestoneDependency`, milestone progress/scaffold additions, Milestones lens, cross-cutting semantic coordinate and Narrative Intent target registration. `StoryChange`, `CausalRelation`, causal endpoints/traversal/lens remain S6 and are prohibited here.
+
+### 10.2 Plan before code
+
+1. Add project-owned `Milestone` with stable identity, kind/thread label, order, optional chapter target range, optional soft target date/cadence projection, advisory target words, status, version and archive state.
+2. Add many-to-many `ChapterMilestoneLink` with semantic role exactly `introduce`, `develop`, `escalate`, `turn`, `resolve`, or custom; store custom role label only for custom, nonnegative weight, project ownership and stable identity. A Milestone never owns a Chapter.
+3. Add directed `MilestoneDependency` with same-project endpoints, active/tentative/retired state, optional note, version, self-edge rejection, duplicate-active idempotency and hard-dependency cycle detection. Dependency edges are planning prerequisites, not the generalized S6 causal fabric.
+4. Derive progress from linked chapter completion/word state and weight; do not store progress as canonical truth. Ordered/range view is default; dependency graph is optional and bounded; chapter matrix exposes roles/weights without changing chapter ownership.
+5. Extend the S4 deterministic scaffold with explicit milestone placeholders, target ranges, cadence-derived soft dates and advisory milestone allocation. Preview remains separate from apply; rebalance never invents creative milestone names beyond deterministic placeholders and never mutates prose.
+6. Register `MILESTONE` as an active Narrative Intent and non-causal reference endpoint only after persistence and ownership validation exist. Extend Semantic Coordinate with Milestone/Thread as a cross-cutting relevance step, not an ancestor/parent.
+7. Register the Milestones lens in the existing shell. Preserve S4 lenses and view state. Provide accessible ordered/range view, optional bounded dependency view, chapter matrix, inline create/edit/link/dependency operations and previewed milestone scaffold/rebalance.
+8. Every canonical write must atomically advance `Project.structuralVersion`, write a full `ObjectRevision` and emit content-free outbox invalidation. List/progress/dependency reads remain project-owned and page/node/edge bounded.
+9. Add adjacent `Console trace S5-*` comments/logs for service, route, UI, scaffold, dependency, projection and DB transitions. Metadata is limited to IDs, roles, states, counts, dates-as-presence, weights and versions; titles, custom labels, notes and author text are excluded.
+
+### 10.3 Planned files and verification
+
+| Area | Planned change | Required proof |
+| --- | --- | --- |
+| `prisma/schema.prisma`, `prisma/migrations/20260812*_milestones/{migration,rollback}.sql` | Add milestone/link/dependency enums, tables, constraints and indexes; extend endpoint/intent enums safely | Forward/rollback/forward preserves S4 and prose; same-project constraints and active duplicate guard pass. |
+| `domains/milestones/domain/*` | Schemas, role/range/progress/allocation/cycle invariants | Property tests for normalized ranges, weighted progress, duplicate/cycle handling and deterministic allocation. |
+| `domains/milestones/application/*`, `infrastructure/*`, runtime/HTTP | Commands, bounded projection, ownership-scoped transactions, revisions/outbox | Service and real DB tests for cross-workspace/project denial, stale version, idempotency and concurrency. |
+| S4 structure/reference/semantic-coordinate seams | Activate Milestone endpoint/intent adapter and cross-cutting coordinate only after canonical persistence | Tests prove it is relevance/dependency, never ownership containment. |
+| `/api/v2/projects/[id]/milestones/**` | CRUD, link, dependency, progress, scaffold preview/apply | Strict envelopes, expected version, preview token and bounds. |
+| `components/milestones/*`, existing Structure shell/lens nav | Ordered range, dependency alternative, chapter matrix, scaffold preview and inline operations | Keyboard/axe/mobile/Dark tests; zero-milestone project has no blocking dashboard. |
+| docs/scripts/tests/package commands | Semantics/API/migration docs, real DB verify/rollback, unit/service/component/stress/E2E | Full frozen coverage/build plus S5 writing flow and exact editor return. |
+
+### 10.4 Pre-code conformance and gate lock
+
+| Requirement | Planned evidence | Current classification |
+| --- | --- | --- |
+| Many-to-many role-based milestones, no ownership | Link table/composite FKs/domain tests/matrix | Planned; exact. |
+| Ordered/range default plus optional dependency graph | Bounded projection and accessible view selector | Planned; exact. |
+| Target ranges, cadence soft dates, advisory allocation/progress | Pure projection/scaffold with preview apply | Planned; exact. |
+| Milestone Narrative Intent and semantic coordinate | Active adapter after persistence; cross-cutting path step | Planned; exact. |
+| Version/outbox/revision and bounded APIs | Transaction repository and real DB counters | Planned; exact. |
+| No S6 causality | Schema/route/component absence audit | Planned boundary; mandatory. |
+
+- **Application state:** unchanged from S4 evidence baseline; no S5 product file exists.
+- **Gate state:** S5 coding remains locked until this pre-code entry is committed, pushed and remotely verified. S6 remains locked until the complete S5 content and evidence chain is remotely verified.
+- **Intended pre-code commit scope:** `Path.md` only.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
