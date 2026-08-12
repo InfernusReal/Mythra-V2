@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit complete** | Entries S0, S1, S2, S3, and Phase 1 macro audit below | All four sub-gates, audit repairs, and their evidence are pushed/remotely verified; macro-ledger commit is pushed immediately after this entry |
+| 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -44,11 +44,11 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 
 | Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
-| 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
+| 0 | Foundation | 1 | Passed | None | Entry S0 | Content `8459d6601885e019c56f1c3d757c1d4f5645f618` and evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` pushed/remotely verified |
+| 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content `0883070a6ba7cc04c285c1adce3652107a5d1511` and evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` pushed/remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
-| 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
+| 4 | Structure Core | 2 | Eligible; not started | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | — | No S4 code or pre-code ledger exists |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-The first eligible product capability is Sub-gate 0. Every later row is locked until its predecessor's Pathway entry and remote commit are verified.
+The current eligible product capability is Sub-gate 4. Sub-gates 0–3 are complete; every row after Sub-gate 4 remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -190,7 +190,7 @@ Doctrine questions for Sub-gate 0 all resolve safely: no structure/scenes/world/
 - **Content commit:** `8459d6601885e019c56f1c3d757c1d4f5645f618` — `Implement Sub-gate 0 foundation`.
 - **Push:** `agent/workplan-subgates-audit` advanced from `eee9cf7` to `8459d66` on `https://github.com/InfernusReal/Mythra-V2.git`.
 - **Remote verification:** local `HEAD` and `refs/heads/agent/workplan-subgates-audit` both resolved to `8459d6601885e019c56f1c3d757c1d4f5645f618` immediately after push.
-- **Evidence-ledger commit:** this immutable evidence update is committed and pushed separately; its hash is recorded in the next entry because a commit cannot contain its own hash.
+- **Evidence-ledger commit:** `d0421ab61964aa406f6664f7e92bf156c67b463c` (`Record Sub-gate 0 evidence`), pushed and remotely verified; the next entry records it as S1's predecessor proof.
 - **Rollback/revert point:** baseline `eee9cf73d9eef893a7f27190a57ca84047a35cc0` until the content commit exists.
 
 ## 5. Entry S1 — Project + Chapter + Editor Core
@@ -358,7 +358,7 @@ Doctrine answers: no structure, scene, world, Capture, filing, milestone, causal
 - **Remote verification:** local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both returned `0883070a6ba7cc04c285c1adce3652107a5d1511` immediately after push.
 - **Remote URL:** `https://github.com/InfernusReal/Mythra-V2.git`; existing draft PR #1 tracks this branch.
 - **Rollback/revert point:** Sub-gate 0 evidence commit `d0421ab61964aa406f6664f7e92bf156c67b463c`; SQL rollback is `prisma/migrations/20260812170000_editor_core/rollback.sql` after preserving any user chapters.
-- **Evidence-ledger commit:** this `Path.md` update is committed/pushed next; its hash is reported in the next entry/final handoff because a commit cannot contain its own hash.
+- **Evidence-ledger commit:** `bee0dae6b77faa59d33f6ecf2a425afcec847243` (`Record Sub-gate 1 evidence`), pushed and remotely verified; the S2 entry records it as predecessor proof.
 
 ## 6. Entry S2 — Durability
 
@@ -497,7 +497,7 @@ The final implementation has no unresolved WorkPlan deviation. Audit iterations 
 8. Mobile initially hid status and then clipped Commands; compact CSS now keeps both visible, confirmed by isolated mobile E2E and visual inspection.
 9. A conflict comparison assertion was globally ambiguous; the test now scopes it to the comparison panel without changing behavior.
 
-`WorkPlan.md` required no correction. Remaining work is Sub-gate 3 only and remains locked until this evidence commit is pushed and remotely verified.
+`WorkPlan.md` required no correction. At this entry's point in time only Sub-gate 3 remained in Phase 1; sections 7 and 8 now record its completion and the macro pass.
 
 ### 6.10 Gate and Git evidence
 
@@ -510,7 +510,7 @@ The final implementation has no unresolved WorkPlan deviation. Audit iterations 
 - **Remote verification:** local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both returned `674ff4895a0cab50f8b6f30fbe800bbc97e52568` immediately after push.
 - **Remote URL/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks this branch.
 - **Rollback/revert point:** S1 evidence commit `bee0dae6b77faa59d33f6ecf2a425afcec847243`; SQL rollback is `prisma/migrations/20260812190000_durability/rollback.sql` after preserving user drafts/revisions/conflicts.
-- **Evidence-ledger commit:** this entry is committed, pushed, and remotely verified next. Its own hash is recorded in the S3 pre-code entry and final handoff because a commit cannot contain itself.
+- **Evidence-ledger commit:** `8e011bef6409656e5a1c443355b3ccf35dd5462d` (`Record Sub-gate 2 evidence`), pushed and remotely verified; the S3 pre-code entry records it as predecessor proof.
 
 ## 7. Entry S3 — Continuation
 
@@ -654,11 +654,11 @@ No unresolved WorkPlan deviation remains. Audit iterations found and repaired:
 9. The first restore assertion could observe initial hydration instead of return hydration; it now requires the restore trace count to increase after Continue Writing.
 10. Theme bootstrap placement produced a client-navigation development warning; the existing `beforeInteractive` script remains but is hosted in body according to Next layout behavior.
 
-`WorkPlan.md` required no correction. Phase 1 macro status remains pending until this S3 evidence commit is remotely verified and the separate full Phase 1 audit passes.
+`WorkPlan.md` required no correction. This sentence records the state at the time of the S3 gate; it is superseded by the completed Phase 1 macro audit and CI reconciliation in section 8.
 
 ### 7.11 Gate and Git evidence
 
-- **Gate result:** **PASS — Sub-gate 3 continuation is implemented and verified.** Phase 1 is not yet declared complete until the separate macro audit is committed/pushed.
+- **Gate result:** **PASS — Sub-gate 3 continuation is implemented and verified.** At this entry's point in time Phase 1 awaited its macro audit; section 8 now records the completed macro audit and final remote CI.
 - **Branch:** `agent/workplan-subgates-audit`.
 - **Pre-code ledger commit:** `43cc745f14be578c99baa19bc56944d9edfea1a8` — `Plan Sub-gate 3 continuation`, pushed and remotely verified before S3 code.
 - **Content commit:** `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` — `Implement Sub-gate 3 continuation`.
@@ -666,7 +666,7 @@ No unresolved WorkPlan deviation remains. Audit iterations found and repaired:
 - **Push/remote verification:** remote advanced `43cc745..dd27be8`; local and `git ls-remote` both returned `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61`.
 - **Remote/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks the branch.
 - **Rollback/revert point:** S2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d`; SQL rollback is `prisma/migrations/20260812210000_continuation/rollback.sql` after exporting metadata if required.
-- **Evidence-ledger commit:** this entry is committed/pushed next; its hash is recorded in the Phase 1 audit because a commit cannot contain its own hash.
+- **Evidence-ledger commit:** `d98b27a7238d2ec72c5af4e94beef68958e19625` (`Record Sub-gate 3 evidence`), pushed and remotely verified; the later Phase 1 audit records it in the immutable chain.
 
 ## 8. Entry Phase 1 - Trusted Writing Foundation macro conformance audit
 
@@ -688,7 +688,8 @@ The pushed commit order proves the mandatory predecessor chain:
 | S1 Editor Core | `c8b4a0859ea2a53c668a3bf87233156d92cbffa6` | `0883070a6ba7cc04c285c1adce3652107a5d1511` | `bee0dae6b77faa59d33f6ecf2a425afcec847243` | S0 evidence predates S1 plan/content |
 | S2 Durability | `60ed5d3d03130ba508fb7c42809a985a71b54dfb` | `674ff4895a0cab50f8b6f30fbe800bbc97e52568` | `8e011bef6409656e5a1c443355b3ccf35dd5462d` | S1 evidence predates S2 plan/content |
 | S3 Continuation | `43cc745f14be578c99baa19bc56944d9edfea1a8` | `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` | `d98b27a7238d2ec72c5af4e94beef68958e19625` | S2 evidence predates S3 plan/content |
-| Phase 1 repair | macro audit followed S3 evidence | `0a98d61338cc941764122165afffd324851be0d3` | this entry | repairs only Phase 1 requirements |
+| Phase 1 audit repair | macro audit followed S3 evidence | `0a98d61338cc941764122165afffd324851be0d3` | Macro ledger `b71a7b08bd7fe97f3fb62902cc39c5406265eb87` | repaired only Phase 1 requirements |
+| Post-audit CI reconciliation | macro ledger exposed the final component/CI gaps | Code `88861d08d07ba1c53be5c4add4141d3a1c096a38`; workflow `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe` | Final correction ledger `543fe83345d1ec2066a21010046e9a6025175c2e`; CI `31612678269` | all remote checks passed before S4 eligibility |
 
 ### 8.2 Completed scope side by side with WorkPlan section 5.1
 
@@ -814,7 +815,7 @@ Final source has **47 direct `console.log` calls** (including the structured tra
 - No AI, future endpoint/provider, directive, Semantic Zoom, pricing/entitlement or non-V2 capability was activated.
 - `becauseItems[]`, `consequenceItems[]`, ruled Semantic Zoom order and USD 15 Core/USD 25 future Intelligence remain unaltered plan contracts.
 
-**Phase result: PASS - Phase 1 Trusted Writing Foundation is complete.** S0-S3 and the macro exit gate are implemented, tested, audited and remotely backed; no in-scope compliance gap remains. The content rollback point is S3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`; audit repairs are `0a98d61338cc941764122165afffd324851be0d3`. This ledger entry is committed/pushed next; its own SHA cannot be embedded in itself, so the final response and remote HEAD verification record it. Sub-gate 4 remains locked until that push is verified.
+**Phase result: PASS - Phase 1 Trusted Writing Foundation is complete.** S0-S3 and the macro exit gate are implemented, tested, audited and remotely backed; no in-scope compliance gap remains. The content rollback point is S3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`; audit repair is `0a98d61338cc941764122165afffd324851be0d3`; the macro ledger is `b71a7b08bd7fe97f3fb62902cc39c5406265eb87`. Section 8.10 records the post-audit code, CI configuration, final ledger, and successful CI evidence. Sub-gate 4 is eligible but has not started.
 
 ### 8.10 Post-audit CI correction and evidence reconciliation
 
@@ -829,8 +830,9 @@ The initial Phase 1 macro ledger was pushed as `b71a7b08bd7fe97f3fb62902cc39c540
 | First remote rerun after code repair | GitHub Actions run `31612142657`: dependency install, Prisma generation, lint, typecheck and coverage all passed; build failed because CI configured `AUTH_MODE=development` while `next build` correctly set production mode | **CI configuration gap, not application regression.** Security invariant remained intact; development auth was not allowed in production. |
 | CI production-auth repair | `.github/workflows/ci.yml` now builds with `AUTH_MODE=oidc`, complete issuer/audience/JWKS variables, HTTPS origin and deployment-form SSL URL; commit `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`, pushed and remotely SHA-verified | **Verified repair.** The workflow tests the deployment security posture instead of weakening `lib/env.ts`. |
 | Final remote verification | GitHub Actions run `31612422399`, job `94166827455`, head SHA `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`: all steps passed in 1m38s, including `npm ci`, `db:generate`, lint, typecheck, coverage and build | **PASS.** Remote CI is green. The action runner emitted a nonblocking Node 20 action-runtime deprecation annotation for `actions/checkout@v4` and `actions/setup-node@v4`; it did not fail or skip any step and is recorded for later workflow-maintenance ownership. |
+| Final correction ledger and remote recheck | `Path.md` correction commit `543fe83345d1ec2066a21010046e9a6025175c2e`; GitHub Actions run `31612678269`, job `94167700949`: all install, generation, lint, typecheck, 55-test coverage and build steps passed in 1m20s | **PASS.** Canonical dashboard and correction evidence are remotely verified at the same green branch state. |
 
-The corrected determination is **PASS** only after commits `88861d08d07ba1c53be5c4add4141d3a1c096a38` and `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe` and successful remote run `31612422399`. No application test, build step, or Phase 1 gate remains failed. This reconciliation entry is committed and pushed separately; its own remote CI run is checked before handoff.
+The corrected determination is **PASS** only after commits `88861d08d07ba1c53be5c4add4141d3a1c096a38` and `095524d56fa2b5fe2d83c44bd4bfb5f48b901cbe`, correction ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and successful final remote run `31612678269`. No application test, build step, or Phase 1 gate remains failed.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
@@ -997,7 +999,7 @@ None. The repository had no application baseline and this run is limited to stud
 | Semantic coordinate is unambiguous | Verified locally | One ruled ladder, outline IDs, cross-cutting milestone semantics, optional-skip behavior, and coordinate tests are specified. |
 | Pricing cannot regress to two non-AI tiers | Verified locally | Core/Intelligence erratum, anti-goal, ADR requirement, billing scope, metrics, exit gate, and coverage matrix agree. |
 | E2E/visual section references are exact | Verified locally | E2Es cite 31.2; visual regression cites 31.3 separately. |
-| Product implementation status remains honest | Verified locally | Every capability row remains `Not started`; this entry records documentation only. |
+| Product implementation status remained honest at P1 audit time | Verified historically | At that planning-audit commit every capability row was `Not started`; the canonical dashboard in section 3 now supersedes that point-in-time status and records S0–S3/Phase 1 complete. |
 
 ### 5.6 Validation and contradiction audit
 
