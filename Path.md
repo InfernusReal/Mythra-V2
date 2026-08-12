@@ -46,7 +46,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
-| 2 | Durability | 1 | Not started; eligible after S1 evidence push | Sub-gate 1 content `0883070a6ba7cc04c285c1adce3652107a5d1511` verified | — | — |
+| 2 | Durability | 1 | Planned; code not started | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Pre-code ledger push pending |
 | 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
@@ -359,6 +359,36 @@ Doctrine answers: no structure, scene, world, Capture, filing, milestone, causal
 - **Remote URL:** `https://github.com/InfernusReal/Mythra-V2.git`; existing draft PR #1 tracks this branch.
 - **Rollback/revert point:** Sub-gate 0 evidence commit `d0421ab61964aa406f6664f7e92bf156c67b463c`; SQL rollback is `prisma/migrations/20260812170000_editor_core/rollback.sql` after preserving any user chapters.
 - **Evidence-ledger commit:** this `Path.md` update is committed/pushed next; its hash is reported in the next entry/final handoff because a commit cannot contain its own hash.
+
+## 6. Entry S2 — Durability
+
+### 6.1 Pre-code identity and authorization
+
+- **Date/time and timezone:** 12 August 2026, Asia/Karachi; recorded before Sub-gate 2 product code.
+- **Work-plan phase:** Phase 1 — Trusted Writing Foundation.
+- **Mandatory Sub-gate:** 2 — Durability.
+- **Predecessor proof:** Sub-gate 1 content commit `0883070a6ba7cc04c285c1adce3652107a5d1511`; evidence commit and remote branch head `bee0dae6b77faa59d33f6ecf2a425afcec847243`, verified with `git ls-remote`.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `bee0dae6b77faa59d33f6ecf2a425afcec847243`.
+- **Bible scope:** sections 8.2–8.3, 17.1/17.6, 18.2–18.4, 19.1–19.3, 20, 23–26, 29, 31–36; roadmap Phase 2/Durability and Appendix B document rules.
+- **Authorized capability:** local IndexedDB journal, optimistic autosave with `baseVersion`/`clientSaveId`, idempotency, explicit checkpoint revisions, conflict variants, recovery copy, truthful save-state UI, and failure recovery.
+- **Explicit exclusions:** no continuation Project Home/session cursor/scroll restoration (Sub-gate 3), structure, context, Capture, or later-domain capability.
+
+### 6.2 Plan before code
+
+- Add independently reversible `ChapterRevision`, `DraftConflict`, and save-idempotency persistence with workspace-indirect ownership, monotonic versions, unique retry keys, checkpoint labels/reasons, and both local/server conflict variants.
+- Define save/checkpoint/conflict transport schemas and state-machine types before routes. Server writes must derive `bodyText`/`wordCount` from validated `ChapterDocument`; clients never submit authoritative derived values.
+- Implement `PUT /api/v2/chapters/{id}/draft`, checkpoint, conflict-resolution, and recovery-copy operations through services/repositories and the stable envelope/error contract.
+- Implement a chapter-scoped IndexedDB journal with debounced writes, pending save IDs, version, selection/scroll seam, bounded retention, and content-safe metadata logging. Local state remains authoritative until server acknowledgment.
+- Implement states `CLEAN`, `DIRTY_LOCAL`, `SAVING`, `OFFLINE_DIRTY`, `CONFLICT`, and `RECOVERABLE_LOCAL`; never silently last-write-wins. Offer Compare, Keep Local as New Version, Keep Server, and Duplicate as Recovery Copy.
+- Activate `Ctrl/Cmd+S` only when checkpoint behavior is real. Preserve Focus mode and command-palette operation while journal/autosave remains mounted.
+- Add adjacent `Console trace S2-*` comments/log calls at every durability transition and boundary; never log document/prose/selection/clipboard values.
+- Verify reload, close-before-ack journal survival, offline/network failure/retry, duplicate retry idempotency, two-device version conflict, all four conflict actions, checkpoint revision semantics, ownership, rollback/forward, Unicode/IME, large document, and content redaction.
+
+### 6.3 Pre-code status
+
+- **Code status:** not started when this entry was written.
+- **Gate state:** eligible but locked until this pre-code entry is committed, pushed, and remotely verified.
+- **Planned Git boundary:** separate Sub-gate 2 content commit and evidence-ledger commit after the never-lose-text gate and conformance audit pass.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
