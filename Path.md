@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gate 0 passed | Entry S0 below | Sub-gate 0 pushed and remotely verified; Sub-gate 1 eligible |
+| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–1 passed | Entries S0 and S1 below | Sub-gates 0–1 pushed and remotely verified; Sub-gate 2 eligible |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -45,8 +45,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Sub-gate | Capability | Delivery phase | Status | Predecessor evidence | Pathway entry | Remote evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
-| 1 | Project + Chapter + Editor Core | 1 | Planned; code not started | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Pre-code ledger push pending |
-| 2 | Durability | 1 | Not started | Sub-gate 1 required | — | — |
+| 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
+| 2 | Durability | 1 | Not started; eligible after S1 evidence push | Sub-gate 1 content `0883070a6ba7cc04c285c1adce3652107a5d1511` verified | — | — |
 | 3 | Continuation | 1 | Not started | Sub-gate 2 required | — | — |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
@@ -221,6 +221,144 @@ Doctrine questions for Sub-gate 0 all resolve safely: no structure/scenes/world/
 - **Code status:** not started when this entry was written.
 - **Gate state:** eligible but locked until this entry is committed, pushed, and remotely verified.
 - **Planned Git boundary:** separate Sub-gate 1 content commit and evidence-ledger commit after all gaps are repaired.
+
+### 5.4 Files changed and exact responsibility
+
+| File | Action | Responsibility and WorkPlan mapping |
+| --- | --- | --- |
+| `prisma/schema.prisma` | Modified | Added canonical `Project`/`Chapter`, statuses, workspace ownership, ordering, active chapter, versioned document, derived text/count, advisory target, explicit hard-stop, archive/grace fields, constraints, and indexes for section 5.1 Sub-gate 1. |
+| `prisma/migrations/20260812170000_editor_core/migration.sql` | Created | Independently deployable Project/Chapter forward migration with database checks and ownership/ordering indexes. |
+| `prisma/migrations/20260812170000_editor_core/rollback.sql` | Created | Capability-only rollback; removes Project/Chapter structures without touching Sub-gate 0 identity/audit/outbox state. |
+| `domains/writing/domain/chapter-document.ts` | Created | Versioned `ChapterDocument` v1, UUID `blockId`, invisible `storyReference`, normalization, uniqueness, derived plain text/word count, advisory delta, and opt-in hard-stop calculation. |
+| `domains/writing/domain/document-migrations.ts` | Created | Pure, testable rich-document migration dispatcher; rejects unknown document versions. |
+| `domains/writing/application/ports.ts` | Created | Editor read model and repository interfaces independent from Prisma and Tiptap, including bounded adjacent-chapter IDs. |
+| `domains/writing/application/commands.ts` | Created | Strict transport-independent schemas and orchestration for minimal projects, chapters, project listing, and one-chapter editor reads. |
+| `domains/writing/infrastructure/prisma-writing-repository.ts` | Created | Workspace-scoped persistence, indirect child ownership guards, Project/Chapter transaction, active-chapter assignment, bounded listing, and adjacent navigation queries. |
+| `lib/writing/runtime.ts` | Created | Composition root for repository/service construction. |
+| `lib/editor/adapter.ts` | Created | `MythraEditorAdapter` boundary and validated Tiptap conversion; domain code imports no editor-library types. |
+| `lib/commands/registry.ts` | Created | Central shortcut ownership registry: Sub-gate 0/1 commands active, future checkpoint/outline/milestone/context/Capture commands reserved and hidden. |
+| `app/api/v2/projects/route.ts` | Created | Thin authenticated `POST /api/v2/projects` with stable success/error envelope and title-required validation. |
+| `app/api/v2/projects/[id]/chapters/route.ts` | Created | Thin authenticated chapter create route with optional placement and stable envelopes. |
+| `app/api/v2/chapters/[id]/editor/route.ts` | Created | Authenticated one-chapter editor read endpoint; returns 401/404 envelopes rather than navigation redirects. |
+| `app/app/page.tsx` | Modified | Project home slice with dominant **Write first chapter**, no structural prerequisites, bounded project summaries, and return-to-active-chapter link. |
+| `app/app/chapters/[id]/page.tsx` | Created | Server-owned chapter route that resolves actor and exactly one editor read model. |
+| `components/projects/ProjectCreator.tsx` | Created | Title-first project/chapter flow, factual recoverable error display, content-safe transition trace, and editor navigation. |
+| `components/editor/ChapterEditor.tsx` | Created | ProseMirror-compatible Tiptap editor, stable block extensions, reference mark, local state, tiny toolbar, counts/targets, hard stop, Focus/Escape, breadcrumbs, nearby switching, and content-safe client traces. |
+| `components/shell/AppShell.tsx` | Modified | Allows the editor to report truthful `Local draft` status instead of `No document open`. |
+| `components/shell/CommandPalette.tsx` | Modified | Preserves exact prior focus across keyboard/mouse open-close and adds content-safe lifecycle traces. |
+| `app/globals.css` | Modified | Centered editor geometry, independent editor typography, toolbar/status/breadcrumb/switcher styling, focus mode, error status, and responsive behavior. |
+| `package.json` | Modified | Added explicit editor database verification and rollback commands. No dependency version changed. |
+| `scripts/verify-editor-core-db.ts` | Created | Real PostgreSQL verification for defaults, placement, active chapter, adjacent navigation, indirect read/write ownership, and rollback isolation. |
+| `tests/unit/chapter-document.test.ts` | Created | Unicode, stable IDs, references, document versions, targets, and hard-stop invariants. |
+| `tests/unit/command-registry.test.ts` | Created | Shortcut uniqueness, owner Sub-gates, and hidden future-command enforcement. |
+| `tests/service/writing-service.test.ts` | Created | Title-required/optional-description schema, rejection of premature structural fields, one-read-model delegation, and title redaction. |
+| `tests/stress/chapter-document.stress.test.ts` | Created | 10,000-block validation/derivation budget test. |
+| `tests/e2e/editor-core.spec.ts` | Created | Exact title-to-keystroke flow, Unicode, toolbar/undo preservation, Focus/Escape, command focus, accessibility, content-redacted console, unauthenticated envelope, Dark/mobile visual. |
+| `tests/e2e/foundation.spec.ts` | Modified | Preserved Sub-gate 0 shell/theme/mobile coverage after the legitimate Sub-gate 1 project action became available. |
+
+No lockfile was regenerated because no dependency version changed. Prisma Client generation used the committed schema as input; generated output remains ignored and was reviewed indirectly through typecheck/build and real database execution.
+
+### 5.5 Code and behavior implemented
+
+- **Canonical domain and persistence:** `Project` is workspace-owned and title-required; description is optional. `Chapter` is project-owned with explicit sequence placement, status, schema/version fields, `bodyDocument`, derived `bodyText`/`wordCount`, advisory `targetWords`, disabled-by-default hard stop, archive field, and positive/nonnegative SQL checks. `activeChapterId` points to the most recently created chapter. No Sub-gate 2 tables exist.
+- **Document contract:** the only supported persisted document is `ChapterDocument` schema version 1. Paragraph/heading blocks require unique UUID `blockId` values. Text nodes may contain `storyReference` marks whose IDs/types are metadata; plain-text derivation proves marks do not change visible prose. Unknown versions and duplicate IDs fail before editor use.
+- **Ownership and bounds:** all Project writes include `workspaceId`; chapter creation first resolves `(projectId, workspaceId, ACTIVE)`; editor lookup traverses `Chapter -> Project.workspaceId`; project lists are capped at 50 by the service and 100 by repository defense. The read model loads one chapter plus two adjacent IDs, never a manuscript DOM.
+- **Transaction boundary:** chapter insert and Project `activeChapterId` update occur in one Prisma transaction. Adjacent IDs are selected by ordered, indexed, same-project queries. S1 does not emit outbox events because no downstream derived domain is active.
+- **API contract:** all three S1 endpoints resolve a session actor, return the established envelope, map invalid input to `VALIDATION`, absence/indirect ownership to `NOT_FOUND`, and unauthenticated calls to `UNAUTHENTICATED`. No raw error, document, title, or prose is returned in an error body.
+- **Editor boundary and state:** only `lib/editor/adapter.ts` knows Tiptap JSON. The writing domain consumes `ChapterDocument`. The editor keeps the current document in memory only, labels it `Local draft`, and makes no durability claim. Stable block extensions preserve/create IDs without making references visible.
+- **Writing flow:** Project Home always offers the title field and dominant **Write first chapter**. Successful creation opens `/app/chapters/{id}` and places a writable centered manuscript behind a tiny Bold/Italic/Undo/Redo toolbar. No genre, premise, volume, outline, scene, world, milestone, Capture, or causal setup is required.
+- **Targets and limits:** word count and target delta are advisory. A character limit is enforced only when both the canonical `hardStopEnabled` flag and a positive `hardCharacterStop` exist; defaults are false/null. Rejected typing/paste retains current prose and shows a textual alert.
+- **Navigation/focus:** breadcrumbs contain Project / Chapter; the optional Volume slot remains absent until its canonical domain exists. Nearby previous/next switching is bounded. Home links back to the active chapter. `Ctrl/Cmd+K` and `Ctrl/Cmd+Shift+F` are active; Escape restores manuscript focus. Future checkpoint, outline, milestone, context, and Capture shortcuts are registered as `reserved` with their owning Sub-gates and expose no dead controls.
+- **Theme/accessibility/i18n:** Light/Dark/system theme behavior remains intact; editor typography uses `--editor-font`; visible focus, semantic toolbar/status/alert/navigation roles, multiline textbox naming, reduced-motion baseline, Unicode CJK/Arabic input, desktop and mobile layouts pass. Full IME hardening remains correctly owned by Sub-gate 15.
+- **Failure behavior:** project/chapter failures remain on the form with a factual alert. Support/context/search/billing domains are absent and therefore cannot block typing. S1 local text is not promised across reload; IndexedDB/autosave/recovery/conflict handling remains locked to Sub-gate 2.
+- **Truth separation:** Project/Chapter/document are canonical. Word count/plain text are declared derived fields and are recomputed on future durable writes. No hierarchy beyond Project/Chapter, chronology, causality, projection, analytics, AI, billing, quota, or entitlement was introduced.
+
+### 5.6 Console trace ledger with exact source lines
+
+Every operational trace has an immediately adjacent identifying comment. Direct browser/verifier records call `console.log`; server service records call the content-filtering logger and terminate at the single literal `console.log` transport in `lib/observability/logger.ts` comment line 15 / call line 16.
+
+| Step | Comment line | Log call line | Event and content-safety proof |
+| --- | --- | --- | --- |
+| `S1-PROJECT-001` | `domains/writing/application/commands.ts:15` | `:16` via logger transport `lib/observability/logger.ts:16` | `project.created`; IDs/request only, title/description excluded. |
+| `S1-CHAPTER-001` | `domains/writing/application/commands.ts:24` | `:25` via logger transport | `chapter.created`; IDs/version only, title/document excluded. |
+| `S1-EDITOR-001` | `domains/writing/application/commands.ts:31` | `:32` via logger transport | `editor.read_model`; ID/found/version only. |
+| `S1-FLOW-001` | `components/projects/ProjectCreator.tsx:39` | `:40` | First-chapter-ready IDs only. |
+| `S1-EDITOR-CLIENT-001` | `components/editor/ChapterEditor.tsx:86` | `:87` | Editor ready; chapter ID/version only. |
+| `S1-EDITOR-CLIENT-002` | `components/editor/ChapterEditor.tsx:93` | `:94` | Local change; only word/character counts, never text. |
+| `S1-EDITOR-CLIENT-004` | `components/editor/ChapterEditor.tsx:103` | `:104` | Hard-stop typing rejection; configured limit only. |
+| `S1-EDITOR-CLIENT-005` | `components/editor/ChapterEditor.tsx:114` | `:115` | Hard-stop paste rejection; clipboard omitted. |
+| `S1-EDITOR-CLIENT-006` | `components/editor/ChapterEditor.tsx:127` | `:128` | Keyboard Focus toggle; boolean only. |
+| `S1-EDITOR-CLIENT-007` | `components/editor/ChapterEditor.tsx:135` | `:136` | Escape focus-restoration request; chapter ID only. |
+| `S1-EDITOR-CLIENT-003` | `components/editor/ChapterEditor.tsx:146` | `:147` | Button Focus toggle; boolean only. |
+| `S1-COMMAND-001` | `components/shell/CommandPalette.tsx:14` | `:15` | Command palette opened; no selection/content. |
+| `S1-COMMAND-002` | `components/shell/CommandPalette.tsx:20` | `:21` | Command palette closed; no selection/content. |
+| `S1-DB-001` | `scripts/verify-editor-core-db.ts:61` | `:62` | Real constraint/ownership/placement verification; synthetic IDs/counts/version only. |
+| `S1-DB-002` | `scripts/verify-editor-core-db.ts:90` | `:91` | Capability-only rollback verification; table count only. |
+
+Automated evidence: the E2E captures all browser console records and asserts that neither its unique project title nor multilingual prose appears; the service test spies on the logger transport and asserts the private title is absent; the logger deny-list tests still reject `body`, `prose`, `content`, `documentJson`, `selectedText`, `captureValue`, and `noteBody` keys.
+
+### 5.7 Validation and stress evidence
+
+| Command/check | Result | Evidence and notes |
+| --- | --- | --- |
+| `npm.cmd run lint` | Pass | ESLint zero warnings after adding the exact hook dependency. |
+| `npm.cmd run typecheck` | Pass | TypeScript `--noEmit`; adapter/domain/repository/API/UI contracts agree. |
+| `npm.cmd run test:coverage` | Pass | 13 files, 42 tests; 94.32% statements, 85.71% branches, 94.73% functions, 96.09% lines. |
+| `npm.cmd run test:stress` | Pass | 4 tests; includes 10,000 unique blocks under a 2,000 ms budget plus Sub-gate 0 logger/rate/session stress. |
+| `npm.cmd run build` | Pass | Production Turbopack build, TypeScript, page collection, and eight static pages; S1 routes emitted as dynamic server routes. |
+| `npm.cmd audit --audit-level=high` | Pass | Registry advisory audit: `found 0 vulnerabilities`. Initial sandboxed registry failure was rerun with approved network access. |
+| `npm.cmd run db:validate` | Pass | Prisma schema valid. |
+| `db:verify:editor -> db:rollback:editor -> db:verify:foundation -> db:deploy -> db:verify:editor` | Pass | Real PostgreSQL: S1 constraints/read-write isolation/defaults/placement/navigation pass; rollback leaves zero S1 tables; S0 still passes; S1 forward redeploy and repeat verification pass. |
+| `npm.cmd run test:e2e` with isolated external server | Pass | 8 applicable passes, 4 intentional cross-project skips across desktop Chromium and Pixel 7. Covers title-to-keystroke, Unicode, toolbar/undo retention, focus, command return, accessibility, 401 envelope, Light/Dark/mobile. |
+| Visual review | Pass | Inspected `test-results/editor-core-light.png` and `editor-core-mobile.png` at original resolution: centered prose, truthful status, compact navigation/toolbar, readable Dark mobile, no collision or clipping. Artifacts remain ignored. |
+| Console/privacy scan | Pass | Every literal `console.log` in source has an adjacent `Console trace` comment; S1 E2E/service redaction assertions pass. |
+| `git diff --check` and scoped status review | Pass | No whitespace errors; exactly the 29 S1 product/test files entered content commit. |
+
+Test-repair history is retained honestly: the first browser run exposed a cold Turbopack compile exceeding the original five-second URL assertion and a hidden mobile theme control in the test. The assertion was raised to 20 seconds for cold compilation and the existing hidden select was exercised with Playwright's forced test option. A visual review then found the shell's inherited `No document open` label and an undo grouping risk; the product now shows `Local draft`, the test separates history groups by 600 ms, and it asserts original prose survives Undo. The final complete matrix passed.
+
+### 5.8 Side-by-side WorkPlan conformance audit
+
+| WorkPlan requirement | Evidence | Classification | Audit action |
+| --- | --- | --- | --- |
+| `POST /api/v2/projects`; title only required; dominant first-chapter action | Projects route, strict schema with optional description, ProjectCreator E2E | Verified | No structural fields accepted or required. |
+| Chapter creation with optional placement | Chapter route/repository, `sequenceIndex`, real DB placement 5 | Verified | Positive/nonnegative and uniqueness constraints retained. |
+| Versioned JSON, stable block IDs, derived text/count/schema version | ChapterDocument tests, schema/migration, DB defaults | Verified | Duplicate IDs/unknown versions rejected. |
+| ProseMirror-compatible engine behind Mythra adapter | `lib/editor/adapter.ts`; domain has no Tiptap import | Verified | Adapter output revalidated before domain use. |
+| One active chapter; never whole manuscript DOM | actor-scoped `getEditor`, single chapter route, active ID, adjacent IDs only | Verified | Stress test constructs one 10,000-block chapter, not multiple chapter DOMs. |
+| Tiny toolbar; writer tools externalized | Four controls only | Verified | No later tool surface exposed. |
+| Reference mark without visible rewrite | Domain/adapter mark and plain-text equality test | Verified | No entity UI/domain activated. |
+| Command/Focus plumbing and hidden future commands | active keyboard E2E plus reserved command registry tests | Verified | Checkpoint/Capture/structure/context remain hidden until owner gates. |
+| Focus does not disable command/future durability seams | Focus + command E2E; editor remains mounted; no durability code to disable | Verified | S2 attaches journal/autosave to the same persistent editor boundary. |
+| Advisory target and explicit-only hard stop | pure invariant tests, UI delta/status, default false/null, input/paste guard | Verified | No default hard limit. |
+| Compact breadcrumb, nearby switching, Return-to-Chapter seam | editor breadcrumb/switcher; Project active-chapter link | Verified | Volume omitted because optional domain does not exist yet. |
+| Ownership through indirect child IDs | repository predicates plus real cross-workspace read/write denial | Verified | No fetch-by-ID then trust pattern. |
+| Stable envelopes and safe errors | all S1 routes; unauthenticated E2E | Verified | Navigation redirect is not used inside APIs. |
+| Independently reversible staged persistence | S1 migration/rollback drill and S0 verification after rollback | Verified | No S2/S3 tables or capability claims. |
+| Unicode/keyboard/theme/mobile/a11y/content-safe logs | final E2E, coverage, visual inspection, scans | Verified | Full IME hardening stays in S15 as planned. |
+| Sub-gate 0 precedes Sub-gate 1 | predecessor evidence commit remotely verified before S1 pre-code entry and content | Verified | Strict sequence preserved. |
+
+Doctrine answers: no structure, scene, world, Capture, filing, milestone, causality, timeline, reference UI, billing, AI, or quota became mandatory or active. No hierarchy/reference fact became causality. No structural/causal write edits prose. No cache/projection exists as canonical truth. No stale derived view is presented as authoritative; the only client state is explicitly `Local draft`. Support failures cannot block the editor because no support subsystem is invoked. Logs/tests exclude content. Lists and navigation are bounded. No later endpoint, provider, conversion, directive, Semantic Zoom, pricing, entitlement, or proposal capability was activated. No non-V2 scope was added.
+
+### 5.9 Deviations, gaps, repair, and gate result
+
+- **Pre-code plan deviation:** the pre-code text mentioned a metadata update, but WorkPlan Sub-gate 1 requires creation/read/editor only. No premature metadata endpoint was implemented. This narrows execution to the authorized capability and is not a product gap.
+- **Audit repairs completed before pass:** stable API authentication envelopes; explicit hard-stop typing/paste enforcement; exact command focus restoration; hidden shortcut registry; nearby navigation read seam; truthful editor save label; responsive breadcrumb truncation; cold-build E2E tolerance; mobile hidden-control test method; undo retention assertion.
+- **WorkPlan correction required:** none. Implementation follows the already audited plan without contradiction.
+- **Remaining Sub-gate 1 gap:** none.
+- **Planned-later, not gaps:** IndexedDB, autosave, checkpoints, conflicts/recovery (Sub-gate 2); continuation/cursor/scroll restoration (Sub-gate 3); optional Volume and Structure (Sub-gate 4); full mobile/accessibility/IME hardening (Sub-gate 15).
+- **Gate result:** **PASS — Sub-gate 1 is Verified, committed, pushed, and remotely confirmed.** Sub-gate 2 becomes eligible only after this evidence-ledger commit is also pushed and verified.
+
+### 5.10 Git and remote evidence
+
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Pre-code ledger commit:** `c8b4a0859ea2a53c668a3bf87233156d92cbffa6` — `Plan Sub-gate 1 editor core`, pushed and remotely verified before S1 product code.
+- **Content commit:** `0883070a6ba7cc04c285c1adce3652107a5d1511` — `Implement Sub-gate 1 editor core`.
+- **Commit scope:** 29 files, 1,014 insertions, 14 deletions; `git diff --cached --check` passed.
+- **Push result:** remote branch advanced `c8b4a08..0883070`.
+- **Remote verification:** local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both returned `0883070a6ba7cc04c285c1adce3652107a5d1511` immediately after push.
+- **Remote URL:** `https://github.com/InfernusReal/Mythra-V2.git`; existing draft PR #1 tracks this branch.
+- **Rollback/revert point:** Sub-gate 0 evidence commit `d0421ab61964aa406f6664f7e92bf156c67b463c`; SQL rollback is `prisma/migrations/20260812170000_editor_core/rollback.sql` after preserving any user chapters.
+- **Evidence-ledger commit:** this `Path.md` update is committed/pushed next; its hash is reported in the next entry/final handoff because a commit cannot contain its own hash.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
