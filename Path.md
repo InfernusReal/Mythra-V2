@@ -33,7 +33,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | --- | --- | --- | --- | --- |
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
-| 1. Trusted Writing Foundation | 0–3 | In progress — Sub-gates 0–2 passed | Entries S0, S1, S2, and S3 below | Sub-gates 0–2 pushed and remotely verified; Sub-gate 3 eligible |
+| 1. Trusted Writing Foundation | 0–3 | Sub-gates 0–3 passed; macro audit pending | Entries S0, S1, S2, and S3 below | S3 content remotely verified; S3 evidence and Phase 1 macro-audit pushes remain |
 | 2. Progressive and Causal Story Core | 4–6 | Not started | — | — |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
@@ -47,7 +47,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 0 | Foundation | 1 | Passed | None | Entry S0 | Content commit `8459d6601885e019c56f1c3d757c1d4f5645f618` remotely verified |
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content commit `0883070a6ba7cc04c285c1adce3652107a5d1511` remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
-| 3 | Continuation | 1 | Planned; code not started | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Pre-code ledger push pending |
+| 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content commit `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` pushed/remotely verified; evidence push follows |
 | 4 | Structure Core | 2 | Not started | Sub-gate 3 required | — | — |
 | 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
@@ -551,6 +551,122 @@ The final implementation has no unresolved WorkPlan deviation. Audit iterations 
 - **Code status:** not started when this entry was written.
 - **Gate state:** eligible but locked until this pre-code entry is committed, pushed, and remotely verified.
 - **Planned Git boundary:** separate S3 content commit, S3 evidence-ledger commit, and Phase 1 side-by-side macro-audit commit after all four original capability gates pass.
+
+### 7.5 Files changed
+
+The S3 content commit changes 23 files (778 insertions, 18 deletions):
+
+| Files | Action | Purpose and WorkPlan mapping |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260812210000_continuation/{migration.sql,rollback.sql}` | Modified/created | Add only the independently reversible per-author `WritingSessionState` persistence for active chapter, block/cursor/selection, scroll, inert panel/pin seams, and independent timestamp. |
+| `domains/writing/application/{continuation-ports.ts,continuation.ts}`; `domains/writing/infrastructure/prisma-continuation-repository.ts`; `lib/writing/runtime.ts` | Created/modified | Define and implement the bounded `ProjectContinuationReadModel`, strict write contract, content-safe service, ownership guards, newest-write protection, and deterministic fallback. |
+| `app/api/v2/projects/[id]/continuation/route.ts` | Created | Add thin authenticated GET/PUT continuation transport with stable envelopes and validation. |
+| `lib/writing/use-writing-continuation.ts`; `lib/writing/use-durable-chapter.ts`; `components/editor/ChapterEditor.tsx`; `app/app/chapters/[id]/page.tsx` | Created/modified | Restore only after S2 journal hydration, persist metadata locally/server-side, repair stable block IDs, restore focus/selection/scroll, and leave canonical content/autosave intact. |
+| `app/app/projects/[id]/page.tsx`; `components/projects/StartFirstChapter.tsx`; `app/app/page.tsx`; `app/globals.css` | Created/modified | Add Project Home, dominant Continue Writing, bounded recent chapters, empty-project action, and responsive Light/Dark layout. |
+| `lib/db/prisma.ts`; `app/layout.tsx` | Modified | Preserve production pool concurrency while serializing the disposable nonproduction PGlite adapter; keep pre-interactive theme bootstrap stable across client navigation. |
+| `scripts/verify-continuation-db.ts`; `package.json` | Created/modified | Add real-PostgreSQL continuation verification and rollback commands. |
+| `tests/{unit/continuation-contract,service/continuation-service,e2e/continuation}.test/spec.ts` | Created | Verify strict/bounded/redacted contracts, exact return, 503 local fallback, empty project, accessibility, mobile Dark visuals, ownership, freshness and rollback. |
+
+No Capture, context resolver/card, structure, search, analytics, billing, outline, milestone, timeline, entity-state, causal, directive, or Semantic Zoom implementation appears in this commit. `WorkPlan.md` and prior evidence entries were not part of the content commit.
+
+### 7.6 Code and behavior implemented
+
+- **Durable contract:** one `WritingSessionState` per `userId + projectId`; direct foreign keys cover user/workspace/project/chapter, SQL checks positions/modes/pin array, repository guards prove project workspace and chapter project ownership, and a serializable transaction ignores delayed positions older than the stored `capturedAt`.
+- **Read model:** `ProjectContinuationReadModel` contains project identity, at most five recent eligible chapters, one active summary or null, and complete session metadata. A stored active chapter outside the recent window is still retrieved exactly. Missing/archived session targets fall back to the project active chapter and then latest eligible recent chapter; an empty project remains empty.
+- **Load order:** the server resolves one editor and continuation model. S2 first hydrates canonical/local journal state and reports `durableReady`; only then S3 chooses newer valid local/server metadata, restores block/cursor/selection/scroll, focuses the editor, and starts metadata tracking. No analytics/projection/context fetch is present.
+- **Exact local continuation:** localStorage contains one metadata-only record per project, validated through the same strict Zod schema as server input. It contains no chapter document or prose. Local writes are immediate; server writes debounce at 600 ms, retry on `online`, use `keepalive`, and never block editor typing.
+- **Stable anchors:** a ProseMirror append transaction assigns a new UUID to missing or duplicate paragraph/heading block IDs before the domain adapter emits a document. This closes the split-paragraph duplicate-ID edge while preserving all existing IDs.
+- **Navigation and scroll:** scroll/selection updates maintain the latest snapshot. In-app link intent freezes that snapshot before browser navigation resets scroll. Restoration uses a matching stable block plus cursor offset first, bounded document positions as fallback, then a double-animation-frame scroll restore.
+- **Project Home:** `/app/projects/{id}` provides the single visually dominant Continue Writing action, factual last-position copy, recent chapters with word counts, and an empty-project Write first chapter action. The project list now leads through Project Home; editor breadcrumbs return there.
+- **Context seam:** `CLOSED | CONTEXT | PINS` and at most 50 UUID pins round-trip as inert metadata only. No resolver, card, source object, or claim of available context exists.
+- **Offline/degraded behavior:** S2 keeps active-chapter content writable offline. S3 retains session metadata locally if offline or the continuation endpoint returns 503. A failed continuation dependency never changes save state or blocks canonical autosave.
+- **Production/nonproduction database behavior:** production retains a 10-connection pool. The disposable Prisma Dev/PGlite environment uses one connection because its wire emulator mishandles concurrent unnamed prepared statements; this constraint is not applied to production.
+- **Privacy/security:** server logs pass the strict forbidden-key guard and client logs include only IDs, numeric positions, enum/state, counts, source, and timestamps. Tests assert manuscript sentinels are absent. Recent chapters and pins are bounded; no whole-manuscript/project graph is loaded.
+
+### 7.7 Console trace inventory
+
+Line references are exact for content commit `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61`; every comment is adjacent to the emission on the next line.
+
+| Trace | Comment / log line | Evidence and exclusion |
+| --- | --- | --- |
+| `S3-CONTINUATION-001` | `domains/writing/application/continuation.ts:11–12` | Read-model IDs/found/count/panel mode; no titles/documents. Central transport remains `lib/observability/logger.ts:16`. |
+| `S3-CONTINUATION-002` | `domains/writing/application/continuation.ts:19–20` | Position numbers/IDs/mode/count/time; no selection text or content. |
+| `S3-HOME-001` | `app/app/projects/[id]/page.tsx:14–15` | Project Home IDs and recent count only. |
+| `S3-HOME-CLIENT-001` | `components/projects/StartFirstChapter.tsx:17–18` | Project/chapter IDs only. |
+| `S3-BLOCK-001` | `components/editor/ChapterEditor.tsx:77–78` | Count of repaired anchors only; no block prose. |
+| `S3-CLIENT-001` | `lib/writing/use-writing-continuation.ts:70–71` | Local metadata lookup result/time; no manuscript. |
+| `S3-CLIENT-002` | `lib/writing/use-writing-continuation.ts:79–80` | Restored IDs/positions/scroll/source; no selection text. |
+| `S3-CLIENT-005` offline | `lib/writing/use-writing-continuation.ts:85–86` | Offline defer reason and IDs only. |
+| `S3-CLIENT-004` | `lib/writing/use-writing-continuation.ts:92–93` | Server acknowledgement IDs/time only. |
+| `S3-CLIENT-005` dependency | `lib/writing/use-writing-continuation.ts:95–96` | Dependency defer reason; raw error/content excluded. |
+| `S3-CLIENT-003` | `lib/writing/use-writing-continuation.ts:104–105` | Local position/mode/count metadata; document and selection text excluded. |
+| `S3-CLIENT-007` | `lib/writing/use-writing-continuation.ts:119–120` | Navigation freeze IDs/time only. |
+| `S3-CLIENT-006` | `lib/writing/use-writing-continuation.ts:132–133` | Final metadata flush IDs/time only. |
+| `S3-DB-001` | `scripts/verify-continuation-db.ts:48–49` | Synthetic IDs, bounds and boolean audit results; no titles/content. |
+| `S3-DB-002` | `scripts/verify-continuation-db.ts:63–64` | Rollback table counts only. |
+
+### 7.8 Validation and stress evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm.cmd run db:generate`; `npm.cmd run db:validate` | Pass | Prisma Client 7.9.1 generated; schema valid. |
+| `npm.cmd run lint`; `npm.cmd run typecheck` | Pass | Zero ESLint warnings/errors and zero TypeScript diagnostics after final repairs. |
+| `npm.cmd run test:coverage` | Pass | 18 files/53 tests; 91.64% statements, 82.22% branches, 86.55% functions, 94.70% lines. |
+| `npm.cmd run test:stress` | Pass | 2 files/4 tests, including 10,000-block structured document and foundation stress. |
+| S3 Playwright matrix | Pass | 8 entries: 4 applicable passed, 4 intentional platform skips; exact restoration, local 503 fallback, empty project, mobile Dark. |
+| Full Phase 1 Playwright matrix after final repairs | Pass | 32 entries: 18 applicable passed, 14 intentional desktop/mobile scope skips; S0–S3 all pass. |
+| Exact return assertion | Pass | Same UUID block, same DOM cursor offset, scroll delta <=2 px, restored-editor focus, and one Project Home Continue Writing action. |
+| Accessibility | Pass | Project Home and shell/editor axe scans returned zero serious/critical violations; keyboard regression passed. |
+| Content redaction | Pass | Browser console did not contain unique manuscript sentinel; service tests rejected content-shaped input and titles never appeared in logs. |
+| Visual review | Pass | `continuation-project-home.png`, `continuation-restored-editor.png`, and `continuation-project-home-mobile.png` inspected: dominant action, readable recent facts, no collision/overflow in desktop Light or mobile Dark. |
+| Production `npm.cmd run build` under valid OIDC environment | Pass | Compiled/typechecked/prerendered; continuation API, Project Home and chapter routes emitted. Invalid production+development-auth build separately failed as designed. |
+| `npm.cmd audit --audit-level=high` | Pass | Registry advisory endpoint returned zero vulnerabilities. |
+| `db:verify:continuation -> db:rollback:continuation -> db:verify:durability -> db:deploy -> db:verify:continuation` | Pass | Five-recent/50-pin bounds, exact offset/scroll, unique upsert, stale write ignored, archived fallback, cross-workspace/project denials. Rollback removed S3 table, preserved five S1/S2 tables, redeploy/reverify passed. |
+
+### 7.9 Side-by-side conformance audit
+
+| WorkPlan S3 requirement | Actual evidence | Classification |
+| --- | --- | --- |
+| Restore active chapter, block/cursor, scroll, context mode, pins and independent timestamp | Schema/contract/hook, DB verifier, exact E2E | Verified |
+| `ProjectContinuationReadModel` and dominant Project Home action | Bounded service/read model, Project Home, desktop/mobile visual | Verified |
+| Recent context and empty-project behavior | Five-item query bound, factual list and `StartFirstChapter`, E2E | Verified |
+| One-click return to exact working state | Continue Writing URL plus exact block/offset/scroll E2E | Verified |
+| Required editor load sequence | Server model -> S2 `durableReady` -> context seed -> S3 restore/tracking; code review/E2E | Verified |
+| Offline active writing and plainly degraded server-only function | S2 offline regression plus S3 503/local metadata E2E | Verified |
+| Independently reversible continuation persistence | S3-only migration/rollback and preservation/redeploy drill | Verified |
+| Content-safe, bounded, ownership-scoped behavior | strict logger/schema, 5/50 bounds, ownership verifier, sentinel assertions | Verified |
+| No analytics/context/Capture/later capability activation | scoped commit/search/import review | Verified |
+
+Doctrine answers: no structure, scenes, world data, filing, causality, milestone ownership, timeline/reference conflation, causal prose mutation, quota, billing, support dependency, AI/tool, search provider, directive, Semantic Zoom, or future endpoint was introduced. PostgreSQL remains canonical for content; localStorage is metadata-only and IndexedDB remains pending/recovery content. Stale session data cannot overwrite newer data, and stale/archived chapter targets cannot appear authoritative. Reads are one project, five recent chapters, one session, and at most one extra active lookup. Logs/tests exclude prose. USD 15 Core/USD 25 future Intelligence and explicit Because/Consequences rules remain unchanged and outside S3.
+
+### 7.10 Deviations, findings, and repairs
+
+No unresolved WorkPlan deviation remains. Audit iterations found and repaired:
+
+1. Generated Prisma relation metadata was stale inside an already-running dev process; regenerated client plus scoped restart proved the deployed schema/read model.
+2. Strict telemetry rejected keys containing `selection`, `context`, or `capture`; service metadata now uses safe `anchorPos`, `headPos`, `panelMode`, and `positionAt` without weakening the guard.
+3. ProseMirror paragraph splitting inherited duplicate block IDs; append-transaction repair now guarantees unique stable IDs before domain validation/autosave.
+4. Browser navigation could reset scroll before the last snapshot; continuous scroll capture plus navigation freeze now protects the last author position.
+5. Prisma Dev/PGlite mishandled concurrent unnamed prepared statements; nonproduction uses a one-connection pool while production explicitly retains ten.
+6. The initial response-abort test destabilized the disposable wire emulator; the degraded-path test now returns a deterministic 503, which is the real transport contract under test.
+7. Delayed older session writes could overwrite newer state; serializable newest-`capturedAt` protection and DB assertion were added.
+8. Archived stored chapter targets initially lacked fallback; deterministic current/latest eligible fallback and DB assertion were added.
+9. The first restore assertion could observe initial hydration instead of return hydration; it now requires the restore trace count to increase after Continue Writing.
+10. Theme bootstrap placement produced a client-navigation development warning; the existing `beforeInteractive` script remains but is hosted in body according to Next layout behavior.
+
+`WorkPlan.md` required no correction. Phase 1 macro status remains pending until this S3 evidence commit is remotely verified and the separate full Phase 1 audit passes.
+
+### 7.11 Gate and Git evidence
+
+- **Gate result:** **PASS — Sub-gate 3 continuation is implemented and verified.** Phase 1 is not yet declared complete until the separate macro audit is committed/pushed.
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Pre-code ledger commit:** `43cc745f14be578c99baa19bc56944d9edfea1a8` — `Plan Sub-gate 3 continuation`, pushed and remotely verified before S3 code.
+- **Content commit:** `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` — `Implement Sub-gate 3 continuation`.
+- **Commit scope:** 23 files, 778 insertions, 18 deletions; cached diff check passed; `WorkPlan.md`/`Path.md` excluded.
+- **Push/remote verification:** remote advanced `43cc745..dd27be8`; local and `git ls-remote` both returned `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61`.
+- **Remote/PR:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR #1 tracks the branch.
+- **Rollback/revert point:** S2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d`; SQL rollback is `prisma/migrations/20260812210000_continuation/rollback.sql` after exporting metadata if required.
+- **Evidence-ledger commit:** this entry is committed/pushed next; its hash is recorded in the Phase 1 audit because a commit cannot contain its own hash.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
