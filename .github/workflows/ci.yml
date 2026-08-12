@@ -27,7 +27,10 @@ jobs:
       - run: npm run test:coverage
       - run: npm run build
         env:
-          DATABASE_URL: postgresql://unused:unused@127.0.0.1:5432/unused
-          AUTH_MODE: development
+          DATABASE_URL: postgresql://unused:unused@127.0.0.1:5432/unused?sslmode=require
+          AUTH_MODE: oidc
+          AUTH_ISSUER: https://identity.example.com
+          AUTH_AUDIENCE: mythra-v2-ci
+          AUTH_JWKS_URL: https://identity.example.com/.well-known/jwks.json
           SESSION_SECRET: ci-only-session-secret-with-32-characters
-          APP_ORIGIN: http://localhost:3000
+          APP_ORIGIN: https://mythra.example.com
