@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 pre-code plan recorded** | Entry S4 below | S4 planning commit pending push; no S4 application code yet |
+| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 technical pass; evidence closure in progress** | Entry S4 below | S4 content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; CI run `31623924571`, job `94205355140`, passed; ledger remote check pending |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -48,8 +48,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1 | Project + Chapter + Editor Core | 1 | Passed | Sub-gate 0 evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` verified | Entry S1 | Content `0883070a6ba7cc04c285c1adce3652107a5d1511` and evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` pushed/remotely verified |
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
-| 4 | Structure Core | 2 | **In progress — pre-code plan only** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | Entry S4 | Planning commit pending; application baseline remains `44c883bd264b7a06c8c6843dd2da91e0108ff355` |
-| 5 | Milestones | 2 | Not started | Sub-gate 4 required | — | — |
+| 4 | Structure Core | 2 | **Technical pass; evidence closure in progress** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625`, Phase 1 final ledger `543fe83345d1ec2066a21010046e9a6025175c2e`, and CI run `31612678269` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; CI `31623924571`/`94205355140` passed; ledger remote check pending |
+| 5 | Milestones | 2 | Locked; not started | Sub-gate 4 evidence-ledger commit and remote CI required | Entry S5 required before code | No S5 application code |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-The current eligible product capability is Sub-gate 4. Sub-gates 0–3 are complete; every row after Sub-gate 4 remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
+The next product capability is Sub-gate 5, but it remains locked until this S4 evidence-ledger update is committed, pushed, and remotely verified. Sub-gates 0–3 are closed; S4 has a technical pass with evidence closure in progress; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -937,8 +937,186 @@ No plan contradiction or dependency inversion was found. S4 does not activate mi
 
 - **Intended commit scope:** `Path.md` only.
 - **Application code status:** unchanged from baseline `44c883bd264b7a06c8c6843dd2da91e0108ff355`.
-- **Plan commit/push/remote CI:** pending; this subsection will be amended after remote verification without rewriting the historical pre-code facts.
+- **Plan commit/push/remote CI:** commit `abcd402382aa1c8f391a68276c8a0330b06d9d29` (`Plan Structure Core sub-gate`) was pushed to `agent/workplan-subgates-audit`; GitHub Actions run `31615214091`, job `94176213553`, passed. No S4 application file existed in that commit.
 - **Rollback point:** baseline `44c883bd264b7a06c8c6843dd2da91e0108ff355`.
+
+### 9.5 Actual implementation and file ledger
+
+#### Schema, migration, and canonical state
+
+| Files | Actual implementation | Compliance effect |
+| --- | --- | --- |
+| `prisma/schema.prisma` | Added `Plot`, `PlotOutline`, `Volume`, `VolumeOutline`, `ChapterOutline`, optional `Scene`, `NarrativeIntent`, generalized non-causal `StoryReference`, generic `ObjectRevision`, and per-user `StructureViewState`; added optional `Chapter.volumeId`/`volumeSequenceIndex`; added S4 endpoint, target, mode, lens, provenance and object enums plus ownership/order/index relations. | Implements the complete S4 canonical object set while leaving Chapter valid without any structure. No Milestone or causal table exists. |
+| `prisma/migrations/20260812230000_structure_core/migration.sql` | Creates the S4 enums/tables, same-project composite foreign keys, uniqueness/check constraints, active-reference idempotency index, ordering indexes, revision/outbox-compatible structure and optional Chapter columns. | Database constraints enforce project ownership, one active plot/outline identity, valid optional membership, stable active reference identity and bounded query indexes. |
+| `prisma/migrations/20260812230000_structure_core/rollback.sql` | Removes only S4 tables/enums and the two optional Chapter membership columns in dependency order. | Real rollback proof preserved all Phase 1 tables and byte-equivalent prose. |
+
+#### Domain, application, repository, and API
+
+| Files | Actual implementation | Compliance effect |
+| --- | --- | --- |
+| `domains/structure/domain/types.ts`, `invariants.ts`, `scaffold.ts`, `semantic-coordinate.ts` | Strict schemas for optional outlines/intents/view state, explicit hard-target rule, bounded budgets/range cursor, stable reorder preview, deterministic SHA-256 scaffold plans up to 100 volumes/10,000 chapters, and the exact ruled semantic ladder with absent levels skipped. | Creative limits are soft unless explicitly hard; preview calculations are deterministic; large reads are bounded; Milestone/Thread is relevance, never an ownership ancestor. |
+| `domains/references/domain/story-reference.ts` | Defines active S4 endpoints (`PLOT`, outline/volume/chapter/scene/intent/manuscript-block types), reserved later endpoints, self-reference rejection, block anchors, provenance and strict dependency-unavailable behavior for later domains. | Relevance stays separate from containment/chronology/causality and no future source is falsely active. |
+| `domains/structure/application/ports.ts`, `service.ts`, `conversion.ts` | Defines the complete S4 repository/read-model contracts; validates and logs all explicit writes; separates ownership-guarded preview from token/version apply; defines dormant Note/Capture conversion ports that return dependency unavailable. | Thin application boundary, no implicit structure creation except explicit scaffold, and no premature Note/Capture capability. |
+| `domains/structure/infrastructure/prisma-structure-repository.ts` | Implements workspace/project-owned bounded reads; cursor-like range slices; transactional create/update/reparent/reorder/scaffold/intent/reference/scene writes; optimistic structural-version compare/increment; full object revisions; transactional outbox events; duplicate-reference idempotency; provenance backlink creation; cross-project endpoint validation. | Canonical truth changes atomically; view preferences do not advance story truth; stale/concurrent operations conflict; child IDs cannot cross workspaces/projects. |
+| `lib/structure/runtime.ts`, `lib/structure/http.ts` | Composes the repository/service and applies authentication, stable success/error envelopes, request IDs and content-safe route completion/failure traces. | All S4 routes share the Phase 1 security/error/logging contract. |
+| `app/api/v2/projects/[id]/structure/route.ts` and 14 nested route files | Adds bounded overview; plot/volume/outline/chapter-membership/scene/intent/reference writes; scaffold preview/apply; reorder preview/apply; view-state persistence. | Every endpoint is authenticated; previews verify project access; mutations validate expected structural version; no S5/S6 endpoint exists. |
+
+#### UI, navigation, state ownership, and writing flow
+
+| Files | Actual implementation | Compliance effect |
+| --- | --- | --- |
+| `app/app/projects/[id]/structure/page.tsx`, `components/structure/StructureWorkspace.tsx`, `StructureLensNav.tsx` | Server-owned bounded Structure read model, five active S4 lenses only, one Discovery/Guided/Architect schema, persisted mode/lens/anchor/scroll/selection/pin state, accessible bounded-range navigation, return-to-writing link. | One workspace shell; no fake Milestones/Causal tabs; range controls avoid full-neighborhood loads; structure remains optional. |
+| `components/structure/OutlineLens.tsx`, `BulkScaffold.tsx` | Inline plot/plot-outline/chapter-outline create/edit, collapse persistence, stable-ID promote/demote, explicit outline-block-to-scene conversion, deterministic scaffold preview dialog and reviewed-token apply. | Rich/freeform planning is explicit; conversion preserves provenance/backlink; reorder/scaffold cannot bypass preview. |
+| `components/structure/VolumeLane.tsx`, `ChapterPlanningGrid.tsx` | Inline ordered volume/volume-outline operations, separate reorder preview/apply busy states, prose-first Chapter assignment/clearing, advisory targets and project-level empty state. | Volume ownership is optional; manuscript content is never loaded or edited by planning operations. |
+| `components/structure/RelationshipLens.tsx`, `SemanticZoomViewport.tsx` | Non-causal reference composer/list, exact semantic path projection, active anchor selection, Narrative Intent for plot/volume/chapter/scene/paragraph selection and all S4 categories. | Relevance and intent remain explicit; Milestone/entity targets are absent until their canonical gates. |
+| `components/editor/ChapterEditor.tsx`, `app/app/projects/[id]/page.tsx`, `components/shell/AppShell.tsx`, `app/globals.css` | Adds optional Structure navigation from editor/Project Home, Projects rail entry, responsive five-lens wrap, bounded-range controls, mobile/Dark styling and unchanged editor path. | Structure support cannot block typing, durability or continuation; final E2E proves exact position restoration. |
+
+#### Documentation, verification, and tests
+
+| Files | Actual implementation | Compliance effect |
+| --- | --- | --- |
+| `docs/adr/0005-structure-core.md`, `docs/architecture/structure-core.md`, `docs/api/structure.md`, `docs/operations/migrations.md` | Records optionality, ownership/relevance split, exact semantic coordinate, active/reserved endpoint lifecycle, APIs, budgets, revision/outbox behavior and rollback boundary. | Maintainers have explicit rules preventing S5/S6/future-domain activation and semantic collapse. |
+| `scripts/verify-structure-core-db.ts`, `package.json` | Adds `db:verify:structure` and `db:rollback:structure`; verifies real PostgreSQL optionality, full writes/revisions/outbox, idempotency, ownership denial, bounded reads, deterministic scaffold, concurrent winner and isolated rollback. | Supplies database and recovery evidence rather than relying on mocks. |
+| `tests/unit/*structure*`, `semantic-coordinate.test.ts`, `story-reference.test.ts` | Tests order/range invariants, deterministic allocation, exact ladder, active/reserved reference vocabulary and dormant conversions. | Domain doctrine and future-boundary rules are executable. |
+| `tests/service/structure-service.test.ts`, `tests/component/structure-*.test.tsx`, `tests/stress/structure-core.stress.test.ts` | Tests validation/delegation/privacy, every active UI mutation/empty/error state, 10,000-chapter planning, 10,000 stable-ID reorder and hostile budget clamps. | Coverage thresholds pass without reduction; performance and content-safe boundaries are tested. |
+| `tests/e2e/structure-core.spec.ts` | Tests zero-structure writing, reviewed scaffold/reorder, exact editor block/offset/scroll restoration, active-lens accessibility/no future lens, responsive mobile Dark Semantic Zoom and visual captures. | Direct writing-flow exit proof for S4. |
+
+No file was deleted. Generated Prisma client, `.next`, coverage, Playwright report, screenshots and temporary PDF renders remain ignored build/evidence artifacts and were not committed.
+
+### 9.6 Implementation method and architectural proof
+
+1. Database and domain constraints were implemented before UI: nullable membership protects discovery writing; composite same-project foreign keys and repository ownership guards protect isolation; partial uniqueness protects active reference idempotency.
+2. Every story mutation runs in one Prisma transaction. The canonical object/relation write, full `ObjectRevision`, optimistic `Project.structuralVersion` increment and content-free `OutboxEvent` either commit together or roll back together. `StructureViewState` is explicitly outside this story-truth transaction contract because it is user preference state.
+3. Scaffold and reorder are two-step commands. Preview is pure after an ownership check; apply recomputes/verifies the deterministic plan token and expected version. Reorder applies only a complete unique current stable-ID set, temporarily shifts order indexes transactionally, then writes revisions.
+4. The shared server projection is range/page/node/edge bounded. `rangeStart` is clamped to 1,000,000, queries use `skip`/`take`, the read model returns `nextRangeStart`, and the client exposes keyboard/pointer-operable previous/next ranges rather than materializing the full graph.
+5. Semantic Zoom is built from a ruled ordered path, not containment inference. `PlotOutline` and `VolumeOutline` are first-class; optional coordinates disappear when absent; Milestone/Thread is documented as a future cross-cutting relevance step and never appears as an ownership parent.
+6. UI state is local/persisted preference; canonical structure returns from the server after writes. `router.refresh()` rehydrates the new version. Existing continuation capture/restore remains the source of editor block/cursor/selection/scroll truth.
+7. Failures degrade to stable errors or local form alerts. The editor, local journal, autosave, recovery, continuation and existing prose do not depend on Structure availability.
+
+Alternatives rejected were required up-front planning, milestone-owned chapters, using a generic relationship as causality, client-owned full graphs, immediate apply without preview, and activating Note/Capture/timeline/entity endpoints from enum presence alone. Each would violate an explicit Bible or authorized WorkPlan boundary.
+
+### 9.7 Console trace ledger with exact comment and call lines
+
+Every row below has the exact adjacent identifying comment line and operational call line in content commit `b5a18a4`. Server service/page/API rows call the existing guarded structured logger transport; UI and DB-verifier rows use literal `console.log`. The comment text states the privacy constraint; only IDs, enums, counts, booleans, versions, route/status/error codes and positions are emitted.
+
+| Step | File | Comment line → call line | Adjacent comment purpose |
+| --- | --- | --- | --- |
+| `S4-STRUCTURE-001` | `domains/structure/application/service.ts` | 48 → 49 | Bounded overview resolved without author-entered fields. |
+| `S4-STRUCTURE-002` | same | 55 → 56 | Plot creation committed with structural version only. |
+| `S4-STRUCTURE-009` | same | 62 → 63 | Plot edit committed without title/summary telemetry. |
+| `S4-STRUCTURE-003` | same | 69 → 70 | Plot-outline write; payload excluded. |
+| `S4-STRUCTURE-004` | same | 76 → 77 | Ordered volume create without title/summary telemetry. |
+| `S4-STRUCTURE-010` | same | 83 → 84 | Volume edit with revision, no author text. |
+| `S4-STRUCTURE-005` | same | 90 → 91 | Volume-outline write; payload excluded. |
+| `S4-STRUCTURE-006` | same | 98 → 99 | Optional chapter-outline write without creative metadata. |
+| `S4-SCAFFOLD-001` | same | 106 → 107 | Deterministic count-only preview. |
+| `S4-SCAFFOLD-002` | same | 115 → 116 | Reviewed atomic apply with aggregate counts only. |
+| `S4-ORDER-001` | same | 124 → 125 | Identity-preserving reorder preview. |
+| `S4-ORDER-002` | same | 131 → 132 | Transactional reorder with stable identities. |
+| `S4-STRUCTURE-007` | same | 138 → 139 | Prose-first membership change without reading prose. |
+| `S4-STRUCTURE-008` | same | 145 → 146 | Promote/demote preserving outline identity/references. |
+| `S4-SCENE-001` | same | 152 → 153 | Outline-block conversion; creative payload excluded. |
+| `S4-INTENT-001` | same | 159 → 160 | Active-target intent without intent text. |
+| `S4-REFERENCE-001` | same | 166 → 167 | Non-causal reference with endpoint identity/types only. |
+| `S4-VIEW-001` | same | 174 → 175 | Preference state persisted separately from story truth. |
+| `S4-API-001` | `lib/structure/http.ts` | 15 → 16 | Route/status-only successful operation. |
+| `S4-API-002` | same | 20 → 21 | Stable error code without request payload. |
+| `S4-UI-014` | `app/app/projects/[id]/structure/page.tsx` | 15 → 16 | Authenticated bounded workspace render. |
+| `S4-UI-015` | `components/editor/ChapterEditor.tsx` | 208 → 209 | Editor-to-Structure navigation after continuation capture. |
+| `S4-UI-001` | `components/structure/StructureWorkspace.tsx` | 32 → 33 | Active S4 lens change; dormant lenses unavailable. |
+| `S4-UI-002` | same | 39 → 40 | Presentation mode change without schema change. |
+| `S4-UI-024` | same | 55 → 56 | Bounded range navigation request. |
+| `S4-UI-003` | `components/structure/BulkScaffold.tsx` | 30 → 31 | Count-only scaffold preview request. |
+| `S4-UI-004` | same | 42 → 43 | Author confirms reviewed token; aggregate counts only. |
+| `S4-UI-007` | `components/structure/OutlineLens.tsx` | 28 → 29 | Plot create/edit without author fields. |
+| `S4-UI-016` | same | 38 → 39 | Plot-outline write without outline text. |
+| `S4-UI-009` | same | 48 → 49 | Chapter-outline write without title/text. |
+| `S4-UI-017` | same | 58 → 59 | Edit mode opened using stable identity only. |
+| `S4-UI-018` | same | 65 → 66 | Promote/demote with identity/destination only. |
+| `S4-UI-019` | same | 75 → 76 | Scene conversion without block/outline text. |
+| `S4-UI-020` | same | 85 → 86 | Expansion state with identity/boolean only. |
+| `S4-UI-008` | `components/structure/VolumeLane.tsx` | 23 → 24 | Volume create/edit with order/hard-target state only. |
+| `S4-UI-021` | same | 33 → 34 | Volume edit mode with stable identity only. |
+| `S4-UI-022` | same | 39 → 40 | Volume-outline write without outline text. |
+| `S4-UI-005` | same | 49 → 50 | Reorder preview with stable IDs/count only. |
+| `S4-UI-006` | same | 59 → 60 | Reviewed reorder confirmation with count only. |
+| `S4-UI-011` | `components/structure/ChapterPlanningGrid.tsx` | 16 → 17 | Membership change without manuscript content. |
+| `S4-UI-012` | `components/structure/RelationshipLens.tsx` | 19 → 20 | Reference submission with endpoint identity/types only. |
+| `S4-UI-010` | `components/structure/SemanticZoomViewport.tsx` | 35 → 36 | Semantic anchor change with stable identity only. |
+| `S4-UI-013` | same | 46 → 47 | Intent submission without text/selection content. |
+| `S4-DB-001` | `scripts/verify-structure-core-db.ts` | 82 → 83 | Real DB aggregate verification without content emission. |
+| `S4-DB-002` | same | 100 → 101 | Structure-only rollback/prose preservation counts. |
+
+The final source scan found **45 S4 trace sites**. All 45 comments are immediately above their call. Service/UI privacy tests additionally submit sentinel private text and assert it is absent from emitted records. No S4 trace contains title, summary, document, outline text, intent text, revealed information, manuscript body, selection content or provenance note.
+
+### 9.8 Validation, stress, recovery, and visual evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm run db:generate` / `npm run db:validate` | Pass | Prisma Client 7.9.1 generated; schema valid. |
+| `npm run typecheck` / `npm run lint` | Pass | Strict TypeScript passed; ESLint passed with zero warnings. |
+| `npm run test` | Pass | 28 test files, 97 tests passed after S4 interaction coverage additions. |
+| `npm run test:stress` | Pass | 3 stress files, 7 tests: deterministic 10,000-placeholder allocation, 10,000 stable-ID reorder, hostile budget clamps plus Phase 1 stress. |
+| `npm run test:coverage` | Pass | 90.39% statements (885/979), 78.22% branches (431/551), 87.16% functions (258/296), 95.32% lines (713/748); frozen 80/75/80/80 thresholds unchanged. |
+| Production build with complete inert OIDC environment | Pass | Next.js 16.3 compiled, typechecked, prerendered and listed all 15 S4 API routes plus `/app/projects/[id]/structure`. An initial environment-less build failed only the frozen production-auth schema; rerun supplied OIDC-shaped variables and passed without changing security code. |
+| `npm run db:rollback:structure` | Pass | `S4-DB-002`: 0 S4 tables, 0 S4 Chapter columns, 6 prior tables preserved, 1 sampled prose row byte-equivalent. |
+| `npm run db:deploy` | Pass | Cleanly reapplied `20260812230000_structure_core` after rollback. |
+| `npm run db:verify:structure` | Pass | `S4-DB-001`: project version 11; volumes 2; chapters 3; outline 1; scene 1; references 2; outbox 10; revisions 12; complete snapshots true; duplicate idempotent; cross-workspace read/write false; unknown endpoint false; scaffold 2 volumes/5 placeholders; bounded 3 nodes/0 edges; concurrent winners 1/conflicts 1. |
+| `npm run test:e2e -- tests/e2e/structure-core.spec.ts` | Pass | 5 applicable tests passed; 5 intentional cross-project duplicates skipped. Zero structure, reviewed scaffold/reorder, exact writing restoration, accessibility/active lenses and mobile Dark mode all passed. |
+| Exact writing-position proof | Pass | Same chapter URL, same stable block ID, same selection offset and scroll delta ≤2 after editor → Structure → editor; `S3-CLIENT-002` restoration trace observed. |
+| Accessibility/keyboard | Pass | All five active lenses are buttons; no Milestones/Causal control; normal pointer/keyboard-operable range/lens controls; axe serious/critical violations `[]`. |
+| Visual responsive/theme audit | Pass | Manually inspected `test-results/structure-core-desktop.png` and `structure-core-mobile-dark.png`. Desktop bounded form layout and mobile wrapped lens navigation/Semantic Zoom show no clipping, collision or unreachable control. A detected mobile overlap was fixed by adding `max-width/min-width` containment and wrapping lenses, then rerun passed with a normal click. |
+| Content/trace audit | Pass | `rg` adjacency scan listed all 45 trace comments/calls; sentinel UI/service tests prove private fields absent; guarded logger still rejects content-bearing metadata keys. |
+| Git scope | Pass with recorded formatting note | Content commit contains 58 S4 files/changes and 3,282 insertions; no generated/test-result/PDF artifact. `git diff --check` reported only redundant blank-line-at-EOF warnings on several new files, not whitespace errors; lint/build/CI passed. This style cleanup is nonfunctional and is not an S4 compliance gap. |
+| Remote CI | Pass | GitHub Actions run `31623924571`, job `94205355140`, head `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; install, Prisma generation, lint, typecheck, 97-test coverage and production build all passed in 2m1s. Nonblocking action-runtime Node 20 deprecation annotation remains workflow-maintenance work. |
+
+### 9.9 Side-by-side S4 conformance audit
+
+| WorkPlan S4 requirement | Actual evidence | Classification | Audit action/result |
+| --- | --- | --- | --- |
+| Complete S4 canonical objects, no Milestone persistence | Schema/migration/repository contain Plot/outlines/Volume/Scene/Intent/Reference/revision/view only | Verified | Schema search confirms no `Milestone`/`CausalRelation`; none added. |
+| Optional chapters/volumes/outlines/scenes | Nullable Chapter membership; zero-structure DB/service/E2E | Verified | Writer saved/returned to prose with every structure collection empty. |
+| Ownership versus relevance | Composite FKs, membership versus `StoryReference`, semantic docs/tests | Verified | No relationship or milestone owns Chapter. |
+| Rich/freeform optional outlines and metadata | JSON document + plain text + optional purpose/emotion/reveals/keys/target/stubs | Verified | No row created by ordinary chapter writing; explicit write/scaffold only. |
+| Discovery/Guided/Architect one schema | `StructureViewState.mode` and UI presentation only | Verified | Mode tests show same canonical model/validation. |
+| Deterministic S4 scaffold, no milestones | SHA-256 planner, reviewed token/version apply, 10,000 property/stress and E2E | Verified | No milestone placeholder/date/allocation field exists. |
+| Existing-domain conversions with provenance/backlinks | Chapter membership and outline-block Scene transaction/revision/backlink | Verified | Dormant Note/Capture port returns dependency unavailable. |
+| Soft creative constraints | Optional target + explicit `hardTargetWordsEnabled` validation | Verified | Ordinary advisory target never gates writing. |
+| Narrative Intent on all active S4 targets/categories | Strict target/category schema, endpoint validation, Semantic Zoom form/tests | Verified | Milestone/entity targets absent; paragraph requires block/range. |
+| Five active lenses only | Lens tuple/nav/E2E contains Outline/Volumes/Chapters/Relationships/Semantic Zoom | Verified | Milestones/Causal queries return no control. |
+| Inline create/edit, previewed reorder, persistence, promote/demote | S4 components/routes/service/repository and component/E2E tests | Verified | Stable IDs preserve references; view state persists expansion and position. |
+| Exact ruled Semantic Zoom | Coordinate builder/tests/UI/docs include both outline levels and cross-cutting Milestone ruling | Verified | Optional coordinates skipped; Chapter Outline does not gate Chapter. |
+| Preserve anchor/cursor/scroll/selection/pins | View-state schema/repository plus existing continuation and exact E2E | Verified | Return restores stable block/offset/scroll; pins stored bounded. |
+| Bounded/virtualized or clustered neighborhoods | Server range/page/node/edge ceilings, `nextRangeStart`, explicit range UI, stress | Verified | No endpoint/client loads full structure/graph by default. |
+| Stable envelopes, structural version, outbox, revisions | Shared HTTP boundary and real DB counts/full snapshots/concurrency | Verified | Preference write explicitly excluded from story version. |
+| S4 separate evidence/remote gate | Plan/content commits and two green remote runs | Verified | S5 remains code-locked until this evidence commit is remotely green. |
+
+Doctrine audit answers: no new path makes structure/scenes/intent/reference mandatory; no milestone exists or owns a chapter; hierarchy/reference facts never become causality; no structural write edits prose; view state/read models remain noncanonical; refresh follows every successful write; no billing/quota path exists; Structure failure cannot block editor/durability/continuation; content is excluded from logs/errors/tests; all aggregate reads are bounded; no AI or later endpoint/conversion/card/provider was activated; directive `becauseItems[]`/`consequenceItems[]` are untouched; Semantic Zoom uses the ruled outline-aware order; pricing is untouched; no non-V2 scope was added.
+
+### 9.10 Deviations, findings, and repairs
+
+- **Resolved preview ownership gap:** initial preview routes authenticated but did not verify the project before pure calculation. Added `StructureRepository.assertProjectAccess`, called it in both preview services, changed routes to pass the actor, and added rejection tests. This restores the global ownership rule without changing deterministic preview semantics.
+- **Resolved pagination/range gap:** the first overview implementation enforced page/node/edge maxima but exposed only the first range. Added clamped `rangeStart`, repository `skip/take`, `nextRangeStart`, server query propagation, accessible previous/next UI and stress tests. This satisfies the explicit list/range requirement.
+- **Resolved view-anchor ambiguity:** the initial view-state validator accepted any short anchor type and cast it to the database enum. Replaced it with the exact active S4 endpoint enum so reserved/unknown values fail validation before persistence.
+- **Resolved scaffold/reorder UI race:** separate preview/apply busy states and explicit response assertions ensure apply controls do not disappear or block each other and test failures distinguish HTTP errors from server-render refresh latency.
+- **Resolved mobile interaction defect:** a narrow-screen horizontal lens strip visually exposed Semantic Zoom but allowed neighboring content to intercept pointer input. The workspace now has explicit min/max width containment and the lens row wraps on mobile; normal pointer click and visual rerun pass.
+- **Coverage gate repair:** first S4 coverage run passed all 82 then-current tests but failed frozen coverage thresholds. Added meaningful service and interaction tests for every active mutation, privacy, errors, empty optionality and bounds; final 97-test coverage passes without lowering thresholds.
+- **Build invocation repair:** environment-less production build failed the already-correct production authentication schema. No code was weakened; a complete inert OIDC-shaped build environment was supplied and the build passed, matching CI.
+- **No WorkPlan correction required:** all repairs implement existing WorkPlan/global requirements. The S4 design did not reveal a Bible contradiction or authorized-ruling change.
+- **Planned later, not gaps:** milestone objects/lens/roles/dependencies/progress/scaffold additions are S5; causal objects/adapters/lens/traversal are S6; Note/Capture/entity/timeline conversions/endpoints remain dormant for their later gates; phase-level macro exit remains incomplete until S5 and S6 pass.
+- **Remaining S4 gaps:** none.
+
+### 9.11 Gate and Git evidence
+
+- **Gate result:** **TECHNICAL PASS; EVIDENCE CLOSURE IN PROGRESS — Sub-gate 4 Structure Core is implemented, stress tested, side-by-side audited, and its content commit is pushed/remotely verified.** S4 becomes formally Passed and S5 becomes eligible only after this evidence-ledger commit is pushed and its remote CI is green.
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Pre-code plan:** `abcd402382aa1c8f391a68276c8a0330b06d9d29` (`Plan Structure Core sub-gate`); CI run `31615214091`, job `94176213553`, passed.
+- **Content commit:** `b5a18a4289d2555a2891d53973c78fd4a0b85aa8` (`Implement Structure Core sub-gate`), 58 changed/new files and 3,282 insertions.
+- **Push:** `abcd402..b5a18a4  agent/workplan-subgates-audit -> agent/workplan-subgates-audit` succeeded.
+- **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`; draft PR `#1` remains the review surface.
+- **Remote verification:** GitHub Actions run `31623924571`, job `94205355140`, exact head SHA `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`, passed all steps in 2m1s.
+- **Content rollback/revert point:** predecessor evidence `543fe83345d1ec2066a21010046e9a6025175c2e`; S4 plan-only point `abcd402382aa1c8f391a68276c8a0330b06d9d29`; database-only reversal is the reviewed S4 rollback SQL and was proven independently.
+- **Evidence-ledger commit:** pending this update; its hash, push and remote run are recorded in the S5 predecessor proof after successful remote verification because a commit cannot contain its own hash.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
