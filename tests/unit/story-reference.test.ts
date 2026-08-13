@@ -20,7 +20,7 @@ describe("non-causal StoryReference contract", () => {
   it("rejects self references and reserved later-domain endpoints", () => {
     expect(storyReferenceInputSchema.safeParse({ expectedStructuralVersion: 1, sourceType: "CHAPTER", sourceId: first, targetType: "CHAPTER", targetId: first }).success).toBe(false);
     expect(storyReferenceInputSchema.safeParse({ expectedStructuralVersion: 1, sourceType: "NOTE", sourceId: first, targetType: "CHAPTER", targetId: second }).success).toBe(false);
-    expect(storyReferenceInputSchema.safeParse({ expectedStructuralVersion: 1, sourceType: "CHAPTER", sourceId: first, targetType: "MILESTONE", targetId: second }).success).toBe(false);
+    expect(storyReferenceInputSchema.safeParse({ expectedStructuralVersion: 1, sourceType: "CHAPTER", sourceId: first, targetType: "MILESTONE", targetId: second }).success).toBe(true);
+    expect(storyReferenceInputSchema.safeParse({ expectedStructuralVersion: 1, sourceType: "CHAPTER", sourceId: first, targetType: "CAPTURE", targetId: second }).success).toBe(false);
   });
 });
-

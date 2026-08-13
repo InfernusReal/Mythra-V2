@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import type { StructureOverview } from "@/domains/structure/application/ports";
 
 interface Envelope<T> { data?: T; error?: { message: string } }
-const endpointTypes = ["PLOT", "PLOT_OUTLINE", "VOLUME", "VOLUME_OUTLINE", "CHAPTER_OUTLINE", "CHAPTER", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK"] as const;
+const endpointTypes = ["PLOT", "PLOT_OUTLINE", "VOLUME", "VOLUME_OUTLINE", "MILESTONE", "CHAPTER_OUTLINE", "CHAPTER", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK"] as const;
 
 export function RelationshipLens({ model, onChanged }: { model: StructureOverview; onChanged(): void }) {
   const [sourceType, setSourceType] = useState<(typeof endpointTypes)[number]>("CHAPTER");
@@ -31,4 +31,3 @@ export function RelationshipLens({ model, onChanged }: { model: StructureOvervie
     </div>
   );
 }
-

@@ -5,6 +5,7 @@ export const activeStoryReferenceEndpointTypes = [
   "PLOT_OUTLINE",
   "VOLUME",
   "VOLUME_OUTLINE",
+  "MILESTONE",
   "CHAPTER_OUTLINE",
   "CHAPTER",
   "SCENE",
@@ -12,7 +13,7 @@ export const activeStoryReferenceEndpointTypes = [
   "MANUSCRIPT_BLOCK"
 ] as const;
 
-export const reservedStoryReferenceEndpointTypes = ["MILESTONE", "ENTITY", "TIMELINE_EVENT", "NOTE", "CAPTURE"] as const;
+export const reservedStoryReferenceEndpointTypes = ["ENTITY", "TIMELINE_EVENT", "NOTE", "CAPTURE"] as const;
 export const storyReferenceEndpointTypes = [...activeStoryReferenceEndpointTypes, ...reservedStoryReferenceEndpointTypes] as const;
 
 export const storyReferenceInputSchema = z.object({
@@ -35,4 +36,3 @@ export const storyReferenceInputSchema = z.object({
 });
 
 export type StoryReferenceInput = z.infer<typeof storyReferenceInputSchema>;
-

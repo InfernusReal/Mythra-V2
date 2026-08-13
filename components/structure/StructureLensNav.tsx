@@ -4,6 +4,7 @@ const labels: Record<StructureLens, string> = {
   OUTLINE: "Outline",
   VOLUMES: "Volumes",
   CHAPTERS: "Chapters",
+  MILESTONES: "Milestones",
   RELATIONSHIPS: "Relationships",
   SEMANTIC_ZOOM: "Semantic Zoom"
 };
@@ -15,4 +16,3 @@ export function StructureLensNav({ lenses, active, onChange }: { lenses: readonl
     </nav>
   );
 }
-

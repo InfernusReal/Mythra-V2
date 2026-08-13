@@ -7,6 +7,7 @@ import { RelationshipLens } from "@/components/structure/RelationshipLens";
 import { SemanticZoomViewport } from "@/components/structure/SemanticZoomViewport";
 import { VolumeLane } from "@/components/structure/VolumeLane";
 import type { StructureOverview } from "@/domains/structure/application/ports";
+import { emptyMilestones } from "@/tests/fixtures/milestones";
 
 const id = (suffix: string) => `00000000-0000-4000-8000-${suffix.padStart(12, "0")}`;
 const model: StructureOverview = {
@@ -22,7 +23,7 @@ const model: StructureOverview = {
   references: [{ id: id("10"), sourceType: "CHAPTER", sourceId: id("5"), sourceBlockId: null, targetType: "CHAPTER_OUTLINE", targetId: id("6"), targetBlockId: null, relationshipKey: "references", provenanceType: "DIRECT", version: 1 }],
   intents: [{ id: id("11"), targetType: "PLOT", targetId: id("2"), blockId: null, category: "TENSION", customCategory: null, version: 1 }],
   viewState: { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
-  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
+  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
   page: { pageSize: 100, nodeBudget: 200, edgeBudget: 300, rangeStart: 0, nextRangeStart: null, returnedNodes: 8, returnedEdges: 1, hasMoreNodes: false, hasMoreEdges: false }
 };
 
@@ -202,7 +203,7 @@ describe("Structure interaction surfaces", () => {
     const anchored = vi.fn(); const changed = vi.fn();
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation(() => success());
     vi.spyOn(console, "log").mockImplementation(() => undefined);
-    render(<SemanticZoomViewport model={model} onAnchor={anchored} onChanged={changed} />);
+    render(<SemanticZoomViewport model={model} milestones={emptyMilestones} onAnchor={anchored} onChanged={changed} />);
     fireEvent.change(screen.getByLabelText("Active chapter"), { target: { value: id("5") } });
     fireEvent.change(screen.getByLabelText("Target type"), { target: { value: "PARAGRAPH_SELECTION" } });
     fireEvent.change(screen.getByLabelText("Category"), { target: { value: "CUSTOM" } });
@@ -221,9 +222,9 @@ describe("Structure interaction surfaces", () => {
     vi.spyOn(globalThis, "fetch").mockImplementation(() => failure("Intent rejected"));
     vi.spyOn(console, "log").mockImplementation(() => undefined);
     const empty = { ...model, plot: null, volumes: [], chapterOutlines: [], chapters: [], scenes: [], intents: [] };
-    const { rerender } = render(<SemanticZoomViewport model={empty} onAnchor={vi.fn()} onChanged={vi.fn()} />);
+    const { rerender } = render(<SemanticZoomViewport model={empty} milestones={emptyMilestones} onAnchor={vi.fn()} onChanged={vi.fn()} />);
     expect(screen.getByRole("button", { name: "Save intent" })).toBeDisabled();
-    rerender(<SemanticZoomViewport model={model} onAnchor={vi.fn()} onChanged={vi.fn()} />);
+    rerender(<SemanticZoomViewport model={model} milestones={emptyMilestones} onAnchor={vi.fn()} onChanged={vi.fn()} />);
     fireEvent.change(screen.getByLabelText("Target type"), { target: { value: "SCENE" } });
     fireEvent.change(screen.getByLabelText("Intent"), { target: { value: "Private" } });
     fireEvent.click(screen.getByRole("button", { name: "Save intent" }));

@@ -123,12 +123,12 @@ test.describe("Sub-gate 4 Structure Core", () => {
     expect(Math.abs(after.scrollTop - before.scrollTop)).toBeLessThanOrEqual(2);
   });
 
-  test("renders the active-lens shell accessibly and excludes future lenses", async ({ page }) => {
+  test("renders the active-lens shell accessibly and excludes the future causal lens", async ({ page }) => {
     const { projectUrl } = await createProject(page, `Accessible structure ${Date.now()}`);
     await page.goto(`${projectUrl}/structure`);
     const lensNav = page.getByRole("navigation", { name: "Structure lenses" });
     await expect(lensNav.getByRole("button", { name: "Outline", exact: true })).toBeVisible();
-    await expect(lensNav.getByRole("button", { name: "Milestones", exact: true })).toHaveCount(0);
+    await expect(lensNav.getByRole("button", { name: "Milestones", exact: true })).toBeVisible();
     await expect(lensNav.getByRole("button", { name: "Causal", exact: true })).toHaveCount(0);
     await page.addScriptTag({ path: path.resolve("node_modules/axe-core/axe.min.js") });
     const violations = await page.evaluate(async () => {

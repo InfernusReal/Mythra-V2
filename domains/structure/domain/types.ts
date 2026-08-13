@@ -8,8 +8,8 @@ export const STRUCTURE_DEFAULT_EDGE_BUDGET = 300;
 export const STRUCTURE_MAX_EDGE_BUDGET = 750;
 
 export const presentationModes = ["DISCOVERY", "GUIDED", "ARCHITECT"] as const;
-export const structureLenses = ["OUTLINE", "VOLUMES", "CHAPTERS", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
-export const narrativeIntentTargetTypes = ["PLOT", "VOLUME", "CHAPTER", "SCENE", "PARAGRAPH_SELECTION"] as const;
+export const structureLenses = ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
+export const narrativeIntentTargetTypes = ["PLOT", "VOLUME", "MILESTONE", "CHAPTER", "SCENE", "PARAGRAPH_SELECTION"] as const;
 export const narrativeIntentCategories = ["TENSION", "REVELATION", "EMOTION", "PACING", "AMBIGUITY", "ATMOSPHERE", "CUSTOM"] as const;
 
 export type PresentationMode = (typeof presentationModes)[number];
@@ -68,7 +68,7 @@ export const structureViewStateInputSchema = z.object({
   mode: z.enum(presentationModes),
   activeLens: z.enum(structureLenses),
   expandedIds: z.array(z.string().uuid()).max(2_000),
-  activeAnchorType: z.enum(["PLOT", "PLOT_OUTLINE", "VOLUME", "VOLUME_OUTLINE", "CHAPTER_OUTLINE", "CHAPTER", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK"]).nullable().optional(),
+  activeAnchorType: z.enum(["PLOT", "PLOT_OUTLINE", "VOLUME", "VOLUME_OUTLINE", "MILESTONE", "CHAPTER_OUTLINE", "CHAPTER", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK"]).nullable().optional(),
   activeAnchorId: z.string().uuid().nullable().optional(),
   cursorOffset: z.number().int().nonnegative().nullable().optional(),
   selectionAnchor: z.number().int().nonnegative().nullable().optional(),

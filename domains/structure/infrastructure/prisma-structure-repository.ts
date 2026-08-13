@@ -18,7 +18,7 @@ import type {
   VolumeSummary
 } from "../application/ports";
 
-const ACTIVE_LENSES = ["OUTLINE", "VOLUMES", "CHAPTERS", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
+const ACTIVE_LENSES = ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
 type Transaction = Prisma.TransactionClient;
 
 async function structureTransaction<T>(prisma: PrismaClient, operation: (tx: Transaction) => Promise<T>, options?: { timeout?: number }): Promise<T> {
@@ -103,6 +103,7 @@ async function assertEndpoint(tx: Transaction, projectId: string, type: string, 
     case "PLOT_OUTLINE": found = await tx.plotOutline.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "VOLUME": found = await tx.volume.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "VOLUME_OUTLINE": found = await tx.volumeOutline.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
+    case "MILESTONE": found = await tx.milestone.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "CHAPTER_OUTLINE": found = await tx.chapterOutline.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "CHAPTER":
     case "MANUSCRIPT_BLOCK": found = await tx.chapter.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;

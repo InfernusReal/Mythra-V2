@@ -200,6 +200,16 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .outline-node > div:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .outline-node p { flex-basis: 100%; margin: 0; color: var(--text-muted); }
 .structure-list span, .volume-lane span { color: var(--text-muted); font-size: .8125rem; }
+.milestone-view-switcher { display: flex; flex-wrap: wrap; gap: 8px; }
+.milestone-view-switcher button[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); }
+.milestone-range-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.milestone-range-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.milestone-range-list li > div { display: grid; gap: 6px; min-width: 0; }
+.milestone-range-list span { color: var(--text-muted); font-size: .8125rem; }
+.milestone-range-list progress { width: min(100%, 420px); accent-color: var(--accent); }
+.milestone-matrix { display: grid; overflow-x: auto; }
+.milestone-matrix [role="row"] { display: grid; grid-template-columns: minmax(160px, .7fr) minmax(280px, 1.3fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.milestone-matrix [role="cell"] { color: var(--text-muted); }
 .planning-table { min-width: 720px; }
 .planning-grid { overflow-x: auto; }
 .planning-row { display: grid; grid-template-columns: minmax(240px, 2fr) 100px minmax(180px, 1fr) 70px; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
