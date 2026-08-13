@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gate 4 passed; Sub-gate 5 pre-code plan in progress** | Entries S4–S5 below | S4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
+| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gates 4–5 passed; Sub-gate 6 locked pending its pre-code checkpoint** | Entries S4–S5 below | S5 content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; CI `31728512577`/`94542823434` passed; evidence commit follows below |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -49,7 +49,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2 | Durability | 1 | Passed | Sub-gate 1 evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` verified | Entry S2 | Content `674ff4895a0cab50f8b6f30fbe800bbc97e52568` and evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` pushed/remotely verified |
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
-| 5 | Milestones | 2 | **In progress — pre-code plan only** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Planning commit pending; no S5 application code |
+| 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; CI `31728512577`/`94542823434` passed; evidence commit follows below |
 | 6 | Causal Story Fabric Core | 2 | Not started | Sub-gate 5 required | — | — |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-The current eligible product capability is Sub-gate 5. Sub-gates 0–4 are closed; S5 is limited to this pre-code plan until its ledger commit is pushed and remotely verified; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
+Sub-gates 0–5 are closed after local, database, browser, content-commit, push, and remote-CI proof. Sub-gate 6 remains locked until this S5 evidence ledger is committed, pushed, and remotely verified; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -1168,6 +1168,136 @@ Doctrine audit answers: no new path makes structure/scenes/intent/reference mand
 - **Application state:** unchanged from S4 evidence baseline; no S5 product file exists.
 - **Gate state:** S5 coding remains locked until this pre-code entry is committed, pushed and remotely verified. S6 remains locked until the complete S5 content and evidence chain is remotely verified.
 - **Intended pre-code commit scope:** `Path.md` only.
+
+### 10.5 Pre-code checkpoint and implementation chronology
+
+- **Implementation/audit completion:** 13 August 2026, Asia/Karachi.
+- The S5 pre-code entry above was committed as `6a4582272cf240dfc4e5dcbdd34881723c65eda2` (`Plan Milestones sub-gate`), pushed to `agent/workplan-subgates-audit`, and remotely verified by GitHub Actions run `31624801137`, job `94208343339`, before S5 product code began.
+- Implementation then proceeded in the WorkPlan order: schema/constraints → domain schemas and invariants → transaction repository and full revisions/outbox → application services → thin HTTP routes → bounded server projection → existing Structure shell integration → component/service/domain/stress/browser tests → real PostgreSQL forward/rollback/forward verification → audit repair → content commit/push/CI.
+- The content implementation was committed separately as `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07` (`Implement Milestones sub-gate`) and pushed before this evidence section was written. Remote `refs/heads/agent/workplan-subgates-audit` resolved to the exact content SHA.
+
+### 10.6 Files and implementation evidence
+
+| Area/files | Action and implemented behavior | WorkPlan/Bible ownership |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260813000000_milestones/migration.sql`; `rollback.sql` | Added `Milestone`, `ChapterMilestoneLink`, `MilestoneDependency`, exact role/status/dependency enums, S5 Structure/Intent/ObjectRevision enum values, range/weight/version/custom-role/self-edge constraints, same-project composite foreign keys, ordered/range/directional indexes, and active duplicate guards. Rollback removes only S5 data/tables/enum additions and repairs dependent enum checks. | WorkPlan 6.1 Milestones and API/durability seams; Bible 3.3–3.5, 5, 16–18, 20. |
+| `domains/milestones/domain/types.ts`; `dependency.ts` | Strict write/link/dependency/scaffold/reorder schemas; deterministic chapter/word/cadence allocation and SHA-256 plan token; complete unique reorder preview; weighted clamped progress; iterative hard-active cycle proof. Soft/tentative/retired cycles remain permissible. | WorkPlan 6.1/6.3; Bible milestone roles, ranges, dependency semantics and soft planning doctrine. |
+| `domains/milestones/application/ports.ts`; `service.ts` | Defined canonical summaries/repository contract; clamped projection budgets; ownership-gated previews; content-safe write/link/dependency/reorder/scaffold services; stable conflict for tampered plans. | Thin service/domain boundary, bounded API and stable mutation requirements. |
+| `domains/milestones/infrastructure/prisma-milestone-repository.ts` | Ownership-scoped reads/writes; optimistic `Project.structuralVersion`; atomic canonical state + full resultant `ObjectRevision` + content-free outbox; idempotent exact links/dependencies; same-project validation; bounded progress/display edges; two-pass reorder avoiding uniqueness collisions; atomic reviewed scaffold/rebalance; concurrent loser rollback. | WorkPlan durability seams, revision seam, graph bounds and transaction discipline. |
+| `lib/milestones/runtime.ts`; `http.ts`; `app/api/v2/projects/[id]/milestones/route.ts`; `links/route.ts`; `dependencies/route.ts`; `reorder/{preview,apply}/route.ts`; `scaffold/{preview,apply}/route.ts` | Added runtime composition, authenticated stable-envelope transport, bounded overview, create/update, role link, dependency create/update, reorder preview/apply, and scaffold preview/apply endpoints. Routes contain no domain logic. | WorkPlan `/milestones/**` endpoint order and stable mutation envelope. |
+| `domains/references/domain/story-reference.ts`; `domains/structure/domain/types.ts`; `application/ports.ts`; `infrastructure/prisma-structure-repository.ts` | Activated `MILESTONE` only after canonical persistence for non-causal references, Narrative Intent, saved anchor and endpoint resolution; added the Milestones lens while leaving all S6/future endpoints inactive. | Authorized S5 endpoint registration; milestone relevance is not causality or containment. |
+| `components/structure/MilestoneLens.tsx`; `StructureWorkspace.tsx`; `StructureLensNav.tsx`; `RelationshipLens.tsx`; `SemanticZoomViewport.tsx`; `app/app/projects/[id]/structure/page.tsx`; `app/globals.css` | Integrated default ordered/range view, bounded accessible dependency-list alternative, chapter-role matrix, inline create/edit/link/dependency, reviewed allocation/rebalance, reviewed atomic reorder, weighted progress, optional zero state, responsive styling, Milestone reference/Intent controls, and server-joined projection. Semantic Zoom emits linked `MILESTONE_THREAD` relevance steps without adding an ownership ancestor. | WorkPlan Structure shell and Milestones lens; ruled semantic coordinate. |
+| `docs/adr/0006-milestone-boundaries.md`; `docs/api/milestones.md`; `docs/architecture/milestones.md`; `docs/operations/migrations.md` | Recorded no-ownership decision, graph/cycle rules, bounds, API contracts, semantic integration, complete transaction semantics and verified rollback procedure. | WorkPlan 6.2 documentation outputs. |
+| `scripts/verify-milestones-db.ts`; `package.json`; `vitest.config.ts` | Added real PostgreSQL verify/rollback commands. Increased the test timeout from 5s to 15s after instrumented OneDrive runs exceeded 5s; workloads/assertions were not reduced. | WorkPlan database recovery, stress and reproducibility requirements. |
+| `tests/unit/milestone-domain.test.ts`; `tests/service/milestone-service.test.ts`; `tests/component/milestone-lens.test.tsx`; `tests/stress/milestones.stress.test.ts`; `tests/e2e/milestones.spec.ts`; `tests/fixtures/milestones.ts` | Added deterministic/property-style allocation, role/range/token/reorder/cycle/progress, service/privacy, UI state/error/review, maximum allocation/5,000-edge, desktop/mobile/axe/writing-flow tests and shared empty projection. | WorkPlan 6.2/6.4 and Bible phase acceptance. |
+| `tests/unit/story-reference.test.ts`; `tests/component/structure-workspace.test.tsx`; `structure-interactions.test.tsx`; `tests/e2e/structure-core.spec.ts` | Advanced historical S4 expectations to the authorized S5 state: Milestone endpoint/lens is active and Causal/future endpoints remain absent; preserved Structure regression coverage. | Mandatory sequential capability activation without falsifying prior-gate behavior. |
+
+The content commit contains 45 files and 1,419 insertions/36 deletions. No `StoryChange`, `CausalRelation`, causal adapter registry, Causal lens, timeline event, entity state, Note or Capture canonical object was added.
+
+### 10.7 Canonical behavior, boundaries and recovery
+
+- **Ownership versus relevance:** `Milestone.projectId` owns the milestone. Chapters remain owned by Project/optional Volume. `ChapterMilestoneLink` is the sole chapter–milestone association, permits multiple roles, and never changes `Chapter.projectId`, `volumeId`, prose or outline ownership.
+- **Roles and ranges:** roles are exactly introduce/develop/escalate/turn/resolve/custom; custom labels exist only for custom. Stored chapter ranges are zero-based and complete/ordered; the UI presents one-based values. Target words and dates are advisory.
+- **Progress:** the repository derives each linked chapter ratio as final=1, otherwise `wordCount/targetWords`, clamps to 0–1, applies link weights, and never stores the result as canonical truth. The read model reports whether its progress-input budget truncated the estimate.
+- **Dependencies:** only hard active edges participate in cycle rejection. The iterative proof is capped at 5,000 stored edges; overflow fails closed as dependency unavailable. Self-edges and cross-project endpoints are rejected; active duplicate edges are idempotent.
+- **Scaffold/rebalance:** preview is pure, deterministic and ownership checked. Its token covers input and allocation. Apply checks the token, expected structural version and existing milestone count, then creates placeholders or updates only range/word/date allocation fields. It never mutates prose or invents story content beyond `Milestone N` placeholders.
+- **Order:** inline sequence is visible, but multi-row movement uses previewed reorder. Apply verifies the complete unique current ID set and performs negative temporary positions followed by final positions in one transaction, preserving stable IDs, links, references and dependencies.
+- **Bounds:** overview clamps nodes to 500, displayed links+dependencies to 750, and progress inputs to `min(50,000,nodeBudget×100)`; the client receives overflow facts and never loads an unbounded graph.
+- **Durability:** every non-idempotent canonical write records complete resultant state, increments project structural version and appends a content-free outbox event atomically. Exact idempotent duplicates leave the version unchanged.
+- **Failure isolation:** zero milestones is valid. Milestone failures are outside editor load/typing/local journal/save/recovery/continuation paths. Real E2E regression proved exact return-to-writing focus after S5 activation.
+- **Rollback:** the reviewed S5 rollback deletes milestone-targeted intents/references/revisions, drops only three S5 tables/types and restores earlier enums/checks. It preserved eight representative S4 tables and byte-equivalent sampled Chapter prose, removed the ledger row only after verification, then redeployed and reverified successfully.
+
+### 10.8 Console instrumentation ledger
+
+All 22 S5 operational sites have the identifying comment immediately above the call. Server calls use the guarded logger whose literal transport is `lib/observability/logger.ts`; UI and database-verifier calls use structured literal `console.log`. No title, description, thread/custom label, dependency note, Narrative Intent text, selected text, document or prose is emitted.
+
+| Step | Comment line | Call/transport line | Safe purpose/metadata |
+| --- | --- | --- | --- |
+| `S5-MILESTONE-001` | `domains/milestones/application/service.ts:14` | logger line 15 | Bounded overview: request/workspace/project, found, counts. |
+| `S5-MILESTONE-002` | `domains/milestones/application/service.ts:22` | logger line 23 | Milestone identity/order/status/version; authored fields excluded. |
+| `S5-LINK-001` | `domains/milestones/application/service.ts:29` | logger line 30 | Link/chapter/milestone IDs, role, weight, version. |
+| `S5-DEPENDENCY-001` | `domains/milestones/application/service.ts:36` | logger line 37 | Dependency endpoint IDs/state/hard/version; note excluded. |
+| `S5-REORDER-001` | `domains/milestones/application/service.ts:44` | logger line 45 | Preview object/change counts only. |
+| `S5-REORDER-002` | `domains/milestones/application/service.ts:51` | logger line 52 | Applied object count and structural version. |
+| `S5-SCAFFOLD-001` | `domains/milestones/application/service.ts:59` | logger line 60 | Preview milestone/warning counts only. |
+| `S5-SCAFFOLD-002` | `domains/milestones/application/service.ts:68` | logger line 69 | Applied milestone/placeholder counts/version. |
+| `S5-API-001` | `lib/milestones/http.ts:15` | logger line 16 | Successful route key/method/status and safe identifiers. |
+| `S5-API-002` | `lib/milestones/http.ts:20` | warning logger line 21 | Failed route/method/status/stable code; body excluded. |
+| `S5-UI-001` | `components/structure/MilestoneLens.tsx:52` | literal `console.log` line 53 | Projection view key. |
+| `S5-UI-002` | `components/structure/MilestoneLens.tsx:58` | literal line 59 | Edit identity/version. |
+| `S5-UI-003` | `components/structure/MilestoneLens.tsx:64` | literal line 65 | Write identity/order/status; form text excluded. |
+| `S5-UI-004` | `components/structure/MilestoneLens.tsx:72` | literal line 73 | Chapter/milestone IDs, role, weight. |
+| `S5-UI-005` | `components/structure/MilestoneLens.tsx:80` | literal line 81 | Dependency endpoint IDs/hard flag; note excluded. |
+| `S5-UI-006` | `components/structure/MilestoneLens.tsx:90` | literal line 91 | Scaffold counts and optional-setting booleans. |
+| `S5-UI-007` | `components/structure/MilestoneLens.tsx:98` | literal line 99 | Reviewed allocation aggregate only. |
+| `S5-UI-008` | `app/app/projects/[id]/structure/page.tsx:21` | logger line 22 | Server projection join counts only. |
+| `S5-UI-009` | `components/structure/MilestoneLens.tsx:106` | literal line 107 | Reorder object count/target index. |
+| `S5-UI-010` | `components/structure/MilestoneLens.tsx:114` | literal line 115 | Reviewed reorder object count. |
+| `S5-DB-001` | `scripts/verify-milestones-db.ts:77` | literal line 78 | DB invariant results, counts/IDs/booleans; creative fixture content excluded. |
+| `S5-DB-002` | `scripts/verify-milestones-db.ts:94` | literal line 95 | Rollback table/prose-row preservation counts. |
+
+### 10.9 Validation, stress and remote evidence
+
+| Check | Result | Exact evidence |
+| --- | --- | --- |
+| Prisma generation/schema | Pass | Prisma Client 7.9.1 generated; `npm run db:validate` reported the schema valid. Initial validation found S5 relations attached to `User`; corrected them to `Project` before implementation validation continued. |
+| Static quality | Pass | `npm run lint`: zero warnings. `npm run typecheck`: strict TypeScript pass. `git diff --check`: clean. |
+| Unit/service/component regression | Pass | `npm run test`: 32 files, 114 tests passed. Includes all S0–S5 tests. |
+| Coverage | Pass | `npm run test:coverage`: 32 files/114 tests; 87.85% statements, 76.29% branches, 80.61% functions, 94.60% lines, all thresholds passed. Initial 74.79% branch result exposed missing S5 UI branches; tests were expanded without lowering thresholds. |
+| Stress/property | Pass | `npm run test:stress`: 4 files/9 tests. Maximum 500 milestones over 10,000 chapters and a 5,000-edge hard-cycle proof passed; the unit property loop preserved range and word totals across 1,000 inputs. |
+| PostgreSQL behavior | Pass | `npm run db:verify:milestones`: version 9, 2 milestones, 1 role link, 2 dependencies, progress .5, hard cycle false, duplicate idempotent, reorder identity preserved, cross-workspace/project false, complete revisions true, 6 outbox events, bounded 1/1, 4 scaffold placeholders, one concurrent winner/one conflict. |
+| Migration recovery | Pass | Forward deploy → verify → milestone-only rollback (`remainingMilestoneTables:0`, `preservedStructureTables:8`, sampled prose row preserved) → redeploy → verify all passed. The first rollback attempt exposed an enum-backed check constraint; rollback now explicitly drops/recreates that check and passed. |
+| Browser S5 flow | Pass | `tests/e2e/milestones.spec.ts`: 4 applicable passed/4 viewport duplicates skipped—zero optionality, reviewed allocation/reorder, many-to-many roles, exact cycle rejection, milestone Intent/Semantic Zoom, axe, desktop/mobile. |
+| S4+S5 browser regression | Pass | Combined run: 18 discovered, 9 applicable passed, 9 intentional cross-project viewport skips. S4 zero-structure, scaffold/reorder, exact writing-position restoration, shell accessibility and mobile Dark all remain green after S5. |
+| Accessibility and visual QA | Pass | Axe returned zero serious/critical issues. Manual original-resolution inspection of `test-results/milestones-desktop.png` and `milestones-mobile.png` found no clipping/overlap; ordered/matrix controls and forms remain readable at both widths. |
+| Production build | Pass | Next.js 16.3 optimized build compiled/type-checked and emitted all expected S5 routes including reorder and scaffold endpoints. |
+| Remote Git/CI | Pass | Content SHA `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07` equals remote branch ref. GitHub Actions run `31728512577`, job `94542823434`, exact head SHA, passed checkout/install/generate/lint/typecheck/coverage/build in 2m4s. The only annotation is GitHub’s upstream Node-20 action deprecation notice; the runner forced Node 24 and no job step failed. |
+
+### 10.10 Side-by-side S5/Phase 2 conformance audit
+
+| WorkPlan requirement | Actual evidence | Classification | Audit action |
+| --- | --- | --- | --- |
+| Start only after S4 passes | S4 evidence/CI precedes S5 plan; plan commit/CI precedes code | Verified | None. |
+| `Milestone`, link, dependency persistence | Three canonical tables, enums, constraints, composite FKs and repository | Verified | None. |
+| Many-to-many roles; milestone never owns chapter | Link rows and matrix; no Chapter milestone-owner column/relation | Verified | None. |
+| Ordered/range default; optional dependency graph and matrix | Default range list, bounded accessible dependency list, matrix selector | Verified | None. |
+| Transactional reorder/renumber preview | Audit initially found manual sequence editing insufficient; preview/apply routes, complete-set proof and two-pass atomic rewrite added before pass | Verified after repair | Closed gap. |
+| Exact roles, weights, ranges and progress | Enum/schema/checks; weighted read projection and tests | Verified | None. |
+| Hard cycles handled exactly | Hard+active iterative cycle proof; soft/tentative/retired loops allowed; DB/E2E tests | Verified | None. |
+| Placeholders, cadence soft dates, advisory allocation, previewed rebalance | Deterministic tokenized planner and atomic create/rebalance | Verified | None. |
+| Milestone Intent/reference endpoints | Active schema + same-project resolver only after S5 persistence | Verified | None. |
+| Milestone/Thread cross-cutting coordinate | Linked IDs emitted as relevance; ancestor path excludes milestone | Verified | None. |
+| Version/revision/outbox | Real DB count and complete snapshot checks; concurrency one winner | Verified | None. |
+| Bounded APIs/client | Explicit node/display-edge/progress-edge caps and overflow facts | Verified | None. |
+| Zero milestones never blocks writing | Empty state plus combined return-to-writing/focus regression | Verified | None. |
+| No S6/future capability activation | No causal model/route/lens/adapters; Causal control absent; future reference endpoints still rejected | Verified | None. |
+| Logs at each operational step with adjacent comments | 22-site line-accurate ledger above; privacy tests exclude authored content | Verified | None. |
+| S5 committed, pushed, remotely confirmed before S6 | Plan and content chain plus passing GitHub CI recorded | Verified for content; evidence commit follows | S6 remains locked until evidence commit remote proof. |
+
+Global doctrine audit: milestones remain optional and non-owning; Narrative Intent/reference facts remain non-causal; no chronology is inferred from chapter order; no action rewrites prose; PostgreSQL remains canonical and client state remains projection/form state; all support failures are outside the writing durability path; logs exclude creative content; graph reads are bounded; no AI, billing, pricing or Phase 3 source domain was introduced. Result: no in-scope compliance gap remains.
+
+### 10.11 Deviations, findings and repairs
+
+- **Component location:** the pre-plan named `components/milestones/*`; actual UI is `components/structure/MilestoneLens.tsx` because the WorkPlan requires one Structure workspace shell and shared lens state. This is an organizational refinement, not a scope change; no duplicate milestone workspace was created.
+- **Pre-plan wording:** “kind/thread label” was implemented as the optional `threadLabel` plus explicit role/dependency semantics. The authoritative WorkPlan does not require a separate milestone-kind field, so no unapproved discriminator was invented.
+- **Schema relation repair:** first Prisma validation showed Project-owned relations accidentally declared on `User`. They were moved to `Project`; schema validation/generation and real PostgreSQL proofs then passed.
+- **Projection repair:** initial nested per-milestone progress selection could expand to an excessive aggregate. It was replaced with one globally bounded progress-edge read and explicit `hasMoreProgressEdges`/`progressComplete` facts.
+- **Revision repair:** initial selects omitted milestone description/dependency note and would have produced incomplete resultant revisions. Full canonical fields are now selected for every revision; real DB assertions prove both authored fields are present in stored snapshots while logs omit them.
+- **Rollback repair:** the first rollback exposed a PostgreSQL enum/check comparison dependency. The rollback now casts cleanup predicates to text, drops/recreates `NarrativeIntent_selection_valid` around enum replacement, and passed rollback/redeploy/reverify.
+- **Ordering repair:** the audit found that editing sequence indices could collide and did not satisfy reviewed transactional reordering. Dedicated preview/apply routes, services, UI dialog, stable-ID plan and two-pass transaction were added and proved in DB/E2E.
+- **Coverage repair:** first complete coverage was 74.79% branches, below the unchanged 75% gate. Tests were expanded for update/custom-role/warning/reorder branches; final is 76.29%. No threshold was reduced.
+- **Timing repair:** instrumented coverage under OneDrive exceeded Vitest’s 5s per-test default in three already-green workloads. The ceiling is now 15s with identical loops/assertions; final coverage passes. Browser assertions now await the actual reorder response before refreshed-version checks.
+- **Remaining gaps:** none within Sub-gate 5. Sub-gate 6 is not implemented and must not start until this evidence commit is pushed and remotely verified.
+
+### 10.12 Git, remote and gate decision
+
+- **Branch/remote:** `agent/workplan-subgates-audit` on `https://github.com/InfernusReal/Mythra-V2.git`; draft PR `#1` remains the review surface.
+- **S5 plan commit:** `6a4582272cf240dfc4e5dcbdd34881723c65eda2` (`Plan Milestones sub-gate`), pushed; CI run `31624801137`, job `94208343339`, passed.
+- **S5 content commit:** `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07` (`Implement Milestones sub-gate`), pushed and equal to the remote branch before this ledger edit.
+- **S5 content CI:** run `31728512577`, job `94542823434`, passed all steps in 2m4s at the exact content SHA.
+- **Rollback/revert points:** immutable S4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; S5 pre-code `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; S5 content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; database-only reversal is the proven S5 rollback and is prohibited beneath S6 data.
+- **Formal S5 decision:** **Passed**. Scope, files, code method, instrumentation, invariants, bounds, accessibility, stress, recovery, writing flow, side-by-side audit and remote proof meet WorkPlan 6.1/6.3/6.4 without an open gap.
+- **S6 lock:** this entry must be committed, pushed, and remotely verified as the S5 evidence commit before any S6 product file is created. The Phase 2 macro gate remains incomplete because S6 has not begun.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
