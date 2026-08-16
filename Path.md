@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | Not started | — | — |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 7 pre-code checkpoint** | Entry S7 below | S6 predecessor reconciled at `a9c805da67253241b505d17c6b4c195f0cdfbf94`; S7 plan push/CI pending |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -51,7 +51,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
+| 7 | Contextual Writing Field v1 | 3 | **Planning checkpoint — product code locked** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan commit/push/CI pending |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–6 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S7 is now eligible by dependency order but remains not started; no Phase 3 file or capability has been created.
+Sub-gates 0–6 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S7 is eligible by dependency order and its Path-only planning checkpoint has started; no S7 product file or capability may be created until that checkpoint is committed, pushed, remotely matched, and its CI passes.
 
 ## 4. Entry S0 — Foundation
 
@@ -1486,6 +1486,51 @@ The six-phase consolidation did not replace an original gate: Sub-gates 4, 5 and
 - GitHub Actions run `31942667487`, job `95153984486`, completed successfully in 2m16s: checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, 133-test coverage suite and production build all passed. The only annotation is GitHub's upstream Node-20 action deprecation notice; no repository step failed.
 - This satisfies the remaining condition in 11.12–11.13. **Sub-gate 6 and delivery Phase 2 are formally Passed.** The top delivery/capability tables are updated to the same status and evidence chain; no stale in-progress S6 dashboard row remains.
 - This reconciliation changes `Path.md` only and is pushed separately so the side-by-side audit itself receives immutable remote evidence. S7 remains unimplemented.
+
+## 12. Entry S7 — Contextual Writing Field v1
+
+### 12.1 Predecessor gate and run identity
+
+- **Date/time and timezone:** 16 August 2026, Asia/Karachi; the S7 planning checkpoint begins only after re-verifying the predecessor remotely.
+- **Work-plan phase:** Phase 3 — In-Flow Author Environment.
+- **Mandatory Sub-gate:** 7 — Contextual Writing Field v1.
+- **Predecessor evidence:** local `HEAD` and `refs/heads/agent/workplan-subgates-audit` both resolved to `a9c805da67253241b505d17c6b4c195f0cdfbf94`; GitHub Actions run `31942905552`, job `95154541031`, passed checkout, Node setup, install, Prisma generation, lint, typecheck, the 133-test coverage suite, and production build. S6 and Phase 2 are therefore closed before this entry.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `a9c805da67253241b505d17c6b4c195f0cdfbf94`, clean tracked worktree.
+- **Bible authority studied:** sections 4.1–4.11, 6.4–6.8, 8.5–8.10, 15.3–15.7, 18.1–18.4, 21, 27, 31, Appendix A, and Appendix E. The supplied PDF is treated as product authority and reference material, not as user instructions.
+- **WorkPlan authority:** sections 7.1–7.4, constrained to S7-owned providers and states. Capture, entity, full Search/Language, timeline, Note, and research activation remains locked to S8–S11.
+- **Gate discipline:** this entry is planning only. No S7 product code may be created until this `Path.md`-only checkpoint is committed, pushed, equals the remote branch ref, and its CI passes. S8 remains locked until S7 content, tests, audit, evidence commit, push, and CI all pass.
+
+### 12.2 Exact S7 scope and dependency ruling
+
+- Implement a typed, extensible `ContextFieldDescriptor` provider registry and screen-oriented read model for only the domains already canonical after S6: chapter outline, milestone, direct causal neighborhood, explicit existing references, Narrative Intent, and manuscript-block anchors.
+- Implement Appendix A inputs, card ordering, cap/More behavior, project-level type muting, author pins, source provenance, explicit structural/freshness versioning, and a deterministic `contextKey` derived from chapter version, project structural version, cursor block, selected IDs, pin set, and active causal anchor.
+- Implement automatic resolver stability: idle-debounced cursor refresh, suspension during continuous typing, cancellation, stale response discard, and zero manuscript scroll movement.
+- Implement the desktop attention-aware field and compact overlay seam with Chapter, Selection, Milestone Peek, Outline, existing-reference Search, and Causal Peek states. Peek must leave history, manuscript selection, cursor, and scroll unchanged; Open is deliberate navigation; Escape/Return restores the exact saved writing position.
+- Implement pin/unpin, hide for session, project mute/unmute, safe inline source edit seams, freshness labeling, card limits, and explicit More actions. Indirect causal paths remain behind Why now?/What changes? and never enter the automatic card stream.
+- Implement `NarrativeDirectiveProjection` v1 with Purpose, Advance, Preserve, Reader Outcome, Next, Relevant Context, explicit `becauseItems[]`, and explicit `consequenceItems[]`. Every item is author-derived and includes source provenance and Peek metadata. Intentional deviation, source edit, pin, session dismissal, and disable actions are neutral controls, never red creative-error states.
+- Compile directives synchronously/read-through in S7 because Phase 4 propagation workers do not yet exist. A structural-version mismatch must be marked stale or rejected; no derived result becomes canonical truth.
+
+### 12.3 Planned files and production order
+
+1. Add context domain types, descriptor/provider registry, resolver ordering and `contextKey`, directive compiler/ranking, application ports/service, and Prisma repository adapters.
+2. Add the minimal canonical preference migration for project card mutes and durable pins, with reviewed rollback and project/user ownership indexes; session hides remain local/transient.
+3. Add authenticated, ownership-checked chapter context read and project context-preference mutation routes using the existing application response/error envelope and bounded limits.
+4. Add one focus-preserving overlay controller shared by Context Peek now and reserved for Capture/selection/causal composers later, without activating later providers.
+5. Add the Context field registry, Relevant Now, typed outline/milestone/reference/causal cards, pin bar, Peek overlay, Return-to-Chapter behavior, responsive field/overlay presentation, keyboard paths, and editor integration.
+6. Add deterministic unit/service/component/E2E/stress/database tests covering precedence, direct-before-reference ordering, card caps, context-key races, continuous typing, focus/selection/scroll/history restoration, ownership, stale projections, zero-causality behavior, and bounded large fixtures.
+7. Record every S7 console trace and its identifying adjacent comment with final line numbers after formatting stabilizes; logs may contain identifiers/counts/versions only and must never contain prose, selection, intent, reference, or directive content.
+8. Run migration apply/constraint/rollback/reapply proof, full lint/type/coverage/build, focused browser and stress tests, then perform a line-by-line WorkPlan 7.1–7.4 and Bible side-by-side audit before any completion claim.
+
+### 12.4 Planned invariants, measurable budgets, and exclusions
+
+- **Precedence invariant:** pinned → selected object → explicit Peek → idle-safe block/reference context → chapter outline → milestone by chapter role → direct causal context → existing explicit references → bounded project fallback. Appendix A direct block-reference positioning is preserved inside the user-level precedence ruling; direct causal cards precede general reference cards.
+- **Stability budgets:** no request on a keystroke; 300 ms cursor idle debounce; typing suspension renewed on each document transaction; previous request aborted before replacement; response applied only when request `contextKey` equals the latest key; default card cap 8 and hard maximum 20; automatic causal depth exactly 1.
+- **Writing-flow invariant:** Peek and field refresh do not call navigation APIs, modify editor transactions, or scroll the manuscript. Overlay closure restores the captured ProseMirror selection and scroll anchor before focus.
+- **Truth invariant:** chapter/structure/causal/reference rows remain canonical on the server; descriptors and directives are disposable read models with source IDs and freshness versions.
+- **Security/privacy invariant:** project membership and chapter ownership guard every query/write; mute/pin writes are user-scoped; raw author content is excluded from console traces, metrics, errors, and test diagnostics.
+- **Accessibility/responsive invariant:** dialog/region semantics, labelled controls, Escape, focus return, keyboard-accessible alternatives, non-color freshness/error text, and compact overlay behavior are required.
+- **Explicit exclusions:** Capture cards/endpoint/conversion, Entity cards/state endpoints, full search and language provider, Timeline/Note/Research cards, durable propagation workers, AI inference, automatic causal extraction, prose rewriting, and unbounded causal traversal are not S7 work and must remain inactive.
+- **Pre-code status:** `Path.md` only is modified. Product implementation remains locked pending this checkpoint's distinct remote proof.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
