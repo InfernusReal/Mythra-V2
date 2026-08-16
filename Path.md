@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | **In progress — Sub-gates 4–5 passed; Sub-gate 6 pre-code plan in progress** | Entries S4–S6 below | S5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
+| 2. Progressive and Causal Story Core | 4–6 | **Completion evidence pending remote ledger proof — S4–S6 product and macro audit passed locally** | Entries S4–S6 and Phase 2 macro audit 11.12 below | S6 content `2261ff59b6781034967964fd4e2d5d46f593a3c0` plus constraint correction `69226bc15b5fa7ad51a72410907cae304a50c568`; CI `31942297127`/`95153119172` passed |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -50,7 +50,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
-| 6 | Causal Story Fabric Core | 2 | **In progress — pre-code plan only** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Planning commit pending; no S6 application code |
+| 6 | Causal Story Fabric Core | 2 | **Completion evidence pending remote ledger proof — implementation and audit passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; CI `31942297127`/`95153119172` passed; evidence commit follows |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–5 are closed after local, database, browser, content-commit, evidence-commit, push, and remote-CI proof. S6 is limited to its pre-code plan until that plan is committed, pushed, and remotely verified; every later row remains locked until its immediate predecessor's Pathway entry and remote commit are verified.
+Sub-gates 0–5 are closed after local, database, browser, content-commit, evidence-commit, push, and remote-CI proof. S6 product work, its correction, all local verification and both content CIs pass; its completion entry and Phase 2 macro audit are recorded below but remain formally contingent on this ledger commit being pushed and remotely verified. S7 stays locked until that final ledger proof exists.
 
 ## 4. Entry S0 — Foundation
 
@@ -1354,6 +1354,131 @@ Implementation order is fixed: schema/constraints → domain invariants and test
 - No milestone dependency is converted into a causal edge; no StoryReference is reinterpreted as causality; no chapter sequence becomes story time; no relation changes prose or downstream state.
 - **Intended pre-code commit scope:** `Path.md` only.
 - **Gate state:** S6 coding remains locked until this pre-code entry is committed, pushed and remotely verified. Phase 2 macro audit and S7 remain locked until S6 is separately passed with content/evidence/remote proof.
+
+### 11.6 Actual implementation scope and files
+
+The pre-code checkpoint was committed alone as `09c0c88c4c14bc0371357ebee174a0aface6828c`, pushed, confirmed as the exact remote branch ref, and passed GitHub Actions run `31729616092`, job `94546451818`, in 2m04s before the first S6 product file was created. The resulting product commit is `2261ff59b6781034967964fd4e2d5d46f593a3c0` (`Implement Causal Story Fabric sub-gate`, 47 files, 1,409 insertions, 17 deletions). The database-audit correction is `69226bc15b5fa7ad51a72410907cae304a50c568` (`Harden causal block anchor constraint`, two files, eight insertions, two deletions). Both were pushed to `agent/workplan-subgates-audit`; the latter is the exact remote ref and passed CI run `31942297127`, job `95153119172`, in 2m20s.
+
+| Files | Actual code produced | WorkPlan effect |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260813120000_causal_story_fabric/{migration.sql,rollback.sql}` | Adds all nine Story Change kinds, all nine endpoint discriminants, ten relation types, three states, provenance, `StoryChange`, `CausalRelation`, project relations, direction/type/status/anchor indexes, exact active-edge unique guard, non-self/block/strength/importance/hard/override/version checks, and S6-only reversal. The final correction makes manuscript-block Story Change anchors require a block ID at the database boundary as well as in Zod. | Canonical S6 storage is independent of containment/reference/milestone dependency and rollback preserves S0–S5. |
+| `domains/causality/domain/{types,endpoint-registry,graph,chronology}.ts` | Strict Zod contracts; active/reserved adapter registry; stable dependency-unavailable rejection; iterative hard-cycle check; bounded provenance paths; story-time, discovery-time and neutral chronology rules. | Domain invariants are framework-independent and future endpoint enum presence is not misreported as capability. |
+| `domains/causality/application/{ports,service}.ts` | Implements the required `createRelation`, `getNeighborhood`, `traceImpact`, `validateChronology`, bounded overview, Story Change write and relation lifecycle commands. Budgets are parsed/clamped before repository execution; logs are content-safe. | The named application boundary exists exactly as required. |
+| `domains/causality/infrastructure/{prisma-causality-repository,prisma-endpoint-adapters}.ts` | Activates Milestone, Chapter Outline, Scene, Narrative Intent, Manuscript Block and Story Change resolution only. Transactions enforce workspace/project ownership, optimistic structural versioning, complete revisions, redacted outbox, active duplicate idempotency, lifecycle choices and indexed frontier traversal. | Heterogeneous active endpoints work; Timeline Event, Entity State and Capture Derived stay reserved until Phase 3. |
+| `lib/causality/{runtime,http}.ts`; `app/api/v2/projects/[id]/causality/**/route.ts` | Composes the domain once and exposes bounded overview, Story Change write/update, relation create, reattach/retire/archive, neighborhood, impact and chronology through authenticated thin handlers and stable envelopes/statuses. | Every S6 API is ownership-scoped; no future-domain endpoint is activated. |
+| `components/structure/CausalLens.tsx`; Structure page/workspace/nav/CSS changes | Activates Causal only in S6; provides one-line changes, A because of B/A causes B, full vocabulary and metadata, Why now?/What changes?, chronology, accessible ordered list, explicit lifecycle choices and a 12-edge local graph only in the live Architect mode. Zero causality shows only optional creation, not a dashboard/alarm. | Structure context satisfies the direct author flow without loading a full graph. |
+| `components/editor/CausalComposer.tsx`; `components/editor/ChapterEditor.tsx` | Captures stable manuscript block ID, exact selection offsets and scroll; creates the explicit Story Change/relation without selected text; restores selection, focus and scroll after success/cancel; leaves document JSON/text/version untouched. | Writing-context causality uses the existing editor boundary and never infers or edits prose. |
+| `docs/adr/0007-causal-boundaries.md`; `docs/api/causality.md`; `docs/architecture/causal-story-fabric.md`; `docs/operations/migrations.md` | Records vocabulary, active/reserved lifecycle, graph/chronology boundaries, budgets, privacy, API envelopes, forward/rollback commands and S5 preservation rule. | Operational and architectural decisions are durable and match the implementation. |
+| `scripts/verify-causality-db.ts`; package scripts; `tests/{unit,service,component,stress,e2e}`; S4/S5 regression edits | Adds real PostgreSQL forward/rollback verifier; 19 focused causal tests across unit/service/component/stress; five primary browser flows plus cross-viewport skips; fixtures; and updates earlier Structure expectations only to recognize the newly authorized Causal lens. | The capability is tested at invariant, application, browser, migration, concurrency and regression levels. |
+
+### 11.7 Implementation method, state, security and boundedness
+
+- **Canonical writes first:** transactions resolve active endpoints inside the requested project, reject archived/reserved/cross-project objects, save the complete resultant object revision, increment `projectStructuralVersion`, and emit a content-free outbox record. A unique-conflict retry returns the already-created exact active relation; unrelated conflicts remain stable conflicts.
+- **Endpoint lifecycle:** the registry contains every enum member. Only the six available adapters are active. The three reserved adapters always produce `DEPENDENCY_UNAVAILABLE`/503. Reattach revalidates endpoints, self-edge and hard-cycle rules; retire preserves the row with `RETIRED`; archive preserves its revision history.
+- **Graph safety:** hard active `REQUIRES` uses iterative reachability with a 5,000-edge ceiling. Temporal progression or mutual-state semantics are explicit stored overrides. Neighborhood reads query indexed relations incident to the current frontier at every depth, so 750 older unrelated rows cannot consume a ten-edge direct-neighborhood budget. Hard ceilings are depth 12, nodes 500, edges 750 and paths 500; truncation is surfaced.
+- **Chronology:** ordinary relations compare explicit Story Change story time only. `REVEALS` compares discovery time. Missing time is `INSUFFICIENT_INFORMATION`; chapter order is never consulted. Warnings are neutral confirmation language and do not block writes.
+- **UI state:** the server owns canonical data and budgets. The client owns temporary form, trace and chronology display state. The audit found and fixed an inherited-state defect by passing the current presentation mode into `CausalLens`; switching to Architect now immediately controls the optional graph. The accessible relation list remains present in every mode.
+- **Security/privacy:** every route requires the internal session actor; repositories filter workspace and project. Logs and outbox payloads exclude titles, descriptions, conditions, relation/provenance notes, Narrative Intent text, selected text and manuscript content. Complete authored fields remain only in canonical rows and revision snapshots.
+- **Recovery:** S6 rollback drops only `StoryChange`, `CausalRelation` and S6 enums/lens/object values, rebuilds affected enums safely, and preserves eleven S4/S5 canonical tables plus sampled byte-equivalent chapter prose. Re-deploy and verification were run after rollback.
+
+### 11.8 Complete S6 console trace/comment ledger
+
+Every listed operational trace has an adjacent identifying comment. `logger.info`/`logger.warn` reaches the structured guarded `console.log` transport established in S0; explicit client, endpoint-registry and verifier traces call `console.log` directly with non-content fields only.
+
+| Step | File | Comment line | Call/transport line | Safe fields and purpose |
+| --- | --- | ---: | ---: | --- |
+| S6-TRAVERSAL-001 | `domains/causality/application/service.ts` | 14 | 15 | request/workspace/project, found, node/edge counts; bounded overview complete. |
+| S6-CHANGE-001 | same | 21 | 22 | IDs, kind, object/structural versions; Story Change committed. |
+| S6-RELATION-001 | same | 28 | 29 | endpoint types, relation type/state/hard/idempotent, IDs/version; relation committed. |
+| S6-RELATION-002 | same | 36 | 37 | relation ID, action/state/archive/version; preservation choice committed. |
+| S6-TRAVERSAL-002 | same | 48 | 49 | aggregate node/edge/path/truncation; neighborhood complete. |
+| S6-TRAVERSAL-003 | same | 55 | 56 | aggregate node/edge/path/truncation; impact complete. |
+| S6-CHRONOLOGY-001 | same | 62 | 63 | relation ID, status/basis/warning count; chronology complete without time values. |
+| S6-ENDPOINT-002 | `domains/causality/domain/endpoint-registry.ts` | 35 | 36 | project, endpoint type, dependency-unavailable result; reserved adapter rejected. |
+| S6-ENDPOINT-001 | same | 40 | 41 | project, endpoint type/ID, archived flag; active endpoint resolved without label/time. |
+| S6-API-001 | `lib/causality/http.ts` | 13 | 14 | request/workspace, route, method, status; API success. |
+| S6-API-002 | same | 18 | 19 | request, route, method, status, stable error code; API failure. |
+| S6-UI-001 | `components/structure/CausalLens.tsx` | 27 | 28 | project and kind; one-line change complete. |
+| S6-UI-002 | same | 38 | 39 | project, phrase, endpoint/relation types; cause/effect composition complete. |
+| S6-UI-003 | same | 48 | 49 | project, direction, path count, truncation; trace displayed. |
+| S6-UI-004 | same | 57 | 58 | project/relation/action; lifecycle choice complete. |
+| S6-UI-008 | same | 65 | 66 | project/relation, status/basis/warning count; chronology displayed. |
+| S6-UI-005 | `app/app/projects/[id]/structure/page.tsx` | 25 | 26 | workspace/project and aggregate counts; server projection joined. |
+| S6-UI-006 | `components/editor/CausalComposer.tsx` | 18 | 19 | project/chapter/block and selection offsets only; composer opened. |
+| S6-UI-007 | same | 31 | 32 | project/chapter/block, phrase and selection offsets; relation committed and restore requested. |
+| S6-DB-001 | `scripts/verify-causality-db.ts` | 107 | 108 | aggregate invariant results/counts only; forward database proof. |
+| S6-DB-002 | same | 121 | 122 | remaining/preserved table and prose-row counts; rollback proof. |
+
+Audit result: 21 S6 trace IDs, 21 adjacent comments, and 21 call/transport sites. A repository search found no S6 log containing authored fields. The exact line numbers above are from correction commit `69226bc15b5fa7ad51a72410907cae304a50c568` before this ledger-only change.
+
+### 11.9 Validation and stress evidence
+
+| Validation | Exact final result | Classification |
+| --- | --- | --- |
+| `npm run db:validate`; `npm run db:generate` | Prisma 7.9.1 schema valid; client generated successfully. | Verified. |
+| `npm run lint` | ESLint completed with zero warnings/errors after removing one unused E2E destructure. | Verified. |
+| `npm run typecheck` | `tsc --noEmit` passed after every correction. | Verified. |
+| `npm run test` | 37 files, 133 tests passed. | Verified. |
+| focused S6 Vitest command | Five files, 19 tests passed for domain, service, lens, composer and stress behavior. | Verified. |
+| `npm run test:stress` | Five files, 11 tests passed. S6 proves a 5,000-edge iterative cycle and a 1,000-edge fan-out stops at independently declared node/edge/path ceilings. | Verified. |
+| `npm run test:coverage` | 37/133 passed; 87.79% statements, 76.15% branches, 81.33% functions, 94.47% lines; all unchanged thresholds passed. | Verified. |
+| final CI-environment `npm run build` | Next.js 16.3.0 production build passed and emitted every causal route. | Verified. |
+| `npm run db:rollback:causality` → `npm run db:deploy` → `npm run db:verify:causality` | Rollback reported zero S6 tables, eleven prior-capability tables and one sampled prose row preserved; re-deploy passed. Final forward proof: structural version 16, four changes, six relations, six active adapters resolved, three reserved rejected, missing block anchor rejected, hard cycle rejected, temporal feedback accepted, duplicate idempotent, cross-project/workspace rejected, reveal basis `DISCOVERY_TIME`, three impact paths with full provenance, direct-first adversarial traversal true, complete revisions, 14 redacted outbox events, lifecycle preserved, prose unchanged, one concurrent winner/one conflict. | Verified. |
+| `npx playwright test tests/e2e/causality.spec.ts` | Ten discovered; five intended primary flows passed and five explicitly skipped on the non-owning viewport. Passed zero optionality, Structure composition/trace/chronology, reserved/cycle results, exact editor restoration/prose, axe, and mobile usability. | Verified; skips are intentional cross-project deduplication, not passes. |
+| integrated Phase 2 Playwright regression | 64 discovered; 34 owning-viewport flows passed, 30 explicitly skipped duplicates; no failure across S4 Structure, S5 Milestones, S6 causality and earlier writing/durability/continuation flows. | Verified. |
+| axe and visual inspection | No serious/critical axe violation. `test-results/causality-desktop.png` and `test-results/causality-mobile.png` were inspected: no clipping, overlap, horizontal overflow or hidden primary control; mobile wraps lenses/forms and preserves bottom navigation. | Verified. |
+| GitHub Actions | Content run `31941509503`/job `95151288121` passed checkout, install, generation, lint, typecheck, coverage and build in 2m17s. Final constraint correction run `31942297127`/job `95153119172` passed the same steps in 2m20s. The only annotation is GitHub's upstream Node-20 action deprecation notice; no project step failed. | Verified remotely. |
+
+Observed non-passing attempts were retained rather than hidden: the first build invocation lacked required `APP_ORIGIN` and stopped during prerender; rerunning with the repository CI environment passed. The first local E2E rerun encountered a persistent-development-database email identity collision; a run-unique matching development principal passed all flows. Early E2E authoring exposed global route-announcer/strict-locator ambiguity and the locators were scoped to the causal lens/form. The audit then found the live Architect-mode state defect, the global-edge starvation risk and the database block-anchor constraint mismatch; all three were fixed and reverified. Transient Prisma Dev connection termination was recovered by restarting the local ephemeral server; final rollback/deploy/verification passed. None is classified as an open product gap.
+
+### 11.10 Side-by-side S6 conformance audit
+
+| WorkPlan 6.1/6.3/6.4 requirement | Actual evidence | Status | Remaining gap |
+| --- | --- | --- | --- |
+| All nine Story Change identities | Enum, Zod, schema/migration and UI options contain event, decision, revelation, state change, setup, payoff, condition, outcome, custom. | Verified | None. |
+| Complete enum/registry; six active and three reserved | Registry construction requires all nine; PostgreSQL resolves every active heterogeneous type and returns stable 503 for Timeline Event, Entity State and Capture Derived. | Verified | None; future activation remains S8/S9/S11. |
+| Dedicated relation storage and exact vocabulary/metadata | Migration, Prisma model, input schema, API and UI include exact ten types, condition, strength, importance, state, note, provenance, version and ownership. | Verified | None. |
+| Self/cross-project rejection, active idempotency, lifecycle preservation | Zod plus database non-self check; adapter project filters; unique active guard/retry; reattach/retire/archive revisions; real DB proof. | Verified | None. |
+| Hard-cycle rule and feedback semantics | Iterative 5,000-edge check rejects unqualified hard `REQUIRES`; explicit temporal or mutual-state overrides persist; feedback proof passes. | Verified | None. |
+| Neutral story/discovery chronology; no chapter-order substitution | Unit/DB/browser tests cover consistent, insufficient, cause-after-effect and reveal discovery warning; implementation never reads chapter order. | Verified | None. Timeline integration correctly remains S11. |
+| Required four application services | Named methods exist behind `CausalityService`/repository ports and thin routes. | Verified | None. |
+| Indexed, bounded, direct-first traversal and full provenance | Direction indexes; frontier-indexed repository queries; 750-unrelated-before-direct PostgreSQL adversary; independent limits; ordered relation ID/type/provenance steps; `potentially affected` language. | Verified | None. |
+| Structure and writing composition | Structure supports both displayed phrases and all metadata; writing supports both phrase directions from a stable block and restores exact cursor/selection/scroll/focus. Browser test confirms stored prose unchanged. | Verified | None. |
+| Accessible alternative and optional Architect graph | Ordered semantic list is always primary; graph is `aria-hidden`, max 12 edges and live-mode controlled; axe passes. | Verified | None. |
+| Zero causality imposes no dashboard/warning/prerequisite | Empty service/page and desktop/mobile tests render optional one-line creation only; editor remains writable. | Verified | None. |
+| Structural version, revisions, outbox, bounds and rollback | Real DB proof covers version 16, complete authored snapshots, content-free 14-event outbox, concurrency convergence, budgets and S6-only rollback. | Verified | None. |
+| No prose mutation/inference/AI/future-domain pretense | Repository has no prose write; exact chapter bytes/version survive; no inference or AI call; reserved endpoints reject. | Verified | None. |
+
+### 11.11 Global acceptance, anti-goal and source audit
+
+- **Writing flow:** one writer can remain plot/volume/outline/scene/milestone/timeline/causality-free; S6 controls do not intercept autosave, offline recovery or continuation. The full regression keeps all S0–S5 behavior green.
+- **Accessibility/responsiveness:** semantic forms, labels, status/alert regions, keyboard-operable buttons, always-available list and responsive CSS pass component, axe, desktop and Pixel 7 flows. The local graph is never the sole representation.
+- **Performance:** no client full-graph load; server overview and traversals are bounded. Direct indexed frontier reads and iterative algorithms prevent hidden recursion and unrelated-row starvation.
+- **Reliability/security/privacy:** project/workspace ownership, stable envelopes, optimistic concurrency, transactionally coupled revision/outbox/version, recovery choices, migration rollback and content-safe logs are all proven.
+- **Anti-goals:** no containment is inferred from causal edges; milestone dependencies and Story References remain distinct; no chapter sequence becomes time; no automatic prose inference; no required planning; no Phase 3 model/adapter/UI is activated.
+- **Bible/source comparison:** the implemented causal doctrine, vocabulary, active/reserved order, author-confirmed relations, optionality, trace language, chronology neutrality, writing-flow exit and evidence template match the V2.2 source and the authorized dependency clarification in WorkPlan 3.1/6. No contradiction or omission was found after the corrections above.
+
+### 11.12 Phase 2 macro exit audit
+
+| WorkPlan 6.4 macro clause | Integrated evidence across S4 → S5 → S6 | Result |
+| --- | --- | --- |
+| Discovery writer keeps writing with zero planning/causality | S4 zero-structure, S5 zero-milestone and S6 zero-causality paths all pass; editor/durability/continuation regression remains green. | PASS |
+| Planner scaffolds/reorders large chapter ranges with preview/reference preservation | S4 content/evidence commits and combined browser/stress regressions remain green; S5 only extends the scaffold through previewed milestone allocations. | PASS |
+| Milestones many-to-many, role-based, exact dependency invariant | S5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`, PostgreSQL proof and current regression pass. | PASS |
+| Author records A because of B / A causes C in writing or Structure and traces bounded paths | S6 Structure and writing composers, DB heterogeneous edges, browser trace and provenance tests pass. | PASS |
+| Causal action never changes prose, infers meaning or loses writing position | Exact E2E before/after selection/block/scroll plus stored document; DB byte/version comparison; no inference code. | PASS |
+| Flashback/reveal avoids chapter-order false errors | Story-time warning is neutral; revelation uses discovery time; missing anchors remain insufficient; chapter order is unused. | PASS |
+| S4, S5 and S6 pass separately before macro completion | S4 plan/content/evidence and CI, then S5 plan/content/evidence and CI, then S6 plan/content/correction and CI are distinct, ordered and remotely verified. | PASS, contingent only on this ledger commit's remote proof. |
+
+The six-phase consolidation did not replace an original gate: Sub-gates 4, 5 and 6 each retained independent pre-code, content, tests, audit, commit, push and remote-CI evidence. The integrated macro run adds evidence but waives none. WorkPlan sections 6.1–6.4 are internally consistent with the implementation; the endpoint dependency ruling, ruled Semantic Zoom ladder and Path/Pathway naming remain intact.
+
+### 11.13 Formal decision and next-gate lock
+
+- **S6 product/audit decision:** **PASS with no open in-scope gap**, subject only to this completion-entry commit being pushed and remotely verified.
+- **Phase 2 macro decision:** **PASS with no open in-scope gap**, under the same final ledger-proof condition.
+- **Planned later, not gaps:** Contextual Writing Field cards/S7; Capture and capture-derived activation/S8; Universe/entity-state activation/S9; Timeline Event activation and timeline-backed chronology/S11; projection worker/S12; AI seam/S17.
+- **Remote chain at this point:** plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; database correction `69226bc15b5fa7ad51a72410907cae304a50c568`; final product CI `31942297127`/`95153119172` passed.
+- **S7 lock:** remains closed until this Path-only completion evidence is committed, pushed, equals the remote branch ref and its GitHub Actions run passes. No S7 product file has been created.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
