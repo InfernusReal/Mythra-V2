@@ -17,7 +17,7 @@ CREATE TABLE "StoryChange" (
   "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "archivedAt" TIMESTAMPTZ(3), CONSTRAINT "StoryChange_pkey" PRIMARY KEY ("id"),
   CONSTRAINT "StoryChange_anchor_complete_check" CHECK (("anchorType" IS NULL AND "anchorId" IS NULL AND "anchorBlockId" IS NULL) OR ("anchorType" IS NOT NULL AND "anchorId" IS NOT NULL)),
-  CONSTRAINT "StoryChange_anchor_block_check" CHECK ("anchorBlockId" IS NULL OR "anchorType" = 'MANUSCRIPT_BLOCK'),
+  CONSTRAINT "StoryChange_anchor_block_check" CHECK (("anchorType" = 'MANUSCRIPT_BLOCK' AND "anchorBlockId" IS NOT NULL) OR (("anchorType" IS NULL OR "anchorType" <> 'MANUSCRIPT_BLOCK') AND "anchorBlockId" IS NULL)),
   CONSTRAINT "StoryChange_version_check" CHECK ("version" > 0)
 );
 

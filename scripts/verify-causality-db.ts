@@ -20,6 +20,10 @@ async function rejected(operation: Promise<unknown>, code: string): Promise<bool
   try { await operation; return false; } catch (error) { return typeof error === "object" && error !== null && "code" in error && String(error.code) === code; }
 }
 
+async function databaseRejected(operation: Promise<unknown>): Promise<boolean> {
+  try { await operation; return false; } catch { return true; }
+}
+
 async function verify(): Promise<void> {
   const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
   try {
@@ -36,6 +40,8 @@ async function verify(): Promise<void> {
     const intent = await prisma.narrativeIntent.create({ data: { projectId: project.id, targetType: "SCENE", targetId: scene.id, category: "TENSION", intentText: "Private intent" } });
     const zeroProject = await writing.createProject(actor, { title: "Zero causality" }); const zero = await causality.getOverview(actor, zeroProject.id, { nodeBudget: 200, edgeBudget: 300 });
     if (!zero || zero.storyChanges.length || zero.relations.length) throw new Error("Zero-causality project was not valid.");
+    const missingBlockAnchorRejected = await databaseRejected(prisma.storyChange.create({ data: { projectId: project.id, kind: "EVENT", title: "Invalid anchor", anchorType: "MANUSCRIPT_BLOCK", anchorId: chapter.id } }));
+    if (!missingBlockAnchorRejected) throw new Error("The database accepted a manuscript-block Story Change anchor without a block ID.");
 
     let version = milestone.projectStructuralVersion;
     const first = await causality.writeStoryChange(actor, project.id, { expectedStructuralVersion: version, kind: "EVENT", title: "Door opens", description: privateChangeDescription, storyTime: 1, discoveryTime: 1, isPlaceholder: false }); version = first.projectStructuralVersion;
@@ -99,7 +105,7 @@ async function verify(): Promise<void> {
     if (winners !== 1 || conflicts !== 1 || await prisma.storyChange.count({ where: { projectId: concurrentProject.id } }) !== 1 || await prisma.objectRevision.count({ where: { projectId: concurrentProject.id, objectType: "STORY_CHANGE" } }) !== 1 || await prisma.outboxEvent.count({ where: { aggregateId: concurrentProject.id, eventType: "causality.story_change_changed" } }) !== 1) throw new Error("Concurrent causal writes did not converge atomically.");
 
     // Console trace S6-DB-001: PostgreSQL verified S6 ownership, adapters, cycles, chronology, traversal, revision/outbox, lifecycle, concurrency and prose isolation without authored content.
-    console.log(JSON.stringify({ level: "info", step: "S6-DB-001", event: "causality_database.verified", projectId: project.id, structuralVersion: version, storyChangeCount: overview.storyChanges.length, activeRelationCount: overview.relations.length, allActiveAdaptersResolved: true, reservedAdaptersRejected: reservedResults.every(Boolean), hardCycleRejected, temporalFeedbackAccepted: true, duplicateActiveIdempotent: true, crossProjectRejected, crossWorkspaceRead: false, crossWorkspaceWriteRejected, revealBasis: chronology.chronology.basis, revealWarningCount: chronology.chronology.warnings.length, impactPathCount: impact.paths.length, fullPathProvenance: true, boundedNodeCount: bounded.nodeCount, boundedEdgeCount: bounded.edgeCount, directFirstTraversal: true, completeRevisionSnapshots: true, contentFreeOutbox: true, outboxCount: outbox.length, lifecycleChoicesPreserved: true, proseUnchanged: true, concurrentWinners: winners, concurrentConflicts: conflicts }));
+    console.log(JSON.stringify({ level: "info", step: "S6-DB-001", event: "causality_database.verified", projectId: project.id, structuralVersion: version, storyChangeCount: overview.storyChanges.length, activeRelationCount: overview.relations.length, allActiveAdaptersResolved: true, reservedAdaptersRejected: reservedResults.every(Boolean), missingBlockAnchorRejected, hardCycleRejected, temporalFeedbackAccepted: true, duplicateActiveIdempotent: true, crossProjectRejected, crossWorkspaceRead: false, crossWorkspaceWriteRejected, revealBasis: chronology.chronology.basis, revealWarningCount: chronology.chronology.warnings.length, impactPathCount: impact.paths.length, fullPathProvenance: true, boundedNodeCount: bounded.nodeCount, boundedEdgeCount: bounded.edgeCount, directFirstTraversal: true, completeRevisionSnapshots: true, contentFreeOutbox: true, outboxCount: outbox.length, lifecycleChoicesPreserved: true, proseUnchanged: true, concurrentWinners: winners, concurrentConflicts: conflicts }));
   } finally { await prisma.$disconnect(); }
 }
 
