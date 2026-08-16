@@ -213,6 +213,14 @@ enum StructureProvenanceType {
   CAPTURE
 }
 
+enum ContextCardType {
+  CHAPTER_OUTLINE
+  MILESTONE
+  CAUSAL
+  REFERENCE
+  NARRATIVE_INTENT
+}
+
 model User {
   id                 String             @id @default(uuid()) @db.Uuid
   email              String             @unique @db.VarChar(320)
@@ -230,6 +238,8 @@ model User {
   ownedWorkspaces    Workspace[]         @relation("WorkspaceOwner")
   writingSessions    WritingSessionState[]
   structureViewStates StructureViewState[]
+  contextPreferences ContextPreference[]
+  contextPins        ContextPin[]
 
   @@index([deletionRequestedAt, purgeAfter])
 }
@@ -300,6 +310,8 @@ model Project {
   milestoneDependencies MilestoneDependency[]
   storyChanges         StoryChange[]
   causalRelations      CausalRelation[]
+  contextPreferences   ContextPreference[]
+  contextPins          ContextPin[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -761,6 +773,35 @@ model WritingSessionState {
   @@unique([userId, projectId])
   @@index([workspaceId, projectId])
   @@index([activeChapterId])
+}
+
+model ContextPreference {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @db.Uuid
+  projectId        String   @db.Uuid
+  mutedTypes       Json     @default("[]")
+  directiveEnabled Boolean  @default(true)
+  createdAt        DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(3)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@index([projectId, updatedAt(sort: Desc)])
+}
+
+model ContextPin {
+  id         String          @id @default(uuid()) @db.Uuid
+  userId     String          @db.Uuid
+  projectId  String          @db.Uuid
+  cardType   ContextCardType
+  sourceId   String          @db.Uuid
+  createdAt  DateTime        @default(now()) @db.Timestamptz(3)
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project    Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId, cardType, sourceId])
+  @@index([projectId, userId, createdAt(sort: Desc)])
 }
 
 model WorkspaceMember {

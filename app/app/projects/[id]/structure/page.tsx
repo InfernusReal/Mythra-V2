@@ -8,7 +8,7 @@ import { milestoneService } from "@/lib/milestones/runtime";
 import { causalityService } from "@/lib/causality/runtime";
 import { structureService } from "@/lib/structure/runtime";
 
-export default async function StructurePage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ rangeStart?: string; pageSize?: string; nodeBudget?: string; edgeBudget?: string }> }) {
+export default async function StructurePage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ rangeStart?: string; pageSize?: string; nodeBudget?: string; edgeBudget?: string; returnChapterId?: string }> }) {
   const actor = await requireActor();
   const { id } = await params;
   const range = await searchParams;
@@ -24,5 +24,5 @@ export default async function StructurePage({ params, searchParams }: { params: 
   logger.info("milestone.workspace_projection_joined", { step: "S5-UI-008", workspaceId: actor.workspaceId, projectId: id, milestoneCount: milestones.milestones.length, returnedEdges: milestones.page.returnedEdges });
   // Console trace S6-UI-005: bounded causal projection joined to Structure with aggregate counts only.
   logger.info("causality.workspace_projection_joined", { step: "S6-UI-005", workspaceId: actor.workspaceId, projectId: id, storyChangeCount: causality.storyChanges.length, returnedEdges: causality.page.returnedEdges });
-  return <AppShell><StructureWorkspace initialModel={model} initialMilestones={milestones} initialCausality={causality} /></AppShell>;
+  return <AppShell><StructureWorkspace initialModel={model} initialMilestones={milestones} initialCausality={causality} returnChapterId={range.returnChapterId} /></AppShell>;
 }

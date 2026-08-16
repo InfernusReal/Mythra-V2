@@ -21,6 +21,7 @@ import { EditorToolbar } from "./EditorToolbar";
 import { FocusMode } from "./FocusMode";
 import { RecoveryDrawer } from "./RecoveryDrawer";
 import { WordTarget } from "./WordTarget";
+import { ContextualWritingField } from "@/components/context/ContextualWritingField";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -209,6 +210,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         // Console trace S4-UI-015: editor-to-Structure navigation requested after continuation state capture remains active.
         console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));
       }}>Structure</a></div>
+      <ContextualWritingField editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <CausalComposer editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <nav className="chapter-switcher" aria-label="Nearby chapters">
         {model.navigation.previousChapterId ? <a href={`/app/chapters/${model.navigation.previousChapterId}`}>Previous chapter</a> : <span>First chapter</span>}

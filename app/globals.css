@@ -120,7 +120,35 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 }
 .app-rail a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
 .shell-main { display: grid; place-items: center; padding: 40px; min-width: 0; }
-.context-reservation { border-left: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, var(--bg)); }
+.context-reservation { min-width: 0; overflow: auto; border-left: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, var(--bg)); }
+.context-field { display: grid; gap: 14px; padding: 18px; }
+.context-field > header, .context-card > header, .relevant-now > header, .peek-overlay > header { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+.context-field h2, .context-card h3, .relevant-now h2, .relevant-now h3, .peek-overlay h2 { margin: 0; }
+.context-field > header > span, .context-card header span, .relevant-now header span, .freshness { color: var(--text-muted); font-size: .72rem; }
+.relevant-now { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+.relevant-now h2 { font-size: 1rem; }
+.relevant-now h3 { color: var(--text-muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+.relevant-now ul { display: grid; gap: 4px; margin: 4px 0 0; padding: 0; list-style: none; }
+.relevant-now button { width: 100%; padding: 3px 0; color: var(--text); border: 0; background: transparent; text-align: left; line-height: 1.4; }
+.context-card-list { display: grid; gap: 10px; }
+.context-card { padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+.context-card[data-pinned="true"] { border-inline-start: 3px solid var(--accent); }
+.context-card h3 { font-size: .9rem; }
+.context-card p { margin: 8px 0; color: var(--text); font-size: .84rem; line-height: 1.45; }
+.context-card small { color: var(--text-muted); }
+.context-card-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.context-card-actions button, .context-card-actions a, .peek-overlay button, .context-mobile > button, .context-compact-trigger, .pin-bar button, .context-preferences button { min-height: 32px; padding: 5px 8px; color: var(--text); border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+.context-card-actions a { display: inline-flex; align-items: center; text-decoration: none; }
+.pin-bar, .context-preferences { display: flex; flex-wrap: wrap; gap: 6px; }
+.pin-bar { padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.context-reference-search { display: grid; gap: 5px; color: var(--text-muted); font-size: .76rem; font-weight: 650; }
+.context-reference-search input { min-height: 36px; padding: 6px 8px; color: var(--text); border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.context-compact-trigger { display: none; justify-self: end; }
+.peek-backdrop, .context-mobile-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--text) 30%, transparent); }
+.peek-overlay { width: min(100%, 520px); max-height: calc(100vh - 32px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-raised); box-shadow: 0 18px 80px color-mix(in srgb, var(--text) 22%, transparent); }
+.peek-overlay textarea { width: 100%; min-height: 120px; margin-block: 8px; padding: 10px; color: var(--text); border: 1px solid var(--border); border-radius: 7px; background: var(--surface); resize: vertical; }
+.context-mobile { width: min(100%, 420px); max-height: calc(100vh - 32px); overflow: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-raised); }
+.context-mobile > button { margin: 12px 18px 0; }
 .empty-shell { width: min(100%, 680px); }
 .empty-shell h1, .sign-in-card h1 { margin: 8px 0 12px; font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.035em; }
 .empty-shell p:not(.eyebrow), .sign-in-card p { color: var(--text-muted); line-height: 1.65; }
@@ -243,6 +271,7 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 @media (max-width: 1279px) {
   .app-shell { grid-template-columns: 48px minmax(0, 1fr); }
   .context-reservation { display: none; }
+  .context-compact-trigger { display: inline-flex; }
 }
 @media (max-width: 767px) {
   .app-shell { grid-template: 44px minmax(0, 1fr) 48px / 1fr; }

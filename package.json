@@ -38,6 +38,8 @@
     "db:rollback:milestones": "tsx scripts/verify-milestones-db.ts rollback",
     "db:verify:causality": "tsx scripts/verify-causality-db.ts verify",
     "db:rollback:causality": "tsx scripts/verify-causality-db.ts rollback",
+    "db:verify:context": "tsx scripts/verify-context-db.ts verify",
+    "db:rollback:context": "tsx scripts/verify-context-db.ts rollback",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
