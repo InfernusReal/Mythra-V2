@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 pre-code checkpoint** | Entries S7–S8 below | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 audit complete; evidence commit/CI pending** | Entries S7–S8 below | S8 content `5bfb6397d457465fae31042aa327e137fa2dd7fe`, correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; CI `31960693578`/`95198113567` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -52,7 +52,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
-| 8 | Capture | 3 | **Planning checkpoint — product code locked** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan commit/push/CI pending |
+| 8 | Capture | 3 | **Audit complete — evidence commit/CI pending** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; correction CI `31960693578`/`95198113567` passed |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–6 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S7 is eligible by dependency order and its Path-only planning checkpoint has started; no S7 product file or capability may be created until that checkpoint is committed, pushed, remotely matched, and its CI passes.
+Sub-gates 0–7 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S8 product work and its audit are complete, but S9 remains locked until the S8 evidence commit is pushed, remotely matched, passes CI, and receives a reconciliation record.
 
 ## 4. Entry S0 — Foundation
 
@@ -1724,6 +1724,139 @@ Doctrine audit: structure, world data, Capture filing, and causality remain opti
 - **Truth separation:** Capture is raw authored input; attachments are references; conversions create explicit canonical target records with provenance; none implies causality. Optional causal actions require explicit endpoints and relation type.
 - **Excluded/locked:** Entity conversion, Note conversion, timeline conversion, full universal Search indexing, research/files, arbitrary prose parsing, AI classification, automatic filing, automatic prose editing, billing, and Phase 4 workers remain inactive.
 - **Pre-code status:** only `Path.md` changes in this checkpoint; S8 product code remains locked pending remote proof.
+
+### 13.5 Planning release, implementation chronology, and immutable product proof
+
+- The Path-only plan commit is `58437457018220b34c26cee1eb5e65ce4c85997f` (`Plan Capture sub-gate`). It was pushed to `origin/agent/workplan-subgates-audit`, the remote ref matched exactly, and GitHub Actions run `31949245130`, job `95170032434`, passed every repository step in 2m27s. Product work began only after that result.
+- Implementation followed the locked order: contracts and registry; forward/rollback migration; repository and service; authenticated routes; IndexedDB queue; shared focus-preserving overlay; Inbox; Capture context and causal adapters; documentation; database/unit/service/component/stress/accessibility/browser tests; side-by-side audit; content push and remote CI.
+- The foundational product commit is `5bfb6397d457465fae31042aa327e137fa2dd7fe` (`Implement zero-friction Capture sub-gate`). It contains 53 files with 756 insertions and 46 deletions. `git ls-remote origin refs/heads/agent/workplan-subgates-audit` returned that exact hash after push.
+- GitHub Actions run `31959800484`, job `95195930611`, checked out that exact content hash and passed dependency installation, Prisma generation, lint, typecheck, coverage, and production build in 2m31s. No repository step was skipped or failed.
+- The side-by-side audit then found incomplete automatic coordinate projection. Correction commit `3ef1b5641da38220559dd99e20074f03c2762a3a` (`Complete Capture context metadata`) passes active Chapter/Chapter Outline coordinates from Structure, sends `outlineId`, returns bounded `entityContext` in read models, and proves its round trip without emitting entity IDs. The remote ref matched exactly. GitHub Actions run `31960693578`, job `95198113567`, passed every repository step in 2m39s.
+- S8 remains `Audit complete — evidence commit/CI pending` in this evidence commit. S9 is still locked until sections 13.5–13.11 are themselves pushed, remotely matched, pass CI, and are reconciled in 13.12.
+
+### 13.6 Complete file and responsibility ledger
+
+| Files | Action | Produced behavior | WorkPlan/Bible obligation |
+| --- | --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260816193000_zero_friction_capture/{migration,rollback}.sql` | Modified/created | Canonical private `Capture`, `CaptureAttachment`, `CaptureConversion`, and `CaptureRevision`; lifecycle/target/conversion types; uniqueness, checks, indexes, ownership relations, forward DDL and boundary-safe rollback. `ContextPin.cardType` became a bounded string so independently gated providers can activate without destructive enum replacement. | Raw-first canonical persistence, lifecycle, provenance, revisions, idempotency, reversible schema, future provider extensibility. |
+| `domains/capture/domain/{types,conversion-registry}.ts` | Created | Zod contracts and typed registry with active Milestone, Story Change, chapter/outline attachment and Capture-derived causal targets; Entity, Note and Timeline targets return dependency-unavailable. | Contract-first implementation and exact S8 activation boundary. |
+| `domains/capture/application/{ports,service}.ts` | Created | Repository boundary plus create/detail/list/lifecycle/attach/detach/convert orchestration, explicit optional causality, active-target disclosure, validation and content-safe traces. | Thin production service and explicit author actions only. |
+| `domains/capture/infrastructure/prisma-capture-repository.ts` | Created | Workspace/project/user ownership, creation and conversion replay, bounded private Inbox/detail reads, lifecycle revisions/retention, attachments, canonical conversion targets, provenance, structural versions and redacted outbox metadata. | Server-owned truth, privacy, idempotency, provenance, recovery and bounds. |
+| `lib/capture/{runtime,http}.ts`; all five `app/api/v2/.../captures.../route.ts` routes | Created | Production dependency wiring and authenticated standard-envelope create/list/detail/lifecycle/attachment/conversion endpoints with safe errors. | API contracts, ownership, stable failure behavior and operational composition. |
+| `lib/indexed-db/capture-queue.ts` | Created | Raw local queue, 100-record bound, ordered due reads, exponential retry capped at 60 seconds, acknowledged removal and idempotent replay. | Offline raw-save-first behavior and loss-resistant synchronization. |
+| `lib/editor/use-focus-preserving-overlay.ts` | Modified | Shared controller now preserves an active DOM element, route and scroll even when no editor exists while retaining exact ProseMirror selection restoration when an editor exists. | One focus-preserving seam for editor and global project surfaces. |
+| `components/capture/QuickCaptureOverlay.tsx` | Created | Ctrl/Cmd+Shift+Space global overlay on chapter, project and structure surfaces; local save before close/network; optional quick target; immediate exact restore; online replay; safe degradation when IndexedDB/replay is unavailable. | Zero-friction global Capture with no route change and writing-independent failures. |
+| `components/capture/CaptureInbox.tsx`; `app/app/projects/[id]/captures/page.tsx` | Created | Private Inbox, checkboxes, keyboard/bulk file/defer/dismiss/restore, attach/detach, conversions, both explicit causal directions and exact Return links. | Complete Capture lifecycle and after-the-fact triage without notebook hierarchy. |
+| `app/app/projects/[id]/page.tsx`; `components/editor/ChapterEditor.tsx`; `components/structure/StructureWorkspace.tsx`; `app/globals.css` | Modified | Global overlay mounts, Inbox navigation, responsive overlay/Inbox styling and writing-surface integration. | Common author actions avoid full-route navigation; desktop/mobile usability. |
+| context domain/repository/cards/docs files | Modified | Registered the active Capture descriptor/provider and renderer only after canonical persistence; pins validate Capture ownership; raw text remains a source read model, not inferred story truth. | S8 context activation and projection/canonical separation. |
+| causality domain/adapter/tests files | Modified | Activated only `CAPTURE_DERIVED`; resolver accepts persisted `CAPTURE_DERIVED_CAUSAL` conversions and reports lifecycle archiving; Timeline and Entity State remain reserved. | Correct original-gate dependency order and explicit causality only. |
+| `domains/structure/application/conversion.ts` and tests | Modified | Removed Capture from the dormant structure seam because S8 now owns its typed registry; Note remains dormant. | No conflicting or impossible conversion ownership. |
+| `docs/adr/0009-zero-friction-capture.md`; `docs/architecture/zero-friction-capture.md`; `docs/api/capture.md`; S7 context documentation | Created/modified | Locked raw-first truth, privacy, failure, conversion, endpoint, bounds and API decisions and recorded the newly active provider. | Durable production/research implementation record. |
+| `scripts/verify-capture-db.ts`; `package.json` | Created/modified | Repeatable real-PostgreSQL verify and rollback commands proving replay, ownership, lifecycle, provenance, endpoint activation, redaction and prior-domain/prose preservation. | Migration, security, recovery and operational evidence. |
+| Capture unit/service/component/stress/accessibility/E2E tests plus existing context/causality/structure regressions | Created/modified | Domain validation, registry activation, production logger, both causal directions, queue replay/backoff/cap, global surfaces, focus, raw acknowledgement, Inbox, context, provenance, database, mobile, axe and large-boundary tests. | Full S8 writing-flow exit gate and regression protection. |
+
+Generated Prisma client output, coverage output, Playwright HTML/results and screenshots are ignored build/test artifacts and were not committed. The generated `next-env.d.ts` development-path change was restored with `apply_patch` before commit and is absent from the S8 diff.
+
+### 13.7 Code behavior, implementation method, and protected boundaries
+
+- **Raw-first transaction order:** the overlay creates a client UUID and writes the complete raw record to IndexedDB before closing, restoring focus, issuing a network call, or attempting a target. The API then upserts on `(userId, clientCaptureId)`. Optional target failure cannot remove or requeue an already acknowledged raw Capture.
+- **Canonical/private model:** every Capture belongs to workspace, project and creating user. Repository entry points resolve project membership and scope Capture rows to `userId`; another workspace receives `NOT_FOUND`. Raw text is canonical authored input and is never silently promoted, parsed or treated as causality.
+- **Lifecycle and recovery:** `UNPROCESSED`, `FILED`, `CONVERTED`, `DEFERRED`, and `DISMISSED` are explicit. Defer stores a due time; restore clears deferral/dismissal retention; dismiss retains the row; every mutation records a prior revision. A Capture may remain unprocessed indefinitely.
+- **Idempotency/provenance:** creation replays by user/client identity; attachments replay by Capture/target/block; conversions replay by Capture/type/idempotency key. Each conversion retains source ID, target identity, conversion-specific provenance and structural version. The source Capture is never deleted or rewritten by conversion.
+- **Activation boundary:** the registry activates Milestone, Story Change, chapter attachment, outline attachment and Capture-derived causal identity. `ENTITY`, `NOTE`, and `TIMELINE_EVENT` are typed but dependency-unavailable. Causality activates `CAPTURE_DERIVED` only; `ENTITY_STATE` and `TIMELINE_EVENT` remain rejected until S9/S11.
+- **Explicit causal semantics:** creating a Capture-derived identity alone creates no relation. The Inbox can explicitly choose Because of or This causes, a canonical endpoint and relation type. The service creates the directional relation only after the conversion is persisted and uses `CAPTURE_CONVERSION` provenance.
+- **Offline/degraded behavior:** the queue is capped at exactly 100 pending records, returns due records in captured order, increments attempts and applies exponential delay capped at 60 seconds. Browser `online` triggers replay. Missing IndexedDB or replay-infrastructure failure logs identity/cause metadata and leaves the mounted writing surface usable.
+- **Focus/navigation:** the controller snapshots route, scroll, active DOM element and, when present, ProseMirror selection. The overlay changes neither route nor browser history. Closing restores the exact editor selection/focus/scroll or prior project-surface focus before network completion.
+- **Context:** the Capture provider reads at most 50 author-private chapter/pinned rows, descriptors enter existing deterministic resolver caps/order, and pins are source-validated. Context failure remains isolated from editing/autosave/journaling.
+- **Security/privacy/observability:** no trace or outbox payload contains raw text, selected text, attachment content or request bodies. Traces contain IDs, booleans, counts, lifecycle/type, attempts, timing and versions. The production logger's forbidden-key/content guard is covered by a real service regression.
+- **Bounds:** text 20,000 characters; local pending 100; Inbox default 50/hard 100; bulk at most 100; per-Capture attachments/conversions at most 100; retry 60 seconds; context source read 50. All structure writes retain optimistic structural versioning.
+
+### 13.8 Console trace and adjacent-comment ledger
+
+All line numbers refer to effective S8 product state `3ef1b5641da38220559dd99e20074f03c2762a3a`. Server `logger.info/warn` calls are serialized through the shared `console.log(JSON.stringify(record))` sink at `lib/observability/logger.ts:16`; browser, IndexedDB and database proof calls use direct `console.log`. Every row has its identifying comment immediately above the call.
+
+| Step | File | Comment | Call | Content-safe recorded fields |
+| --- | --- | ---: | ---: | --- |
+| `S8-CAPTURE-001` | `domains/capture/application/service.ts` | 11 | 12 | request/workspace/project/source/client IDs, optional chapter, anchor presence/length, replay; raw text excluded. |
+| `S8-CAPTURE-007` | same | 14 | 15 | IDs, version and attachment/conversion counts only. |
+| `S8-CAPTURE-002` | same | 17 | 18 | IDs, lifecycle filter, returned count and continuation boolean. |
+| `S8-CAPTURE-003` | same | 20 | 21 | IDs, lifecycle action, requested/updated counts. |
+| `S8-CAPTURE-004` | same | 23 | 24 | IDs, target type/ID and replay boolean. |
+| `S8-CAPTURE-005` | same | 26 | 27 | IDs and detached boolean. |
+| `S8-CAPTURE-006` | same | 31 | 32 | IDs, conversion/target types, replay/causal booleans and structural version. |
+| `S8-API-001` | `lib/capture/http.ts` | 9 | 10 | request/workspace, route key, method and success status. |
+| `S8-API-002` | same | 12 | 13 | request/route/method, stable status/error and safe cause name/code; body excluded. |
+| `S8-QUEUE-001` | `lib/indexed-db/capture-queue.ts` | 11 | 12 | client/project IDs and coordinate-presence booleans. |
+| `S8-QUEUE-002` | same | 15 | 16 | client/project IDs, attempt and bounded delay. |
+| `S8-QUEUE-003` | same | 18 | 19 | acknowledged client ID only. |
+| `S8-QUEUE-004` | same | 22 | 23 | replay aggregate synced/failed counts. |
+| `S8-UI-005` | `components/capture/QuickCaptureOverlay.tsx` | 15 | 16 | project ID and unavailable-queue event. |
+| `S8-UI-004` | same | 18 | 19 | project ID and aggregate replay counts. |
+| `S8-UI-006` | same | 21 | 22 | project ID and exception class name only. |
+| `S8-UI-001` | same | 25 | 26 | project/chapter IDs and route; no authored text. |
+| `S8-UI-002` | same | 28 | 29 | IDs, optional target and selected length; text excluded. |
+| `S8-UI-003` | same | 31 | 32 | IDs and optional target after acknowledgement. |
+| `S8-INBOX-001` | `components/capture/CaptureInbox.tsx` | 12 | 13 | project, action and selected count. |
+| `S8-INBOX-002` | same | 15 | 16 | project/source, conversion type and structural version. |
+| `S8-DB-001` | `scripts/verify-capture-db.ts` | 15 | 16 | IDs, replay/ownership/endpoint/redaction booleans and counts. |
+| `S8-DB-002` | same | 18 | 19 | remaining/preserved table and prose-row counts. |
+
+`rg -n -C 1 'Console trace S8-|step: "S8-' app components domains lib scripts` verified adjacency and line identity. Service tests proved authored fixture text is absent from emitted records; the PostgreSQL verifier proved it is absent from outbox payloads.
+
+### 13.9 Validation, stress, migration, browser, visual, and remote evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `git diff --check` | Pass | No whitespace error before product commit. |
+| `npm run lint` | Pass | ESLint completed with zero warnings/errors. |
+| `npm run typecheck` | Pass | TypeScript emitted no diagnostics. |
+| `npm run test:coverage` | Pass after repair/correction | 47 files, 172 tests passed; statements 88.63% (1825/2059), branches 75.37% (1053/1397), functions 83.67% (528/631), lines 94.83% (1211/1277). The jsdom canvas notice came from axe feature detection; no test error remained. |
+| `npm run test:stress` | Pass | 7 files, 13 tests; queue accepts exactly 100 unique pending records, rejects the 101st, preserves replay identity and respects retry bounds. |
+| `npm run test:a11y` | Pass | Capture overlay axe test passed; zero serious/critical findings asserted. |
+| Production-shaped `npm run build` | Pass | Next 16.3 production build compiled/typechecked, generated 10 static pages and listed every Capture route. An earlier invocation used incorrect environment variable names and failed closed during prerender; the exact CI-shaped variables passed. |
+| Full `npm run test:e2e` before the final global-surface repair | Pass | 42 applicable flows passed in 5.2m; 38 explicit cross-project/viewport skips. One earlier S4 scroll assertion flaked while its temporary database terminated; isolated fresh-database repeats passed twice, followed by the clean full pass. |
+| Post-repair focused Capture browser matrix | Pass | 5 applicable flows passed in 42.7s and 5 explicit cross-project skips: offline raw-first/focus/selection/scroll/history/replay, Project Home global capture without manuscript coordinates, conversion replay/provenance/explicit causality, Inbox keyboard/axe, and mobile overlay/axe. |
+| Manual visual review | Pass | `test-results/capture-inbox-desktop.png` showed readable bounded rows, lifecycle controls, return action and no clipping. `test-results/capture-overlay-mobile.png` showed a compact labelled modal, visible optional target and return controls, and no horizontal overflow. CSS spacing was tightened and the post-change component/browser checks passed. |
+| `npm run db:validate` | Pass | Prisma accepted the complete nine-migration schema. |
+| `npm run db:rollback:capture` | Pass | `S8-DB-002`: zero Capture tables remained; both S7 context tables and one sampled prose row were preserved byte-equivalently. |
+| `npm run db:deploy` after rollback | Pass | All nine migrations were discovered; `20260816193000_zero_friction_capture` reapplied successfully. |
+| `npm run db:verify:capture` | Pass | Create replay, one private Inbox record, context-coordinate round trip, cross-workspace rejection, attachment replay, conversion replay, active Capture endpoint, four revisions and content-free outbox all proved true. |
+| Content/correction push/ref | Pass | Foundational content matched `5bfb6397d457465fae31042aa327e137fa2dd7fe`; effective corrected product matched `3ef1b5641da38220559dd99e20074f03c2762a3a`. |
+| GitHub Actions | Pass | Foundational run `31959800484`/job `95195930611` passed in 2m31s; correction run `31960693578`/job `95198113567` passed in 2m39s. The actions Node-deprecation annotation is upstream metadata, not a repository failure. |
+
+### 13.10 Side-by-side S8, Phase 3, doctrine, and dependency audit
+
+| Requirement | Actual evidence | Classification | Action |
+| --- | --- | --- | --- |
+| Global shortcut, tiny overlay, raw save first and exact restoration | Overlay on chapter/project/structure; IndexedDB precedes close/network; editor and Project Home equality/focus browser proofs | Verified | None. |
+| Automatic route/chapter/outline/block/selection/entity/time/project/user coordinates | Route/project/time are captured locally, user comes from the authenticated server actor, editor derives chapter/block/selection, Structure derives active Chapter/Chapter Outline, and bounded entity context round-trips; Project Home correctly omits nonexistent manuscript coordinates | Verified | Entity-context discovery becomes richer when S9 supplies canonical entities; the S8 contract and transport are active now. |
+| Offline queue and idempotent sync | IndexedDB cap/order/retry/replay tests; API unique user/client identity; disconnected browser replay | Verified | None. |
+| All lifecycle states, retention, keyboard/bulk triage, attach/detach | Schema/service/Inbox/database/component/browser proofs | Verified | None. |
+| Convert while retaining source and provenance | Typed conversion rows, revisions, source FK, replay key, DB and E2E provenance proof | Verified | None. |
+| Exact active conversion targets, later targets dormant | Registry assertions and dependency-unavailable results | Verified | S9 registers Entity; S11 registers Note/Timeline. |
+| Capture-derived endpoint activates only after canonical source | Adapter queries persisted conversion; endpoint/database/causal E2E proofs | Verified | Entity State/Timeline Event remain reserved. |
+| Optional Because/Consequences semantics without prose inference | Explicit directional actions only; no relation on identity conversion alone; causal E2E | Verified | None. |
+| Capture context provider only; universal Search absent | Context registry/provider now includes Capture; no SearchDocument/index/palette change | Verified | Full search remains S10. |
+| Privacy, bounds, errors and writing independence | Ownership tests, content-safe logger/outbox, caps/retry, failure UI and IndexedDB-unavailable regression | Verified | None. |
+| Common writing action requires no route transition | Editor/project/structure global mount and unchanged history/focus assertions | Verified | Inbox is intentional deep navigation, not common quick capture. |
+| Universe/Search/Language/Timeline/Notes/Research and Phase 3 macro exit | No such source domain/provider activated in S8 | Planned-later | Mandatory S9–S11 sequence; not an S8 gap. |
+
+Doctrine result: Capture remains optional and author-owned; leaving it unprocessed is permanent valid state. Attachment does not imply structure ownership or causality. Conversion is explicit and provenance-preserving. No automatic prose parsing, AI, hierarchy invention, manuscript rewrite, chronology inference, billing, quota or Phase 4 worker was introduced. PostgreSQL is canonical after acknowledgement; IndexedDB is a bounded offline command queue, not a competing server truth. Timeline/Entity State remain inactive. All S8 reads and mutations are scoped and bounded. Semantic Zoom, Relevant Now causal collections and the $15 Core/$25 future Intelligence pricing ruling are untouched.
+
+### 13.11 Gaps found, repairs applied, and current gate state
+
+- **Global-surface gap:** the first implementation mounted the shortcut only in the editor. Project Home and Structure mounts plus a non-editor focus snapshot were added; component and Project Home E2E now prove no invented chapter/selection coordinates.
+- **Unhandled IndexedDB gap:** the first final coverage run passed 170 assertions but failed the run because three Structure tests observed unhandled `indexedDB is not defined` rejections. The overlay now checks availability, catches replay-infrastructure rejection, logs content-safe `S8-UI-005/006`, and leaves the writing surface operational. The repaired run passed 171/171 with zero unhandled errors.
+- **Logger-field gap:** the production logger rejected metadata keys containing the protected substring `capture`, correctly exposing that nominally safe field names violated the existing content policy. Service metadata uses neutral source/client-operation names and a production logger regression proves compatibility.
+- **Optional-conversion recovery gap:** initially, a failed optional conversion could requeue a raw Capture already acknowledged by the server. The client now tracks raw acknowledgement and reports only the optional-action failure without duplicate raw replay.
+- **Coordinate completeness gap:** `outlineId` was persisted by the domain/API but omitted from the direct overlay request, Structure did not pass its active Chapter/Chapter Outline anchor, and `entityContext` was stored but omitted from the read model. Correction `3ef1b5641da38220559dd99e20074f03c2762a3a` closed all three, added component and PostgreSQL round-trip assertions, and passed CI `31960693578`.
+- **Long-run infrastructure observation:** the first temporary Prisma development database ended during a long browser run. A fresh named database on TCP 51229 completed the full nine-migration cycle and all final database/browser proofs. No failed database step was reclassified as pass.
+- **No remaining in-scope gap:** every S8 audit row is `Verified`. S9–S11 work is explicitly `Planned-later` and remains inactive by dependency design.
+- **Current state:** product implementation, local checks, content push/ref and content CI are complete. Formal Passed status awaits only the separate evidence commit/push/CI/reconciliation recorded next; S9 remains locked.
+
+### 13.12 Evidence-CI reconciliation and formal S8 closure
+
+- Pending at this evidence-commit stage. This section will record the evidence commit hash, matching remote ref and successful CI run before S8 becomes Passed and before any S9 product or planning change starts.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
