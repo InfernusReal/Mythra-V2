@@ -67,7 +67,7 @@ export function StructureWorkspace({ initialModel, initialMilestones, initialCau
 
   return (
     <>
-    <QuickCaptureOverlay editor={null} projectId={initialModel.project.id} />
+    <QuickCaptureOverlay editor={null} projectId={initialModel.project.id} chapterId={anchor.type === "CHAPTER" ? anchor.id ?? undefined : undefined} outlineId={anchor.type === "CHAPTER_OUTLINE" ? anchor.id ?? undefined : undefined} />
     <section className={`structure-workspace mode-${mode.toLowerCase()}`} aria-labelledby="structure-title">
       <header className="structure-header"><div><p className="eyebrow">Structure</p><h1 id="structure-title">{initialModel.project.title}</h1><p>Version {initialModel.project.structuralVersion}. Planning remains optional.</p><div className="structure-return">{returnChapterId ? <a href={`/app/chapters/${returnChapterId}`}>Return to Chapter</a> : initialModel.project.activeChapterId ? <a href={`/app/chapters/${initialModel.project.activeChapterId}`}>Return to writing</a> : <a href={`/app/projects/${initialModel.project.id}`}>Return to Project Home</a>}</div></div><label>Presentation mode<select value={mode} onChange={(event) => changeMode(event.currentTarget.value as PresentationMode)}><option value="DISCOVERY">Discovery</option><option value="GUIDED">Guided</option><option value="ARCHITECT">Architect</option></select></label></header>
       <StructureLensNav lenses={initialModel.lenses} active={lens} onChange={changeLens} />

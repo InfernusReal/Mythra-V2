@@ -6,7 +6,7 @@ import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import { CaptureInbox } from "@/components/capture/CaptureInbox";
 
 const id = (n: number) => `80000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
-const item = (rawText = "Inbox thought") => ({ id: id(3), projectId: id(1), rawText, lifecycle: "UNPROCESSED" as const, route: "/app", chapterId: id(2), outlineId: null, blockId: null, selectionAnchor: null, selectionHead: null, capturedAt: new Date().toISOString(), deferredUntil: null, version: 1, attachmentCount: 0, conversionCount: 0, attachments: [] });
+const item = (rawText = "Inbox thought") => ({ id: id(3), projectId: id(1), rawText, lifecycle: "UNPROCESSED" as const, route: "/app", chapterId: id(2), outlineId: null, blockId: null, selectionAnchor: null, selectionHead: null, entityContext: [], capturedAt: new Date().toISOString(), deferredUntil: null, version: 1, attachmentCount: 0, conversionCount: 0, attachments: [] });
 const editor = (focus = vi.fn()) => ({ state: { selection: { from: 3, to: 7, $from: { parent: { attrs: { blockId: id(9) } } } } }, commands: { setTextSelection: vi.fn(), focus } }) as unknown as Editor;
 const response = (data: unknown, status = 200) => new Response(JSON.stringify(status < 400 ? { data } : { error: data }), { status });
 
@@ -49,5 +49,9 @@ describe("Capture UI", () => {
     expect(() => render(<QuickCaptureOverlay editor={null} projectId={id(1)} />)).not.toThrow();
     expect(console.log).toHaveBeenCalledWith(expect.stringContaining('\"step\":\"S8-UI-005\"'));
     vi.stubGlobal("indexedDB", database);
+  });
+
+  it("records available outline and entity context without emitting entity identity", async () => {
+    vi.spyOn(window, "scrollTo").mockImplementation(() => undefined); const fetcher = vi.spyOn(globalThis, "fetch").mockResolvedValue(response({ capture: { id: id(4) }, projectStructuralVersion: 1 })); render(<QuickCaptureOverlay editor={null} projectId={id(1)} outlineId={id(6)} entityContext={[id(7)]} />); fireEvent.keyDown(window, { code: "Space", ctrlKey: true, shiftKey: true }); fireEvent.change(screen.getByRole("textbox", { name: "Thought" }), { target: { value: "Context-bound thought" } }); fireEvent.click(screen.getByRole("button", { name: "Save Capture" })); await waitFor(() => expect(fetcher).toHaveBeenCalled()); const body = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as Record<string, unknown>; expect(body).toMatchObject({ outlineId: id(6), entityContext: [id(7)] }); expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining(id(7)));
   });
 });
