@@ -34,7 +34,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning baseline | Plan/ledger creation and source audit | Superseded by correction | Entry P0 below | Historical commits on `main` |
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
-| 2. Progressive and Causal Story Core | 4–6 | **Completion evidence pending remote ledger proof — S4–S6 product and macro audit passed locally** | Entries S4–S6 and Phase 2 macro audit 11.12 below | S6 content `2261ff59b6781034967964fd4e2d5d46f593a3c0` plus constraint correction `69226bc15b5fa7ad51a72410907cae304a50c568`; CI `31942297127`/`95153119172` passed |
+| 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | Not started | — | — |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
@@ -50,7 +50,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3 | Continuation | 1 | Passed | Sub-gate 2 evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` verified | Entry S3 | Content `dd27be8b5f2a6be9a1e2235da47dcb34b490cc61` and evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` pushed/remotely verified |
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
-| 6 | Causal Story Fabric Core | 2 | **Completion evidence pending remote ledger proof — implementation and audit passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; CI `31942297127`/`95153119172` passed; evidence commit follows |
+| 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | Not started | Sub-gate 6 required | — | — |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–5 are closed after local, database, browser, content-commit, evidence-commit, push, and remote-CI proof. S6 product work, its correction, all local verification and both content CIs pass; its completion entry and Phase 2 macro audit are recorded below but remain formally contingent on this ledger commit being pushed and remotely verified. S7 stays locked until that final ledger proof exists.
+Sub-gates 0–6 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S7 is now eligible by dependency order but remains not started; no Phase 3 file or capability has been created.
 
 ## 4. Entry S0 — Foundation
 
@@ -1474,11 +1474,18 @@ The six-phase consolidation did not replace an original gate: Sub-gates 4, 5 and
 
 ### 11.13 Formal decision and next-gate lock
 
-- **S6 product/audit decision:** **PASS with no open in-scope gap**, subject only to this completion-entry commit being pushed and remotely verified.
-- **Phase 2 macro decision:** **PASS with no open in-scope gap**, under the same final ledger-proof condition.
+- **S6 product/audit decision:** **PASS with no open in-scope gap**; completion evidence is remotely verified in 11.14.
+- **Phase 2 macro decision:** **PASS with no open in-scope gap**; completion evidence is remotely verified in 11.14.
 - **Planned later, not gaps:** Contextual Writing Field cards/S7; Capture and capture-derived activation/S8; Universe/entity-state activation/S9; Timeline Event activation and timeline-backed chronology/S11; projection worker/S12; AI seam/S17.
 - **Remote chain at this point:** plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; database correction `69226bc15b5fa7ad51a72410907cae304a50c568`; final product CI `31942297127`/`95153119172` passed.
-- **S7 lock:** remains closed until this Path-only completion evidence is committed, pushed, equals the remote branch ref and its GitHub Actions run passes. No S7 product file has been created.
+- **S7 state:** eligible after S6 remote closure but not started. No S7 product file has been created.
+
+### 11.14 Completion-ledger remote reconciliation
+
+- Path-only S6/Phase 2 completion commit `de56f246c2ccb69340ec1f712260f81f6c737d4d` (`Record Causal Story Fabric and Phase 2 evidence`) was pushed to `agent/workplan-subgates-audit` and confirmed as the exact remote branch ref before this reconciliation update.
+- GitHub Actions run `31942667487`, job `95153984486`, completed successfully in 2m16s: checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, 133-test coverage suite and production build all passed. The only annotation is GitHub's upstream Node-20 action deprecation notice; no repository step failed.
+- This satisfies the remaining condition in 11.12–11.13. **Sub-gate 6 and delivery Phase 2 are formally Passed.** The top delivery/capability tables are updated to the same status and evidence chain; no stale in-progress S6 dashboard row remains.
+- This reconciliation changes `Path.md` only and is pushed separately so the side-by-side audit itself receives immutable remote evidence. S7 remains unimplemented.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
