@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 7 pre-code checkpoint** | Entry S7 below | S6 predecessor reconciled at `a9c805da67253241b505d17c6b4c195f0cdfbf94`; S7 plan push/CI pending |
+| 3. In-Flow Author Environment | 7–11 | **In progress — S7 content verified; execution-ledger evidence gate pending** | Entry S7 below | S7 content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; CI `31948248253`/`95167594902` passed; S8 remains locked |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -51,7 +51,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 7 | Contextual Writing Field v1 | 3 | **Planning checkpoint — product code locked** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan commit/push/CI pending |
+| 7 | Contextual Writing Field v1 | 3 | **Audit complete — evidence commit/push/CI pending** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; content CI `31948248253`/`95167594902` passed |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
@@ -1531,6 +1531,148 @@ The six-phase consolidation did not replace an original gate: Sub-gates 4, 5 and
 - **Accessibility/responsive invariant:** dialog/region semantics, labelled controls, Escape, focus return, keyboard-accessible alternatives, non-color freshness/error text, and compact overlay behavior are required.
 - **Explicit exclusions:** Capture cards/endpoint/conversion, Entity cards/state endpoints, full search and language provider, Timeline/Note/Research cards, durable propagation workers, AI inference, automatic causal extraction, prose rewriting, and unbounded causal traversal are not S7 work and must remain inactive.
 - **Pre-code status:** `Path.md` only is modified. Product implementation remains locked pending this checkpoint's distinct remote proof.
+
+### 12.5 Planning checkpoint release and implementation chronology
+
+- The Path-only planning commit is `1787c6f65b60c92c566fadd90cab7dade3e2c893` (`Plan Contextual Writing Field sub-gate`). It was pushed to `origin/agent/workplan-subgates-audit`; `git ls-remote` matched it exactly. GitHub Actions run `31945068741`, job `95159694572`, passed every CI step in 2m14s. Only then was the S7 product-code lock released.
+- Implementation followed the planned order: descriptor/directive contracts; provider registry/resolver; preference/pin migration; repository/application services; API transport; focus-preserving client controller; desktop/mobile UI; tests; database proof; full regression; conformance repair; content commit; remote CI.
+- The immutable product/content commit is `f1b870fddb55c4619c54a61d0a8e666df800daf9` (`Implement Contextual Writing Field sub-gate`). Push advanced the remote branch from the plan commit to this exact hash, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` returned the same hash.
+- GitHub Actions run `31948248253`, job `95167594902`, passed checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, coverage, and production build in 2m22s. The Node-action deprecation annotation is upstream metadata; no repository step failed.
+- This section records the product and audit evidence, but S7 is not marked Passed until this Path evidence commit is itself pushed, remotely matched, and passes CI. S8 remains locked.
+
+### 12.6 Complete file ledger
+
+| File | Action | Implemented purpose | WorkPlan/Bible obligation |
+| --- | --- | --- | --- |
+| `prisma/schema.prisma` | Modified | Added typed durable `ContextPreference` and `ContextPin` relations, ownership keys, indexes, and active S7 card enum. | Durable project/user mute and pin preferences; canonical ownership. |
+| `prisma/migrations/20260816170000_contextual_writing_field/migration.sql` | Created | Forward PostgreSQL DDL for the two S7 preference tables and constraints. | Reversible schema-first implementation. |
+| `prisma/migrations/20260816170000_contextual_writing_field/rollback.sql` | Created | Drops only S7 objects in dependency-safe order. | Rollback without crossing S0–S6 or prose boundaries. |
+| `domains/context/domain/types.ts` | Created | Screen read models, active card union, action union, Appendix-A query validation, preferences, safe source-edit input, provenance, and complete directive contract with explicit `becauseItems[]`/`consequenceItems[]`. | Descriptor/read-model contracts first; no future-provider activation. |
+| `domains/context/domain/registry.ts` | Created | Typed extensible provider registry with duplicate registration rejection and stable provider enumeration. | Extensible registry and active-provider proof. |
+| `domains/context/domain/directive.ts` | Created | Deterministic author-data-only directive compiler with bounded ranked collections and provenance. | Relevant Now v1 and first-class causal directive collections. |
+| `domains/context/domain/resolver.ts` | Created | Five S7 providers, precedence, stable ordering, cap/More, mute/pin rules, context key, stale marking, explicit causal actions, and deep Open/return coordinates. | Appendix A ordering/stability; direct causal before reference; later providers absent. |
+| `domains/context/application/ports.ts` | Created | Canonical source snapshot and repository port separating source truth from disposable projections. | Server-owned canonical data and replaceable adapters. |
+| `domains/context/application/service.ts` | Created | Query/mutation validation, deterministic resolution, source editing, and content-safe service traces. | Thin orchestration, ownership through repository, observability. |
+| `domains/context/infrastructure/prisma-context-repository.ts` | Created | Repeatable-read bounded source composition, cross-chapter pins, ownership guards, preference mutations, source existence checks, optimistic edits, complete revisions, version increment, and content-free outbox. | Security, freshness, safe edits, bounds, and canonical/projection separation. |
+| `lib/context/runtime.ts` | Created | Production dependency wiring for Prisma repository, logger, and service. | Replaceable application boundary. |
+| `lib/context/http.ts` | Created | Authenticated standard-envelope transport wrapper and content-safe API completion/failure traces. | Stable API/errors, authentication, privacy. |
+| `lib/context/use-context-field.ts` | Created | Cursor/reference coordinate capture, 300 ms debounce, abortable requests, context-key validation, stale-response discard, fresh retry, and session hide state. | No per-keystroke refresh; cancellation and race safety. |
+| `lib/editor/use-focus-preserving-overlay.ts` | Created | Shared capture/restore controller for route, editor selection, focus, and scroll without selection text. | Reusable Peek/Capture seam and exact Return behavior. |
+| `app/api/v2/chapters/[id]/context/route.ts` | Created | Authenticated bounded chapter-context read endpoint. | Chapter context read contract. |
+| `app/api/v2/projects/[id]/context/preferences/route.ts` | Created | Durable pin/unpin, mute/unmute, and directive-enable mutations. | Project/user preferences. |
+| `app/api/v2/projects/[id]/context/sources/route.ts` | Created | Optimistic safe-field source editing endpoint. | Inline author-approved edits and freshness discipline. |
+| `components/context/ContextCards.tsx` | Created | Typed renderers for chapter outline, milestone, direct causal, existing reference, and Narrative Intent only. | Exact S7 provider/card activation boundary. |
+| `components/context/RelevantNow.tsx` | Created | Concise eight-collection directive surface with provenance Peek actions and explicit stale/disabled labels. | Relevant Now, Because, Consequences, neutral controls. |
+| `components/context/PeekOverlay.tsx` | Created | Focus-safe Peek, safe edit form, intentional deviation, explicit bounded causal trace, failure isolation, freshness, and exact close action. | Peek semantics; indirect paths only on demand. |
+| `components/context/ContextualWritingField.tsx` | Created | Desktop attention region, mobile overlay, pin bar, reference filtering, card actions, keyboard shortcuts, caps/More, preference and edit coordination. | Full S7 author environment without generic-sidebar semantics. |
+| `components/editor/ChapterEditor.tsx` | Modified | Mounted the Contextual Writing Field beside the existing editor without altering the document/autosave path. | In-flow integration; writing remains independent. |
+| `components/shell/AppShell.tsx` | Modified | Added the dedicated labelled context projection slot. | Desktop region seam. |
+| `app/globals.css` | Modified | Added desktop region, card, Peek, mobile overlay, focus, responsive, and bounded-scroll styling. | Responsive and accessibility presentation. |
+| `domains/context/domain/resolver.ts` and `app/app/projects/[id]/structure/page.tsx` | Modified/created scope | Open actions include the originating chapter coordinate and Structure accepts it. | Open is intentional deep navigation with Return to Chapter. |
+| `components/structure/StructureWorkspace.tsx` | Modified | Renders exact `Return to Chapter` when entered through an S7 Open action; existing default return behavior remains unchanged. | Deep-page return contract. |
+| `docs/adr/0008-context-projection-boundaries.md` | Created | Locked projection truth, provider activation, explicit causal arrays, Peek/Open, and failure boundaries. | Architectural decision evidence. |
+| `docs/architecture/contextual-writing-field.md` | Created | Documented resolution, stability, directive, interaction, bounds, privacy, and degradation design. | Production/research-level implementation record. |
+| `docs/api/context.md` | Created | Documented read/preferences/source-edit contracts, errors, and cache/race behavior. | API contract evidence. |
+| `scripts/verify-context-db.ts` | Created | Real PostgreSQL ownership, cross-chapter pin, invalid source, stale write, revision, outbox-redaction, rollback, and prose-preservation proof. | Database/migration/security/recovery evidence. |
+| `tests/unit/context-resolver.test.ts` | Created | Precedence, provider exactness, stability key, directive fields, caps, and stale race fixtures. | Deterministic resolver proof. |
+| `tests/service/context-service.test.ts` | Created | Service validation, not-found, active-provider, trace redaction, and preference/source orchestration. | Application boundary proof. |
+| `tests/component/context-field.test.tsx` | Created | All cards, all directive collections, disablement, causal success/failure, source edit, intentional deviation, and exact overlay restoration. | Interaction/accessibility and coverage proof. |
+| `tests/stress/context-resolver.stress.test.ts` | Created | Determinism and budget behavior over 25,000 eligible descriptor sources. | Large-collection/load proof. |
+| `tests/e2e/context-field.spec.ts` | Created | Author fixture, Relevant Now, Peek history/selection/focus/scroll, pin/mute, typing debounce, shortcuts, causal trace, Open/Return, axe, desktop/mobile visuals. | Writing-flow exit gate. |
+| `package.json` | Modified | Added S7 database verification and rollback commands. | Repeatable operational verification. |
+
+Generated Prisma client files remain ignored build artifacts and were not committed. Playwright HTML/results and screenshot outputs remain ignored test artifacts; their paths and review are recorded below.
+
+### 12.7 Code behavior, implementation method, and protected boundaries
+
+- **Canonical and projection truth:** chapter outline, milestone, causal relation, reference, and Narrative Intent rows remain canonical. Context descriptors and directives are recomputed read models. Only user preferences/pins and explicit source edits are writes; a card never becomes story truth.
+- **Resolution:** repository reads a repeatable snapshot. The registry activates exactly `chapter-outline`, `milestone`, `direct-causal`, `existing-reference`, and `narrative-intent`. Resolver precedence is pin 1000, selection 900, Peek 850, cursor-local reference/intent, chapter outline, linked milestone, direct causal, general reference/fallback; stable IDs break ties. Muted pinned cards remain visible by design.
+- **Directive:** Purpose comes from Chapter Outline; Advance from chapter-linked milestone roles; Preserve/Reader Outcome/Next from explicit Narrative Intent categories; Relevant Context from explicit StoryReference; Because and Consequences from direct canonical causal relations. Each item contains source type/ID/version and a descriptor Peek ID. No prose or inferred semantic text is compiled.
+- **Freshness/race behavior:** responses include chapter version, project structural version, freshness version, and a SHA-256 context key covering chapter/version, cursor block, selected IDs, pins, and causal anchor. The client aborts a superseded call, uses a 300 ms idle debounce, compares request/response coordinate, discards stale results, and requests one fresh projection. Continuous typing E2E proved no request per keystroke.
+- **Writes and recovery:** safe edits are restricted to outline purpose and Narrative Intent text. They require source and project structural versions, preserve a complete prior revision, increment source/project versions, and atomically add content-free outbox metadata. Conflict never overwrites newer author data. S7 rollback removes only preference/pin objects and preserves prior canonical tables and sampled prose byte-equivalently.
+- **Focus and navigation:** Peek captures editor selection offsets, active route, and scroll coordinates, opens without history change, and restores selection/focus/scroll on Escape or `Return to Chapter`. Open is a normal anchor to Structure with `returnChapterId`; Structure exposes exact Return. Neither path edits prose.
+- **Causality:** direct relations can enter automatic context; indirect traversal is absent until `Why now?` or `What changes?`. Explicit trace requests retain the existing depth 4, 50-node, 75-edge, 50-path bounds and use non-assertive causal service language.
+- **Security/privacy:** every load resolves the chapter through project workspace ownership; every project write resolves workspace ownership; pin source existence is project-scoped. Logs use IDs, types, counts, versions, status, timing, hashes, and coordinates only. Authored summaries, directive text, source edits, manuscript text, and selection text are absent.
+- **Failure degradation:** context read, causal trace, preference, and source-edit failures render locally and never participate in Tiptap transactions, IndexedDB journaling, autosave, checkpoints, recovery, or continuation. Writing remains available with zero structure, milestone, reference, intent, or causality.
+- **Responsive/accessibility:** desktop uses a labelled complementary region; mobile uses a scrollable focus-preserving overlay. Dialog/region/navigation/status/alert semantics, keyboard buttons/links, Escape, Ctrl/Cmd+Alt+C/O/M, visible focus tokens, reduced-motion inheritance, and text—not color alone—communicate state.
+- **Later-gate lock:** no Capture, entity, full Search/Language, timeline, Note, research, upload, propagation-worker, AI, billing, or future causal endpoint provider is registered. The interfaces can grow, but unsupported sources cannot resolve.
+
+### 12.8 Console trace and adjacent-comment ledger
+
+All line numbers refer to content commit `f1b870fddb55c4619c54a61d0a8e666df800daf9`. Server `logger.info/warn` calls terminate at the shared `console.log(JSON.stringify(record))` transport in `lib/observability/logger.ts:16`; direct browser/database calls use `console.log` at the listed call line.
+
+| Step | File | Identifying comment line | Call line | Recorded fields and exclusion proof |
+| --- | --- | ---: | ---: | --- |
+| `S7-CONTEXT-001` | `domains/context/application/service.ts` | 13 | 14 | IDs, versions, card counts, stability hash, stale flag; no directive/card text. |
+| `S7-CONTEXT-002` | `domains/context/application/service.ts` | 19 | 20 | IDs, action, preference counts/boolean; no source content. |
+| `S7-CONTEXT-003` | `domains/context/application/service.ts` | 25 | 26 | IDs, source type, source/structural versions; edited value excluded. |
+| `S7-API-001` | `lib/context/http.ts` | 12 | 13 | Request/workspace, route key, method, status only. |
+| `S7-API-002` | `lib/context/http.ts` | 16 | 17 | Request, route, method, stable status/error code only. |
+| `S7-CLIENT-001` | `lib/context/use-context-field.ts` | 27 | 28 | Chapter, sequence, anchor/selection counts, Peek boolean; no selection text. |
+| `S7-CLIENT-002` | `lib/context/use-context-field.ts` | 31 | 32 | Chapter, sequence and key-match booleans only. |
+| `S7-CLIENT-003` | `lib/context/use-context-field.ts` | 35 | 36 | Chapter, sequence, returned count, more flag, version. |
+| `S7-FOCUS-001` | `lib/editor/use-focus-preserving-overlay.ts` | 13 | 14 | Selection coordinates, scroll and route; selected prose excluded. |
+| `S7-FOCUS-002` | `lib/editor/use-focus-preserving-overlay.ts` | 19 | 20 | Selection coordinates, scroll and route-equality boolean. |
+| `S7-UI-001` | `components/context/ContextualWritingField.tsx` | 18 | 19 | Project/chapter/descriptor IDs, type, history length. |
+| `S7-UI-002` | `components/context/ContextualWritingField.tsx` | 24 | 25 | Project/chapter/source IDs and type; edit value excluded. |
+| `S7-UI-003` | `components/context/PeekOverlay.tsx` | 11 | 12 | Project, direction, node/edge counts, truncated flag. |
+| `S7-DB-001` | `scripts/verify-context-db.ts` | 33 | 34 | IDs, versions, source/preference counts and proof booleans; seeded private strings excluded. |
+| `S7-DB-002` | `scripts/verify-context-db.ts` | 41 | 42 | Remaining/preserved table and prose-row counts only. |
+
+`rg -n -B 1 "S7-(CONTEXT|API|CLIENT|FOCUS|UI|DB)-[0-9]{3}" ...` verified each step has an immediately adjacent identifying comment. The logger forbidden-key/content tests and the S7 service/browser/database assertions independently verify redaction; the test author strings do not occur in emitted logs/outbox payloads.
+
+### 12.9 Validation, stress, migration, visual, and remote evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm run lint` | Pass | ESLint completed with zero warnings/errors. |
+| `npm run typecheck` | Pass | TypeScript emitted no diagnostics. |
+| `npm run test` | Pass | 41 files, 152 tests passed. |
+| `npm run test:coverage` | Pass after repair | 41 files/152 tests; statements 88.40%, branches 76.04%, functions 83.36%, lines 94.73%; all global thresholds pass. |
+| `npm run test:stress` | Pass | 6 files, 12 tests; S7 uses 25,000 eligible sources and remains deterministic/bounded. |
+| `npm run verify` with production-shaped OIDC environment | Pass | Lint, typecheck, all 152 tests, and Next 16.3 production build passed; 9 static pages generated and Context routes appeared in the route map. |
+| `npm run test:e2e` with local PostgreSQL/development auth | Pass | Full regression: 38 applicable tests passed in 4.3m; 34 cross-project/viewport duplicates were explicitly routed to the other Playwright project, not silently treated as passes. |
+| Focused `context-field.spec.ts` matrix | Pass | Four applicable behaviors passed: three desktop and one mobile; four intentional cross-project skips. |
+| Open/Return focused browser test | Pass | Intentional Open URL contained project and originating chapter; exact `Return to Chapter` returned to the chapter route. |
+| Axe scan | Pass | Zero serious or critical violations on the populated desktop context field. |
+| Manual visual review | Pass | `test-results/context-field-desktop.png`: stable dedicated right context region, bounded cards, no editor overlap. `test-results/context-field-mobile.png`: labelled modal context surface, readable directive/cards, visible exact return, bounded vertical scroll, no horizontal clipping. |
+| `npm run db:verify:context` | Pass twice | `S7-DB-001`: five source types, cross-chapter pin, mute, invalid pin rejection, cross-workspace read false, cross-workspace mutation rejection, stale edit rejection, complete revision, content-free outbox. |
+| `npm run db:rollback:context` | Pass | `S7-DB-002`: zero S7 tables remained; seven prior-domain tables and sampled prose row were preserved. |
+| `npm run db:deploy` after rollback | Pass | Migration `20260816170000_contextual_writing_field` reapplied; final database verification passed. |
+| `git diff --check` | Pass | No whitespace error before content commit. |
+| Content push/ref check | Pass | Remote branch exactly matched `f1b870fddb55c4619c54a61d0a8e666df800daf9`. |
+| GitHub Actions | Pass | Run `31948248253`, job `95167594902`, all repository steps green in 2m22s. |
+
+Observed failures were retained as evidence and repaired rather than reclassified: initial Prisma/database commands without `DATABASE_URL` failed closed; a real local PostgreSQL URL was then supplied. An initial fork-pool Vitest worker launch timed out in the Windows environment; the explicit single-thread focused run passed and later standard full runs passed. The first browser server lacked required auth variables; corrected environment passed. Hydration initially diverged at the portal boundary; mounted-state deferral fixed it. A content-safe logger rejected metadata key `contextKey` because its name contains `text`; telemetry now uses `stabilityHash` while the API retains the contract name. Strict-locator duplicates were scoped. Initial coverage failed at 74.48% branches; card, disablement, causal-failure, source-edit, and deviation tests raised it to 76.04%. One focused rerun used a 31-character session secret and failed environment validation; the compliant rerun passed. These were verification defects/configuration failures, not skipped gates.
+
+### 12.10 Side-by-side S7 and Phase 3 conformance audit
+
+| Requirement | Actual evidence | Classification | Action |
+| --- | --- | --- | --- |
+| Attention-aware desktop region and small-screen overlay | Dedicated shell slot, responsive portal, desktop/mobile E2E and reviewed screenshots | Verified | None. |
+| Exact precedence, ordering and Appendix-A stability key | Resolver fixtures, stable SHA key, direct causal before reference, 25k-source stress | Verified | None. |
+| No per-keystroke refresh; debounce, cancel, stale discard, no scroll movement | 300 ms hook, AbortController/sequence/key checks; continuous-typing and exact-position E2E | Verified | None. |
+| S7-only extensible providers/cards | Registry reports exactly five S7 provider IDs; absent Capture/entity/timeline types asserted | Verified | None. |
+| Chapter/Selection/Milestone/Outline/reference/Causal Peek | Typed descriptors, reference filtering, shortcuts, explicit causal Peek, browser tests | Verified | None. |
+| Peek preserves route/history/selection/focus/scroll; Open is deliberate and returns | Shared controller and browser equality assertion; contextual Structure URL and exact Return link | Verified | None. |
+| Pin, hide, mute, edit, freshness, caps/More | Durable ownership-scoped pin/mute, local hide, safe edit transaction, labels, 8/20 cap tests | Verified | None. |
+| Direct causal automatic; indirect explicit and bounded | Provider uses direct rows; Peek loads traversal only after action with depth/node/edge/path budgets | Verified | None. |
+| Complete Relevant Now with explicit causal collections | Domain contract/UI/compiler/tests include all eight collections and provenance | Verified | None. |
+| Author-owned only, neutral deviation/disable controls, no creative error | Compiler source map; intentional hide, disable, edit and pin controls; no inference/AI | Verified | None. |
+| Synchronous/read-through until Phase 4 with visible freshness | Structural/freshness versions, stale flag, optimistic source edits | Verified | Phase 4 workers remain Planned-later. |
+| Capture/Universe/Search/Language/Timeline/Notes/Research Phase 3 work | Providers/interfaces remain inactive because S8–S11 have not passed | Planned-later | Mandatory dependency behavior; not an S7 gap. |
+| Whole Phase 3 exit gate | Only the S7-owned portion can pass before S8–S11 | Implemented-not-verified for macro phase | Phase 3 stays In progress; execute S8 next only after S7 evidence CI. |
+
+Doctrine audit: structure, world data, Capture filing, and causality remain optional; no milestone owns a chapter; no hierarchy/timeline/reference fact becomes causality; no context or causal action edits prose; client state/projections are non-canonical; stale data is labelled/discarded; no billing/quota exists; context failures cannot block the editor; content-safe traces contain no author text; all project/context/causal reads are bounded; no AI output exists; no future endpoint/provider/conversion/search/billing capability was activated; every directive representation retains `becauseItems[]` and `consequenceItems[]`; Semantic Zoom and pricing contracts are untouched; no non-V2 scope was added.
+
+### 12.11 Gaps, repairs, and current gate status
+
+- **Coverage gap:** branch coverage initially missed the global threshold by 0.52 percentage points. Behavioral tests—not exclusions or threshold changes—closed it. Final coverage is green.
+- **Hydration gap:** checking `document` during initial render produced a server/client portal mismatch. The field now waits until the first animation frame after mount, preserving identical initial markup.
+- **Telemetry gap:** the content-safe logger correctly failed a metadata key containing the forbidden substring `text`. The internal telemetry field became `stabilityHash`; the public resolver/API remains `contextKey`.
+- **Deep-page return gap:** S7 Open initially reached Structure without an exact contextual return label. The originating chapter coordinate and `Return to Chapter` were added and browser-verified.
+- **No remaining in-scope Gap:** every S7 row is `Verified`. Later Phase 3 domains are explicitly `Planned-later` under mandatory sequence, not omissions.
+- **Current status:** product content, local audit, push, remote ref, and content CI are complete. The Sub-gate remains `Audit complete — evidence commit/CI pending` until this Path change receives separate remote proof. S8 cannot begin earlier.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
