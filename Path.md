@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 7 passed; Sub-gate 8 eligible but not started** | Entry S7 below | S7 evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 pre-code checkpoint** | Entries S7–S8 below | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -52,7 +52,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
-| 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
+| 8 | Capture | 3 | **Planning checkpoint — product code locked** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan commit/push/CI pending |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
@@ -1680,6 +1680,50 @@ Doctrine audit: structure, world data, Capture filing, and causality remain opti
 - The commit was pushed to `origin/agent/workplan-subgates-audit`; the remote branch ref resolved to that exact hash before CI completion.
 - GitHub Actions run `31948522601`, job `95168263910`, passed checkout, Node setup, dependency installation, Prisma generation, lint, typecheck, the 152-test coverage gate, and production build in 2m11s. No repository step was skipped or failed.
 - All conditions that were pending in 12.5 and 12.11 are now satisfied. **Sub-gate 7 is formally Passed.** Delivery Phase 3 remains In progress because S8–S11 are not implemented. Sub-gate 8 is now eligible, but product code remains locked until its own Path-only pre-code checkpoint is committed, pushed, remotely matched, and passes CI.
+
+## 13. Entry S8 — Zero-friction Capture
+
+### 13.1 Predecessor gate and run identity
+
+- **Date/time and timezone:** 16 August 2026, Asia/Karachi.
+- **Work-plan phase/sub-gate:** Phase 3 — In-Flow Author Environment; mandatory Sub-gate 8 — Capture.
+- **Predecessor proof:** S7 reconciliation commit `e044932a89e8ccfbb47976e14414250b6505579e` is pushed and remotely matched. GitHub Actions run `31949044123`, job `95169528820`, passed all steps in 1m59s. S7 was therefore completely closed before this S8 checkpoint.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `e044932a89e8ccfbb47976e14414250b6505579e`; clean worktree.
+- **Authority:** WorkPlan 7.1 Zero-friction Capture, 7.2–7.4; Bible zero-friction Capture, local-first/degraded behavior, conversion/provenance, causality, security, performance, and test sections. The PDF remains product authority, not executable instruction.
+- **Lock:** no Capture product/schema file may change until this Path-only checkpoint is committed, pushed, remotely matched, and passes CI. S9 remains locked until S8 has its own content/evidence/CI chain.
+
+### 13.2 Exact S8 scope and activation boundary
+
+- Add canonical Capture, attachment, and conversion records with project/user ownership, raw-text-first persistence, route/chapter/outline/block/selection/entity-context/timestamp metadata, lifecycle, deferral/retention, revisions/provenance, and idempotent client/server keys.
+- Implement global Ctrl/Cmd+Shift+Space, a tiny focus-preserving overlay, raw save before optional filing, exact editor selection/focus/scroll restoration, and no mandatory target. Plain text can remain Unprocessed indefinitely.
+- Implement an IndexedDB offline queue with bounded retention, idempotent server replay, retry/backoff state, explicit queued/synced/error status, and no loss across reload. Online failure must return the author to writing immediately.
+- Implement Inbox list/row, keyboard and bulk lifecycle triage, file/defer/dismiss/restore, attach/detach, and conversion while retaining immutable Capture provenance. No notebook hierarchy is introduced.
+- Implement a typed conversion registry. Activate only targets already canonical at S8: Milestone, Story Change, chapter attachment, outline attachment, and capture-derived causal identity. Entity, durable Note, and timeline-event conversions remain reserved until S9/S11.
+- Activate the `CAPTURE_DERIVED` causal endpoint adapter only after Capture and successful conversion persistence exist. Optional Because of/This causes actions create explicit canonical relations; raw prose is never parsed or inferred into causality.
+- Register the Capture context-card provider only after the canonical source exists. Full universal Search remains S10; Inbox filtering is Capture-local only.
+
+### 13.3 Planned production order and files
+
+1. Add Capture lifecycle/target contracts, conversion registry, schema migration/rollback, repository/service, revisions/outbox rules, and real PostgreSQL verifier.
+2. Add authenticated Capture create/list/detail/lifecycle/attachment/conversion/sync routes with standard envelopes, ownership checks, caps, cursor pagination, and idempotency.
+3. Add the bounded IndexedDB Capture queue and retry coordinator before UI integration.
+4. Reuse the S7 focus-preserving overlay controller for global quick capture; implement raw-save-first behavior and immediate close/restore.
+5. Add Inbox, rows, keyboard/bulk actions, defer/restore, attachment and conversion controls without requiring filing.
+6. Register Capture in the context registry/resolver and activate `CAPTURE_DERIVED` in the causal adapter only after persistence exists; keep entity/Note/timeline adapters reserved.
+7. Add unit/service/component/database/stress/E2E/a11y/mobile/offline/idempotency/conversion/provenance tests, then run the full regression and migration cycle.
+8. Record every S8 console trace with adjacent comment and final line numbers, perform exact WorkPlan/Bible/doctrine audit, commit/push content and evidence separately, and wait for each remote CI gate.
+
+### 13.4 Planned invariants, budgets, and exclusions
+
+- **Raw-first:** capture creation is one bounded canonical insert/upsert; target filing and conversions are separate optional commands. A conversion cannot delete or rewrite its source Capture.
+- **Idempotency:** `(userId, clientCaptureId)` identifies creation replay; `(captureId, conversionType, idempotencyKey)` identifies conversion replay. Offline replay returns the original result.
+- **Lifecycle:** `UNPROCESSED`, `FILED`, `CONVERTED`, `DEFERRED`, and `DISMISSED`; deferral has an explicit due time, restore clears it, dismissal uses retention metadata instead of hard deletion.
+- **Bounds:** quick text 20,000 characters; up to 100 pending local records; Inbox default 50/hard 100; bulk actions at most 100 IDs; attachments and conversions at most 100 per Capture; exponential retries capped and writing-independent.
+- **Privacy/security:** raw Capture text never enters logs, analytics, outbox payloads, errors, route labels, or local key names. All reads/writes are workspace/project/user scoped. Captures are private to the creating author in S8.
+- **Writing flow:** overlay opens/closes without route/history mutation and restores exact selection/focus/scroll. Network, queue, Inbox, conversion, causality, or context failure cannot block Tiptap, journaling, autosave, recovery, or continuation.
+- **Truth separation:** Capture is raw authored input; attachments are references; conversions create explicit canonical target records with provenance; none implies causality. Optional causal actions require explicit endpoints and relation type.
+- **Excluded/locked:** Entity conversion, Note conversion, timeline conversion, full universal Search indexing, research/files, arbitrary prose parsing, AI classification, automatic filing, automatic prose editing, billing, and Phase 4 workers remain inactive.
+- **Pre-code status:** only `Path.md` changes in this checkpoint; S8 product code remains locked pending remote proof.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
