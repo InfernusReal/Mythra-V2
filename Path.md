@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 passed; Sub-gate 9 eligible** | Entries S7–S8 below | S8 evidence `7bd4b85282b189d75e4333187dba009db267ce88`; CI `31960910281`/`95198643795` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 pre-code checkpoint** | Entries S7–S9 below | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -52,8 +52,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
-| 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; CI `31960910281`/`95198643795` passed |
-| 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
+| 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
+| 9 | Universe | 3 | **Planning checkpoint — product code locked** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan commit/push/CI pending |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
@@ -1860,6 +1860,55 @@ Doctrine result: Capture remains optional and author-owned; leaving it unprocess
 - The evidence commit was pushed to `origin/agent/workplan-subgates-audit`; `git ls-remote` returned the exact same hash before CI completed.
 - GitHub Actions run `31960910281`, job `95198643795`, passed checkout, Node setup, dependency installation, Prisma generation, lint, typecheck, the 172-test coverage gate, and production build in 2m36s. No repository step was skipped or failed.
 - All conditions pending in 13.5 and 13.11 are satisfied. **Sub-gate 8 is formally Passed.** Phase 3 remains In progress because S9–S11 are not implemented. S9 is eligible only after this reconciliation commit is also pushed, remotely matched, and passes CI; no S9 product code is part of this change.
+
+## 14. Entry S9 — Universe
+
+### 14.1 Predecessor gate, source study, and run identity
+
+- **Date/time and timezone:** 16 August 2026, Asia/Karachi.
+- **Work-plan phase/sub-gate:** Phase 3 — In-Flow Author Environment; mandatory Sub-gate 9 — Universe.
+- **Predecessor proof:** S8 reconciliation commit `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137` is pushed and remotely matched. GitHub Actions run `31961088692`, job `95199073965`, passed every repository step in 2m32s. S9 planning therefore begins only after S8 is completely closed.
+- **Baseline:** `agent/workplan-subgates-audit` at `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; clean worktree before this Path-only change.
+- **Authority reviewed:** WorkPlan 7.1 Universe and references, 7.2–7.4; Bible sections 1, 2.2–2.3, 3.1–3.2, 3.6, 4.2–4.3, 7.3–7.6, 8.5, 8.9–8.10, 9.1–9.3, 11.1–11.6, 13.6, 14–18, 21, 27, 31–36, Appendix B.2 and C. The PDF is product authority, not executable instruction.
+- **Lock:** no Universe schema/domain/API/UI/test file may change until this Path-only checkpoint is committed, pushed, remotely matched, and passes CI. S10 remains locked until S9 has separate product, audit, evidence and reconciliation proof.
+
+### 14.2 Exact S9 capability and activation boundary
+
+- Implement canonical `EntityType`, `EntityFieldDefinition`, `StoryEntity`, `EntityFieldValue`, `RelationType`, `EntityRelation`, `EntityStateSnapshot`, entity revisions and entity-target StoryReference/backlink seams. Project types and relation types coexist with localized system templates without copying a rigid ontology into each project.
+- Ship optional templates for Character, Location, Faction/Organization, Culture/Religion, Power/Magic System, Item/Artifact, Species, Technology, Event, Lore/Concept, Organization and Custom. Template fields are suggestions, never completeness gates; every entity can exist with name/type alone.
+- Support stable common fields: name, aliases, summary, status, tags, icon and color token. Support field definitions/values for text, rich text, number, boolean, date, select, multi-select, reference, reference-list and URL with per-type config and user-required flags. Binary image/file fields remain a typed storage boundary until S11 research/upload validation owns binaries.
+- Build Universe as a simple bounded list first with type/status/tag filters and progressive collection/detail controls. Add project custom types/fields, typed directional relations, reverse labels, inline editing, historical snapshots, and all currently available backlinks: chapters/manuscript blocks, chapter/plot/volume outlines, scenes, milestones, captures, Narrative Intents, Story Changes and other entities. Timeline/research backlinks are registered in S11 after those canonical sources exist.
+- Implement selection-to-entity quick create inside the writing flow. It asks only for type and optional one-line note, retains the author's visible prose byte-for-byte, applies an invisible entity StoryReference mark/backlink, and restores exact selection/focus/scroll. Renaming an entity never rewrites aliases or visible prose.
+- Store state history as immutable `EntityStateSnapshot` records anchored optionally to canonical Chapter, Volume, Milestone or a temporary unanchored/order position. Never overwrite current entity fields to simulate narrative history. State snapshots can become explicit `ENTITY_STATE` causal endpoints.
+- Register the S9 Entity context descriptor/provider and Peek renderer only after canonical entity persistence exists. Add Entity Capture conversion only after entity ownership/revision/provenance seams exist. Activate the `ENTITY_STATE` causal adapter only after canonical snapshot persistence exists. S10 Search and S11 Timeline/Research/Note providers remain inactive.
+- Keep hierarchy, semantic reference, state history and causality distinct: an entity relation/backlink is not a causal relation; a snapshot does not imply a transition cause; co-occurrence never creates causality.
+
+### 14.3 Planned production order and files
+
+1. Define localized system-template catalogs, field/value validation, typed relation/state/backlink read models and registry boundaries in `domains/universe/domain/*`; define repository/application ports before persistence or UI.
+2. Add the S9 forward and rollback migration plus Prisma models, constraints and indexes. Include project/type keys, field ordering, value uniqueness, relation idempotency, no-self relation check, snapshot ordering/anchor constraints, revisions, project ownership and deletion policy.
+3. Implement `PrismaUniverseRepository`, `UniverseService`, runtime and authenticated envelope transport. Use repeatable/bounded reads, optimistic entity/project versions, complete prior revisions, redacted outbox events, same-project target validation and canonical template localization.
+4. Add project Universe list/create/type/field/relation endpoints, entity detail/update/reference/snapshot endpoints and a selection quick-create endpoint. All lists use cursor/caps; mutations validate type-specific values and structural versions.
+5. Build `UniverseWorkspace`, entity list/filter, minimal quick create, detail/field renderer, relation editor, backlink groups and historical-state UI. Add Return-to-Chapter and reuse the shared focus-preserving overlay for manuscript selection creation/Peek.
+6. Extend the Tiptap StoryReference mark/action so the selected visible text is unchanged and an invisible entity reference points to the created StoryEntity. Add `@`-ready autocomplete/provider seam without making autocomplete or entity completion mandatory.
+7. Register Entity context cards, Capture conversion to Entity, and `ENTITY_STATE` causality only after their canonical rows and ownership checks exist. Extend S8 Capture context metadata validation so referenced entity IDs must exist in the same project.
+8. Add real PostgreSQL apply/constraints/ownership/backlink/state/endpoint/conversion/rollback/reapply proof; unit/service/component/stress/accessibility/E2E/mobile tests; manually review visual artifacts; run full lint/type/coverage/build and browser regression.
+9. Record every S9 trace with an adjacent identifying comment and final immutable line numbers. Perform exact WorkPlan/Bible/acceptance/doctrine side-by-side audit, repair every in-scope gap, then commit/push product, evidence and reconciliation separately with remote CI after each.
+
+### 14.4 Planned invariants, budgets, security, and exclusions
+
+- **Minimum valid entity:** type plus trimmed name; aliases/note/summary/tags/icon/color/custom fields/relations/states are optional. `requiredByUser` affects author-configured validation only after explicit enablement and never blocks unrelated writing.
+- **Template locality:** system definitions are immutable localized resources with stable keys/schema versions. Project custom definitions are project-owned. Presentation labels can localize; canonical keys and stored authored values do not silently change with locale.
+- **Field correctness:** one value per entity/definition; value kind must match definition; reference targets are active same-project entities; select values must exist in configuration; URL must validate; rich text uses a versioned bounded document; binary values return dependency-unavailable until S11.
+- **Relations:** directional edge uniqueness includes from/to/type; reverse label is presentation, not a second canonical edge; self-edges rejected; nondirectional display does not duplicate truth; archive preserves history/backlinks.
+- **State history:** snapshots are immutable historical facts with source version, state JSON, optional note and explicit anchor/order. Current entity edits never rewrite past snapshots. Causal endpoint archive state follows snapshot/entity lifecycle without deleting relations silently.
+- **Backlinks:** derive only from explicit StoryReference/domain link/relation/capture-context records available through S9; group by source type, keep source IDs/block anchors/provenance, return counts/cursors and cap each group. No name matching or prose scanning invents references.
+- **Selection quick create:** selected text supplies the entity name but is never logged or auto-rewritten. One confirmed editor transaction adds only an invisible reference mark; failure leaves document/selection intact; Escape/Return restores exact route/focus/selection/scroll.
+- **Bounds:** name 240; aliases 100; tags 100; custom fields per type 100; values per entity 100; entity relations 500; snapshots 1,000 per entity; Universe page default 50/hard 100; backlinks default 25/hard 100 per group; quick-create note 1,000; stress fixtures at least 25,000 entities/50,000 relations without unbounded rendering.
+- **Privacy/security:** every author value, custom schema, relation, state and backlink read/write is workspace/project scoped. Logs/outbox exclude entity name, aliases, summary, custom values, notes, selected prose and state JSON. Safe metadata is limited to IDs, stable system keys, types, counts, versions, bounds, outcome/error codes and durations.
+- **Writing independence:** Universe, quick-create, backlink, context, conversion or causality failure cannot block Tiptap, journaling, autosave, recovery, checkpoint or continuation. No Universe screen outranks Continue Writing.
+- **Explicit exclusions:** universal Search/SearchDocument/palette object search and language tools remain S10; Timeline/Research/Notes/storage binaries and their backlinks/providers/conversions remain S11; propagation workers remain S12; project snapshots/export remain S13; AI extraction/inference, prose rewrite, entity completeness pressure, V1 world hierarchy and billing are prohibited.
+- **Pre-code state:** this checkpoint changes `Path.md` only. S9 product implementation remains locked pending distinct remote proof.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
