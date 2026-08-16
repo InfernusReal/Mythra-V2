@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const activeContextCardTypes = ["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT"] as const;
+export const activeContextCardTypes = ["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE"] as const;
 export type ContextCardType = (typeof activeContextCardTypes)[number];
 export type ContextFieldState = "CHAPTER" | "SELECTION" | "PEEK" | "OUTLINE" | "REFERENCE_SEARCH" | "CAUSAL_PEEK";
 
@@ -80,7 +80,7 @@ export const contextQuerySchema = z.object({
   selectedIds: z.array(z.string().uuid()).max(50).default([]),
   peekType: z.enum(activeContextCardTypes).optional(),
   peekId: z.string().uuid().optional(),
-  activeCausalType: z.enum(["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE"]).optional(),
+  activeCausalType: z.enum(["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED"]).optional(),
   activeCausalId: z.string().uuid().optional(),
   activeCausalBlockId: z.string().uuid().optional(),
   requestedContextKey: z.string().min(16).max(128).optional(),

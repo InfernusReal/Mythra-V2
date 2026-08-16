@@ -28,16 +28,16 @@ test.describe("Sub-gate 6 Causal Story Fabric", () => {
     expect(emitted.join("\n")).toContain("S6-UI-001"); expect(emitted.join("\n")).toContain("S6-UI-002"); expect(emitted.join("\n")).toContain("S6-UI-003"); expect(emitted.join("\n")).toContain("S6-UI-008");
   });
 
-  test("rejects reserved adapters and an unqualified hard requires cycle with stable results", async ({ page }) => {
+  test("rejects remaining reserved adapters and an unqualified hard requires cycle with stable results", async ({ page }) => {
     const { projectId } = await createProject(page, false);
     const facts = await page.evaluate(async (id) => {
       const post = async (url: string, body: unknown) => { const response = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }); return { status: response.status, envelope: await response.json() as { data?: { object: { id: string }; projectStructuralVersion: number; idempotent?: boolean }; error?: { code: string } } }; };
       const a = await post(`/api/v2/projects/${id}/causality/story-changes`, { expectedStructuralVersion: 1, kind: "EVENT", title: "A", isPlaceholder: false }); const b = await post(`/api/v2/projects/${id}/causality/story-changes`, { expectedStructuralVersion: 2, kind: "OUTCOME", title: "B", isPlaceholder: false }); const source = { type: "STORY_CHANGE", id: a.envelope.data!.object.id }; const target = { type: "STORY_CHANGE", id: b.envelope.data!.object.id };
       const forward = await post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 3, source, target, relationType: "REQUIRES", state: "ACTIVE", isHard: true }); const duplicate = await post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 4, source, target, relationType: "REQUIRES", state: "ACTIVE", isHard: true }); const cycle = await post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 4, source: target, target: source, relationType: "REQUIRES", state: "ACTIVE", isHard: true });
-      const reserved = await Promise.all(["TIMELINE_EVENT", "ENTITY_STATE", "CAPTURE_DERIVED"].map((type) => post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 4, source: { type, id: crypto.randomUUID() }, target, relationType: "CAUSES" })));
+      const reserved = await Promise.all(["TIMELINE_EVENT", "ENTITY_STATE"].map((type) => post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 4, source: { type, id: crypto.randomUUID() }, target, relationType: "CAUSES" })));
       return { forward, duplicate, cycle, reserved };
     }, projectId);
-    expect(facts.forward.status).toBe(201); expect(facts.duplicate.envelope.data?.object.id).toBe(facts.forward.envelope.data?.object.id); expect(facts.duplicate.envelope.data?.idempotent).toBe(true); expect(facts.cycle).toMatchObject({ status: 409, envelope: { error: { code: "INTEGRITY_ERROR" } } }); expect(facts.reserved.map((item) => [item.status, item.envelope.error?.code])).toEqual([[503, "DEPENDENCY_UNAVAILABLE"], [503, "DEPENDENCY_UNAVAILABLE"], [503, "DEPENDENCY_UNAVAILABLE"]]);
+    expect(facts.forward.status).toBe(201); expect(facts.duplicate.envelope.data?.object.id).toBe(facts.forward.envelope.data?.object.id); expect(facts.duplicate.envelope.data?.idempotent).toBe(true); expect(facts.cycle).toMatchObject({ status: 409, envelope: { error: { code: "INTEGRITY_ERROR" } } }); expect(facts.reserved.map((item) => [item.status, item.envelope.error?.code])).toEqual([[503, "DEPENDENCY_UNAVAILABLE"], [503, "DEPENDENCY_UNAVAILABLE"]]);
   });
 
   test("composes from writing and restores the exact position without changing prose", async ({ page }) => {

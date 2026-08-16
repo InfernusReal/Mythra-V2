@@ -1,4 +1,4 @@
-import { Prisma, type ContextCardType as PrismaContextCardType, type PrismaClient } from "@/app/generated/prisma/client";
+import { Prisma, type PrismaClient } from "@/app/generated/prisma/client";
 import type { SessionActor } from "@/domains/accounts/domain/identity";
 import { errors } from "@/lib/contracts/errors";
 import type { ContextRepository, ContextSnapshot } from "../application/ports";
@@ -41,6 +41,7 @@ async function contextSourceExists(tx: Transaction, projectId: string, cardType:
   if (cardType === "MILESTONE") return Boolean(await tx.milestone.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
   if (cardType === "CAUSAL") return Boolean(await tx.causalRelation.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
   if (cardType === "REFERENCE") return Boolean(await tx.storyReference.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
+  if (cardType === "CAPTURE") return Boolean(await tx.capture.findFirst({ where: { id: sourceId, projectId }, select: { id: true } }));
   return Boolean(await tx.narrativeIntent.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
 }
 
@@ -59,11 +60,12 @@ export class PrismaContextRepository implements ContextRepository {
         tx.narrativeIntent.findMany({ where: { projectId: chapter.projectId, archivedAt: null, OR: [{ targetType: "CHAPTER", targetId: chapterId }, { targetType: "PARAGRAPH_SELECTION", targetId: chapterId }] }, orderBy: { updatedAt: "desc" }, take: 50, select: { id: true, targetType: true, targetId: true, blockId: true, category: true, customCategory: true, intentText: true, version: true } })
       ]);
       const pinnedByType = (type: ContextCardType) => pins.filter((pin) => pin.cardType === type).map((pin) => pin.sourceId);
-      const [extraOutlines, extraMilestones, extraReferences, extraIntents] = await Promise.all([
+      const [extraOutlines, extraMilestones, extraReferences, extraIntents, captures] = await Promise.all([
         tx.chapterOutline.findMany({ where: { projectId: chapter.projectId, id: { in: pinnedByType("CHAPTER_OUTLINE").filter((id) => id !== chapter.outline?.id) }, archivedAt: null }, take: 100, select: { id: true, title: true, purpose: true, emotionalMovement: true, plainText: true, version: true } }),
         tx.milestone.findMany({ where: { projectId: chapter.projectId, id: { in: pinnedByType("MILESTONE").filter((id) => !milestoneRows.some((row) => row.milestone.id === id)) }, archivedAt: null }, take: 100, select: { id: true, title: true, description: true, version: true } }),
         tx.storyReference.findMany({ where: { projectId: chapter.projectId, id: { in: pinnedByType("REFERENCE").filter((id) => !referenceRows.some((row) => row.id === id)) }, archivedAt: null }, take: 100, select: { id: true, sourceType: true, sourceId: true, sourceBlockId: true, targetType: true, targetId: true, targetBlockId: true, relationshipKey: true, version: true } }),
-        tx.narrativeIntent.findMany({ where: { projectId: chapter.projectId, id: { in: pinnedByType("NARRATIVE_INTENT").filter((id) => !intentRows.some((row) => row.id === id)) }, archivedAt: null }, take: 100, select: { id: true, targetType: true, targetId: true, blockId: true, category: true, customCategory: true, intentText: true, version: true } })
+        tx.narrativeIntent.findMany({ where: { projectId: chapter.projectId, id: { in: pinnedByType("NARRATIVE_INTENT").filter((id) => !intentRows.some((row) => row.id === id)) }, archivedAt: null }, take: 100, select: { id: true, targetType: true, targetId: true, blockId: true, category: true, customCategory: true, intentText: true, version: true } }),
+        tx.capture.findMany({ where: { projectId: chapter.projectId, userId: actor.userId, OR: [{ chapterId }, { id: { in: pinnedByType("CAPTURE") } }] }, orderBy: { capturedAt: "desc" }, take: 50, select: { id: true, rawText: true, lifecycle: true, capturedAt: true, chapterId: true, blockId: true, version: true } })
       ]);
       const allMilestones = [...milestoneRows.map((row) => ({ id: row.milestone.id, title: row.milestone.title, description: row.milestone.description, role: row.role, weight: row.weight, version: row.milestone.version })), ...extraMilestones.map((row) => ({ ...row, role: "PINNED", weight: 0 }))];
       const allReferences = [...referenceRows, ...extraReferences]; const allIntents = [...intentRows, ...extraIntents];
@@ -92,7 +94,7 @@ export class PrismaContextRepository implements ContextRepository {
         milestones: allMilestones,
         references: allReferences.map((row) => ({ ...row, sourceType: String(row.sourceType), targetType: String(row.targetType), targetLabel: labelMap.get(`${row.targetType}:${row.targetId}`) ?? String(row.targetType) })),
         causal,
-        intents: allIntents.map((row) => ({ ...row, targetType: String(row.targetType), category: row.category ? String(row.category) : null })),
+        intents: allIntents.map((row) => ({ ...row, targetType: String(row.targetType), category: row.category ? String(row.category) : null })), captures: captures.map((row) => ({ ...row, lifecycle: String(row.lifecycle) })),
         pins: pins.map((pin) => ({ cardType: pin.cardType as ContextCardType, sourceId: pin.sourceId })),
         preferences: { mutedTypes: cardTypes(preference?.mutedTypes), directiveEnabled: preference?.directiveEnabled ?? true }
       };
@@ -109,11 +111,11 @@ export class PrismaContextRepository implements ContextRepository {
       const preference = await tx.contextPreference.upsert({ where: { userId_projectId: { userId: actor.userId, projectId } }, create: { userId: actor.userId, projectId, mutedTypes: json([...muted]), directiveEnabled: mutation.action === "SET_DIRECTIVE" ? Boolean(mutation.enabled) : true }, update: { mutedTypes: json([...muted]), ...(mutation.action === "SET_DIRECTIVE" ? { directiveEnabled: Boolean(mutation.enabled) } : {}) }, select: { mutedTypes: true, directiveEnabled: true } });
       if (mutation.action === "PIN" && mutation.cardType && mutation.sourceId) {
         if (!await contextSourceExists(tx, projectId, mutation.cardType, mutation.sourceId)) throw errors.notFound();
-        const existing = await tx.contextPin.findUnique({ where: { userId_projectId_cardType_sourceId: { userId: actor.userId, projectId, cardType: mutation.cardType as PrismaContextCardType, sourceId: mutation.sourceId } }, select: { id: true } });
+        const existing = await tx.contextPin.findUnique({ where: { userId_projectId_cardType_sourceId: { userId: actor.userId, projectId, cardType: mutation.cardType, sourceId: mutation.sourceId } }, select: { id: true } });
         if (!existing && await tx.contextPin.count({ where: { userId: actor.userId, projectId } }) >= 100) throw errors.validation("A project may have at most 100 pinned context sources per user.");
-        await tx.contextPin.upsert({ where: { userId_projectId_cardType_sourceId: { userId: actor.userId, projectId, cardType: mutation.cardType as PrismaContextCardType, sourceId: mutation.sourceId } }, create: { userId: actor.userId, projectId, cardType: mutation.cardType as PrismaContextCardType, sourceId: mutation.sourceId }, update: {} });
+        await tx.contextPin.upsert({ where: { userId_projectId_cardType_sourceId: { userId: actor.userId, projectId, cardType: mutation.cardType, sourceId: mutation.sourceId } }, create: { userId: actor.userId, projectId, cardType: mutation.cardType, sourceId: mutation.sourceId }, update: {} });
       }
-      if (mutation.action === "UNPIN" && mutation.cardType && mutation.sourceId) await tx.contextPin.deleteMany({ where: { userId: actor.userId, projectId, cardType: mutation.cardType as PrismaContextCardType, sourceId: mutation.sourceId } });
+      if (mutation.action === "UNPIN" && mutation.cardType && mutation.sourceId) await tx.contextPin.deleteMany({ where: { userId: actor.userId, projectId, cardType: mutation.cardType, sourceId: mutation.sourceId } });
       const pinCount = await tx.contextPin.count({ where: { userId: actor.userId, projectId } });
       return { mutedTypes: cardTypes(preference.mutedTypes), directiveEnabled: preference.directiveEnabled, pinCount };
     });

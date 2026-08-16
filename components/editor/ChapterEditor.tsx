@@ -22,6 +22,7 @@ import { FocusMode } from "./FocusMode";
 import { RecoveryDrawer } from "./RecoveryDrawer";
 import { WordTarget } from "./WordTarget";
 import { ContextualWritingField } from "@/components/context/ContextualWritingField";
+import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -209,7 +210,8 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
       <div className="editor-structure-action"><a href={`/app/projects/${model.project.id}/structure`} onClick={() => {
         // Console trace S4-UI-015: editor-to-Structure navigation requested after continuation state capture remains active.
         console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));
-      }}>Structure</a></div>
+      }}>Structure</a> <a href={`/app/projects/${model.project.id}/captures?returnChapterId=${model.chapter.id}`}>Capture Inbox</a></div>
+      <QuickCaptureOverlay editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <ContextualWritingField editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <CausalComposer editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <nav className="chapter-switcher" aria-label="Nearby chapters">

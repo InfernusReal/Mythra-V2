@@ -221,6 +221,27 @@ enum ContextCardType {
   NARRATIVE_INTENT
 }
 
+enum CaptureLifecycle {
+  UNPROCESSED
+  FILED
+  CONVERTED
+  DEFERRED
+  DISMISSED
+}
+
+enum CaptureAttachmentTargetType {
+  CHAPTER
+  CHAPTER_OUTLINE
+}
+
+enum CaptureConversionType {
+  MILESTONE
+  STORY_CHANGE
+  CHAPTER_ATTACHMENT
+  OUTLINE_ATTACHMENT
+  CAPTURE_DERIVED_CAUSAL
+}
+
 model User {
   id                 String             @id @default(uuid()) @db.Uuid
   email              String             @unique @db.VarChar(320)
@@ -240,6 +261,8 @@ model User {
   structureViewStates StructureViewState[]
   contextPreferences ContextPreference[]
   contextPins        ContextPin[]
+  captures           Capture[]
+  captureConversions CaptureConversion[]
 
   @@index([deletionRequestedAt, purgeAfter])
 }
@@ -312,6 +335,10 @@ model Project {
   causalRelations      CausalRelation[]
   contextPreferences   ContextPreference[]
   contextPins          ContextPin[]
+  captures             Capture[]
+  captureAttachments   CaptureAttachment[]
+  captureConversions   CaptureConversion[]
+  captureRevisions     CaptureRevision[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -791,17 +818,100 @@ model ContextPreference {
 }
 
 model ContextPin {
-  id         String          @id @default(uuid()) @db.Uuid
-  userId     String          @db.Uuid
-  projectId  String          @db.Uuid
-  cardType   ContextCardType
-  sourceId   String          @db.Uuid
-  createdAt  DateTime        @default(now()) @db.Timestamptz(3)
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project    Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  projectId  String   @db.Uuid
+  cardType   String   @db.VarChar(40)
+  sourceId   String   @db.Uuid
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId, cardType, sourceId])
   @@index([projectId, userId, createdAt(sort: Desc)])
+}
+
+model Capture {
+  id               String           @id @default(uuid()) @db.Uuid
+  userId           String           @db.Uuid
+  projectId        String           @db.Uuid
+  clientCaptureId  String           @db.VarChar(80)
+  rawText          String
+  lifecycle        CaptureLifecycle @default(UNPROCESSED)
+  route            String           @db.VarChar(2048)
+  chapterId        String?          @db.Uuid
+  outlineId        String?          @db.Uuid
+  blockId          String?          @db.VarChar(128)
+  selectionAnchor  Int?
+  selectionHead    Int?
+  entityContext    Json             @default("[]")
+  capturedAt       DateTime         @db.Timestamptz(3)
+  deferredUntil    DateTime?        @db.Timestamptz(3)
+  dismissedAt      DateTime?        @db.Timestamptz(3)
+  purgeAfter       DateTime?        @db.Timestamptz(3)
+  version          Int              @default(1)
+  createdAt        DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime         @updatedAt @db.Timestamptz(3)
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project          Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  attachments      CaptureAttachment[]
+  conversions      CaptureConversion[]
+  revisions        CaptureRevision[]
+
+  @@unique([userId, clientCaptureId])
+  @@index([projectId, userId, lifecycle, capturedAt(sort: Desc)])
+  @@index([projectId, chapterId, capturedAt(sort: Desc)])
+  @@index([projectId, deferredUntil])
+}
+
+model CaptureAttachment {
+  id            String                      @id @default(uuid()) @db.Uuid
+  captureId     String                      @db.Uuid
+  projectId     String                      @db.Uuid
+  targetType    CaptureAttachmentTargetType
+  targetId      String                      @db.Uuid
+  targetBlockId String                      @default("") @db.VarChar(128)
+  createdAt     DateTime                    @default(now()) @db.Timestamptz(3)
+  capture       Capture                     @relation(fields: [captureId], references: [id], onDelete: Cascade)
+  project       Project                     @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@unique([captureId, targetType, targetId, targetBlockId])
+  @@index([projectId, targetType, targetId])
+}
+
+model CaptureConversion {
+  id             String                @id @default(uuid()) @db.Uuid
+  captureId      String                @db.Uuid
+  projectId      String                @db.Uuid
+  userId         String                @db.Uuid
+  conversionType CaptureConversionType
+  idempotencyKey String                @db.VarChar(80)
+  targetType     String                @db.VarChar(80)
+  targetId       String                @db.Uuid
+  projectStructuralVersion Int
+  provenance     Json
+  createdAt      DateTime              @default(now()) @db.Timestamptz(3)
+  capture        Capture               @relation(fields: [captureId], references: [id], onDelete: Restrict)
+  project        Project               @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([captureId, conversionType, idempotencyKey])
+  @@index([projectId, conversionType, targetId])
+}
+
+model CaptureRevision {
+  id         String   @id @default(uuid()) @db.Uuid
+  captureId  String   @db.Uuid
+  projectId  String   @db.Uuid
+  version    Int
+  snapshot   Json
+  reason     String   @db.VarChar(80)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  capture    Capture  @relation(fields: [captureId], references: [id], onDelete: Cascade)
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@unique([captureId, version])
+  @@index([projectId, captureId, createdAt(sort: Desc)])
 }
 
 model WorkspaceMember {

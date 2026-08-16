@@ -8,11 +8,13 @@ export function MilestoneContextCard({ descriptor }: { descriptor: ContextFieldD
 export function CausalContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{descriptor.payload.direction === "UPSTREAM" ? "Direct prerequisite" : "Direct consequence"}</small></>; }
 export function ExistingReferenceCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.targetType ?? "reference")}</small></>; }
 export function NarrativeIntentCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.category ?? "Author intent")}</small></>; }
+export function CaptureContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.lifecycle ?? "UNPROCESSED")}</small></>; }
 
 export const contextCardRegistry = {
   CHAPTER_OUTLINE: ChapterOutlineCard,
   MILESTONE: MilestoneContextCard,
   CAUSAL: CausalContextCard,
   REFERENCE: ExistingReferenceCard,
-  NARRATIVE_INTENT: NarrativeIntentCard
+  NARRATIVE_INTENT: NarrativeIntentCard,
+  CAPTURE: CaptureContextCard
 } satisfies Record<ContextFieldDescriptor["type"], ComponentType<{ descriptor: ContextFieldDescriptor }>>;

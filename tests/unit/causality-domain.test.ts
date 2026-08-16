@@ -32,13 +32,13 @@ describe("causality domain", () => {
   });
 
   it("registers all active/reserved adapters and rejects unavailable capability consistently", async () => {
-    const active = ["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE"] as const;
+    const active = ["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED"] as const;
     const adapters = active.map((type): CausalEndpointAdapter => ({ type, availability: "ACTIVE", async resolve(projectId, endpoint) { return { endpoint, projectId, label: type, archived: false, storyTime: null, discoveryTime: null }; } }));
-    const registry = new CausalEndpointRegistry([...adapters, reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE"), reservedAdapter("CAPTURE_DERIVED")]);
+    const registry = new CausalEndpointRegistry([...adapters, reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE")]);
     expect(registry.availability("SCENE")).toBe("ACTIVE"); expect(registry.availability("TIMELINE_EVENT")).toBe("RESERVED");
     await expect(registry.resolve(id(), { type: "TIMELINE_EVENT", id: id() })).rejects.toMatchObject({ code: "DEPENDENCY_UNAVAILABLE", status: 503 });
     expect(() => new CausalEndpointRegistry(adapters)).toThrow("Missing causal endpoint adapter");
-    expect(() => new CausalEndpointRegistry([...adapters, adapters[0]!, reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE"), reservedAdapter("CAPTURE_DERIVED")])).toThrow("Duplicate");
+    expect(() => new CausalEndpointRegistry([...adapters, adapters[0]!, reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE")])).toThrow("Duplicate");
   });
 
   it("rejects non-semantic hard requires cycles but permits explicit progression or mutual state", () => {

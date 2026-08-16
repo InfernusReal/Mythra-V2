@@ -1,6 +1,6 @@
 import { errors } from "@/lib/contracts/errors";
 
-export type FutureConversionSource = "NOTE" | "CAPTURE";
+export type FutureConversionSource = "NOTE";
 
 export interface FutureStructureConversionRequest {
   sourceType: FutureConversionSource;

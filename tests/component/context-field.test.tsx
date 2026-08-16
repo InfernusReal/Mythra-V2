@@ -30,8 +30,8 @@ describe("Contextual Writing Field components", () => {
     fireEvent.click(screen.getByRole("button", { name: "Because value" })); expect(peek).toHaveBeenCalledWith(`CAUSAL:${id(1)}`);
   });
 
-  it("exposes exactly the five S7 card renderer registrations", () => {
-    expect(Object.keys(contextCardRegistry)).toEqual(["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT"]);
+  it("exposes the five S7 renderers plus the S8 Capture renderer", () => {
+    expect(Object.keys(contextCardRegistry)).toEqual(["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE"]);
   });
 
   it("renders card-specific metadata and the disabled directive state", () => {

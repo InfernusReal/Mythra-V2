@@ -35,6 +35,10 @@ function activeAdapter(type: ActiveCausalEndpointType, client: Client): CausalEn
       if (!document.success || !document.data.content.some((block) => block.attrs.blockId === endpoint.blockId)) throw errors.notFound();
       return result(endpoint, projectId, `${row.title} · manuscript block`, row.archivedAt);
     }
+    if (type === "CAPTURE_DERIVED") {
+      const row = await client.captureConversion.findFirst({ where: { id: endpoint.id, projectId, conversionType: "CAPTURE_DERIVED_CAUSAL" }, select: { capture: { select: { lifecycle: true } } } });
+      if (!row) throw errors.notFound(); return result(endpoint, projectId, "Capture-derived causal identity", row.capture.lifecycle === "DISMISSED" ? new Date(0) : null);
+    }
     const row = await client.storyChange.findFirst({ where: { id: endpoint.id, projectId }, select: { title: true, storyTime: true, discoveryTime: true, archivedAt: true } });
     if (!row) throw errors.notFound();
     return result(endpoint, projectId, row.title, row.archivedAt, row.storyTime === null ? null : Number(row.storyTime), row.discoveryTime === null ? null : Number(row.discoveryTime));
@@ -44,7 +48,7 @@ function activeAdapter(type: ActiveCausalEndpointType, client: Client): CausalEn
 export function createPrismaEndpointRegistry(client: Client): CausalEndpointRegistry {
   return new CausalEndpointRegistry([
     activeAdapter("MILESTONE", client), activeAdapter("CHAPTER_OUTLINE", client), activeAdapter("SCENE", client),
-    activeAdapter("NARRATIVE_INTENT", client), activeAdapter("MANUSCRIPT_BLOCK", client), activeAdapter("STORY_CHANGE", client),
-    reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE"), reservedAdapter("CAPTURE_DERIVED")
+    activeAdapter("NARRATIVE_INTENT", client), activeAdapter("MANUSCRIPT_BLOCK", client), activeAdapter("STORY_CHANGE", client), activeAdapter("CAPTURE_DERIVED", client),
+    reservedAdapter("TIMELINE_EVENT"), reservedAdapter("ENTITY_STATE")
   ]);
 }

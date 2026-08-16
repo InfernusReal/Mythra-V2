@@ -4,7 +4,7 @@ Sub-gate 7 implements the Contextual Writing Field as a bounded projection over 
 
 ## Resolution and stability
 
-The application service reads one consistent source snapshot and passes it to a deterministic provider registry. Active providers are limited to domains that exist at Sub-gate 7: chapter outlines, milestones, direct causal relations, existing references, and Narrative Intent. Capture, entity, search/language, timeline, Note, and research providers remain unregistered until their owning sub-gates.
+The application service reads one consistent source snapshot and passes it to a deterministic provider registry. The original Sub-gate 7 providers are chapter outlines, milestones, direct causal relations, existing references, and Narrative Intent. Sub-gate 8 adds Capture after its canonical persistence, ownership, revision, and API seams pass. Entity, search/language, timeline, Note, and research providers remain unregistered until their owning sub-gates.
 
 Resolution follows pinned context, explicit selection, explicit Peek, idle-safe cursor-local context, chapter context, and project fallback. Within the resulting set, direct causal cards sort before general references. Stable source identity breaks equal-rank ties. The response carries a structural version, source freshness timestamp, and `contextKey`; the client rejects stale responses whose key no longer matches the requested coordinate.
 

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { randomUUID } from "node:crypto";
 import { AppShell } from "@/components/shell/AppShell";
 import { StartFirstChapter } from "@/components/projects/StartFirstChapter";
+import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import { requireActor } from "@/lib/auth/runtime";
 import { logger } from "@/lib/observability/logger";
 import { continuationService } from "@/lib/writing/runtime";
@@ -15,10 +16,12 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
   logger.info("continuation.project_home_rendered", { step: "S3-HOME-001", workspaceId: actor.workspaceId, projectId: id, activeChapterId: model.activeChapter?.id, recentChapterCount: model.recentChapters.length });
   return (
     <AppShell>
+      <QuickCaptureOverlay editor={null} projectId={model.project.id} />
       <section className="project-home" aria-labelledby="project-home-title">
         <p className="eyebrow">Project</p>
         <h1 id="project-home-title">{model.project.title}</h1>
         <a className="structure-link" href={`/app/projects/${model.project.id}/structure`}>Open Structure</a>
+        <a className="structure-link" href={`/app/projects/${model.project.id}/captures`}>Open Capture Inbox</a>
         {model.activeChapter ? (
           <>
             <a className="continue-writing" href={`/app/chapters/${model.activeChapter.id}`}>Continue Writing</a>

@@ -6,10 +6,11 @@ export interface ContextMilestoneSource { id: string; title: string; description
 export interface ContextReferenceSource { id: string; sourceType: string; sourceId: string; sourceBlockId: string | null; targetType: string; targetId: string; targetBlockId: string | null; relationshipKey: string; targetLabel: string; version: number }
 export interface ContextCausalSource { id: string; relationType: string; direction: "UPSTREAM" | "DOWNSTREAM"; endpointType: string; endpointId: string; endpointBlockId: string | null; endpointLabel: string; anchorType: string; anchorId: string; anchorBlockId: string | null; importance: number; version: number }
 export interface ContextIntentSource { id: string; targetType: string; targetId: string; blockId: string | null; category: string | null; customCategory: string | null; intentText: string; version: number }
+export interface ContextCaptureSource { id: string; rawText: string; lifecycle: string; capturedAt: Date; chapterId: string | null; blockId: string | null; version: number }
 export interface ContextSnapshot {
   projectId: string; projectStructuralVersion: number; chapterId: string; chapterVersion: number;
   outline: ContextOutlineSource | null; extraOutlines: ContextOutlineSource[]; milestones: ContextMilestoneSource[]; references: ContextReferenceSource[];
-  causal: ContextCausalSource[]; intents: ContextIntentSource[];
+  causal: ContextCausalSource[]; intents: ContextIntentSource[]; captures?: ContextCaptureSource[];
   pins: Array<{ cardType: ContextCardType; sourceId: string }>;
   preferences: { mutedTypes: ContextCardType[]; directiveEnabled: boolean };
 }

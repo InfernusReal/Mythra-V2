@@ -8,7 +8,7 @@ All routes require an authenticated workspace actor, validate input with Zod, re
 
 Optional query fields are `selectionStart`, `selectionEnd`, `cursorOffset`, `peekType`, `peekSourceId`, `peekBlockId`, and `cardCap`. The response contains the resolver coordinate, `contextKey`, structural version, freshness timestamp, typed descriptors, pin identities, durable card preferences, and the complete Narrative Directive v1 contract.
 
-Only the S7 providers are active. A request cannot create or return Capture, entity, timeline, Note, research, or language-backed cards.
+The S7 providers and the S8 private Capture provider are active. A request cannot create or return entity, timeline, Note, research, or language-backed cards.
 
 ## Update context preferences
 

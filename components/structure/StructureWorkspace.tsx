@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import type { MilestoneOverview } from "@/domains/milestones/application/ports";
 import type { CausalOverview } from "@/domains/causality/application/ports";
 import type { StructureOverview, StructureViewStateModel } from "@/domains/structure/application/ports";
@@ -65,6 +66,8 @@ export function StructureWorkspace({ initialModel, initialMilestones, initialCau
   const previousRangeStart = Math.max(0, initialModel.page.rangeStart - initialModel.page.pageSize);
 
   return (
+    <>
+    <QuickCaptureOverlay editor={null} projectId={initialModel.project.id} />
     <section className={`structure-workspace mode-${mode.toLowerCase()}`} aria-labelledby="structure-title">
       <header className="structure-header"><div><p className="eyebrow">Structure</p><h1 id="structure-title">{initialModel.project.title}</h1><p>Version {initialModel.project.structuralVersion}. Planning remains optional.</p><div className="structure-return">{returnChapterId ? <a href={`/app/chapters/${returnChapterId}`}>Return to Chapter</a> : initialModel.project.activeChapterId ? <a href={`/app/chapters/${initialModel.project.activeChapterId}`}>Return to writing</a> : <a href={`/app/projects/${initialModel.project.id}`}>Return to Project Home</a>}</div></div><label>Presentation mode<select value={mode} onChange={(event) => changeMode(event.currentTarget.value as PresentationMode)}><option value="DISCOVERY">Discovery</option><option value="GUIDED">Guided</option><option value="ARCHITECT">Architect</option></select></label></header>
       <StructureLensNav lenses={initialModel.lenses} active={lens} onChange={changeLens} />
@@ -78,5 +81,6 @@ export function StructureWorkspace({ initialModel, initialMilestones, initialCau
       {lens === "RELATIONSHIPS" ? <RelationshipLens model={initialModel} onChanged={refresh} /> : null}
       {lens === "SEMANTIC_ZOOM" ? <SemanticZoomViewport model={initialModel} milestones={initialMilestones} onAnchor={changeAnchor} onChanged={refresh} /> : null}
     </section>
+    </>
   );
 }
