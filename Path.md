@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — S7 content verified; execution-ledger evidence gate pending** | Entry S7 below | S7 content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; CI `31948248253`/`95167594902` passed; S8 remains locked |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 7 passed; Sub-gate 8 eligible but not started** | Entry S7 below | S7 evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -51,7 +51,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4 | Structure Core | 2 | **Passed** | Sub-gate 3 evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` verified | Entry S4 | Plan `abcd402382aa1c8f391a68276c8a0330b06d9d29`; content `b5a18a4289d2555a2891d53973c78fd4a0b85aa8`; evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3`; CI `31624497993`/`94207285676` passed |
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 7 | Contextual Writing Field v1 | 3 | **Audit complete — evidence commit/push/CI pending** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; content CI `31948248253`/`95167594902` passed |
+| 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
 | 8 | Capture | 3 | Not started | Sub-gate 7 required | — | — |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
@@ -1672,7 +1672,14 @@ Doctrine audit: structure, world data, Capture filing, and causality remain opti
 - **Telemetry gap:** the content-safe logger correctly failed a metadata key containing the forbidden substring `text`. The internal telemetry field became `stabilityHash`; the public resolver/API remains `contextKey`.
 - **Deep-page return gap:** S7 Open initially reached Structure without an exact contextual return label. The originating chapter coordinate and `Return to Chapter` were added and browser-verified.
 - **No remaining in-scope Gap:** every S7 row is `Verified`. Later Phase 3 domains are explicitly `Planned-later` under mandatory sequence, not omissions.
-- **Current status:** product content, local audit, push, remote ref, and content CI are complete. The Sub-gate remains `Audit complete — evidence commit/CI pending` until this Path change receives separate remote proof. S8 cannot begin earlier.
+- **Status at evidence-commit time:** product content, local audit, push, remote ref, and content CI were complete. The Sub-gate remained `Audit complete — evidence commit/CI pending` until that Path change received the separate proof recorded in 12.12; S8 could not begin earlier.
+
+### 12.12 Evidence-CI reconciliation and formal S7 closure
+
+- The complete S7 execution-ledger/audit commit is `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5` (`Record Contextual Writing Field evidence`). It contains sections 12.5–12.11, the entire file ledger, implementation method, exact console/comment line ledger, all failures and repairs, validation table, side-by-side audit, doctrine answers, and the explicit no-gap result.
+- The commit was pushed to `origin/agent/workplan-subgates-audit`; the remote branch ref resolved to that exact hash before CI completion.
+- GitHub Actions run `31948522601`, job `95168263910`, passed checkout, Node setup, dependency installation, Prisma generation, lint, typecheck, the 152-test coverage gate, and production build in 2m11s. No repository step was skipped or failed.
+- All conditions that were pending in 12.5 and 12.11 are now satisfied. **Sub-gate 7 is formally Passed.** Delivery Phase 3 remains In progress because S8–S11 are not implemented. Sub-gate 8 is now eligible, but product code remains locked until its own Path-only pre-code checkpoint is committed, pushed, remotely matched, and passes CI.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
