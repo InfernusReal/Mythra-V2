@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 audit complete; evidence commit/CI pending** | Entries S7–S8 below | S8 content `5bfb6397d457465fae31042aa327e137fa2dd7fe`, correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; CI `31960693578`/`95198113567` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 8 passed; Sub-gate 9 eligible** | Entries S7–S8 below | S8 evidence `7bd4b85282b189d75e4333187dba009db267ce88`; CI `31960910281`/`95198643795` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -52,7 +52,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5 | Milestones | 2 | **Passed** | Sub-gate 4 evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` and CI `31624497993`/`94207285676` verified | Entry S5 | Plan `6a4582272cf240dfc4e5dcbdd34881723c65eda2`; content `35d96cfef19a9d99f0bddb1a7af2beb318dd0a07`; evidence `dccf8db53808124d73f7135aa0d495716d0e6bef`; CI `31729273306`/`94545306078` passed |
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
-| 8 | Capture | 3 | **Audit complete — evidence commit/CI pending** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; correction CI `31960693578`/`95198113567` passed |
+| 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; CI `31960910281`/`95198643795` passed |
 | 9 | Universe | 3 | Not started | Sub-gate 8 required | — | — |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–7 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S8 product work and its audit are complete, but S9 remains locked until the S8 evidence commit is pushed, remotely matched, passes CI, and receives a reconciliation record.
+Sub-gates 0–8 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9 is eligible by dependency order, but its product code remains locked until its own Path-only pre-code checkpoint is committed, pushed, remotely matched, and passes CI.
 
 ## 4. Entry S0 — Foundation
 
@@ -1856,7 +1856,10 @@ Doctrine result: Capture remains optional and author-owned; leaving it unprocess
 
 ### 13.12 Evidence-CI reconciliation and formal S8 closure
 
-- Pending at this evidence-commit stage. This section will record the evidence commit hash, matching remote ref and successful CI run before S8 becomes Passed and before any S9 product or planning change starts.
+- The complete S8 execution-ledger/audit commit is `7bd4b85282b189d75e4333187dba009db267ce88` (`Record zero-friction Capture evidence`). It contains sections 13.5–13.11, the full file/responsibility ledger, code and boundary explanation, exact console/comment line table, every validation/failure/repair, side-by-side WorkPlan/Bible/doctrine audit, and explicit no-gap result.
+- The evidence commit was pushed to `origin/agent/workplan-subgates-audit`; `git ls-remote` returned the exact same hash before CI completed.
+- GitHub Actions run `31960910281`, job `95198643795`, passed checkout, Node setup, dependency installation, Prisma generation, lint, typecheck, the 172-test coverage gate, and production build in 2m36s. No repository step was skipped or failed.
+- All conditions pending in 13.5 and 13.11 are satisfied. **Sub-gate 8 is formally Passed.** Phase 3 remains In progress because S9–S11 are not implemented. S9 is eligible only after this reconciliation commit is also pushed, remotely matched, and passes CI; no S9 product code is part of this change.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
