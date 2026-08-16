@@ -77,6 +77,7 @@ enum StructureLens {
   RELATIONSHIPS
   SEMANTIC_ZOOM
   MILESTONES
+  CAUSAL
 }
 
 enum NarrativeIntentTargetType {
@@ -128,6 +129,58 @@ enum StructureObjectType {
   MILESTONE
   CHAPTER_MILESTONE_LINK
   MILESTONE_DEPENDENCY
+  STORY_CHANGE
+  CAUSAL_RELATION
+}
+
+enum StoryChangeKind {
+  EVENT
+  DECISION
+  REVELATION
+  STATE_CHANGE
+  SETUP
+  PAYOFF
+  CONDITION
+  OUTCOME
+  CUSTOM
+}
+
+enum CausalEndpointType {
+  MILESTONE
+  CHAPTER_OUTLINE
+  SCENE
+  TIMELINE_EVENT
+  NARRATIVE_INTENT
+  ENTITY_STATE
+  CAPTURE_DERIVED
+  MANUSCRIPT_BLOCK
+  STORY_CHANGE
+}
+
+enum CausalRelationType {
+  CAUSES
+  ENABLES
+  REQUIRES
+  MOTIVATES
+  TRIGGERS
+  ESCALATES
+  PREVENTS_BLOCKS
+  REVEALS
+  TRANSFORMS
+  RESOLVES
+}
+
+enum CausalRelationState {
+  ACTIVE
+  TENTATIVE
+  RETIRED
+}
+
+enum CausalProvenanceType {
+  DIRECT
+  CHAPTER_PROSE
+  OUTLINE_BLOCK
+  CAPTURE_CONVERSION
 }
 
 enum MilestoneStatus {
@@ -245,6 +298,8 @@ model Project {
   milestones          Milestone[]
   chapterMilestoneLinks ChapterMilestoneLink[]
   milestoneDependencies MilestoneDependency[]
+  storyChanges         StoryChange[]
+  causalRelations      CausalRelation[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -574,6 +629,61 @@ model MilestoneDependency {
 
   @@index([projectId, sourceMilestoneId, state, archivedAt])
   @@index([projectId, targetMilestoneId, state, archivedAt])
+}
+
+model StoryChange {
+  id                    String          @id @default(uuid()) @db.Uuid
+  projectId             String          @db.Uuid
+  kind                  StoryChangeKind
+  title                 String          @db.VarChar(240)
+  description           String?
+  storyTime             Decimal?        @db.Decimal(20, 6)
+  discoveryTime         Decimal?        @db.Decimal(20, 6)
+  anchorType            CausalEndpointType?
+  anchorId              String?         @db.Uuid
+  anchorBlockId         String?         @db.VarChar(128)
+  isPlaceholder         Boolean         @default(false)
+  version               Int             @default(1)
+  createdAt             DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime        @updatedAt @db.Timestamptz(3)
+  archivedAt            DateTime?       @db.Timestamptz(3)
+  project               Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, kind, archivedAt, updatedAt(sort: Desc)])
+  @@index([projectId, anchorType, anchorId, archivedAt])
+  @@index([projectId, storyTime, discoveryTime])
+}
+
+model CausalRelation {
+  id                    String                 @id @default(uuid()) @db.Uuid
+  projectId             String                 @db.Uuid
+  sourceType            CausalEndpointType
+  sourceId              String                 @db.Uuid
+  sourceBlockId         String?                @db.VarChar(128)
+  targetType            CausalEndpointType
+  targetId              String                 @db.Uuid
+  targetBlockId         String?                @db.VarChar(128)
+  relationType          CausalRelationType
+  condition             String?
+  strength              Float                  @default(1)
+  importance            Int                    @default(50)
+  state                 CausalRelationState    @default(ACTIVE)
+  isHard                Boolean                @default(false)
+  temporalProgression   Boolean                @default(false)
+  mutualStateSemantics  Boolean                @default(false)
+  note                  String?
+  provenanceType        CausalProvenanceType   @default(DIRECT)
+  provenanceNote        String?
+  version               Int                    @default(1)
+  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime               @updatedAt @db.Timestamptz(3)
+  archivedAt            DateTime?              @db.Timestamptz(3)
+  project               Project                @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, sourceType, sourceId, state, archivedAt])
+  @@index([projectId, targetType, targetId, state, archivedAt])
+  @@index([projectId, relationType, state, archivedAt])
+  @@index([projectId, updatedAt(sort: Desc)])
 }
 
 model ChapterRevision {

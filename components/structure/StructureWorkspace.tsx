@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MilestoneOverview } from "@/domains/milestones/application/ports";
+import type { CausalOverview } from "@/domains/causality/application/ports";
 import type { StructureOverview, StructureViewStateModel } from "@/domains/structure/application/ports";
 import type { PresentationMode, StructureLens } from "@/domains/structure/domain/types";
 import { ChapterPlanningGrid } from "./ChapterPlanningGrid";
+import { CausalLens } from "./CausalLens";
 import { MilestoneLens } from "./MilestoneLens";
 import { OutlineLens } from "./OutlineLens";
 import { RelationshipLens } from "./RelationshipLens";
@@ -13,7 +15,9 @@ import { SemanticZoomViewport } from "./SemanticZoomViewport";
 import { StructureLensNav } from "./StructureLensNav";
 import { VolumeLane } from "./VolumeLane";
 
-export function StructureWorkspace({ initialModel, initialMilestones }: { initialModel: StructureOverview; initialMilestones: MilestoneOverview }) {
+const emptyCausality: CausalOverview = { projectStructuralVersion: 1, storyChanges: [], relations: [], endpoints: [], page: { nodeBudget: 200, edgeBudget: 300, returnedNodes: 0, returnedEdges: 0, hasMoreNodes: false, hasMoreEdges: false } };
+
+export function StructureWorkspace({ initialModel, initialMilestones, initialCausality = emptyCausality }: { initialModel: StructureOverview; initialMilestones: MilestoneOverview; initialCausality?: CausalOverview }) {
   const [lens, setLens] = useState<StructureLens>(initialModel.viewState.activeLens);
   const [mode, setMode] = useState<PresentationMode>(initialModel.viewState.mode);
   const [expandedIds, setExpandedIds] = useState(initialModel.viewState.expandedIds);
@@ -31,7 +35,7 @@ export function StructureWorkspace({ initialModel, initialMilestones }: { initia
 
   const changeLens = (next: StructureLens) => {
     setLens(next);
-    // Console trace S4-UI-001: active Structure lens changed; the S6 causal lens remains unavailable.
+    // Console trace S4-UI-001: active Structure lens changed within the current registered capability set.
     console.log(JSON.stringify({ level: "info", step: "S4-UI-001", event: "structure.lens_changed", projectId: initialModel.project.id, activeLens: next }));
     saveView({ activeLens: next });
   };
@@ -70,6 +74,7 @@ export function StructureWorkspace({ initialModel, initialMilestones }: { initia
       {lens === "VOLUMES" ? <VolumeLane model={initialModel} onChanged={refresh} /> : null}
       {lens === "CHAPTERS" ? <ChapterPlanningGrid model={initialModel} onChanged={refresh} /> : null}
       {lens === "MILESTONES" ? <MilestoneLens structure={initialModel} model={initialMilestones} onChanged={refresh} /> : null}
+      {lens === "CAUSAL" ? <CausalLens structure={initialModel} model={initialCausality} presentationMode={mode} onChanged={refresh} /> : null}
       {lens === "RELATIONSHIPS" ? <RelationshipLens model={initialModel} onChanged={refresh} /> : null}
       {lens === "SEMANTIC_ZOOM" ? <SemanticZoomViewport model={initialModel} milestones={initialMilestones} onAnchor={changeAnchor} onChanged={refresh} /> : null}
     </section>

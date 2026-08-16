@@ -22,7 +22,7 @@ export interface StructureOverview {
   references: StoryReferenceSummary[];
   intents: NarrativeIntentSummary[];
   viewState: StructureViewStateModel;
-  lenses: readonly ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"];
+  lenses: readonly ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"];
   page: { pageSize: number; nodeBudget: number; edgeBudget: number; rangeStart: number; nextRangeStart: number | null; returnedNodes: number; returnedEdges: number; hasMoreNodes: boolean; hasMoreEdges: boolean };
 }
 

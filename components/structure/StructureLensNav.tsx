@@ -5,6 +5,7 @@ const labels: Record<StructureLens, string> = {
   VOLUMES: "Volumes",
   CHAPTERS: "Chapters",
   MILESTONES: "Milestones",
+  CAUSAL: "Causal",
   RELATIONSHIPS: "Relationships",
   SEMANTIC_ZOOM: "Semantic Zoom"
 };

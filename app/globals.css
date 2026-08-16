@@ -14,6 +14,23 @@
   --focus: #5b4fe9;
 }
 
+.causal-lens { display: grid; gap: 1rem; }
+.causal-lens > header, .causal-form, .causal-lens > section { border: 1px solid var(--border); border-radius: 0.9rem; padding: 1rem; background: var(--surface); }
+.causal-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); align-items: end; gap: 0.75rem; }
+.causal-form h3, .causal-form fieldset, .causal-form button { grid-column: 1 / -1; }
+.causal-form label { display: grid; gap: 0.35rem; }
+.causal-form fieldset { display: flex; flex-wrap: wrap; gap: 1rem; border: 1px solid var(--border); border-radius: 0.6rem; }
+.causal-form fieldset label { display: flex; align-items: center; gap: 0.4rem; }
+.causal-trace-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.causal-list { display: grid; gap: 0.65rem; padding-inline-start: 1.4rem; }
+.causal-list li { padding: 0.7rem; border-inline-start: 3px solid var(--accent); }
+.causal-list small { display: block; margin-block: 0.25rem; color: var(--text-muted); }
+.causal-local-graph { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.causal-local-graph span { border: 1px solid var(--border); border-radius: 999px; padding: 0.4rem 0.7rem; }
+.editor-causal-action { margin-block: 0.5rem; }
+.causal-dialog { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 1rem; background: color-mix(in srgb, var(--text) 28%, transparent); }
+.causal-dialog .causal-form { width: min(36rem, 100%); max-height: calc(100vh - 2rem); overflow: auto; background: var(--surface-raised); box-shadow: 0 1rem 3rem color-mix(in srgb, var(--text) 20%, transparent); }
+
 :root[data-theme="dark"] {
   --bg: #111214;
   --surface: #181a1d;

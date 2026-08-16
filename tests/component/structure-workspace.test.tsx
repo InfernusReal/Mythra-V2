@@ -16,19 +16,19 @@ const model: StructureOverview = {
   chapters: [{ id: id("5"), volumeId: id("4"), volumeSequenceIndex: 0, sequenceIndex: 0, displayNumber: "1", title: "Chapter", outlineId: id("6"), sceneCount: 0 }],
   scenes: [], references: [], intents: [],
   viewState: { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
-  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
+  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
   page: { pageSize: 100, nodeBudget: 200, edgeBudget: 300, rangeStart: 0, nextRangeStart: null, returnedNodes: 4, returnedEdges: 0, hasMoreNodes: false, hasMoreEdges: false }
 };
 
 afterEach(() => { vi.restoreAllMocks(); refresh.mockReset(); });
 
 describe("StructureWorkspace", () => {
-  it("registers the S5 Milestones lens while keeping causality unavailable", () => {
+  it("registers the S5 Milestones and S6 Causal lenses in original-gate order", () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ data: {} }), { status: 200 }));
     render(<StructureWorkspace initialModel={model} initialMilestones={emptyMilestones} />);
     expect(screen.getByRole("navigation", { name: "Structure lenses" })).toBeVisible();
-    for (const label of ["Outline", "Volumes", "Chapters", "Milestones", "Relationships", "Semantic Zoom"]) expect(screen.getByRole("button", { name: label })).toBeVisible();
-    expect(screen.queryByRole("button", { name: "Causal" })).not.toBeInTheDocument();
+    for (const label of ["Outline", "Volumes", "Chapters", "Milestones", "Causal", "Relationships", "Semantic Zoom"]) expect(screen.getByRole("button", { name: label })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Causal" })); expect(screen.getByRole("heading", { name: "Because and consequence" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Return to writing" })).toHaveAttribute("href", `/app/chapters/${id("5")}`);
   });
 

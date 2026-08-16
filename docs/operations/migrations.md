@@ -29,3 +29,9 @@ Because milestones and causality are later migrations, never apply the S4 rollba
 `20260813000000_milestones/rollback.sql` removes only Milestone, ChapterMilestoneLink, MilestoneDependency, milestone-targeted intents/references/revisions, and the S5 enum additions. Stop S5 writes and retain a backup before execution. `npm run db:rollback:milestones` verifies that the three S5 tables are gone, eight representative Structure Core tables remain, and a sampled Chapter document/text row is byte-equivalent; only then does it remove the S5 migration ledger row. Run `npm run db:deploy` and `npm run db:verify:milestones` before resuming service.
 
 Never apply the S5 rollback beneath Sub-gate 6 causal data. Use a forward repair once causal endpoints can reference milestones.
+
+## Sub-gate 6 rollback
+
+`20260813120000_causal_story_fabric/rollback.sql` removes only StoryChange, CausalRelation, their five enums, revisions, and S6 enum values. Stop S6 writes and retain a backup before execution. `npm run db:rollback:causality` verifies that both S6 tables are gone, all eleven representative S0–S5 canonical tables remain, and a sampled Chapter document/text/version row is byte-equivalent; only then does it remove the S6 migration ledger row. Run `npm run db:deploy` and `npm run db:verify:causality` before resuming service.
+
+The verifier also proves active/reserved endpoint registration, heterogeneous edges, active duplicate idempotency, hard-cycle rejection and explicit temporal feedback, discovery-time reveal checks, complete path provenance and budgets, reattach/retire/archive preservation, complete revisions, content-free outbox, concurrent-write convergence, workspace/project isolation and prose preservation. Never apply this rollback beneath Phase 3 endpoint data; use a reviewed forward repair instead.

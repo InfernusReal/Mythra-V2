@@ -23,7 +23,7 @@ const model: StructureOverview = {
   references: [{ id: id("10"), sourceType: "CHAPTER", sourceId: id("5"), sourceBlockId: null, targetType: "CHAPTER_OUTLINE", targetId: id("6"), targetBlockId: null, relationshipKey: "references", provenanceType: "DIRECT", version: 1 }],
   intents: [{ id: id("11"), targetType: "PLOT", targetId: id("2"), blockId: null, category: "TENSION", customCategory: null, version: 1 }],
   viewState: { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
-  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
+  lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
   page: { pageSize: 100, nodeBudget: 200, edgeBudget: 300, rangeStart: 0, nextRangeStart: null, returnedNodes: 8, returnedEdges: 1, hasMoreNodes: false, hasMoreEdges: false }
 };
 

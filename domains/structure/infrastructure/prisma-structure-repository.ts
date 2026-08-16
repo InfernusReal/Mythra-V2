@@ -18,7 +18,7 @@ import type {
   VolumeSummary
 } from "../application/ports";
 
-const ACTIVE_LENSES = ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
+const ACTIVE_LENSES = ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
 type Transaction = Prisma.TransactionClient;
 
 async function structureTransaction<T>(prisma: PrismaClient, operation: (tx: Transaction) => Promise<T>, options?: { timeout?: number }): Promise<T> {

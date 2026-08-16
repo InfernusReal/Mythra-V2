@@ -15,6 +15,7 @@ import { tiptapAdapter } from "@/lib/editor/adapter";
 import type { WritingPosition } from "@/domains/writing/application/continuation-ports";
 import { useWritingContinuation } from "@/lib/writing/use-writing-continuation";
 import { ConflictBanner } from "./ConflictBanner";
+import { CausalComposer } from "./CausalComposer";
 import { EditorCanvas } from "./EditorCanvas";
 import { EditorToolbar } from "./EditorToolbar";
 import { FocusMode } from "./FocusMode";
@@ -208,6 +209,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         // Console trace S4-UI-015: editor-to-Structure navigation requested after continuation state capture remains active.
         console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));
       }}>Structure</a></div>
+      <CausalComposer editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <nav className="chapter-switcher" aria-label="Nearby chapters">
         {model.navigation.previousChapterId ? <a href={`/app/chapters/${model.navigation.previousChapterId}`}>Previous chapter</a> : <span>First chapter</span>}
         {model.navigation.nextChapterId ? <a href={`/app/chapters/${model.navigation.nextChapterId}`}>Next chapter</a> : <span>Latest chapter</span>}
