@@ -43,6 +43,6 @@ export class CausalEndpointRegistry {
   }
 }
 
-export function reservedAdapter<T extends typeof reservedCausalEndpointTypes[number]>(type: T): CausalEndpointAdapter<T> {
+export function reservedAdapter<T extends CausalEndpointType>(type: T): CausalEndpointAdapter<T> {
   return { type, availability: "RESERVED", async resolve() { throw errors.dependencyUnavailable(); } };
 }

@@ -3,6 +3,7 @@ import { expect, test, type BrowserContext, type Page } from "@playwright/test";
 async function signIn(page: Page): Promise<void> {
   await page.goto("/sign-in");
   await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.waitForURL(/\/app$/);
   await expect(page).toHaveURL(/\/app$/);
 }
 

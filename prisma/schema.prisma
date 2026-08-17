@@ -234,35 +234,57 @@ enum CaptureAttachmentTargetType {
   CHAPTER_OUTLINE
 }
 
-enum CaptureConversionType {
+enum EntityFieldType {
+  TEXT
+  RICH_TEXT
+  NUMBER
+  BOOLEAN
+  DATE
+  SELECT
+  MULTI_SELECT
+  REFERENCE
+  REFERENCE_LIST
+  URL
+  IMAGE
+  FILE
+}
+
+enum StoryEntityStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum EntityStateAnchorType {
+  UNANCHORED
+  CHAPTER
+  VOLUME
   MILESTONE
-  STORY_CHANGE
-  CHAPTER_ATTACHMENT
-  OUTLINE_ATTACHMENT
-  CAPTURE_DERIVED_CAUSAL
+  TIMELINE_EVENT
 }
 
 model User {
-  id                 String             @id @default(uuid()) @db.Uuid
-  email              String             @unique @db.VarChar(320)
-  displayName        String?            @db.VarChar(160)
-  locale             String             @default("en") @db.VarChar(35)
-  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
-  deletionRequestedAt DateTime?          @db.Timestamptz(3)
-  purgeAfter         DateTime?          @db.Timestamptz(3)
-  deletedAt          DateTime?          @db.Timestamptz(3)
-  externalIdentities ExternalIdentity[]
-  memberships        WorkspaceMember[]
-  preferences        UserPreference[]
-  auditEvents        AuditEvent[]        @relation("AuditActor")
-  ownedWorkspaces    Workspace[]         @relation("WorkspaceOwner")
-  writingSessions    WritingSessionState[]
+  id                  String                @id @default(uuid()) @db.Uuid
+  email               String                @unique @db.VarChar(320)
+  displayName         String?               @db.VarChar(160)
+  locale              String                @default("en") @db.VarChar(35)
+  createdAt           DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime              @updatedAt @db.Timestamptz(3)
+  deletionRequestedAt DateTime?             @db.Timestamptz(3)
+  purgeAfter          DateTime?             @db.Timestamptz(3)
+  deletedAt           DateTime?             @db.Timestamptz(3)
+  externalIdentities  ExternalIdentity[]
+  memberships         WorkspaceMember[]
+  preferences         UserPreference[]
+  auditEvents         AuditEvent[]          @relation("AuditActor")
+  ownedWorkspaces     Workspace[]           @relation("WorkspaceOwner")
+  writingSessions     WritingSessionState[]
   structureViewStates StructureViewState[]
-  contextPreferences ContextPreference[]
-  contextPins        ContextPin[]
-  captures           Capture[]
-  captureConversions CaptureConversion[]
+  contextPreferences  ContextPreference[]
+  contextPins         ContextPin[]
+  captures            Capture[]
+  captureConversions  CaptureConversion[]
+  storyEntities       StoryEntity[]         @relation("StoryEntityCreator")
+  entityRevisions     EntityRevision[]      @relation("EntityRevisionActor")
 
   @@index([deletionRequestedAt, purgeAfter])
 }
@@ -281,98 +303,104 @@ model ExternalIdentity {
 }
 
 model Workspace {
-  id          String            @id @default(uuid()) @db.Uuid
-  ownerUserId String            @db.Uuid
-  name        String            @db.VarChar(160)
-  planKey     String            @default("core") @db.VarChar(64)
-  regionKey   String?           @db.VarChar(64)
-  createdAt   DateTime          @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime          @updatedAt @db.Timestamptz(3)
-  archivedAt  DateTime?         @db.Timestamptz(3)
-  purgeAfter  DateTime?         @db.Timestamptz(3)
-  members     WorkspaceMember[]
-  preferences UserPreference[]
-  auditEvents AuditEvent[]
-  outboxEvents OutboxEvent[]
-  projects     Project[]
+  id              String                @id @default(uuid()) @db.Uuid
+  ownerUserId     String                @db.Uuid
+  name            String                @db.VarChar(160)
+  planKey         String                @default("core") @db.VarChar(64)
+  regionKey       String?               @db.VarChar(64)
+  createdAt       DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime              @updatedAt @db.Timestamptz(3)
+  archivedAt      DateTime?             @db.Timestamptz(3)
+  purgeAfter      DateTime?             @db.Timestamptz(3)
+  members         WorkspaceMember[]
+  preferences     UserPreference[]
+  auditEvents     AuditEvent[]
+  outboxEvents    OutboxEvent[]
+  projects        Project[]
   writingSessions WritingSessionState[]
-  owner        User              @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  owner           User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([archivedAt, purgeAfter])
   @@index([ownerUserId])
 }
 
 model Project {
-  id                String        @id @default(uuid()) @db.Uuid
-  workspaceId       String        @db.Uuid
-  title             String        @db.VarChar(240)
-  description       String?
-  status            ProjectStatus @default(ACTIVE)
-  structuralVersion Int           @default(1)
-  activeChapterId   String?       @unique @db.Uuid
-  createdAt         DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt         DateTime      @updatedAt @db.Timestamptz(3)
-  archivedAt        DateTime?     @db.Timestamptz(3)
-  purgeAfter        DateTime?     @db.Timestamptz(3)
-  workspace         Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
-  chapters          Chapter[]     @relation("ProjectChapters")
-  activeChapter     Chapter?      @relation("ActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
-  writingSessions   WritingSessionState[]
-  plot               Plot?
-  volumes            Volume[]
-  plotOutline        PlotOutline?
-  volumeOutlines     VolumeOutline[]
-  chapterOutlines    ChapterOutline[]
-  scenes             Scene[]
-  narrativeIntents   NarrativeIntent[]
-  storyReferences    StoryReference[]
-  objectRevisions    ObjectRevision[]
-  structureViewStates StructureViewState[]
-  milestones          Milestone[]
+  id                    String                 @id @default(uuid()) @db.Uuid
+  workspaceId           String                 @db.Uuid
+  title                 String                 @db.VarChar(240)
+  description           String?
+  status                ProjectStatus          @default(ACTIVE)
+  structuralVersion     Int                    @default(1)
+  activeChapterId       String?                @unique @db.Uuid
+  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime               @updatedAt @db.Timestamptz(3)
+  archivedAt            DateTime?              @db.Timestamptz(3)
+  purgeAfter            DateTime?              @db.Timestamptz(3)
+  workspace             Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  chapters              Chapter[]              @relation("ProjectChapters")
+  activeChapter         Chapter?               @relation("ActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
+  writingSessions       WritingSessionState[]
+  plot                  Plot?
+  volumes               Volume[]
+  plotOutline           PlotOutline?
+  volumeOutlines        VolumeOutline[]
+  chapterOutlines       ChapterOutline[]
+  scenes                Scene[]
+  narrativeIntents      NarrativeIntent[]
+  storyReferences       StoryReference[]
+  objectRevisions       ObjectRevision[]
+  structureViewStates   StructureViewState[]
+  milestones            Milestone[]
   chapterMilestoneLinks ChapterMilestoneLink[]
   milestoneDependencies MilestoneDependency[]
-  storyChanges         StoryChange[]
-  causalRelations      CausalRelation[]
-  contextPreferences   ContextPreference[]
-  contextPins          ContextPin[]
-  captures             Capture[]
-  captureAttachments   CaptureAttachment[]
-  captureConversions   CaptureConversion[]
-  captureRevisions     CaptureRevision[]
+  storyChanges          StoryChange[]
+  causalRelations       CausalRelation[]
+  contextPreferences    ContextPreference[]
+  contextPins           ContextPin[]
+  captures              Capture[]
+  captureAttachments    CaptureAttachment[]
+  captureConversions    CaptureConversion[]
+  captureRevisions      CaptureRevision[]
+  entityTypes           EntityType[]
+  storyEntities         StoryEntity[]
+  relationTypes         RelationType[]
+  entityRelations       EntityRelation[]
+  entityStateSnapshots  EntityStateSnapshot[]
+  entityRevisions       EntityRevision[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
 
 model Chapter {
-  id                String        @id @default(uuid()) @db.Uuid
-  projectId         String        @db.Uuid
-  volumeId          String?       @db.Uuid
-  volumeSequenceIndex Int?
-  sequenceIndex     Int
-  displayNumber     String?       @db.VarChar(32)
-  title             String        @db.VarChar(240)
-  bodyDocument      Json
-  bodyText          String        @default("")
-  wordCount         Int           @default(0)
-  documentSchemaVersion Int       @default(1)
-  status            ChapterStatus @default(DRAFT)
-  version           Int           @default(1)
-  targetWords       Int?
-  hardCharacterStop Int?
-  hardStopEnabled   Boolean       @default(false)
-  createdAt         DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt         DateTime      @updatedAt @db.Timestamptz(3)
-  archivedAt        DateTime?     @db.Timestamptz(3)
-  project           Project       @relation("ProjectChapters", fields: [projectId], references: [id], onDelete: Restrict)
-  volume            Volume?       @relation(fields: [volumeId], references: [id], onDelete: SetNull)
-  activeForProject  Project?      @relation("ActiveChapter")
-  outline           ChapterOutline?
-  scenes            Scene[]
-  revisions         ChapterRevision[]
-  draftConflicts    DraftConflict[]
-  saveReceipts      ChapterSaveReceipt[]
-  activeWritingSessions WritingSessionState[] @relation("WritingSessionActiveChapter")
-  milestoneLinks    ChapterMilestoneLink[]
+  id                    String                 @id @default(uuid()) @db.Uuid
+  projectId             String                 @db.Uuid
+  volumeId              String?                @db.Uuid
+  volumeSequenceIndex   Int?
+  sequenceIndex         Int
+  displayNumber         String?                @db.VarChar(32)
+  title                 String                 @db.VarChar(240)
+  bodyDocument          Json
+  bodyText              String                 @default("")
+  wordCount             Int                    @default(0)
+  documentSchemaVersion Int                    @default(1)
+  status                ChapterStatus          @default(DRAFT)
+  version               Int                    @default(1)
+  targetWords           Int?
+  hardCharacterStop     Int?
+  hardStopEnabled       Boolean                @default(false)
+  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime               @updatedAt @db.Timestamptz(3)
+  archivedAt            DateTime?              @db.Timestamptz(3)
+  project               Project                @relation("ProjectChapters", fields: [projectId], references: [id], onDelete: Restrict)
+  volume                Volume?                @relation(fields: [volumeId], references: [id], onDelete: SetNull)
+  activeForProject      Project?               @relation("ActiveChapter")
+  outline               ChapterOutline?
+  scenes                Scene[]
+  revisions             ChapterRevision[]
+  draftConflicts        DraftConflict[]
+  saveReceipts          ChapterSaveReceipt[]
+  activeWritingSessions WritingSessionState[]  @relation("WritingSessionActiveChapter")
+  milestoneLinks        ChapterMilestoneLink[]
 
   @@unique([projectId, sequenceIndex])
   @@unique([volumeId, volumeSequenceIndex])
@@ -381,54 +409,54 @@ model Chapter {
 }
 
 model Plot {
-  id          String    @id @default(uuid()) @db.Uuid
-  projectId   String    @unique @db.Uuid
-  title       String    @db.VarChar(240)
-  summary     String?
-  version     Int       @default(1)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt  DateTime? @db.Timestamptz(3)
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  outline     PlotOutline?
-  volumes     Volume[]
+  id         String       @id @default(uuid()) @db.Uuid
+  projectId  String       @unique @db.Uuid
+  title      String       @db.VarChar(240)
+  summary    String?
+  version    Int          @default(1)
+  createdAt  DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime     @updatedAt @db.Timestamptz(3)
+  archivedAt DateTime?    @db.Timestamptz(3)
+  project    Project      @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  outline    PlotOutline?
+  volumes    Volume[]
 
   @@index([projectId, archivedAt])
 }
 
 model PlotOutline {
-  id          String    @id @default(uuid()) @db.Uuid
-  projectId   String    @unique @db.Uuid
-  plotId      String    @unique @db.Uuid
-  document    Json
-  plainText   String    @default("")
-  purpose     String?
-  version     Int       @default(1)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt  DateTime? @db.Timestamptz(3)
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  plot        Plot      @relation(fields: [plotId], references: [id], onDelete: Restrict)
+  id         String    @id @default(uuid()) @db.Uuid
+  projectId  String    @unique @db.Uuid
+  plotId     String    @unique @db.Uuid
+  document   Json
+  plainText  String    @default("")
+  purpose    String?
+  version    Int       @default(1)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(3)
+  archivedAt DateTime? @db.Timestamptz(3)
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  plot       Plot      @relation(fields: [plotId], references: [id], onDelete: Restrict)
 
   @@index([projectId, archivedAt])
 }
 
 model Volume {
-  id                     String    @id @default(uuid()) @db.Uuid
-  projectId              String    @db.Uuid
-  plotId                 String    @db.Uuid
+  id                     String           @id @default(uuid()) @db.Uuid
+  projectId              String           @db.Uuid
+  plotId                 String           @db.Uuid
   sequenceIndex          Int
-  displayNumber          String?   @db.VarChar(32)
-  title                  String    @db.VarChar(240)
+  displayNumber          String?          @db.VarChar(32)
+  title                  String           @db.VarChar(240)
   summary                String?
   targetWords            Int?
-  hardTargetWordsEnabled Boolean   @default(false)
-  version                Int       @default(1)
-  createdAt              DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt             DateTime? @db.Timestamptz(3)
-  project                Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  plot                   Plot      @relation(fields: [plotId], references: [id], onDelete: Restrict)
+  hardTargetWordsEnabled Boolean          @default(false)
+  version                Int              @default(1)
+  createdAt              DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime         @updatedAt @db.Timestamptz(3)
+  archivedAt             DateTime?        @db.Timestamptz(3)
+  project                Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  plot                   Plot             @relation(fields: [plotId], references: [id], onDelete: Restrict)
   outline                VolumeOutline?
   chapters               Chapter[]
   chapterOutlines        ChapterOutline[]
@@ -439,50 +467,50 @@ model Volume {
 }
 
 model VolumeOutline {
-  id          String    @id @default(uuid()) @db.Uuid
-  projectId   String    @db.Uuid
-  volumeId    String    @unique @db.Uuid
-  document    Json
-  plainText   String    @default("")
-  purpose     String?
-  version     Int       @default(1)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt  DateTime? @db.Timestamptz(3)
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  volume      Volume    @relation(fields: [volumeId], references: [id], onDelete: Restrict)
+  id         String    @id @default(uuid()) @db.Uuid
+  projectId  String    @db.Uuid
+  volumeId   String    @unique @db.Uuid
+  document   Json
+  plainText  String    @default("")
+  purpose    String?
+  version    Int       @default(1)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(3)
+  archivedAt DateTime? @db.Timestamptz(3)
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  volume     Volume    @relation(fields: [volumeId], references: [id], onDelete: Restrict)
 
   @@index([projectId, archivedAt])
 }
 
 model ChapterOutline {
-  id                     String    @id @default(uuid()) @db.Uuid
-  projectId              String    @db.Uuid
-  volumeId               String?   @db.Uuid
-  chapterId              String?   @unique @db.Uuid
+  id                     String                  @id @default(uuid()) @db.Uuid
+  projectId              String                  @db.Uuid
+  volumeId               String?                 @db.Uuid
+  chapterId              String?                 @unique @db.Uuid
   sequenceIndex          Int
-  title                  String    @db.VarChar(240)
+  title                  String                  @db.VarChar(240)
   document               Json
-  plainText              String    @default("")
+  plainText              String                  @default("")
   purpose                String?
   emotionalMovement      String?
-  revealedInformation    Json      @default("[]")
-  entityReferenceKeys    Json      @default("[]")
-  locationReferenceKeys  Json      @default("[]")
-  milestoneReferenceKeys Json      @default("[]")
+  revealedInformation    Json                    @default("[]")
+  entityReferenceKeys    Json                    @default("[]")
+  locationReferenceKeys  Json                    @default("[]")
+  milestoneReferenceKeys Json                    @default("[]")
   targetWords            Int?
-  hardTargetWordsEnabled Boolean   @default(false)
-  sceneStubs             Json      @default("[]")
-  isPlaceholder          Boolean   @default(false)
+  hardTargetWordsEnabled Boolean                 @default(false)
+  sceneStubs             Json                    @default("[]")
+  isPlaceholder          Boolean                 @default(false)
   provenanceType         StructureProvenanceType @default(DIRECT)
-  provenanceSourceId     String?   @db.VarChar(128)
-  version                Int       @default(1)
-  createdAt              DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt             DateTime? @db.Timestamptz(3)
-  project                Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  volume                 Volume?   @relation(fields: [volumeId], references: [id], onDelete: SetNull)
-  chapter                Chapter?  @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  provenanceSourceId     String?                 @db.VarChar(128)
+  version                Int                     @default(1)
+  createdAt              DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime                @updatedAt @db.Timestamptz(3)
+  archivedAt             DateTime?               @db.Timestamptz(3)
+  project                Project                 @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  volume                 Volume?                 @relation(fields: [volumeId], references: [id], onDelete: SetNull)
+  chapter                Chapter?                @relation(fields: [chapterId], references: [id], onDelete: SetNull)
   scenes                 Scene[]
 
   @@unique([projectId, sequenceIndex])
@@ -491,27 +519,27 @@ model ChapterOutline {
 }
 
 model Scene {
-  id                     String    @id @default(uuid()) @db.Uuid
-  projectId              String    @db.Uuid
-  chapterId              String?   @db.Uuid
-  chapterOutlineId       String?   @db.Uuid
+  id                     String                  @id @default(uuid()) @db.Uuid
+  projectId              String                  @db.Uuid
+  chapterId              String?                 @db.Uuid
+  chapterOutlineId       String?                 @db.Uuid
   sequenceIndex          Int
-  title                  String    @db.VarChar(240)
+  title                  String                  @db.VarChar(240)
   outlineDocument        Json
-  outlineText            String    @default("")
+  outlineText            String                  @default("")
   purpose                String?
   targetWords            Int?
-  hardTargetWordsEnabled Boolean   @default(false)
+  hardTargetWordsEnabled Boolean                 @default(false)
   provenanceType         StructureProvenanceType @default(DIRECT)
-  provenanceSourceId     String?   @db.VarChar(128)
-  provenanceBlockId      String?   @db.VarChar(128)
-  version                Int       @default(1)
-  createdAt              DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt             DateTime? @db.Timestamptz(3)
-  project                Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  chapter                Chapter?  @relation(fields: [chapterId], references: [id], onDelete: SetNull)
-  chapterOutline         ChapterOutline? @relation(fields: [chapterOutlineId], references: [id], onDelete: SetNull)
+  provenanceSourceId     String?                 @db.VarChar(128)
+  provenanceBlockId      String?                 @db.VarChar(128)
+  version                Int                     @default(1)
+  createdAt              DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime                @updatedAt @db.Timestamptz(3)
+  archivedAt             DateTime?               @db.Timestamptz(3)
+  project                Project                 @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  chapter                Chapter?                @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  chapterOutline         ChapterOutline?         @relation(fields: [chapterOutlineId], references: [id], onDelete: SetNull)
 
   @@index([projectId, sequenceIndex])
   @@index([chapterId, sequenceIndex])
@@ -520,43 +548,43 @@ model Scene {
 }
 
 model NarrativeIntent {
-  id              String    @id @default(uuid()) @db.Uuid
-  projectId       String    @db.Uuid
+  id              String                    @id @default(uuid()) @db.Uuid
+  projectId       String                    @db.Uuid
   targetType      NarrativeIntentTargetType
-  targetId        String    @db.Uuid
-  blockId         String?   @db.VarChar(128)
+  targetId        String                    @db.Uuid
+  blockId         String?                   @db.VarChar(128)
   selectionAnchor Int?
   selectionHead   Int?
   category        NarrativeIntentCategory?
-  customCategory  String?   @db.VarChar(80)
+  customCategory  String?                   @db.VarChar(80)
   intentText      String
-  version         Int       @default(1)
-  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt      DateTime? @db.Timestamptz(3)
-  project         Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  version         Int                       @default(1)
+  createdAt       DateTime                  @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime                  @updatedAt @db.Timestamptz(3)
+  archivedAt      DateTime?                 @db.Timestamptz(3)
+  project         Project                   @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@index([projectId, targetType, targetId, archivedAt])
   @@index([projectId, updatedAt(sort: Desc)])
 }
 
 model StoryReference {
-  id              String    @id @default(uuid()) @db.Uuid
-  projectId       String    @db.Uuid
+  id              String                     @id @default(uuid()) @db.Uuid
+  projectId       String                     @db.Uuid
   sourceType      StoryReferenceEndpointType
-  sourceId        String    @db.Uuid
-  sourceBlockId   String?   @db.VarChar(128)
+  sourceId        String                     @db.Uuid
+  sourceBlockId   String?                    @db.VarChar(128)
   targetType      StoryReferenceEndpointType
-  targetId        String    @db.Uuid
-  targetBlockId   String?   @db.VarChar(128)
-  relationshipKey String    @default("references") @db.VarChar(80)
-  provenanceType  StructureProvenanceType @default(DIRECT)
+  targetId        String                     @db.Uuid
+  targetBlockId   String?                    @db.VarChar(128)
+  relationshipKey String                     @default("references") @db.VarChar(80)
+  provenanceType  StructureProvenanceType    @default(DIRECT)
   provenanceNote  String?
-  version         Int       @default(1)
-  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
-  archivedAt      DateTime? @db.Timestamptz(3)
-  project         Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  version         Int                        @default(1)
+  createdAt       DateTime                   @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime                   @updatedAt @db.Timestamptz(3)
+  archivedAt      DateTime?                  @db.Timestamptz(3)
+  project         Project                    @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@index([projectId, sourceType, sourceId, archivedAt])
   @@index([projectId, targetType, targetId, archivedAt])
@@ -564,64 +592,64 @@ model StoryReference {
 }
 
 model ObjectRevision {
-  id          String    @id @default(uuid()) @db.Uuid
-  projectId   String    @db.Uuid
-  objectType  StructureObjectType
-  objectId    String    @db.Uuid
-  version     Int
-  snapshot    Json
-  reason      String?   @db.VarChar(120)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  id         String              @id @default(uuid()) @db.Uuid
+  projectId  String              @db.Uuid
+  objectType StructureObjectType
+  objectId   String              @db.Uuid
+  version    Int
+  snapshot   Json
+  reason     String?             @db.VarChar(120)
+  createdAt  DateTime            @default(now()) @db.Timestamptz(3)
+  project    Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@unique([objectType, objectId, version])
   @@index([projectId, objectType, objectId, createdAt(sort: Desc)])
 }
 
 model StructureViewState {
-  id              String    @id @default(uuid()) @db.Uuid
-  userId          String    @db.Uuid
-  projectId       String    @db.Uuid
-  mode            StructurePresentationMode @default(DISCOVERY)
-  activeLens      StructureLens @default(OUTLINE)
-  expandedIds     Json      @default("[]")
+  id               String                      @id @default(uuid()) @db.Uuid
+  userId           String                      @db.Uuid
+  projectId        String                      @db.Uuid
+  mode             StructurePresentationMode   @default(DISCOVERY)
+  activeLens       StructureLens               @default(OUTLINE)
+  expandedIds      Json                        @default("[]")
   activeAnchorType StoryReferenceEndpointType?
-  activeAnchorId  String?   @db.Uuid
-  cursorOffset    Int?
-  selectionAnchor Int?
-  selectionHead   Int?
-  scrollTop       Int?
-  pinIds          Json      @default("[]")
-  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime  @updatedAt @db.Timestamptz(3)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  activeAnchorId   String?                     @db.Uuid
+  cursorOffset     Int?
+  selectionAnchor  Int?
+  selectionHead    Int?
+  scrollTop        Int?
+  pinIds           Json                        @default("[]")
+  createdAt        DateTime                    @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime                    @updatedAt @db.Timestamptz(3)
+  user             User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project          Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId])
   @@index([projectId, activeLens])
 }
 
 model Milestone {
-  id                  String          @id @default(uuid()) @db.Uuid
-  projectId           String          @db.Uuid
-  sequenceIndex       Int
-  title               String          @db.VarChar(240)
-  description         String?
-  threadLabel         String?         @db.VarChar(120)
-  targetChapterStart  Int?
-  targetChapterEnd    Int?
-  targetWords         Int?
-  targetDate          DateTime?       @db.Date
-  status              MilestoneStatus @default(PLANNED)
-  isPlaceholder       Boolean         @default(false)
-  version             Int             @default(1)
-  createdAt           DateTime        @default(now()) @db.Timestamptz(3)
-  updatedAt           DateTime        @updatedAt @db.Timestamptz(3)
-  archivedAt          DateTime?       @db.Timestamptz(3)
-  project             Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  chapterLinks        ChapterMilestoneLink[]
-  incomingDependencies MilestoneDependency[] @relation("MilestoneDependencyTarget")
-  outgoingDependencies MilestoneDependency[] @relation("MilestoneDependencySource")
+  id                   String                 @id @default(uuid()) @db.Uuid
+  projectId            String                 @db.Uuid
+  sequenceIndex        Int
+  title                String                 @db.VarChar(240)
+  description          String?
+  threadLabel          String?                @db.VarChar(120)
+  targetChapterStart   Int?
+  targetChapterEnd     Int?
+  targetWords          Int?
+  targetDate           DateTime?              @db.Date
+  status               MilestoneStatus        @default(PLANNED)
+  isPlaceholder        Boolean                @default(false)
+  version              Int                    @default(1)
+  createdAt            DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime               @updatedAt @db.Timestamptz(3)
+  archivedAt           DateTime?              @db.Timestamptz(3)
+  project              Project                @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  chapterLinks         ChapterMilestoneLink[]
+  incomingDependencies MilestoneDependency[]  @relation("MilestoneDependencyTarget")
+  outgoingDependencies MilestoneDependency[]  @relation("MilestoneDependencySource")
 
   @@unique([projectId, sequenceIndex])
   @@index([projectId, status, sequenceIndex])
@@ -630,20 +658,20 @@ model Milestone {
 }
 
 model ChapterMilestoneLink {
-  id              String        @id @default(uuid()) @db.Uuid
-  projectId       String        @db.Uuid
-  chapterId       String        @db.Uuid
-  milestoneId     String        @db.Uuid
-  role            MilestoneRole
-  customRole      String?       @db.VarChar(80)
-  weight          Float         @default(1)
-  version         Int           @default(1)
-  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime      @updatedAt @db.Timestamptz(3)
-  archivedAt      DateTime?     @db.Timestamptz(3)
-  project         Project       @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  chapter         Chapter       @relation(fields: [chapterId], references: [id], onDelete: Restrict)
-  milestone       Milestone     @relation(fields: [milestoneId], references: [id], onDelete: Restrict)
+  id          String        @id @default(uuid()) @db.Uuid
+  projectId   String        @db.Uuid
+  chapterId   String        @db.Uuid
+  milestoneId String        @db.Uuid
+  role        MilestoneRole
+  customRole  String?       @db.VarChar(80)
+  weight      Float         @default(1)
+  version     Int           @default(1)
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(3)
+  archivedAt  DateTime?     @db.Timestamptz(3)
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  chapter     Chapter       @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+  milestone   Milestone     @relation(fields: [milestoneId], references: [id], onDelete: Restrict)
 
   @@index([projectId, milestoneId, archivedAt])
   @@index([projectId, chapterId, archivedAt])
@@ -651,42 +679,42 @@ model ChapterMilestoneLink {
 }
 
 model MilestoneDependency {
-  id                String                    @id @default(uuid()) @db.Uuid
-  projectId         String                    @db.Uuid
-  sourceMilestoneId String                    @db.Uuid
-  targetMilestoneId String                    @db.Uuid
-  state             MilestoneDependencyState  @default(ACTIVE)
-  isHard            Boolean                   @default(false)
+  id                String                   @id @default(uuid()) @db.Uuid
+  projectId         String                   @db.Uuid
+  sourceMilestoneId String                   @db.Uuid
+  targetMilestoneId String                   @db.Uuid
+  state             MilestoneDependencyState @default(ACTIVE)
+  isHard            Boolean                  @default(false)
   note              String?
-  version           Int                       @default(1)
-  createdAt         DateTime                  @default(now()) @db.Timestamptz(3)
-  updatedAt         DateTime                  @updatedAt @db.Timestamptz(3)
-  archivedAt        DateTime?                 @db.Timestamptz(3)
-  project           Project                   @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  sourceMilestone   Milestone                 @relation("MilestoneDependencySource", fields: [sourceMilestoneId], references: [id], onDelete: Restrict)
-  targetMilestone   Milestone                 @relation("MilestoneDependencyTarget", fields: [targetMilestoneId], references: [id], onDelete: Restrict)
+  version           Int                      @default(1)
+  createdAt         DateTime                 @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime                 @updatedAt @db.Timestamptz(3)
+  archivedAt        DateTime?                @db.Timestamptz(3)
+  project           Project                  @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  sourceMilestone   Milestone                @relation("MilestoneDependencySource", fields: [sourceMilestoneId], references: [id], onDelete: Restrict)
+  targetMilestone   Milestone                @relation("MilestoneDependencyTarget", fields: [targetMilestoneId], references: [id], onDelete: Restrict)
 
   @@index([projectId, sourceMilestoneId, state, archivedAt])
   @@index([projectId, targetMilestoneId, state, archivedAt])
 }
 
 model StoryChange {
-  id                    String          @id @default(uuid()) @db.Uuid
-  projectId             String          @db.Uuid
-  kind                  StoryChangeKind
-  title                 String          @db.VarChar(240)
-  description           String?
-  storyTime             Decimal?        @db.Decimal(20, 6)
-  discoveryTime         Decimal?        @db.Decimal(20, 6)
-  anchorType            CausalEndpointType?
-  anchorId              String?         @db.Uuid
-  anchorBlockId         String?         @db.VarChar(128)
-  isPlaceholder         Boolean         @default(false)
-  version               Int             @default(1)
-  createdAt             DateTime        @default(now()) @db.Timestamptz(3)
-  updatedAt             DateTime        @updatedAt @db.Timestamptz(3)
-  archivedAt            DateTime?       @db.Timestamptz(3)
-  project               Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  id            String              @id @default(uuid()) @db.Uuid
+  projectId     String              @db.Uuid
+  kind          StoryChangeKind
+  title         String              @db.VarChar(240)
+  description   String?
+  storyTime     Decimal?            @db.Decimal(20, 6)
+  discoveryTime Decimal?            @db.Decimal(20, 6)
+  anchorType    CausalEndpointType?
+  anchorId      String?             @db.Uuid
+  anchorBlockId String?             @db.VarChar(128)
+  isPlaceholder Boolean             @default(false)
+  version       Int                 @default(1)
+  createdAt     DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime            @updatedAt @db.Timestamptz(3)
+  archivedAt    DateTime?           @db.Timestamptz(3)
+  project       Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@index([projectId, kind, archivedAt, updatedAt(sort: Desc)])
   @@index([projectId, anchorType, anchorId, archivedAt])
@@ -694,30 +722,30 @@ model StoryChange {
 }
 
 model CausalRelation {
-  id                    String                 @id @default(uuid()) @db.Uuid
-  projectId             String                 @db.Uuid
-  sourceType            CausalEndpointType
-  sourceId              String                 @db.Uuid
-  sourceBlockId         String?                @db.VarChar(128)
-  targetType            CausalEndpointType
-  targetId              String                 @db.Uuid
-  targetBlockId         String?                @db.VarChar(128)
-  relationType          CausalRelationType
-  condition             String?
-  strength              Float                  @default(1)
-  importance            Int                    @default(50)
-  state                 CausalRelationState    @default(ACTIVE)
-  isHard                Boolean                @default(false)
-  temporalProgression   Boolean                @default(false)
-  mutualStateSemantics  Boolean                @default(false)
-  note                  String?
-  provenanceType        CausalProvenanceType   @default(DIRECT)
-  provenanceNote        String?
-  version               Int                    @default(1)
-  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
-  updatedAt             DateTime               @updatedAt @db.Timestamptz(3)
-  archivedAt            DateTime?              @db.Timestamptz(3)
-  project               Project                @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  id                   String               @id @default(uuid()) @db.Uuid
+  projectId            String               @db.Uuid
+  sourceType           CausalEndpointType
+  sourceId             String               @db.Uuid
+  sourceBlockId        String?              @db.VarChar(128)
+  targetType           CausalEndpointType
+  targetId             String               @db.Uuid
+  targetBlockId        String?              @db.VarChar(128)
+  relationType         CausalRelationType
+  condition            String?
+  strength             Float                @default(1)
+  importance           Int                  @default(50)
+  state                CausalRelationState  @default(ACTIVE)
+  isHard               Boolean              @default(false)
+  temporalProgression  Boolean              @default(false)
+  mutualStateSemantics Boolean              @default(false)
+  note                 String?
+  provenanceType       CausalProvenanceType @default(DIRECT)
+  provenanceNote       String?
+  version              Int                  @default(1)
+  createdAt            DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime             @updatedAt @db.Timestamptz(3)
+  archivedAt           DateTime?            @db.Timestamptz(3)
+  project              Project              @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@index([projectId, sourceType, sourceId, state, archivedAt])
   @@index([projectId, targetType, targetId, state, archivedAt])
@@ -743,20 +771,20 @@ model ChapterRevision {
 }
 
 model DraftConflict {
-  id             String                   @id @default(uuid()) @db.Uuid
-  chapterId      String                   @db.Uuid
-  clientSaveId   String                   @db.Uuid
-  baseVersion    Int
-  serverVersion  Int
-  localDocument  Json
-  serverDocument Json
-  status         DraftConflictStatus      @default(OPEN)
-  resolution     DraftConflictResolution?
-  resolvedVersion Int?
-  recoveryChapterId String?                 @db.Uuid
-  createdAt      DateTime                 @default(now()) @db.Timestamptz(3)
-  resolvedAt     DateTime?                @db.Timestamptz(3)
-  chapter        Chapter                  @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+  id                String                   @id @default(uuid()) @db.Uuid
+  chapterId         String                   @db.Uuid
+  clientSaveId      String                   @db.Uuid
+  baseVersion       Int
+  serverVersion     Int
+  localDocument     Json
+  serverDocument    Json
+  status            DraftConflictStatus      @default(OPEN)
+  resolution        DraftConflictResolution?
+  resolvedVersion   Int?
+  recoveryChapterId String?                  @db.Uuid
+  createdAt         DateTime                 @default(now()) @db.Timestamptz(3)
+  resolvedAt        DateTime?                @db.Timestamptz(3)
+  chapter           Chapter                  @relation(fields: [chapterId], references: [id], onDelete: Restrict)
 
   @@unique([chapterId, clientSaveId])
   @@index([chapterId, status, createdAt(sort: Desc)])
@@ -777,25 +805,25 @@ model ChapterSaveReceipt {
 }
 
 model WritingSessionState {
-  id                 String   @id @default(uuid()) @db.Uuid
-  userId             String   @db.Uuid
-  workspaceId        String   @db.Uuid
-  projectId          String   @db.Uuid
-  activeChapterId    String?  @db.Uuid
-  blockId            String?  @db.VarChar(64)
-  cursorOffset       Int?
-  selectionAnchor    Int?
-  selectionHead      Int?
-  scrollTop          Int?
-  contextPanelMode   String   @default("CLOSED") @db.VarChar(32)
-  pinIds             Json     @default("[]")
-  capturedAt         DateTime @default(now()) @db.Timestamptz(3)
-  createdAt          DateTime @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime @updatedAt @db.Timestamptz(3)
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  workspace          Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  project            Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  activeChapter      Chapter? @relation("WritingSessionActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @db.Uuid
+  workspaceId      String    @db.Uuid
+  projectId        String    @db.Uuid
+  activeChapterId  String?   @db.Uuid
+  blockId          String?   @db.VarChar(64)
+  cursorOffset     Int?
+  selectionAnchor  Int?
+  selectionHead    Int?
+  scrollTop        Int?
+  contextPanelMode String    @default("CLOSED") @db.VarChar(32)
+  pinIds           Json      @default("[]")
+  capturedAt       DateTime  @default(now()) @db.Timestamptz(3)
+  createdAt        DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime  @updatedAt @db.Timestamptz(3)
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  project          Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  activeChapter    Chapter?  @relation("WritingSessionActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
 
   @@unique([userId, projectId])
   @@index([workspaceId, projectId])
@@ -818,45 +846,45 @@ model ContextPreference {
 }
 
 model ContextPin {
-  id         String   @id @default(uuid()) @db.Uuid
-  userId     String   @db.Uuid
-  projectId  String   @db.Uuid
-  cardType   String   @db.VarChar(40)
-  sourceId   String   @db.Uuid
-  createdAt  DateTime @default(now()) @db.Timestamptz(3)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  projectId String   @db.Uuid
+  cardType  String   @db.VarChar(40)
+  sourceId  String   @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId, cardType, sourceId])
   @@index([projectId, userId, createdAt(sort: Desc)])
 }
 
 model Capture {
-  id               String           @id @default(uuid()) @db.Uuid
-  userId           String           @db.Uuid
-  projectId        String           @db.Uuid
-  clientCaptureId  String           @db.VarChar(80)
-  rawText          String
-  lifecycle        CaptureLifecycle @default(UNPROCESSED)
-  route            String           @db.VarChar(2048)
-  chapterId        String?          @db.Uuid
-  outlineId        String?          @db.Uuid
-  blockId          String?          @db.VarChar(128)
-  selectionAnchor  Int?
-  selectionHead    Int?
-  entityContext    Json             @default("[]")
-  capturedAt       DateTime         @db.Timestamptz(3)
-  deferredUntil    DateTime?        @db.Timestamptz(3)
-  dismissedAt      DateTime?        @db.Timestamptz(3)
-  purgeAfter       DateTime?        @db.Timestamptz(3)
-  version          Int              @default(1)
-  createdAt        DateTime         @default(now()) @db.Timestamptz(3)
-  updatedAt        DateTime         @updatedAt @db.Timestamptz(3)
-  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project          Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  attachments      CaptureAttachment[]
-  conversions      CaptureConversion[]
-  revisions        CaptureRevision[]
+  id              String              @id @default(uuid()) @db.Uuid
+  userId          String              @db.Uuid
+  projectId       String              @db.Uuid
+  clientCaptureId String              @db.VarChar(80)
+  rawText         String
+  lifecycle       CaptureLifecycle    @default(UNPROCESSED)
+  route           String              @db.VarChar(2048)
+  chapterId       String?             @db.Uuid
+  outlineId       String?             @db.Uuid
+  blockId         String?             @db.VarChar(128)
+  selectionAnchor Int?
+  selectionHead   Int?
+  entityContext   Json                @default("[]")
+  capturedAt      DateTime            @db.Timestamptz(3)
+  deferredUntil   DateTime?           @db.Timestamptz(3)
+  dismissedAt     DateTime?           @db.Timestamptz(3)
+  purgeAfter      DateTime?           @db.Timestamptz(3)
+  version         Int                 @default(1)
+  createdAt       DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime            @updatedAt @db.Timestamptz(3)
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project         Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  attachments     CaptureAttachment[]
+  conversions     CaptureConversion[]
+  revisions       CaptureRevision[]
 
   @@unique([userId, clientCaptureId])
   @@index([projectId, userId, lifecycle, capturedAt(sort: Desc)])
@@ -880,67 +908,232 @@ model CaptureAttachment {
 }
 
 model CaptureConversion {
-  id             String                @id @default(uuid()) @db.Uuid
-  captureId      String                @db.Uuid
-  projectId      String                @db.Uuid
-  userId         String                @db.Uuid
-  conversionType CaptureConversionType
-  idempotencyKey String                @db.VarChar(80)
-  targetType     String                @db.VarChar(80)
-  targetId       String                @db.Uuid
+  id                       String   @id @default(uuid()) @db.Uuid
+  captureId                String   @db.Uuid
+  projectId                String   @db.Uuid
+  userId                   String   @db.Uuid
+  conversionType           String   @db.VarChar(40)
+  idempotencyKey           String   @db.VarChar(80)
+  targetType               String   @db.VarChar(80)
+  targetId                 String   @db.Uuid
   projectStructuralVersion Int
-  provenance     Json
-  createdAt      DateTime              @default(now()) @db.Timestamptz(3)
-  capture        Capture               @relation(fields: [captureId], references: [id], onDelete: Restrict)
-  project        Project               @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  user           User                  @relation(fields: [userId], references: [id], onDelete: Restrict)
+  provenance               Json
+  createdAt                DateTime @default(now()) @db.Timestamptz(3)
+  capture                  Capture  @relation(fields: [captureId], references: [id], onDelete: Restrict)
+  project                  Project  @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([captureId, conversionType, idempotencyKey])
   @@index([projectId, conversionType, targetId])
 }
 
 model CaptureRevision {
-  id         String   @id @default(uuid()) @db.Uuid
-  captureId  String   @db.Uuid
-  projectId  String   @db.Uuid
-  version    Int
-  snapshot   Json
-  reason     String   @db.VarChar(80)
-  createdAt  DateTime @default(now()) @db.Timestamptz(3)
-  capture    Capture  @relation(fields: [captureId], references: [id], onDelete: Cascade)
-  project    Project  @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  id        String   @id @default(uuid()) @db.Uuid
+  captureId String   @db.Uuid
+  projectId String   @db.Uuid
+  version   Int
+  snapshot  Json
+  reason    String   @db.VarChar(80)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  capture   Capture  @relation(fields: [captureId], references: [id], onDelete: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@unique([captureId, version])
   @@index([projectId, captureId, createdAt(sort: Desc)])
 }
 
+model EntityType {
+  id               String                  @id @default(uuid()) @db.Uuid
+  projectId        String?                 @db.Uuid
+  systemKey        String?                 @unique @db.VarChar(80)
+  key              String                  @db.VarChar(80)
+  name             String                  @db.VarChar(120)
+  description      String?
+  icon             String?                 @db.VarChar(80)
+  schemaVersion    Int                     @default(1)
+  locale           String                  @default("en") @db.VarChar(35)
+  createdAt        DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime                @updatedAt @db.Timestamptz(3)
+  archivedAt       DateTime?               @db.Timestamptz(3)
+  project          Project?                @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  fieldDefinitions EntityFieldDefinition[]
+  entities         StoryEntity[]
+
+  @@unique([projectId, key])
+  @@index([projectId, archivedAt, name])
+  @@index([locale, systemKey])
+}
+
+model EntityFieldDefinition {
+  id             String             @id @default(uuid()) @db.Uuid
+  entityTypeId   String             @db.Uuid
+  key            String             @db.VarChar(80)
+  label          String             @db.VarChar(120)
+  fieldType      EntityFieldType
+  requiredByUser Boolean            @default(false)
+  orderIndex     Int
+  configJson     Json               @default("{}")
+  version        Int                @default(1)
+  createdAt      DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime           @updatedAt @db.Timestamptz(3)
+  archivedAt     DateTime?          @db.Timestamptz(3)
+  entityType     EntityType         @relation(fields: [entityTypeId], references: [id], onDelete: Restrict)
+  values         EntityFieldValue[]
+
+  @@unique([entityTypeId, key])
+  @@unique([entityTypeId, orderIndex])
+  @@index([entityTypeId, archivedAt, orderIndex])
+}
+
+model StoryEntity {
+  id             String                @id @default(uuid()) @db.Uuid
+  projectId      String                @db.Uuid
+  entityTypeId   String                @db.Uuid
+  createdById    String                @db.Uuid
+  name           String                @db.VarChar(240)
+  aliasesJson    Json                  @default("[]")
+  summary        String?
+  status         StoryEntityStatus     @default(ACTIVE)
+  tagsJson       Json                  @default("[]")
+  icon           String?               @db.VarChar(80)
+  colorToken     String?               @db.VarChar(80)
+  metadataJson   Json                  @default("{}")
+  version        Int                   @default(1)
+  createdAt      DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime              @updatedAt @db.Timestamptz(3)
+  archivedAt     DateTime?             @db.Timestamptz(3)
+  project        Project               @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  entityType     EntityType            @relation(fields: [entityTypeId], references: [id], onDelete: Restrict)
+  createdBy      User                  @relation("StoryEntityCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  fieldValues    EntityFieldValue[]
+  outgoing       EntityRelation[]      @relation("EntityRelationFrom")
+  incoming       EntityRelation[]      @relation("EntityRelationTo")
+  stateSnapshots EntityStateSnapshot[]
+  revisions      EntityRevision[]
+
+  @@index([projectId, entityTypeId, status, name])
+  @@index([projectId, updatedAt(sort: Desc)])
+}
+
+model EntityFieldValue {
+  id                String                @id @default(uuid()) @db.Uuid
+  entityId          String                @db.Uuid
+  fieldDefinitionId String                @db.Uuid
+  valueJson         Json
+  createdAt         DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime              @updatedAt @db.Timestamptz(3)
+  entity            StoryEntity           @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  fieldDefinition   EntityFieldDefinition @relation(fields: [fieldDefinitionId], references: [id], onDelete: Restrict)
+
+  @@unique([entityId, fieldDefinitionId])
+  @@index([fieldDefinitionId, entityId])
+}
+
+model RelationType {
+  id           String           @id @default(uuid()) @db.Uuid
+  projectId    String?          @db.Uuid
+  systemKey    String?          @unique @db.VarChar(80)
+  key          String           @db.VarChar(80)
+  forwardLabel String           @db.VarChar(120)
+  reverseLabel String           @db.VarChar(120)
+  directional  Boolean          @default(true)
+  createdAt    DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime         @updatedAt @db.Timestamptz(3)
+  archivedAt   DateTime?        @db.Timestamptz(3)
+  project      Project?         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  relations    EntityRelation[]
+
+  @@unique([projectId, key])
+  @@index([projectId, archivedAt, forwardLabel])
+}
+
+model EntityRelation {
+  id             String       @id @default(uuid()) @db.Uuid
+  projectId      String       @db.Uuid
+  fromEntityId   String       @db.Uuid
+  toEntityId     String       @db.Uuid
+  relationTypeId String       @db.Uuid
+  note           String?
+  validFrom      String?      @db.VarChar(160)
+  validTo        String?      @db.VarChar(160)
+  version        Int          @default(1)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime     @updatedAt @db.Timestamptz(3)
+  archivedAt     DateTime?    @db.Timestamptz(3)
+  project        Project      @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  fromEntity     StoryEntity  @relation("EntityRelationFrom", fields: [fromEntityId], references: [id], onDelete: Restrict)
+  toEntity       StoryEntity  @relation("EntityRelationTo", fields: [toEntityId], references: [id], onDelete: Restrict)
+  relationType   RelationType @relation(fields: [relationTypeId], references: [id], onDelete: Restrict)
+
+  @@unique([fromEntityId, toEntityId, relationTypeId])
+  @@index([projectId, fromEntityId, archivedAt])
+  @@index([projectId, toEntityId, archivedAt])
+}
+
+model EntityStateSnapshot {
+  id                  String                @id @default(uuid()) @db.Uuid
+  projectId           String                @db.Uuid
+  entityId            String                @db.Uuid
+  anchorType          EntityStateAnchorType @default(UNANCHORED)
+  anchorId            String?               @db.Uuid
+  stateJson           Json
+  note                String?
+  orderIndex          Int
+  sourceEntityVersion Int
+  createdAt           DateTime              @default(now()) @db.Timestamptz(3)
+  archivedAt          DateTime?             @db.Timestamptz(3)
+  project             Project               @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  entity              StoryEntity           @relation(fields: [entityId], references: [id], onDelete: Restrict)
+
+  @@unique([entityId, orderIndex])
+  @@index([projectId, entityId, archivedAt, orderIndex])
+  @@index([projectId, anchorType, anchorId, archivedAt])
+}
+
+model EntityRevision {
+  id          String      @id @default(uuid()) @db.Uuid
+  projectId   String      @db.Uuid
+  entityId    String      @db.Uuid
+  version     Int
+  snapshot    Json
+  reason      String      @db.VarChar(80)
+  createdById String      @db.Uuid
+  createdAt   DateTime    @default(now()) @db.Timestamptz(3)
+  project     Project     @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  entity      StoryEntity @relation(fields: [entityId], references: [id], onDelete: Restrict)
+  createdBy   User        @relation("EntityRevisionActor", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@unique([entityId, version])
+  @@index([projectId, entityId, createdAt(sort: Desc)])
+}
+
 model WorkspaceMember {
-  workspaceId String        @db.Uuid
-  userId      String        @db.Uuid
-  role        WorkspaceRole @default(MEMBER)
+  workspaceId String                @db.Uuid
+  userId      String                @db.Uuid
+  role        WorkspaceRole         @default(MEMBER)
   status      WorkspaceMemberStatus @default(ACTIVE)
-  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
-  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime              @default(now()) @db.Timestamptz(3)
+  workspace   Workspace             @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([workspaceId, userId])
   @@index([userId, workspaceId])
 }
 
 model UserPreference {
-  id          String    @id @default(uuid()) @db.Uuid
-  userId      String    @db.Uuid
-  workspaceId String    @db.Uuid
-  locale      String    @default("en") @db.VarChar(35)
-  theme       String    @default("system") @db.VarChar(16)
-  editorFont  String    @default("serif") @db.VarChar(64)
-  fontSize    Int       @default(18)
-  lineHeight  Float     @default(1.62)
-  reducedMotion Boolean @default(false)
-  createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime  @updatedAt @db.Timestamptz(3)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @db.Uuid
+  workspaceId   String    @db.Uuid
+  locale        String    @default("en") @db.VarChar(35)
+  theme         String    @default("system") @db.VarChar(16)
+  editorFont    String    @default("serif") @db.VarChar(64)
+  fontSize      Int       @default(18)
+  lineHeight    Float     @default(1.62)
+  reducedMotion Boolean   @default(false)
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(3)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   @@unique([userId, workspaceId])
   @@index([workspaceId])

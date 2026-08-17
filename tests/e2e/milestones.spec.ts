@@ -4,6 +4,7 @@ import path from "node:path";
 async function createProjectWithChapters(page: Page, chapterCount: number) {
   await page.goto("/sign-in");
   await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.waitForURL(/\/app$/);
   return page.evaluate(async ({ count }) => {
     const projectResponse = await fetch("/api/v2/projects", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ title: `Milestones ${Date.now()}` }) });
     const project = await projectResponse.json() as { data: { id: string } };

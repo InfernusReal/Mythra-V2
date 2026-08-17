@@ -9,6 +9,7 @@ export function CausalContextCard({ descriptor }: { descriptor: ContextFieldDesc
 export function ExistingReferenceCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.targetType ?? "reference")}</small></>; }
 export function NarrativeIntentCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.category ?? "Author intent")}</small></>; }
 export function CaptureContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.lifecycle ?? "UNPROCESSED")}</small></>; }
+export function EntityContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.typeName ?? "Entity")}</small></>; }
 
 export const contextCardRegistry = {
   CHAPTER_OUTLINE: ChapterOutlineCard,
@@ -16,5 +17,6 @@ export const contextCardRegistry = {
   CAUSAL: CausalContextCard,
   REFERENCE: ExistingReferenceCard,
   NARRATIVE_INTENT: NarrativeIntentCard,
-  CAPTURE: CaptureContextCard
+  CAPTURE: CaptureContextCard,
+  ENTITY: EntityContextCard
 } satisfies Record<ContextFieldDescriptor["type"], ComponentType<{ descriptor: ContextFieldDescriptor }>>;

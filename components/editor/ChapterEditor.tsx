@@ -23,6 +23,7 @@ import { RecoveryDrawer } from "./RecoveryDrawer";
 import { WordTarget } from "./WordTarget";
 import { ContextualWritingField } from "@/components/context/ContextualWritingField";
 import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
+import { EntityQuickCreate } from "@/components/universe/EntityQuickCreate";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -212,6 +213,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));
       }}>Structure</a> <a href={`/app/projects/${model.project.id}/captures?returnChapterId=${model.chapter.id}`}>Capture Inbox</a></div>
       <QuickCaptureOverlay editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
+      <EntityQuickCreate editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <ContextualWritingField editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <CausalComposer editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <nav className="chapter-switcher" aria-label="Nearby chapters">

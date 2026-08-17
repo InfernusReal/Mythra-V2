@@ -19,13 +19,14 @@ async function ownedProject(tx: Transaction, actor: SessionActor, projectId: str
 
 async function labels(tx: Transaction, projectId: string, endpoints: Array<{ type: string; id: string }>): Promise<Map<string, string>> {
   const result = new Map<string, string>(); const ids = (type: string) => [...new Set(endpoints.filter((endpoint) => endpoint.type === type).map((endpoint) => endpoint.id))];
-  const [outlines, milestones, scenes, intents, changes, chapters] = await Promise.all([
+  const [outlines, milestones, scenes, intents, changes, chapters, entities] = await Promise.all([
     tx.chapterOutline.findMany({ where: { projectId, id: { in: ids("CHAPTER_OUTLINE") }, archivedAt: null }, select: { id: true, title: true } }),
     tx.milestone.findMany({ where: { projectId, id: { in: ids("MILESTONE") }, archivedAt: null }, select: { id: true, title: true } }),
     tx.scene.findMany({ where: { projectId, id: { in: ids("SCENE") }, archivedAt: null }, select: { id: true, title: true } }),
     tx.narrativeIntent.findMany({ where: { projectId, id: { in: ids("NARRATIVE_INTENT") }, archivedAt: null }, select: { id: true, intentText: true } }),
     tx.storyChange.findMany({ where: { projectId, id: { in: ids("STORY_CHANGE") }, archivedAt: null }, select: { id: true, title: true } }),
-    tx.chapter.findMany({ where: { projectId, id: { in: [...ids("CHAPTER"), ...ids("MANUSCRIPT_BLOCK")] }, archivedAt: null }, select: { id: true, title: true } })
+    tx.chapter.findMany({ where: { projectId, id: { in: [...ids("CHAPTER"), ...ids("MANUSCRIPT_BLOCK")] }, archivedAt: null }, select: { id: true, title: true } }),
+    tx.storyEntity.findMany({ where: { projectId, id: { in: ids("ENTITY") }, archivedAt: null, status: "ACTIVE" }, select: { id: true, name: true } })
   ]);
   for (const row of outlines) result.set(`CHAPTER_OUTLINE:${row.id}`, row.title);
   for (const row of milestones) result.set(`MILESTONE:${row.id}`, row.title);
@@ -33,6 +34,7 @@ async function labels(tx: Transaction, projectId: string, endpoints: Array<{ typ
   for (const row of intents) result.set(`NARRATIVE_INTENT:${row.id}`, row.intentText);
   for (const row of changes) result.set(`STORY_CHANGE:${row.id}`, row.title);
   for (const row of chapters) { result.set(`CHAPTER:${row.id}`, row.title); result.set(`MANUSCRIPT_BLOCK:${row.id}`, row.title); }
+  for (const row of entities) result.set(`ENTITY:${row.id}`, row.name);
   return result;
 }
 
@@ -42,6 +44,7 @@ async function contextSourceExists(tx: Transaction, projectId: string, cardType:
   if (cardType === "CAUSAL") return Boolean(await tx.causalRelation.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
   if (cardType === "REFERENCE") return Boolean(await tx.storyReference.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
   if (cardType === "CAPTURE") return Boolean(await tx.capture.findFirst({ where: { id: sourceId, projectId }, select: { id: true } }));
+  if (cardType === "ENTITY") return Boolean(await tx.storyEntity.findFirst({ where: { id: sourceId, projectId, archivedAt: null, status: "ACTIVE" }, select: { id: true } }));
   return Boolean(await tx.narrativeIntent.findFirst({ where: { id: sourceId, projectId, archivedAt: null }, select: { id: true } }));
 }
 
@@ -69,6 +72,8 @@ export class PrismaContextRepository implements ContextRepository {
       ]);
       const allMilestones = [...milestoneRows.map((row) => ({ id: row.milestone.id, title: row.milestone.title, description: row.milestone.description, role: row.role, weight: row.weight, version: row.milestone.version })), ...extraMilestones.map((row) => ({ ...row, role: "PINNED", weight: 0 }))];
       const allReferences = [...referenceRows, ...extraReferences]; const allIntents = [...intentRows, ...extraIntents];
+      const entityIds = [...new Set([...allReferences.filter((row) => String(row.targetType) === "ENTITY").map((row) => row.targetId), ...pinnedByType("ENTITY")])].slice(0, 50);
+      const entities = await tx.storyEntity.findMany({ where: { projectId: chapter.projectId, id: { in: entityIds }, status: "ACTIVE", archivedAt: null }, orderBy: { updatedAt: "desc" }, take: 50, select: { id: true, name: true, summary: true, version: true, entityType: { select: { name: true } } } });
       const outlineIds = [...new Set([...(chapter.outline ? [chapter.outline.id] : []), ...extraOutlines.map((row) => row.id)])];
       const milestoneIds = [...new Set(allMilestones.map((row) => row.id))];
       const anchors: Array<{ type: string; id: string; blockId?: string }> = [
@@ -94,7 +99,7 @@ export class PrismaContextRepository implements ContextRepository {
         milestones: allMilestones,
         references: allReferences.map((row) => ({ ...row, sourceType: String(row.sourceType), targetType: String(row.targetType), targetLabel: labelMap.get(`${row.targetType}:${row.targetId}`) ?? String(row.targetType) })),
         causal,
-        intents: allIntents.map((row) => ({ ...row, targetType: String(row.targetType), category: row.category ? String(row.category) : null })), captures: captures.map((row) => ({ ...row, lifecycle: String(row.lifecycle) })),
+        intents: allIntents.map((row) => ({ ...row, targetType: String(row.targetType), category: row.category ? String(row.category) : null })), captures: captures.map((row) => ({ ...row, lifecycle: String(row.lifecycle) })), entities: entities.map((row) => ({ id: row.id, name: row.name, summary: row.summary, typeName: row.entityType.name, version: row.version })),
         pins: pins.map((pin) => ({ cardType: pin.cardType as ContextCardType, sourceId: pin.sourceId })),
         preferences: { mutedTypes: cardTypes(preference?.mutedTypes), directiveEnabled: preference?.directiveEnabled ?? true }
       };

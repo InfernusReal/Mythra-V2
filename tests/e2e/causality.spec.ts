@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import path from "node:path";
 
 async function createProject(page: Page, withChapter = true) {
-  await page.goto("/sign-in"); await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.goto("/sign-in"); await page.getByRole("button", { name: "Continue to Mythra" }).click(); await page.waitForURL(/\/app$/);
   return page.evaluate(async ({ chapter }) => {
     const projectResponse = await fetch("/api/v2/projects", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ title: `Causality ${Date.now()}` }) }); const project = await projectResponse.json() as { data: { id: string } };
     if (!chapter) return { projectId: project.data.id, chapterId: null };
@@ -28,7 +28,7 @@ test.describe("Sub-gate 6 Causal Story Fabric", () => {
     expect(emitted.join("\n")).toContain("S6-UI-001"); expect(emitted.join("\n")).toContain("S6-UI-002"); expect(emitted.join("\n")).toContain("S6-UI-003"); expect(emitted.join("\n")).toContain("S6-UI-008");
   });
 
-  test("rejects remaining reserved adapters and an unqualified hard requires cycle with stable results", async ({ page }) => {
+  test("rejects the remaining timeline adapter, unknown entity states, and an unqualified hard requires cycle with stable results", async ({ page }) => {
     const { projectId } = await createProject(page, false);
     const facts = await page.evaluate(async (id) => {
       const post = async (url: string, body: unknown) => { const response = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }); return { status: response.status, envelope: await response.json() as { data?: { object: { id: string }; projectStructuralVersion: number; idempotent?: boolean }; error?: { code: string } } }; };
@@ -37,7 +37,7 @@ test.describe("Sub-gate 6 Causal Story Fabric", () => {
       const reserved = await Promise.all(["TIMELINE_EVENT", "ENTITY_STATE"].map((type) => post(`/api/v2/projects/${id}/causality/relations`, { expectedStructuralVersion: 4, source: { type, id: crypto.randomUUID() }, target, relationType: "CAUSES" })));
       return { forward, duplicate, cycle, reserved };
     }, projectId);
-    expect(facts.forward.status).toBe(201); expect(facts.duplicate.envelope.data?.object.id).toBe(facts.forward.envelope.data?.object.id); expect(facts.duplicate.envelope.data?.idempotent).toBe(true); expect(facts.cycle).toMatchObject({ status: 409, envelope: { error: { code: "INTEGRITY_ERROR" } } }); expect(facts.reserved.map((item) => [item.status, item.envelope.error?.code])).toEqual([[503, "DEPENDENCY_UNAVAILABLE"], [503, "DEPENDENCY_UNAVAILABLE"]]);
+    expect(facts.forward.status).toBe(201); expect(facts.duplicate.envelope.data?.object.id).toBe(facts.forward.envelope.data?.object.id); expect(facts.duplicate.envelope.data?.idempotent).toBe(true); expect(facts.cycle).toMatchObject({ status: 409, envelope: { error: { code: "INTEGRITY_ERROR" } } }); expect(facts.reserved.map((item) => [item.status, item.envelope.error?.code])).toEqual([[503, "DEPENDENCY_UNAVAILABLE"], [404, "NOT_FOUND"]]);
   });
 
   test("composes from writing and restores the exact position without changing prose", async ({ page }) => {

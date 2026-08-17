@@ -2,7 +2,7 @@ import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 
 async function createCaptureFixture(page: Page) {
-  await page.goto("/sign-in"); await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.goto("/sign-in"); await page.getByRole("button", { name: "Continue to Mythra" }).click(); await page.waitForURL(/\/app$/);
   return page.evaluate(async () => {
     const request = async <T>(url: string, method: string, body?: unknown): Promise<T> => { const response = await fetch(url, { method, headers: body ? { "content-type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined }); const envelope = await response.json() as { data?: T; error?: { message: string } }; if (!response.ok || !envelope.data) throw new Error(envelope.error?.message ?? `${method} ${url} failed`); return envelope.data; };
     const project = await request<{ id: string }>("/api/v2/projects", "POST", { title: `Capture ${Date.now()}` }); const chapter = await request<{ chapter: { id: string } }>(`/api/v2/projects/${project.id}/chapters`, "POST", { title: "Capture chapter" }); return { projectId: project.id, chapterId: chapter.chapter.id };

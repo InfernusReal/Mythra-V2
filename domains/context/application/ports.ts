@@ -7,10 +7,11 @@ export interface ContextReferenceSource { id: string; sourceType: string; source
 export interface ContextCausalSource { id: string; relationType: string; direction: "UPSTREAM" | "DOWNSTREAM"; endpointType: string; endpointId: string; endpointBlockId: string | null; endpointLabel: string; anchorType: string; anchorId: string; anchorBlockId: string | null; importance: number; version: number }
 export interface ContextIntentSource { id: string; targetType: string; targetId: string; blockId: string | null; category: string | null; customCategory: string | null; intentText: string; version: number }
 export interface ContextCaptureSource { id: string; rawText: string; lifecycle: string; capturedAt: Date; chapterId: string | null; blockId: string | null; version: number }
+export interface ContextEntitySource { id: string; name: string; summary: string | null; typeName: string; version: number }
 export interface ContextSnapshot {
   projectId: string; projectStructuralVersion: number; chapterId: string; chapterVersion: number;
   outline: ContextOutlineSource | null; extraOutlines: ContextOutlineSource[]; milestones: ContextMilestoneSource[]; references: ContextReferenceSource[];
-  causal: ContextCausalSource[]; intents: ContextIntentSource[]; captures?: ContextCaptureSource[];
+  causal: ContextCausalSource[]; intents: ContextIntentSource[]; captures?: ContextCaptureSource[]; entities?: ContextEntitySource[];
   pins: Array<{ cardType: ContextCardType; sourceId: string }>;
   preferences: { mutedTypes: ContextCardType[]; directiveEnabled: boolean };
 }

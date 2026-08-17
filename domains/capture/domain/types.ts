@@ -2,8 +2,8 @@ import { z } from "zod";
 import { causalEndpointTypes, causalRelationTypes } from "@/domains/causality/domain/types";
 
 export const captureLifecycles = ["UNPROCESSED", "FILED", "CONVERTED", "DEFERRED", "DISMISSED"] as const;
-export const activeCaptureConversionTypes = ["MILESTONE", "STORY_CHANGE", "CHAPTER_ATTACHMENT", "OUTLINE_ATTACHMENT", "CAPTURE_DERIVED_CAUSAL"] as const;
-export const reservedCaptureConversionTypes = ["ENTITY", "NOTE", "TIMELINE_EVENT"] as const;
+export const activeCaptureConversionTypes = ["MILESTONE", "STORY_CHANGE", "CHAPTER_ATTACHMENT", "OUTLINE_ATTACHMENT", "CAPTURE_DERIVED_CAUSAL", "ENTITY"] as const;
+export const reservedCaptureConversionTypes = ["NOTE", "TIMELINE_EVENT"] as const;
 export type CaptureLifecycle = typeof captureLifecycles[number];
 export type ActiveCaptureConversionType = typeof activeCaptureConversionTypes[number];
 
@@ -21,8 +21,8 @@ export const captureAttachmentSchema = z.object({ targetType: z.enum(["CHAPTER",
 const causalActionSchema = z.object({ direction: z.enum(["BECAUSE_OF", "THIS_CAUSES"]), endpointType: z.enum(causalEndpointTypes), endpointId: z.string().uuid(), endpointBlockId: z.string().max(128).optional(), relationType: z.enum(causalRelationTypes).default("CAUSES") }).strict();
 export const captureConversionSchema = z.object({
   conversionType: z.enum(activeCaptureConversionTypes), idempotencyKey: z.string().min(1).max(80), title: z.string().trim().min(1).max(240).optional(),
-  targetId: optionalUuid, targetBlockId: z.string().max(128).default(""), expectedStructuralVersion: z.number().int().positive(), causalAction: causalActionSchema.optional()
-}).strict();
+  targetId: optionalUuid, entityTypeId: optionalUuid, targetBlockId: z.string().max(128).default(""), expectedStructuralVersion: z.number().int().positive(), causalAction: causalActionSchema.optional()
+}).strict().superRefine((value, context) => { if (value.conversionType === "ENTITY" && !value.entityTypeId) context.addIssue({ code: "custom", message: "Entity conversion requires an entity type." }); });
 
 export interface CaptureSummary { id: string; projectId: string; rawText: string; lifecycle: CaptureLifecycle; route: string; chapterId: string | null; outlineId: string | null; blockId: string | null; selectionAnchor: number | null; selectionHead: number | null; entityContext: string[]; capturedAt: string; deferredUntil: string | null; version: number; attachmentCount: number; conversionCount: number; attachments: Array<{ id: string; targetType: "CHAPTER" | "CHAPTER_OUTLINE"; targetId: string; targetBlockId: string }>; }
 export interface CaptureConversionResult { id: string; captureId: string; conversionType: ActiveCaptureConversionType; targetType: string; targetId: string; projectStructuralVersion: number; replayed: boolean; }

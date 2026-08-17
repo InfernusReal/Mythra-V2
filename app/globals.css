@@ -316,3 +316,20 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
   .capture-inbox > header, .capture-row form { align-items: stretch; flex-direction: column; }
   .capture-row fieldset { grid-template-columns: 1fr; }
 }
+
+.universe-workspace, .entity-detail { width: min(72rem, 100%); margin: 0 auto; }
+.universe-workspace > header, .entity-detail > header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.universe-workspace form, .entity-detail form { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); align-items: end; gap: .75rem; margin: 1.25rem 0; padding: 1rem; border: 1px solid var(--border); border-radius: .75rem; background: var(--surface); }
+.universe-workspace label, .entity-detail label, .entity-quick-create label { display: grid; gap: .35rem; color: var(--text-muted); font-size: .8125rem; font-weight: 650; }
+.universe-workspace input, .universe-workspace select, .universe-workspace textarea, .entity-detail input, .entity-detail select, .entity-detail textarea, .entity-quick-create input, .entity-quick-create select { min-height: 2.5rem; padding: .5rem .65rem; color: var(--text); border: 1px solid var(--border); border-radius: .45rem; background: var(--bg); }
+.universe-workspace button, .entity-detail button, .entity-quick-create button { min-height: 2.5rem; padding: .5rem .8rem; color: var(--text); border: 1px solid var(--border); border-radius: .45rem; background: var(--surface-raised); font-weight: 700; }
+.universe-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .75rem; padding: 0; list-style: none; }
+.universe-list a { display: grid; gap: .35rem; min-height: 8rem; padding: 1rem; color: var(--text); border: 1px solid var(--border); border-radius: .75rem; background: var(--surface); text-decoration: none; }
+.universe-list span, .entity-detail small { color: var(--text-muted); font-size: .8125rem; }
+.entity-detail > section { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.entity-detail dl > div { display: grid; grid-template-columns: minmax(7rem, .3fr) 1fr; gap: .75rem; padding: .4rem 0; }
+.entity-detail dt { color: var(--text-muted); font-weight: 650; }
+.entity-detail pre { max-width: 100%; overflow: auto; padding: .75rem; background: var(--surface); }
+.entity-quick-create { display: flex; align-items: center; justify-content: flex-end; gap: .6rem; }
+.entity-quick-create .peek-overlay form { display: grid; gap: .75rem; }
+@media (max-width: 640px) { .universe-workspace > header, .entity-detail > header { flex-direction: column; } .universe-workspace form, .entity-detail form { grid-template-columns: 1fr; } }

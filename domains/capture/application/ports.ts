@@ -8,5 +8,5 @@ export interface CaptureRepository {
   lifecycle(actor: SessionActor, projectId: string, input: { captureIds: string[]; action: "FILE" | "DEFER" | "DISMISS" | "RESTORE"; deferredUntil?: string }): Promise<{ updated: number }>;
   attach(actor: SessionActor, projectId: string, captureId: string, input: { targetType: "CHAPTER" | "CHAPTER_OUTLINE"; targetId: string; targetBlockId: string }): Promise<{ attachmentId: string; replayed: boolean }>;
   detach(actor: SessionActor, projectId: string, captureId: string, attachmentId: string): Promise<{ detached: boolean }>;
-  convert(actor: SessionActor, projectId: string, captureId: string, input: { conversionType: ActiveCaptureConversionType; idempotencyKey: string; title?: string; targetId?: string; targetBlockId: string; expectedStructuralVersion: number }): Promise<CaptureConversionResult>;
+  convert(actor: SessionActor, projectId: string, captureId: string, input: { conversionType: ActiveCaptureConversionType; idempotencyKey: string; title?: string; targetId?: string; entityTypeId?: string; targetBlockId: string; expectedStructuralVersion: number }): Promise<CaptureConversionResult>;
 }

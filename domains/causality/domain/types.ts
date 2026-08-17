@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const storyChangeKinds = ["EVENT", "DECISION", "REVELATION", "STATE_CHANGE", "SETUP", "PAYOFF", "CONDITION", "OUTCOME", "CUSTOM"] as const;
 export const causalEndpointTypes = ["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "TIMELINE_EVENT", "NARRATIVE_INTENT", "ENTITY_STATE", "CAPTURE_DERIVED", "MANUSCRIPT_BLOCK", "STORY_CHANGE"] as const;
-export const activeCausalEndpointTypes = ["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED"] as const;
-export const reservedCausalEndpointTypes = ["TIMELINE_EVENT", "ENTITY_STATE"] as const;
+export const activeCausalEndpointTypes = ["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED", "ENTITY_STATE"] as const;
+export const reservedCausalEndpointTypes = ["TIMELINE_EVENT"] as const;
 export const causalRelationTypes = ["CAUSES", "ENABLES", "REQUIRES", "MOTIVATES", "TRIGGERS", "ESCALATES", "PREVENTS_BLOCKS", "REVEALS", "TRANSFORMS", "RESOLVES"] as const;
 export const causalRelationStates = ["ACTIVE", "TENTATIVE", "RETIRED"] as const;
 export const causalProvenanceTypes = ["DIRECT", "CHAPTER_PROSE", "OUTLINE_BLOCK", "CAPTURE_CONVERSION"] as const;
