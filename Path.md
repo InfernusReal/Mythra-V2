@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 pre-code checkpoint** | Entries S7–S9 below | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 product and local audit complete; evidence reconciliation pending** | Entries S7–S9 below | S9 plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; CI `32046041348`/`95434077558` passed; evidence commit pending |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -53,7 +53,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
-| 9 | Universe | 3 | **Planning checkpoint — product code locked** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan commit/push/CI pending |
+| 9 | Universe | 3 | **Audit complete — evidence commit/CI pending** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; CI `32046041348`/`95434077558` passed; evidence commit pending |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–8 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9 is eligible by dependency order, but its product code remains locked until its own Path-only pre-code checkpoint is committed, pushed, remotely matched, and passes CI.
+Sub-gates 0–8 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9's pre-code checkpoint passed remotely before implementation began. S9 implementation, local audit, product push, remote-ref match and product CI now pass with no open in-scope gap; formal closure still requires the separately pushed evidence commit and remote CI reconciliation. S10 remains locked until that closure is recorded.
 
 ## 4. Entry S0 — Foundation
 
@@ -1909,6 +1909,141 @@ Doctrine result: Capture remains optional and author-owned; leaving it unprocess
 - **Writing independence:** Universe, quick-create, backlink, context, conversion or causality failure cannot block Tiptap, journaling, autosave, recovery, checkpoint or continuation. No Universe screen outranks Continue Writing.
 - **Explicit exclusions:** universal Search/SearchDocument/palette object search and language tools remain S10; Timeline/Research/Notes/storage binaries and their backlinks/providers/conversions remain S11; propagation workers remain S12; project snapshots/export remain S13; AI extraction/inference, prose rewrite, entity completeness pressure, V1 world hierarchy and billing are prohibited.
 - **Pre-code state:** this checkpoint changes `Path.md` only. S9 product implementation remains locked pending distinct remote proof.
+
+### 14.5 Checkpoint proof and implementation chronology
+
+- The Path-only checkpoint was committed as `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`, pushed to `origin/agent/workplan-subgates-audit`, and matched by `git ls-remote` before product changes began. GitHub Actions run `31961374522`, job `95199759613`, passed dependency installation, Prisma generation, lint, typecheck, coverage, and production build. This removed the S9 product-code lock without affecting S10.
+- Implementation followed the order in 14.3: contracts/templates/bounds; migration and rollback; repository/service/transport; routes; list/detail/selection UI; Context/Capture/causal registrations; tests and database verification; visual/manual review; full regression and audit.
+- The first implementation pass exposed four correctable gaps: first-load catalog transactions raced when page list/catalog calls ran concurrently; system-template upserts repeated in normal entity mutations; component coverage fell below the global branch threshold; and the old S6 browser expectation still classified `ENTITY_STATE` as dormant. The page now initializes the catalog before list retrieval, normal mutations validate existing type IDs without reseeding, behavior tests cover typed/degraded UI branches, and S6 regression evidence now expects Timeline to remain unavailable while an unknown active Entity State returns `NOT_FOUND`.
+- A detached Prisma development database twice ended during long browser verification. No failed run was counted as product evidence. A foreground isolated database at TCP 51237 completed clean ten-migration apply, S9 verify, rollback, S9 reapply, reverify, focused browser, and full browser regression runs.
+
+### 14.6 Files and responsibility ledger
+
+| Area/files | Action and implemented behavior | WorkPlan/Bible ownership |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260816223000_universe/{migration.sql,rollback.sql}` | Added `EntityType`, `EntityFieldDefinition`, `StoryEntity`, `EntityFieldValue`, `RelationType`, `EntityRelation`, `EntityStateSnapshot`, and `EntityRevision`; project/user relations, enums, unique keys, check constraints, ownership indexes, reference/state ordering, revision/history and reversible Capture conversion-type expansion. Rollback removes S9-owned cross-domain rows before tables/types and restores the S8 enum without changing sampled Chapter/Capture bytes. | WorkPlan 7.1 Universe truth and 7.2 persistence; Bible 11, 17, 35. |
+| `domains/universe/domain/{templates,types,collection}.ts` | Defines the thirteen optional localized system templates, seven relation templates, minimal/common fields, ten active typed-field kinds, reserved IMAGE/FILE kinds, Zod mutation/list contracts, immutable anchor rules, hard list/detail caps, and a 25,000-entity bounded projection utility. | WorkPlan 7.1/14.2/14.4; Bible 11.1–11.6, 26. |
+| `domains/universe/application/{ports,service,autocomplete}.ts` | Defines canonical repository/read-model contracts, every versioned S9 use case, content-safe trace metadata, and a capped replaceable entity-autocomplete provider seam without activating S10 universal Search. | WorkPlan 7.3 steps 1–2 and S9 `@` seam; Bible 15–16, 18, 21 future boundary. |
+| `domains/universe/infrastructure/prisma-universe-repository.ts` | Implements workspace/project guards, catalog localization, cursor/capped reads, type-specific validation, same-project references, optimistic project/entity versions, complete prior revisions, minimal/quick creation, invisible StoryReference backlinks, custom types/relation types, idempotent relations, immutable states, per-source backlink counts/pages, redacted outbox events and repeatable-read catalog/detail transactions. | WorkPlan 7.1 Universe/references and 7.3; Bible 11, 16–18, 35. |
+| `lib/universe/{runtime,http}.ts`; `app/api/v2/projects/[id]/universe/**/route.ts` | Wires one authenticated service/repository boundary and stable envelopes for catalog/list/create, custom entity/relation types, quick create, entity detail/update, relation create and state create. Request bodies and authored values are excluded from transport logs. | WorkPlan 7.2 routes and 14.3 step 4; Bible 18, 24, 36. |
+| `components/universe/{UniverseWorkspace,EntityDetail,EntityQuickCreate}.tsx`; `app/app/projects/[id]/universe/**/page.tsx`; project-home/editor/CSS changes | Adds optional bounded Universe entry/list/filter/minimal create; project custom type creation; entity common/custom inline editing; directional/reverse relation editor; immutable history and backlink groups; Return links; mobile layout; selection-to-entity overlay using the shared focus-preserving controller and a StoryReference mark that preserves visible prose. | WorkPlan 7.1/7.2/7.3 steps 4, 6, 8; Bible 4, 8.5, 8.9–8.10, 9, 11, 14–15, 34. |
+| Capture changes in `domains/capture/*` and `components/capture/CaptureInbox.tsx` | Activates `ENTITY` as an idempotent conversion target with required `entityTypeId`, same-project type/entity validation, provenance retained in `CaptureConversion`, inbox type selection, and entity conversion action. Existing S8 targets/lifecycle remain unchanged. | WorkPlan 7.1 S9 activation boundary; Bible 6, 11.6, 18. |
+| Causality changes in `domains/causality/*` | Moves `ENTITY_STATE` from reserved to active endpoint types and resolves owned, non-archived snapshots through the canonical adapter. `TIMELINE_EVENT` remains dependency-unavailable until S11; an entity snapshot never implies a causal edge. | WorkPlan 7.1 S9 activation boundary and Phase 2 dependency ruling; Bible 7.7, 11.5–11.6, Appendix E. |
+| Context changes in `domains/context/*` and `components/context/ContextCards.tsx` | Registers typed Entity cards only after S9 persistence, resolves explicit entity references/pins into bounded context sources, and renders Entity Peek metadata. Existing precedence/contextKey/directive semantics remain unchanged. | WorkPlan 7.1 descriptor staging; Bible 4 and Appendix A. |
+| `docs/adr/0010-universe-and-entity-state.md`, `docs/architecture/universe.md`, `docs/api/universe.md`, `docs/operations/migrations.md` | Records canonical truth/optionality, hierarchy-reference-state-causality separation, contracts/bounds, binary deferral to S11 and reviewed migration recovery. | WorkPlan 7.2 and global documentation contract; Bible 11, 16–18, 27, 32. |
+| `scripts/verify-universe-db.ts`; S9 unit/service/component/stress/accessibility/E2E tests; adjusted prior-domain regression fixtures | Proves templates, ownership, typed data, same-project references, relation replay, backlinks, revisions, redaction, Entity Capture conversion, Entity State adapter, rollback boundary, focus/prose preservation, mobile/a11y, 25k/50k bounds and prior-gate compatibility. Legacy E2E fixtures now wait for completed sign-in navigation, removing a pre-existing authentication race. | WorkPlan 7.2 test list, 7.4 exit, global acceptance; Bible 31, 33, 35–36. |
+
+Generated `next-env.d.ts` changed only because Next.js 16 regenerated its current type imports during required development/build execution; it is retained under the repository's generated Next.js guidance. `package.json` adds only the S9 database verify/rollback commands.
+
+### 14.7 Implemented code, state ownership, and failure behavior
+
+- **Canonical truth and minimal validity:** PostgreSQL owns entity types, entities, field values, entity relations, StoryReferences, revisions and historical states. The minimum valid entity is one active same-project/system type plus a trimmed name. Templates/custom fields/relations/history are optional and never gate editor access.
+- **Localized flexible schema:** system types use stable `systemKey`, locale `en`, schema version and authored-neutral template labels; project types use project-scoped stable keys. Common fields stay columns; extensible fields use ordered definitions plus one JSON value row per entity/definition. Validation rejects kind/config/reference mismatches transactionally.
+- **History and optimistic writes:** every entity update checks entity and project structural versions, writes a complete prior `EntityRevision`, replaces validated custom values in the same transaction, increments versions and emits content-free outbox metadata. State snapshots are append-only rows with explicit anchor/order and source entity version; current fields are never rewritten to simulate history.
+- **References/backlinks:** quick create persists the entity and one manuscript-block `StoryReference` atomically, then the client applies only a `storyReference` mark to the existing selection. Detail queries explicit reference groups independently with returned/total/next-cursor evidence and includes Capture entity-context backlinks. No prose/name scan invents links.
+- **Relations and causality:** `EntityRelation` is one canonical typed edge with reverse label presentation; same-project targets, no-self checks and idempotency uniqueness apply. `ENTITY_STATE` resolution reads a snapshot; causal relation creation remains an explicit separate action. Timeline remains reserved.
+- **Client/server separation:** server components seed bounded catalog/detail/list models; client components own only form/filter/message/version state. No client cache becomes canonical. A failed optional entity/context/Capture/causal request reports a bounded error and leaves the editor, journal, autosave, checkpoint, visible prose and navigation intact.
+- **Privacy/security:** all repository entry points scope workspace/project ownership. Authenticated route handlers return safe envelopes. Entity names, aliases, summaries, labels, notes, selected prose, custom values and state JSON are absent from operational logs/outbox payloads; tests inspect logged metadata and database outbox bytes.
+- **Accessibility/responsiveness:** semantic headings/forms/lists/status regions, named controls, keyboard-native details/selects, focus restoration, desktop and mobile layouts, axe serious/critical scans and visual screenshots are verified. The selected manuscript text remains byte-identical and editor focus returns after quick create.
+- **Performance:** Universe pages cap at 100, default 50; definitions/values cap at 100; detail relations at 500; snapshots at 1,000; each backlink group at 100. The stress fixture reduces 25,000 entities/50,000 relations to these budgets under the asserted two-second local processing ceiling. No whole-project UI render or graph walk was introduced.
+- **Degraded boundary:** IMAGE/FILE fields are visible as disabled dependency boundaries until S11 owns private storage/upload validation. Entity autocomplete has only a bounded provider interface. S10 Search/Language and S11 Timeline/Note/Research remain absent.
+
+### 14.8 Console/comment evidence with final line numbers
+
+Every S9 operational trace site has the requested adjacent identifying comment. Server calls flow through the existing guarded structured logger to its single literal console transport; UI/verifier sites use direct JSON `console.log` with identifiers/counts/versions only.
+
+| Step | Identifying comment line | Call line | Purpose and content boundary |
+| --- | --- | --- | --- |
+| `S9-UNIVERSE-001` | `domains/universe/application/service.ts:22` | logger call `:23` | Catalog type/relation counts; no labels or values. |
+| `S9-UNIVERSE-002` | `domains/universe/application/service.ts:41` | logger call `:42` | Page filters/count/more flag. |
+| `S9-UNIVERSE-003` | `domains/universe/application/service.ts:62` | logger call `:63` | Entity/type IDs, value count and structural version. |
+| `S9-UNIVERSE-004` | `domains/universe/application/service.ts:83` | logger call `:84` | Quick-create IDs, selected length and version; no selected text/note/name. |
+| `S9-UNIVERSE-005` | `domains/universe/application/service.ts:105` | logger call `:106` | Detail relation/state/backlink counts. |
+| `S9-UNIVERSE-006` | `domains/universe/application/service.ts:133` | logger call `:134` | Entity/version identity only. |
+| `S9-UNIVERSE-007` | `domains/universe/application/service.ts:153` | logger call `:154` | Custom type ID/field count/version; no authored labels. |
+| `S9-UNIVERSE-010` | `domains/universe/application/service.ts:177` | logger call `:178` | Custom relation-type ID/direction/version. |
+| `S9-UNIVERSE-008` | `domains/universe/application/service.ts:201` | logger call `:202` | Explicit edge endpoint/replay/version metadata. |
+| `S9-UNIVERSE-009` | `domains/universe/application/service.ts:228` | logger call `:229` | Snapshot/entity IDs, anchor kind/order/version; no state/note. |
+| `S9-API-001` | `lib/universe/http.ts:19` | logger call `:20` | Successful route/method/status and actor/request IDs. |
+| `S9-API-002` | `lib/universe/http.ts:34` | logger call `:35` | Stable failure code/status/cause class; no body. |
+| `S9-UI-001` | `components/universe/UniverseWorkspace.tsx:77` | literal `console.log` `:78` | Entity ID/project/version after minimal create. |
+| `S9-UI-005` | `components/universe/UniverseWorkspace.tsx:120` | literal `console.log` `:121` | Type ID/project/version after custom type create. |
+| `S9-UI-004` | `components/universe/EntityDetail.tsx:88` | literal `console.log` `:89` | Entity/project/entity+structure versions after inline update. |
+| `S9-UI-002` | `components/universe/EntityDetail.tsx:183` | literal `console.log` `:184` | Entity/snapshot IDs and version; excludes state JSON. |
+| `S9-UI-003` | `components/universe/EntityQuickCreate.tsx:124` | literal `console.log` `:125` | Chapter/entity/reference IDs, selection length and version; excludes prose. |
+| `S9-DB-001` | `scripts/verify-universe-db.ts:201` | literal `console.log` `:202` | Database invariant counts/booleans and generated IDs. |
+| `S9-DB-002` | `scripts/verify-universe-db.ts:274` | literal `console.log` `:275` | Rollback table/enum/preserved-row evidence. |
+
+### 14.9 Validation, stress, visual, migration, and regression evidence
+
+| Check | Result | Exact evidence |
+| --- | --- | --- |
+| Prisma generation/format/validation | Pass | Prisma 7.9.1 client generated; `prisma format` and `prisma validate` accepted the complete schema. |
+| Static quality | Pass | Final `npm run lint` completed with zero warnings/errors; final strict `npm run typecheck` passed. |
+| Full coverage gate | Pass | `npm run test:coverage`: 52 files, 189 tests; 88.90% statements, 75.58% branches, 84.19% functions, 94.25% lines; all configured thresholds passed. |
+| Stress/load | Pass | `npm run test:stress`: 8 files/15 tests, including 25,000 Universe entities and 50,000 relations reduced to hard viewport/detail budgets in under the asserted 2,000ms. |
+| Accessibility | Pass | `npm run test:a11y`: 2 files/2 tests; no serious or critical axe result for Context/Universe views. |
+| Production build | Pass | CI-shaped OIDC environment `npm run build` compiled, typechecked, generated 10 static pages and emitted all Universe API/application routes under Next.js 16.3.0. |
+| Focused S9 E2E | Pass | 3 applicable passes/3 intentional cross-device skips: desktop entity/relation/state/a11y/visual, selection quick-create/prose/focus, and mobile collection/create/visual. |
+| Full browser regression | Pass | Final `npm run test:e2e`: 46 applicable passes, 42 intentional project/device skips, zero failures in 4.1m. Covers Sub-gates 0–9 across desktop/mobile. |
+| Visual review | Pass | Manually inspected `test-results/universe-detail-desktop.png` and `test-results/universe-mobile.png`: bounded forms/cards, readable hierarchy, Return action and mobile bottom navigation render without clipping or overlap. |
+| Database apply/behavior | Pass | Fresh isolated PostgreSQL applied all ten migrations. `db:verify:universe` proved 13 system types, relation replay, active Entity State resolver, explicit backlink, cross-workspace denial, Entity Capture conversion, revision creation, content-free outbox and four enforced constraint groups. |
+| Rollback/reapply | Pass | `db:rollback:universe` emitted `S9-DB-002`: zero Universe tables, Capture enum restored, one sampled prose row and one sampled Capture row byte-preserved. `prisma migrate deploy` reapplied only S9 and a second verifier run passed all invariants. |
+| Diff/format | Pass | Pre-commit `git diff --check` passed after formatting; generated/build/test artifacts and external PDF are excluded from the intended product commit. |
+
+The jsdom axe run prints the library's known `HTMLCanvasElement.getContext` not-implemented diagnostic; both accessibility tests and all assertions pass, and no application canvas path is involved.
+
+### 14.10 Side-by-side WorkPlan/Bible/acceptance audit
+
+| Requirement | Actual evidence | Classification | Audit decision |
+| --- | --- | --- | --- |
+| Flexible EntityType/field/value/relation/state/revision truth | S9 migration/schema, domain contracts, repository transactions and DB verifier | Verified | Exact S9 owner; no rigid per-project ontology. |
+| All named optional templates | Thirteen stable template keys asserted in unit and database tests | Verified | Faction/Organization and Culture/Religion presentation coexist with separately named Organization/Religion resources without forcing use. |
+| Ten active field kinds; binary boundary | Domain types/validator/editor cover text, rich text, number, boolean, date, select, multi-select, reference/list, URL; IMAGE/FILE disabled | Verified | S11 owns binaries exactly as planned. |
+| Minimal creation and zero setup | Workspace form requires only type/name; empty state explicitly preserves writing | Verified | No completeness gate. |
+| Selection quick create, invisible backlink, unchanged prose/focus | Atomic repository create/reference plus Tiptap mark and E2E byte/focus assertions | Verified | Optional note supported; visible text unchanged. |
+| Full detail/custom fields/relations/reverse labels/backlinks/history | EntityDetail, repository detail groups/pages and component/E2E/DB tests | Verified | Historical states append; no overwrite simulation. |
+| Entity Context provider/Peek | Descriptor registration, resolver repository, card rendering and context regression tests | Verified | Activated after canonical entity persistence. |
+| Entity Capture conversion | Typed registry/Inbox/repository and database verifier | Verified | Explicit/idempotent/provenance-retaining. |
+| `ENTITY_STATE` causal adapter | Active type registry/Prisma adapter/database and browser regression | Verified | Unknown IDs return `NOT_FOUND`; Timeline stays unavailable. |
+| Ownership/privacy/redaction | Guards, safe transport, revisions/outbox/log tests and cross-workspace DB proof | Verified | No authored content in S9 logs/outbox. |
+| Bounded scale | Query `take` caps, backlink group pages and 25k/50k stress fixture | Verified | No unbounded project render/query. |
+| Accessibility/mobile/visual/focus | axe, desktop/mobile Playwright, screenshots, semantic components | Verified | Exact focus restoration for common editor action. |
+| Search/Language | No SearchDocument, full-search UI or language provider | Planned-later | Correct S10 dependency, not an S9 gap. |
+| Timeline/Notes/Research/binary storage | Only reserved seams/disabled fields; no canonical S11 domain | Planned-later | Correct S11 dependency, not an S9 gap. |
+| Propagation/export/billing/AI | No S12–S17 capability activated | Planned-later | Correct phase locks. |
+
+Global acceptance/doctrine answers:
+
+- Universe setup, fields, states, relations, backlinks, Capture conversion and causality remain optional; the editor and Continue Writing are never gated.
+- No entity, milestone or relation became a hierarchy owner. Hierarchy, semantic reference, entity state, chronology and causality remain separate canonical dimensions.
+- No relation/reference/state/co-occurrence creates causality implicitly, and no S9 write edits visible prose.
+- PostgreSQL remains canonical; component state/read models are bounded views. Structural versions prevent an apparently successful stale write.
+- No quota, downgrade, billing, AI, proposal or later provider was added.
+- Logs, outbox events, errors and tests do not emit entity names, author notes, selected prose, custom values or state JSON as operational metadata.
+- Every list/detail/backlink/autocomplete path is capped; the stress test proves reduction before rendering.
+- `becauseItems[]`/`consequenceItems[]`, the outline-aware Semantic Zoom order and USD 15 Core/future USD 25 Intelligence ruling remain unchanged.
+- S10 has not started. Timeline is the only remaining causal endpoint dependency-unavailable at the end of S9; Entity State is active only because its source domain is now canonical and verified.
+
+### 14.11 Gaps, deviations, repairs, and gate decision
+
+- **First-load transaction race:** concurrent server-component catalog/list calls both seeded the global catalog and produced 404 fallback during browser verification. Catalog initialization is now explicitly ordered before list retrieval; normal list/create/quick-create operations no longer repeat global upserts. Fresh-database desktop/mobile E2E passes.
+- **Coverage gap:** the first complete run passed 186 assertions but branch coverage was 73.11% versus the immutable 75% threshold. Typed-field, binary-boundary, common/field mutation, degraded error and custom-type behavior tests raised branch coverage to 75.58% without changing thresholds or excluding S9 files.
+- **Regression expectation gap:** the old S6 browser case expected both Timeline and Entity State to remain dependency-unavailable. S9 correctly activates Entity State, so the test now distinguishes reserved Timeline `503 DEPENDENCY_UNAVAILABLE` from active-but-unknown Entity State `404 NOT_FOUND`; focused and full regression pass.
+- **Authentication fixture race:** legacy E2E helpers evaluated fixture APIs before the development sign-in redirect was guaranteed committed. All browser fixtures now wait for `/app`, preserving behavior while removing nondeterminism.
+- **Verification infrastructure:** detached disposable database processes stopped during long runs. A foreground isolated process completed the accepted evidence. Failed/incomplete runs remain failures in this chronology and are not represented as passes.
+- **No remaining compliance gap:** every S9-owned WorkPlan item and applicable acceptance/doctrine item is `Verified`. All later work is legally `Planned-later` with its canonical source absent. No WorkPlan correction is required.
+- **Gate decision:** local implementation and audit **PASS with no open in-scope gap**. Formal Sub-gate 9 `Passed` status awaits product commit/push/remote match, product CI, evidence commit/push/CI and reconciliation. S10 remains locked.
+
+### 14.12 Git product proof and pending evidence reconciliation
+
+- **Branch/remote:** `agent/workplan-subgates-audit` / `https://github.com/InfernusReal/Mythra-V2.git`.
+- **Plan proof:** `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; GitHub Actions `31961374522`/`95199759613` passed.
+- **Product commit:** `e5131463791a5c20d005ae485f652922c8133876` (`Implement Universe capability`) contains all S9 application/domain/migration/docs/tests and the cross-domain activation/regression changes enumerated above. `Path.md` was deliberately excluded from that product commit and reserved for this evidence commit.
+- **Remote proof:** `git push origin agent/workplan-subgates-audit` advanced the branch from the S9 planning checkpoint to the product commit; `origin/agent/workplan-subgates-audit` matches `e5131463791a5c20d005ae485f652922c8133876`.
+- **Independent CI proof:** GitHub Actions run `32046041348`, job `95434077558`, passed in 2m43s. Its checked-out head was the exact product hash. Dependency installation, Prisma generation, lint, typecheck, coverage and production build all passed.
+- **Evidence/reconciliation hashes and CI runs:** pending. This Path change is the evidence-only commit; it cannot truthfully contain its own final hash before creation. S9 remains `Audit complete — evidence commit/CI pending`, and S10 remains locked.
+- **Rollback/revert point:** S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; database rollback is the reviewed S9 `rollback.sql` only while no S10 data exists.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
