@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 Passed; Sub-gates 10–11 remain** | Entries S7–S9 below | S9 plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gates 7–9 Passed; S10 product and remote CI passed with evidence reconciliation pending; S11 locked** | Entries S7–S10 below | S10 plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; product CI `32053586860`/`95458529478` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -54,7 +54,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
-| 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
+| 10 | Search + Language | 3 | **Product and remote CI passed; evidence reconciliation pending** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; CI `32053586860`/`95458529478` passed |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–9 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9's pre-code checkpoint passed remotely before implementation began; its implementation, local audit, product push/CI, evidence push/CI and reconciliation are complete with no open in-scope gap. S10 is eligible only after this reconciliation commit is pushed, remotely matched and passes CI.
+Sub-gates 0–9 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S10's pre-code checkpoint passed before implementation began; its product implementation, complete local audit, product push and product CI are complete with no open product-scope gap. Its evidence and reconciliation commits remain mandatory before S10 can be marked Passed or S11 can start.
 
 ## 4. Entry S0 — Foundation
 
@@ -2112,6 +2112,141 @@ Global acceptance/doctrine answers:
 8. Commit/push S10 product separately, prove remote ref and CI, then commit/push Path evidence separately and prove CI, followed by reconciliation. S11 cannot start before the reconciliation proof passes.
 
 - **Pre-code state:** this checkpoint changes `Path.md` only. S10 product implementation remains locked pending distinct remote proof.
+
+### 15.6 Implementation chronology and repaired findings
+
+- **Implementation run:** 17 August 2026, Asia/Karachi, on `agent/workplan-subgates-audit`; product baseline was the remotely passed pre-code commit `038946827bce1e9b749ad3df3815b40c63027cda` and product result is `2a512b6d1409831f433b56853ddd256428b1b36b` (`Implement Search and Language capability`).
+- The schema and migration established a private, rebuildable `SearchDocument` projection and actor/project-owned `SavedVocabularyTerm`; source rows remain canonical. PostgreSQL generated `tsvector`, GIN full-text and trigram indexes support bounded exact, phrase, prefix, token and fuzzy candidates. Read-through synchronization caps a project at 25,000 sources, batches 200 writes and rejects over-limit claims.
+- Search activates all canonical S0–S9 types: chapters/manuscript blocks, chapter/plot/volume outlines, milestones, entities and aliases, Story Changes, causal and Universe relation types, Story References and actor-owned non-dismissed Captures. `TIMELINE_EVENT`, `NOTE` and `RESEARCH` remain typed but dependency-unavailable until S11.
+- Ranking combines exact normalized phrase, prefix/token/full-text/fuzzy evidence, explicit active-context references, current chapter/context and recency, then stable type/source/block tie-breakers. Results are grouped and bounded, with Peek, intentional Open, insert/attach, safe Copy, block jump/return, and existing-read-model Why/Depends actions.
+- The command palette and full Search page preserve selection/focus/scroll through transient interactions. Identity-only recent history contains no query or authored content. Search and Language Context descriptors are registered only after their services exist and never create unsolicited cards.
+- Language uses the local `wordpos@2.1.0`/`wordnet-db@3.1.14` lexicon through a replaceable provider. It returns deterministic definitions, parts of speech, nuance groups when available, synonyms, antonyms and examples within fixed caps; it has no typing-path network call. Saved vocabulary uses actor/project ownership and normalized uniqueness. Replacement is one Tiptap `insertContentAt` transaction so native undo restores the original selection.
+- Raw Prisma cannot deserialize an unsupported `tsvector` column from `SELECT *`; the repository was corrected to select only supported fields. Four effect-derived React state paths were rewritten as derived/render/input state. The E2E Capture fixture was corrected to use the canonical `/api/v2/captures` route. Next production bundling of WordNet data was fixed with `serverExternalPackages` for `wordpos` and `wordnet-db`. A browser-only assertion of a server trace was replaced by an observable UI trace assertion. The active-context chip contrast was corrected from 4.42:1 to a passing text token. Prior negative provider tests were updated only for newly active Capture/Entity/Search/Language while Timeline/Note/Research remain negative.
+- No WorkPlan requirement was weakened. Coverage thresholds, result bounds, security rules, ownership checks and the S11 dependency lock were preserved during every repair.
+
+### 15.7 Complete S10 file and responsibility ledger
+
+| Files/area | Implemented responsibility |
+| --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260817180000_search_language/{migration.sql,rollback.sql}` | Projection/source enums, saved vocabulary truth, generated search vector, FTS/trigram/ownership indexes, constraints and isolated rollback. |
+| `domains/search/domain/{contracts,normalization,ranking,provider-registry}.ts` | Query/result/action/provider contracts, normalization, deterministic scoring/grouping and active-versus-dormant provider state. |
+| `domains/search/application/service.ts`; `domains/search/infrastructure/{prisma-search-repository,projection-sources}.ts` | Ownership-scoped orchestration, bounded read-through synchronization, canonical-source revalidation, PostgreSQL retrieval and structured causal action delegation. |
+| `domains/language/domain/contracts.ts`; `domains/language/application/service.ts`; `domains/language/infrastructure/{wordpos-dictionary-provider,prisma-vocabulary-repository}.ts` | Selection validation, replaceable dictionary boundary, deterministic local lexical results, degradation and actor/project-owned vocabulary persistence. |
+| `lib/search/{runtime,http}.ts`; `lib/language/{runtime,http}.ts`; Search/language/vocabulary routes under `app/api/v2/projects/[id]` | Authenticated runtime composition, stable envelopes, ownership enforcement, rate limits and content-redacted transport logs. |
+| `components/search/*`; `app/app/projects/[id]/search/page.tsx`; `components/shell/CommandPalette.tsx` | Responsive full Search, grouped result actions, accessible palette keyboard model, focus trap/restoration, stale-response discard and identity-only recent actions. |
+| `components/language/*`; `components/editor/EditorSearchBridge.tsx` | Selection Language card, explicit lookup/save/replace actions, block jump/return coordinates and single-transaction editor replacement. |
+| Context, reference and navigation integration files | Explicit transient Search/Language descriptors, active Entity/Capture StoryReference targets, canonical action routing and no name-derived relationship creation. |
+| `next.config.ts`; `package.json`; lockfile and WordPOS declaration | Reviewed local dictionary dependency, server-only external packaging and reproducible dependency graph. |
+| `docs/adr/0011-search-language.md`; `docs/architecture/search-language.md`; `docs/api/search-language.md`; migration operations docs | Architecture, contract, security/privacy, bounds, degradation, migration and recovery documentation. |
+| S10 unit/service/component/stress/accessibility/E2E tests and `scripts/verify-search-language-db.ts` | Coverage of normalization/ranking/providers/ownership/freshness/actions/dormancy/undo/focus/mobile/a11y/database indexes and rollback preservation. |
+
+The immutable product commit contains 59 changed files, 1,973 insertions and 60 deletions. It contains product, tests and technical documentation; this execution-evidence entry is intentionally separate.
+
+### 15.8 Behavior, state ownership, failure, security and operations evidence
+
+- **Canonical state:** chapters, structures, relations, references and Captures remain their owning domains' truth. Search documents are disposable projection rows keyed by workspace/project/source/source key/block/version. Vocabulary terms are the only new durable user-authored S10 truth.
+- **Freshness/recovery:** each request performs bounded source enumeration and version-aware upsert/delete before retrieval. Stale or orphaned hits are revalidated against the source. Projection rows may be truncated and rebuilt without source loss. Durable background propagation remains S12-owned.
+- **Ownership/privacy:** every service receives the authenticated actor and owned project; Capture projection includes only that actor's non-dismissed records. Cross-workspace access is rejected. Queries, selections, prose, definitions, synonyms, Capture text, entity text and copied content are excluded from logs and stable errors.
+- **Interaction:** palette Open is the only object action that navigates; Peek and action expansion are transient. Jump stores an exact origin coordinate and Return restores it. Attach/insert uses canonical StoryReference validation. Why/Depends reads existing causal edges and never creates or infers one.
+- **Language mutation:** lookup/dismiss/save do not mutate prose. Replacement requires the live editor selection and performs exactly one editor transaction; persistence then follows the normal autosave pipeline and native undo restores the prior text.
+- **Failure isolation:** a failed provider reports its own typed degraded state while healthy groups remain usable. Language provider failure yields retry/dismiss without changing editor state. Dormant S11 providers say dependency unavailable. Search/Language failure does not affect manuscript durability.
+- **Bounds:** query 1–160 Unicode characters, page maximum 100, group maximum 20, synchronization maximum 25,000 sources in batches of 200; dictionary selection maximum six words/160 characters, at most eight senses, twelve synonyms, three examples, sixteen antonyms and a bounded 500-entry memory cache.
+
+### 15.9 Exact console instrumentation ledger at product commit
+
+Every line below was resolved against immutable product commit `2a512b6d1409831f433b56853ddd256428b1b36b`. Server calls use the existing structured logger whose validated transport is `console.log`; client and database verifier calls are direct `console.log`. Each call has the adjacent identifying comment required by the user.
+
+| Step | File | Comment line / log line | Exact adjacent identifying comment |
+| --- | --- | --- | --- |
+| S10-SEARCH-001 | `domains/search/application/service.ts` | 28 / 29–39 | `Console trace S10-SEARCH-001: universal search completed with query-independent counts and provider states only.` |
+| S10-SEARCH-002 | same | 57 / 58–67 | `Console trace S10-SEARCH-002: explicit causal search action records endpoint identity and direction without query or authored content.` |
+| S10-LANGUAGE-001 | `domains/language/application/service.ts` | 16 / 17 | `Console trace S10-LANGUAGE-001: dictionary lookup records outcome/counts only; selection, definitions and lexical content are excluded.` |
+| S10-LANGUAGE-002 | same | 20 / 21 | `Console trace S10-LANGUAGE-002: provider-local degradation records a safe cause class and never the selected text.` |
+| S10-LANGUAGE-003 | same | 29 / 30 | `Console trace S10-LANGUAGE-003: vocabulary mutation logs identity/version metadata only and excludes term/definition content.` |
+| S10-LANGUAGE-004 | same | 36 / 37 | `Console trace S10-LANGUAGE-004: saved vocabulary listing emits only the bounded count.` |
+| S10-API-001 | `lib/search/http.ts` | 14 / 15 | `Console trace S10-API-001: Search API success emits transport/identity metadata only and excludes query/results.` |
+| S10-API-002 | same | 19 / 20 | `Console trace S10-API-002: Search API failure emits stable code/cause class and excludes request/query/authored data.` |
+| S10-API-003 | `lib/language/http.ts` | 14 / 15 | `Console trace S10-API-003: Language API success logs transport identity only; selection/definitions/terms are excluded.` |
+| S10-API-004 | same | 19 / 20 | `Console trace S10-API-004: Language API failure excludes selected and lexical content.` |
+| S10-UI-001 | `components/search/SearchWorkspace.tsx` | 30 / 31 | `Console trace S10-UI-001: full Search resolved with counts only; query/result content is excluded.` |
+| S10-UI-002 | `components/editor/EditorSearchBridge.tsx` | 108 / 109 | `Console trace S10-UI-002: explicit reference action records identities/versions/coordinate presence only and excludes prose/result text.` |
+| S10-UI-003 | same | 87 / 88 | `Console trace S10-UI-003: block jump stores/restores coordinates without logging block text.` |
+| S10-UI-004 | `components/search/SearchResultGroups.tsx` | 30 / 31 | `Console trace S10-UI-004: explicit copy records result identity only and excludes copied content.` |
+| S10-UI-005 | same | 40 / 41 | `Console trace S10-UI-005: structured Why/Depends expansion logs only endpoint/count metadata.` |
+| S10-UI-006 | `components/editor/EditorSearchBridge.tsx` | 66 / 67 | `Console trace S10-UI-006: selection Language card resolved with counts/state only; selected and lexical content are excluded.` |
+| S10-UI-007 | same | 124 / 125 | `Console trace S10-UI-007: one-transaction Language replacement logs coordinate lengths only and excludes original/replacement text.` |
+| S10-UI-008 | same | 137 / 138 | `Console trace S10-UI-008: saved-vocabulary action records state only and excludes the term.` |
+| S10-UI-009 | `components/shell/CommandPalette.tsx` | 100 / 101 | `Console trace S10-UI-009: command palette search records counts/context presence only and excludes the query/results.` |
+| S10-UI-010 | same | 112 / 113 | `Console trace S10-UI-010: Search Peek records result identity and history length only; no authored content.` |
+| S10-UI-011 | `components/search/SearchResultGroups.tsx` | 53 / 54 | `Console trace S10-UI-011: full-search attach logs identities/version only and excludes result/manuscript content.` |
+| S10-DB-001 | `scripts/verify-search-language-db.ts` | 58 / 59 | `Console trace S10-DB-001: PostgreSQL verified projection coverage/ranking/ownership/indexes/vocabulary using identities and counts only.` |
+| S10-DB-002 | same | 72 / 73 | `Console trace S10-DB-002: S10 rollback removed only projection/vocabulary truth and preserved sampled S1/S8/S9 bytes.` |
+
+### 15.10 Validation and stress evidence
+
+| Check | Exact result | Classification |
+| --- | --- | --- |
+| Prisma format/validate/generate and migrations | Passed; S10 migration applied cleanly. | Verified |
+| Lint and TypeScript | Passed with zero errors. | Verified |
+| `npm run test:coverage` | Passed 58 files and 211 tests; statements 88.43%, branches 75.06%, functions 84.77%, lines 93.97%; thresholds unchanged. | Verified |
+| S10 stress | Passed 9 files/16 tests; 25,000 documents across four query forms remained under the predeclared 2-second assertion. | Verified |
+| Focused S10 browser suite | 4 executed and passed; 4 device-deduplicated cases deliberately skipped. | Verified |
+| Complete Playwright regression | 96 projects: 50 passed, 46 deliberate configured skips, 0 failed, 5.4 minutes. | Verified |
+| Accessibility | Axe reported no serious or critical violation; active-context contrast repair is included in the product commit. | Verified |
+| Visual QA | `test-results/search-language-desktop.png` and `test-results/search-language-mobile.png` were inspected; no overlap, clipping or inaccessible action layout found. | Verified |
+| Production build | Next.js 16.3 production build passed after reviewed server externalization of WordNet packages. | Verified |
+| Database verifier | `S10-DB-001` passed twice: active type count 11, source count 27, alias exact first, explicit reference searchable, collaborator Capture excluded, cross-workspace rejected, vocabulary version 2, three required indexes. | Verified |
+| Rollback/reapply | `S10-DB-002` passed: zero S10 tables remained after rollback; sampled Chapter/Capture/Entity counts each remained one; S10 reapplied and DB verification passed again. | Verified |
+| `git diff --check` | Passed. | Verified |
+| Dependency audit | `npm audit --omit=dev` reports three high advisories through existing Prisma configuration's `deepmerge-ts`; npm's offered fix is the breaking downgrade Prisma 7.9.1 to 6.12.0. Recorded without an unrelated unsafe dependency rollback. | External advisory; not an S10 functionality gap |
+
+### 15.11 Side-by-side S10 conformance audit
+
+| WorkPlan/Bible obligation | Implementation evidence | Result |
+| --- | --- | --- |
+| Universal, grouped, deterministic project Search | Projection sources, ranking contracts, PostgreSQL repository, palette and full page cover every available S0–S9 canonical type. | Verified |
+| Private projection, PostgreSQL truth, freshness and rebuildability | Versioned read-through sync/revalidation and DB rebuild/rollback tests preserve canonical rows. | Verified |
+| Peek/Open/insert/attach/copy/jump-return/Why/Depends | Explicit UI actions delegate to canonical StoryReference/causal/navigation boundaries; tests cover action behavior. | Verified |
+| Command palette keyboard/focus/selection/scroll semantics | Accessible dialog, arrow navigation, focus trap/restoration, stale-response discard and exact editor origin bridge tested desktop/mobile. | Verified |
+| Selection Language definitions/POS/nuance/synonyms/antonyms | Local replaceable WordNet adapter returns deterministic bounded lexical contracts. | Verified |
+| One-click replacement and exact undo | One Tiptap transaction plus component/E2E undo proof; only normal durability saves it. | Verified |
+| Saved vocabulary and provider-local degradation | Owned normalized persistence and retry/dismiss failure state tested. | Verified |
+| S11 dependency order | Timeline Event, Note and Research stay dormant with explicit dependency-unavailable state; no S11 schema/UI/source was introduced. | Verified |
+| Performance/accessibility/security/observability/migration | Fixed bounds, stress, axe, ownership tests, exact redacted trace ledger and rollback/reapply all pass. | Verified |
+| Phase 3 macro exit | S7–S10 are implemented; S11 remains mandatory. | Planned-later; Phase 3 correctly remains open |
+
+### 15.12 Global doctrine, contradiction and omission audit
+
+- No mandatory structure, scene, world, Capture, causal link, timeline, Note or Research object was introduced. Milestones remain optional and non-owning.
+- No hierarchy is inferred from time, Story References or causal edges; no chapter order is treated as chronology. Search ranking does not create truth.
+- No automatic prose edit, style correction, inferred recommendation, AI call or typing-path network request exists. Replacement is explicit and undoable.
+- Search projection and client transient state never become canonical truth. Read-through freshness is stated honestly pending S12's worker.
+- Search/Language/support failures do not block editor durability. Logs and stable errors exclude authored/query/lexical content and retain only allow-listed identifiers, counts and states.
+- No billing, pricing, entitlement, AI, Live Story Model, automation, revisions, snapshot or export behavior was added.
+- `becauseItems[]` and `consequenceItems[]`, the locked semantic zoom coordinate, and the `$15 Core / future $25 Intelligence` commercial ADR remain unchanged.
+- No post-V2 capability or hidden S11 provider was activated. Search's dormant-provider state enforces the original sub-gate sequence.
+- Result: S10 implementation matches WorkPlan exactly with no contradiction or omitted in-scope requirement. Only explicitly later S11 and S12 work remains.
+
+### 15.13 Gap register and repair disposition
+
+| Finding | Initial classification | Final disposition |
+| --- | --- | --- |
+| Unsupported raw `tsvector` deserialization | Gap | Explicit supported-column selection; tests/build pass. |
+| Effect-derived client state lint failures | Gap | Replaced with derived/render/input state; lint passes. |
+| Capture E2E used a noncanonical route | Gap | Fixture uses `/api/v2/captures`; E2E passes. |
+| WordNet data failed Next production bundling | Gap | Reviewed `serverExternalPackages` boundary; build passes and no browser bundle/network lookup is introduced. |
+| Browser expected a server-only trace | Gap | Assertion now observes the correct UI trace; server trace remains server evidence. |
+| Active-context contrast 4.42:1 | Gap | Changed to the primary text token; axe passes. |
+| Prior negative tests denied newly active S8–S10 capabilities | Gap | Narrowly updated for Capture/Entity/Search/Language; Note/Timeline/Research remain denied. |
+| Existing transitive dependency advisory | External advisory | Recorded; no breaking Prisma downgrade disguised as an S10 fix. |
+
+All S10 implementation gaps found by lint, type, unit, database, stress, browser, accessibility, build, static and doctrine audits were repaired and rerun. There is no remaining in-scope `Gap`.
+
+### 15.14 Product Git and remote CI evidence; gate state before ledger proof
+
+- Product commit `2a512b6d1409831f433b56853ddd256428b1b36b` (`Implement Search and Language capability`) was pushed to `origin/agent/workplan-subgates-audit`; local and remote hashes matched.
+- GitHub Actions run `32053586860`, job `95458529478`, checked out that exact product hash and passed `npm ci`, Prisma generation, lint, typecheck, coverage and production build in 3m15s.
+- This Path-only evidence update contains no product code. S10 remains formally incomplete until this evidence commit itself is pushed/remotely matched, passes CI, and a separate reconciliation commit records that result. S11 remains locked.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
