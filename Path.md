@@ -2052,6 +2052,67 @@ Global acceptance/doctrine answers:
 - Product commit `e5131463791a5c20d005ae485f652922c8133876` and evidence commit `663ec69ea3d4869d43eb7a44de6d805a72ab339b` therefore have separate remote proof. The reconciliation change contains no S10 product code.
 - Every item in 14.10 is `Verified`; 14.11 records no remaining in-scope gap. **Sub-gate 9 is formally Passed.** Phase 3 remains In progress because S10–S11 are not implemented. S10 becomes eligible only after this reconciliation commit itself is pushed, remotely matched and passes CI; its product code must still wait for a separate Path-only pre-code checkpoint.
 
+## 15. Entry S10 — Search + Language
+
+### 15.1 Pre-code checkpoint, authority and predecessor gate
+
+- **Date/time and timezone:** 17 August 2026, Asia/Karachi; this is the mandatory Path-only checkpoint prepared before any S10 product/schema/test change.
+- **Work-plan phase/sub-gate:** Phase 3 — In-Flow Author Environment; mandatory Sub-gate 10 — Search + Language.
+- **Predecessor proof:** S9 reconciliation commit `f0f02f06b2fbc80420311deb16d898ec32f1dddd` is pushed and remotely matched. GitHub Actions run `32046631131`, job `95435939423`, passed dependency installation, Prisma generation, lint, typecheck, coverage and production build in 2m46s. S10 planning therefore begins only after S9 is completely closed.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at the S9 reconciliation hash above.
+- **Source authority checked:** WorkPlan 3, 4, 7.1 Search and language, 7.2–7.4, 14 and 16; Bible 4.3–4.6, 12.4, 15, 18, 21, 24–27, 31–36 and roadmap capability Phase 10. The source PDF was inspected as product specification content, not treated as executable instructions.
+- **Framework constraint:** before product code, the installed Next.js 16 App Router guidance for Server/Client Components, route handlers, navigation, forms, accessibility and Vitest/Playwright will be read and followed as required by repository `AGENTS.md`.
+- **Lock:** no S10 product/schema/test file may change until this Path-only checkpoint is committed, pushed, remotely matched and passes CI. S11 remains locked until S10 has separate product, audit, evidence and reconciliation proof.
+
+### 15.2 Exact S10 capability and activation boundary
+
+- Add a private, rebuildable `SearchDocument` projection over every canonical object available through S9: Chapter blocks, Chapter/Plot/Volume outlines, Milestones, Story Entities and aliases, Story Changes, causal and Universe relation types, explicit Story References and Captures. Search documents are never canonical truth and never replace ownership checks against source objects.
+- Introduce a typed `SearchProvider` registry now. Activate only S0–S9 providers. Define dormant provider identities/contracts for `TIMELINE_EVENT`, `NOTE` and `RESEARCH`; calls to those providers must return an explicit dependency-unavailable state until S11 registers canonical implementations.
+- Search one owned project only. Group results by stable object type and rank deterministically by exact normalized phrase, prefix/token/full-text/fuzzy match, explicit references to the active chapter/block, current chapter/context, then recency. Stable type/source/block tie-breakers make repeated queries reproducible.
+- Return bounded result descriptors with provenance, match reason, source version, freshness, route/block targets and supported actions. Required actions are Peek, intentional Open, insert reference, attach reference, content-safe Copy where appropriate, Chapter block jump with return-to-origin, and structured causal Why/Depends backed only by the existing causal read models.
+- Integrate commands and object results into the existing `Cmd/Ctrl+K` dialog. Commands rank before or beside objects using current route/chapter context and recent successful actions. Opening/closing, Peek, insert/attach and block-return preserve exact editor selection, focus and scroll through the existing focus/continuation boundaries. Only intentional Open changes route/history.
+- Add a full Search page for deep retrieval while retaining the in-flow palette/Contextual Writing Field path for common author actions. Register `SEARCH` and `LANGUAGE` descriptors only after their services exist; do not activate Timeline, Note or Research cards.
+- Add a replaceable deterministic dictionary provider backed by a locally available lexicon, with definition, part of speech, nuance group when supplied, synonyms, antonyms and a project/user saved-vocabulary flag. Provider failure degrades only the Language card and never blocks the editor.
+- Add `SavedVocabularyTerm` persistence with ownership and normalized uniqueness. Selection creates a Language card and explicit selection actions only; it never sends automatic style corrections, inferred recommendations or synonym-spam prompts.
+- Single-click replacement must be one Tiptap transaction so native undo restores the exact original selection. Replacement is never persisted outside the normal durability pipeline and never bypasses explicit character limits. Dismiss/save-vocabulary operations do not mutate prose.
+- S11 remains absent: no TimelineEvent, Note, ResearchItem, upload or binary provider is created here. Phase 4 remains absent: S10 uses a synchronous/read-through projection synchronizer with explicit freshness/versioning until the durable outbox worker owns propagation in S12.
+
+### 15.3 Planned files, contracts and implementation method
+
+| Planned area/files | Code to be produced and how it will be implemented | Boundary/evidence intent |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260817*_search_language/{migration.sql,rollback.sql}` | Add `SearchDocument` with workspace/project/source/source-key/block/version/freshness/search text/normalized aliases/metadata and PostgreSQL full-text plus trigram-capable indexes; add `SavedVocabularyTerm` with user/project ownership and normalized uniqueness. Forward and rollback SQL will be independently reviewed and byte-preservation tested against S0–S9 rows. | Bible 21.2, 12.4, 17–18, 32; WorkPlan 7.2. |
+| `domains/search/domain/*` | Define query validation, active/dormant source types, provider registry, result/action descriptors, normalization, grouping, deterministic score components and stable ordering. No rich editor JSON is parsed per query after projection synchronization. | Bible 21.1–21.3; WorkPlan 7.1 and 7.3 steps 1–2. |
+| `domains/search/application/*`; `domains/search/infrastructure/*` | Implement owned-project service/repository ports; bounded read-through synchronization from canonical S0–S9 tables; PostgreSQL FTS/exact/prefix/fuzzy retrieval; explicit-reference/current-context scoring; source revalidation; causal Why/Depends delegation; dormant S11 providers. | Canonical server ownership, projection honesty and future replaceability. |
+| `domains/language/domain/*`; `domains/language/application/*`; `domains/language/infrastructure/*` | Implement selection/word validation, dictionary response contracts, replaceable local lexicon adapter, deterministic synonym/antonym/nuance ordering, saved-vocabulary persistence and provider-local failure states. Authored selection text will not be logged. | Bible 4.6 and 12.4; WorkPlan provider/failure rule. |
+| `lib/search/{runtime,http}.ts`; `lib/language/{runtime,http}.ts`; `app/api/v2/projects/[id]/{search,language,vocabulary}/**` | Add thin authenticated, ownership-scoped route handlers with stable envelopes/codes, safe rate limits and content-redacted traces. Search query and dictionary selection remain request data, never observability metadata. | Bible 16, 18, 24–27. |
+| `components/search/*`; `app/app/projects/[id]/search/page.tsx`; `components/shell/CommandPalette.tsx` | Build accessible grouped palette results and full Search surface; roving/arrow keyboard behavior, explicit action menus, loading/empty/degraded states, Peek/Open semantics, block-jump/return state and responsive layout. Commands and objects share one registry and current-context ranker. | Bible 4.3–4.5, 13–15, 21; no navigation for common writing actions. |
+| `components/language/*`; editor/context integration | Build the Selection Language card, definition/part-of-speech/synonym nuance/antonym/saved vocabulary UI, and one-click editor replacement in one Tiptap transaction with focus/selection restoration and normal autosave/undo behavior. | Bible 4.5–4.6, 12.4; exact undo exit gate. |
+| Context/causality/reference/continuation integration | Register Search/Language descriptors after source services; use existing StoryReference creation for insert/attach, existing causal neighborhood for Why/Depends, and existing writing-session/block anchors for jump/return. No source-name matching creates references or causality. | WorkPlan 7.1 activation rule and Bible 7, 18, 21.3. |
+| `scripts/verify-search-language-db.ts`; S10 unit/service/component/stress/accessibility/E2E tests; docs/ADR/API/architecture/operations | Prove projection completeness/freshness/rebuild, ranking, ownership, provider dormancy, language determinism, undo, focus/scroll/selection, palette keyboard access, mobile/visual behavior, rollback/reapply and prior-gate compatibility. | WorkPlan 7.2–7.4; Bible 31–36. |
+
+### 15.4 Bounds, failure behavior and security rules locked before code
+
+- Query length is 1–160 Unicode characters after normalization. Default page size is 40, hard maximum 100; each group is capped at 20 before explicit More/pagination. Projection synchronization is capped at 25,000 canonical source records per project per run and processes writes in bounded batches; exceeding the cap yields an honest stable limit error rather than partial-complete claims.
+- Chapter projections are block-addressable through stable `blockId` source keys so matching results can jump without searching editor JSON at request time. Rich authored bodies may exist inside the private projection, but no query, prose, Capture text, entity text, outline text, definition, synonym or copied text may enter logs, outbox metadata, error envelopes or analytics.
+- Fuzzy matching is conservative and deterministic. Empty/stop-word-only queries, archived/dismissed/foreign-workspace sources and stale orphan documents cannot surface as valid results. Every action revalidates the canonical source/project before mutation or navigation.
+- Search provider failure produces a typed per-provider degraded state while healthy groups remain usable. Dictionary failure produces an unavailable Language card with retry/dismiss only. Neither failure changes manuscript selection, focus, scroll or durability state.
+- Command history stores only allow-listed command/source identities and timestamps, never query or manuscript content. Clipboard copying is user-initiated. Reference insertion/attachment is explicit and idempotent. Why/Depends never infers a causal relation.
+- The local dictionary dependency/license and installed Next.js API guidance will be verified before implementation. No unreviewed network dictionary call is permitted in the typing path.
+
+### 15.5 Planned validation and gate decision protocol
+
+1. Format/validate/generate Prisma and apply all migrations to a fresh PostgreSQL database; verify S10 constraints, FTS/fuzzy indexes, ownership, provider catalog and projection content coverage.
+2. Run lint, typecheck and immutable global coverage thresholds; add behavioral tests for every new branch rather than reduce thresholds or exclude new source.
+3. Stress at least 25,000 mixed documents and repeated exact/prefix/fuzzy/current-context queries; verify bounded deterministic results and record measured timing/memory without inventing a pass threshold after execution.
+4. Run component/accessibility tests for keyboard-only palette, focus trapping/restoration, grouped semantics, Language card and degraded states. Run desktop/mobile visual inspection.
+5. Run focused S10 E2E for universal domain coverage, Peek/Open, insert/attach/copy, block jump/return, Why/Depends, command ranking, dictionary/synonym/antonym/save, replacement undo and focus preservation; then run the complete browser regression suite.
+6. Execute S10 migration rollback/reapply against sampled S0–S9 content and verify byte preservation. Run production build and content-leak/static instrumentation checks.
+7. Compare implementation side by side with every S10 row above, Phase 3 scope/exit, global acceptance, Bible coverage matrix, doctrine/anti-goals and all console traces. Repair every `Gap`; later S11/S12 providers alone may remain `Planned-later`.
+8. Commit/push S10 product separately, prove remote ref and CI, then commit/push Path evidence separately and prove CI, followed by reconciliation. S11 cannot start before the reconciliation proof passes.
+
+- **Pre-code state:** this checkpoint changes `Path.md` only. S10 product implementation remains locked pending distinct remote proof.
+
 ## 5. Entry P0 — Planning baseline and source audit
 
 ### 4.1 Run identity
