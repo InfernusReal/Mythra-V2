@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 product and local audit complete; evidence reconciliation pending** | Entries S7–S9 below | S9 plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; CI `32046041348`/`95434077558` passed; evidence commit pending |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gate 9 Passed; Sub-gates 10–11 remain** | Entries S7–S9 below | S9 plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -53,7 +53,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 6 | Causal Story Fabric Core | 2 | **Passed** | Sub-gate 5 evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` and CI `31729273306`/`94545306078` verified | Entry S6 | Plan `09c0c88c4c14bc0371357ebee174a0aface6828c`; content `2261ff59b6781034967964fd4e2d5d46f593a3c0`; correction `69226bc15b5fa7ad51a72410907cae304a50c568`; evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 7 | Contextual Writing Field v1 | 3 | **Passed** | Sub-gate 6 reconciliation `a9c805da67253241b505d17c6b4c195f0cdfbf94`; CI `31942905552`/`95154541031` passed | Entry S7 | Plan `1787c6f65b60c92c566fadd90cab7dade3e2c893`; content `f1b870fddb55c4619c54a61d0a8e666df800daf9`; evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5`; CI `31948522601`/`95168263910` passed |
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
-| 9 | Universe | 3 | **Audit complete — evidence commit/CI pending** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; CI `32046041348`/`95434077558` passed; evidence commit pending |
+| 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | Not started | Sub-gate 9 required | — | — |
 | 11 | Timeline + Research | 3 | Not started | Sub-gate 10 required | — | — |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–8 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9's pre-code checkpoint passed remotely before implementation began. S9 implementation, local audit, product push, remote-ref match and product CI now pass with no open in-scope gap; formal closure still requires the separately pushed evidence commit and remote CI reconciliation. S10 remains locked until that closure is recorded.
+Sub-gates 0–9 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S9's pre-code checkpoint passed remotely before implementation began; its implementation, local audit, product push/CI, evidence push/CI and reconciliation are complete with no open in-scope gap. S10 is eligible only after this reconciliation commit is pushed, remotely matched and passes CI.
 
 ## 4. Entry S0 — Foundation
 
@@ -2042,8 +2042,15 @@ Global acceptance/doctrine answers:
 - **Product commit:** `e5131463791a5c20d005ae485f652922c8133876` (`Implement Universe capability`) contains all S9 application/domain/migration/docs/tests and the cross-domain activation/regression changes enumerated above. `Path.md` was deliberately excluded from that product commit and reserved for this evidence commit.
 - **Remote proof:** `git push origin agent/workplan-subgates-audit` advanced the branch from the S9 planning checkpoint to the product commit; `origin/agent/workplan-subgates-audit` matches `e5131463791a5c20d005ae485f652922c8133876`.
 - **Independent CI proof:** GitHub Actions run `32046041348`, job `95434077558`, passed in 2m43s. Its checked-out head was the exact product hash. Dependency installation, Prisma generation, lint, typecheck, coverage and production build all passed.
-- **Evidence/reconciliation hashes and CI runs:** pending. This Path change is the evidence-only commit; it cannot truthfully contain its own final hash before creation. S9 remains `Audit complete — evidence commit/CI pending`, and S10 remains locked.
+- **Evidence state at this historical checkpoint:** this Path change was intentionally prepared as the evidence-only commit and could not contain its own hash before creation. Its final hash and CI proof are now reconciled in 14.13.
 - **Rollback/revert point:** S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; database rollback is the reviewed S9 `rollback.sql` only while no S10 data exists.
+
+### 14.13 Evidence reconciliation and final S9 decision
+
+- The evidence-only Path commit is `663ec69ea3d4869d43eb7a44de6d805a72ab339b` (`Record Universe implementation evidence`). It changed only `Path.md`, was pushed to `origin/agent/workplan-subgates-audit`, and the remote ref matched before reconciliation.
+- GitHub Actions run `32046340519`, job `95435025227`, checked out that exact evidence hash and passed dependency installation, Prisma generation, lint, typecheck, coverage and production build in 2m53s.
+- Product commit `e5131463791a5c20d005ae485f652922c8133876` and evidence commit `663ec69ea3d4869d43eb7a44de6d805a72ab339b` therefore have separate remote proof. The reconciliation change contains no S10 product code.
+- Every item in 14.10 is `Verified`; 14.11 records no remaining in-scope gap. **Sub-gate 9 is formally Passed.** Phase 3 remains In progress because S10–S11 are not implemented. S10 becomes eligible only after this reconciliation commit itself is pushed, remotely matched and passes CI; its product code must still wait for a separate Path-only pre-code checkpoint.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
