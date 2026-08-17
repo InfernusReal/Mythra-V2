@@ -24,6 +24,7 @@ import { WordTarget } from "./WordTarget";
 import { ContextualWritingField } from "@/components/context/ContextualWritingField";
 import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import { EntityQuickCreate } from "@/components/universe/EntityQuickCreate";
+import { EditorSearchBridge } from "@/components/language/EditorSearchBridge";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -201,7 +202,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
   const delta = wordTargetDelta(wordCount, model.chapter.targetWords);
 
   return (
-    <div className={focusMode ? "editor-layout focus-mode" : "editor-layout"}>
+    <div className={focusMode ? "editor-layout focus-mode" : "editor-layout"} data-search-project-id={model.project.id} data-search-chapter-id={model.chapter.id}>
       <header className="editor-header">
         <nav aria-label="Breadcrumb">
           <a href={`/app/projects/${model.project.id}`}>{model.project.title}</a><span>/</span><span>{model.chapter.title}</span>
@@ -214,6 +215,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
       }}>Structure</a> <a href={`/app/projects/${model.project.id}/captures?returnChapterId=${model.chapter.id}`}>Capture Inbox</a></div>
       <QuickCaptureOverlay editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <EntityQuickCreate editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
+      <EditorSearchBridge editor={editor} projectId={model.project.id} chapterId={model.chapter.id} hardStop={hardStop} />
       <ContextualWritingField editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <CausalComposer editor={editor} projectId={model.project.id} chapterId={model.chapter.id} />
       <nav className="chapter-switcher" aria-label="Nearby chapters">

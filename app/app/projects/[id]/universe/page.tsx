@@ -29,13 +29,15 @@ export default async function UniversePage({
   if (!loaded) notFound();
   return (
     <AppShell>
-      <UniverseWorkspace
-        projectId={id}
-        initialEntities={loaded.model.entities}
-        initialCatalog={loaded.catalog}
-        initialStructuralVersion={loaded.model.projectStructuralVersion}
-        returnChapterId={query.returnChapterId}
-      />
+      <div data-search-project-id={id} data-search-chapter-id={query.returnChapterId}>
+        <UniverseWorkspace
+          projectId={id}
+          initialEntities={loaded.model.entities}
+          initialCatalog={loaded.catalog}
+          initialStructuralVersion={loaded.model.projectStructuralVersion}
+          returnChapterId={query.returnChapterId}
+        />
+      </div>
     </AppShell>
   );
 }

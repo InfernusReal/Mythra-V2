@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const activeContextCardTypes = ["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE", "ENTITY"] as const;
+export const activeContextCardTypes = ["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE", "ENTITY", "SEARCH", "LANGUAGE"] as const;
 export type ContextCardType = (typeof activeContextCardTypes)[number];
-export type ContextFieldState = "CHAPTER" | "SELECTION" | "PEEK" | "OUTLINE" | "REFERENCE_SEARCH" | "CAUSAL_PEEK";
+export type ContextFieldState = "CHAPTER" | "SELECTION" | "PEEK" | "OUTLINE" | "REFERENCE_SEARCH" | "CAUSAL_PEEK" | "SEARCH" | "LANGUAGE";
 
 export interface ContextSource {
   type: ContextCardType;

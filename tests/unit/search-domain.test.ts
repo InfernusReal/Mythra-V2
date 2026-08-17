@@ -1,0 +1,32 @@
+import { describe, expect, it, vi } from "vitest";
+import { SearchProviderRegistry, dormantS11SearchProvider } from "@/domains/search/domain/provider-registry";
+import { activeSearchDocumentTypes, normalizeSearchText, scoreSearchResult, searchOffset, searchQuerySchema } from "@/domains/search/domain/types";
+
+describe("Search domain", () => {
+  it("normalizes Unicode, validates bounded queries and decodes stable cursors", () => {
+    expect(normalizeSearchText("  Élan—ARC  ")).toBe("elan arc");
+    expect(searchQuerySchema.parse({ query: " hero ", limit: "100", cursor: "offset:40" })).toMatchObject({ query: "hero", limit: 100 });
+    expect(searchQuerySchema.safeParse({ query: "", limit: 40 }).success).toBe(false);
+    expect(searchQuerySchema.safeParse({ query: "x".repeat(161), limit: 40 }).success).toBe(false);
+    expect(searchOffset()).toBe(0); expect(searchOffset("offset:41")).toBe(41);
+  });
+  it("ranks exact, prefix, phrase, tokens, fuzzy, reference, context and recency deterministically", () => {
+    const now = new Date("2026-08-17T00:00:00.000Z");
+    const exact = scoreSearchResult({ normalizedQuery: "hero", normalizedTitle: "hero", normalizedText: "hero returns", aliases: [], currentContext: true, explicitReference: true, similarity: 0.8, sourceUpdatedAt: now, now });
+    expect(exact.score).toBe(1_900); expect(exact.reasons).toEqual(["exact", "all_tokens", "fuzzy", "explicit_reference", "current_context", "recent"]);
+    const prefix = scoreSearchResult({ normalizedQuery: "hero", normalizedTitle: "heroic", normalizedText: "heroic return", aliases: [], currentContext: false, explicitReference: false, similarity: 0, sourceUpdatedAt: new Date("2026-08-01"), now });
+    expect(prefix.reasons).toEqual(["prefix", "all_tokens", "recent_30d"]);
+    const phrase = scoreSearchResult({ normalizedQuery: "lost city", normalizedTitle: "chapter", normalizedText: "the lost city waits", aliases: [], currentContext: false, explicitReference: false, similarity: 0, sourceUpdatedAt: new Date("2020-01-01"), now });
+    expect(phrase.reasons).toEqual(["phrase", "all_tokens"]);
+  });
+  it("registers every active provider once and keeps S11 providers dependency-unavailable", async () => {
+    const registry = new SearchProviderRegistry();
+    const active = { types: activeSearchDocumentTypes, state: "ACTIVE" as const, collect: vi.fn().mockResolvedValue([]) };
+    registry.register(active); registry.register(dormantS11SearchProvider());
+    expect(registry.states().filter((item) => item.state === "ACTIVE")).toHaveLength(activeSearchDocumentTypes.length);
+    expect(registry.states().filter((item) => item.state === "DEPENDENCY_UNAVAILABLE").map((item) => item.type)).toEqual(["NOTE", "RESEARCH", "TIMELINE_EVENT"]);
+    expect(await registry.provider("NOTE")?.collect({ actor: { userId: "u", workspaceId: "w", sessionId: "s", role: "OWNER" }, projectId: "p", projectStructuralVersion: 1, limit: 1 })).toEqual([]);
+    expect(() => registry.register(active)).toThrow(/already registered/u);
+    expect(registry.provider("CHAPTER")).toBe(active); expect(registry.provider("TIMELINE_EVENT")?.state).toBe("DEPENDENCY_UNAVAILABLE");
+  });
+});

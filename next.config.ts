@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   poweredByHeader: false,
   reactStrictMode: true,
+  serverExternalPackages: ["wordpos", "wordnet-db"],
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   }

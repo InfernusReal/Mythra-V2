@@ -35,6 +35,14 @@ Never apply the S5 rollback beneath Sub-gate 6 causal data. Use a forward repair
 `20260813120000_causal_story_fabric/rollback.sql` removes only StoryChange, CausalRelation, their five enums, revisions, and S6 enum values. Stop S6 writes and retain a backup before execution. `npm run db:rollback:causality` verifies that both S6 tables are gone, all eleven representative S0–S5 canonical tables remain, and a sampled Chapter document/text/version row is byte-equivalent; only then does it remove the S6 migration ledger row. Run `npm run db:deploy` and `npm run db:verify:causality` before resuming service.
 
 The verifier also proves active/reserved endpoint registration, heterogeneous edges, active duplicate idempotency, hard-cycle rejection and explicit temporal feedback, discovery-time reveal checks, complete path provenance and budgets, reattach/retire/archive preservation, complete revisions, content-free outbox, concurrent-write convergence, workspace/project isolation and prose preservation. Never apply this rollback beneath Phase 3 endpoint data; use a reviewed forward repair instead.
+
+## Sub-gate 10 rollback
+
+`20260817180000_search_language/rollback.sql` removes only `SavedVocabularyTerm`, `SearchDocument`, and `SearchDocumentType`. The shared `pg_trgm` extension remains installed because later or independently deployed indexes may use it. Stop Search/vocabulary writes and retain a backup before running `npm run db:rollback:search-language`.
+
+The verifier seeds representative canonical data, validates all eleven active types, generated full-text/trigram indexes, exact alias ordering, StoryReference projection, actor-only Capture visibility, cross-workspace rejection, vocabulary idempotency/versioning, and content-free logs. Rollback proves the S10 tables are absent while representative Chapter, Capture, and StoryEntity tables and rows remain. It removes the S10 migration-ledger row only after those checks pass. Reapply with `npm run db:deploy`, regenerate the Prisma client if the schema changed, and rerun `npm run db:verify:search-language` before resuming service.
+
+Never apply the S10 rollback beneath Sub-gate 11 Search provider data. Use a reviewed forward repair after Timeline, Note, or Research documents depend on the projection schema.
 # Universe migration and rollback
 
 `20260816223000_universe` changes Capture conversion discrimination from a closed PostgreSQL enum to the already application-bounded string registry, then adds entity types/fields/values, entities, relations, snapshots, and revisions. Apply with `prisma migrate deploy`, run `npm run db:verify:universe`, and retain the emitted `S9-DB-001` record.

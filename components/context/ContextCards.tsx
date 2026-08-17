@@ -10,6 +10,8 @@ export function ExistingReferenceCard({ descriptor }: { descriptor: ContextField
 export function NarrativeIntentCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.category ?? "Author intent")}</small></>; }
 export function CaptureContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.lifecycle ?? "UNPROCESSED")}</small></>; }
 export function EntityContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.typeName ?? "Entity")}</small></>; }
+export function SearchContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>Search result</small></>; }
+export function LanguageContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>Language lookup</small></>; }
 
 export const contextCardRegistry = {
   CHAPTER_OUTLINE: ChapterOutlineCard,
@@ -18,5 +20,7 @@ export const contextCardRegistry = {
   REFERENCE: ExistingReferenceCard,
   NARRATIVE_INTENT: NarrativeIntentCard,
   CAPTURE: CaptureContextCard,
-  ENTITY: EntityContextCard
+  ENTITY: EntityContextCard,
+  SEARCH: SearchContextCard,
+  LANGUAGE: LanguageContextCard
 } satisfies Record<ContextFieldDescriptor["type"], ComponentType<{ descriptor: ContextFieldDescriptor }>>;

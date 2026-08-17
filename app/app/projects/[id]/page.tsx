@@ -17,12 +17,13 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
   return (
     <AppShell>
       <QuickCaptureOverlay editor={null} projectId={model.project.id} />
-      <section className="project-home" aria-labelledby="project-home-title">
+      <section className="project-home" aria-labelledby="project-home-title" data-search-project-id={model.project.id}>
         <p className="eyebrow">Project</p>
         <h1 id="project-home-title">{model.project.title}</h1>
         <a className="structure-link" href={`/app/projects/${model.project.id}/structure`}>Open Structure</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/captures`}>Open Capture Inbox</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/universe`}>Open Universe</a>
+        <a className="structure-link" href={`/app/projects/${model.project.id}/search`}>Search Project</a>
         {model.activeChapter ? (
           <>
             <a className="continue-writing" href={`/app/chapters/${model.activeChapter.id}`}>Continue Writing</a>

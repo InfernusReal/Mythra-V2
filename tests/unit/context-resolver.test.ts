@@ -37,5 +37,5 @@ describe("Contextual Writing Field resolver", () => {
   it("marks an explicitly mismatched requested context key stale", () => {
     const result = new DeterministicContextResolver().resolve(snapshot, contextQuerySchema.parse({ selectedIds: [], requestedContextKey: "0".repeat(64) })); expect(result.directive.stale).toBe(true); expect(result.contextKey).not.toBe(result.requestedContextKey);
   });
-  it("registers canonical Capture and Entity only after their owning gates", () => { expect(new DeterministicContextResolver().registry.activeProviderIds()).toEqual(["chapter-outline", "milestone", "direct-causal", "existing-reference", "narrative-intent", "capture", "entity"]); });
+  it("registers canonical providers through Search and Language only after their owning gates", () => { expect(new DeterministicContextResolver().registry.activeProviderIds()).toEqual(["chapter-outline", "milestone", "direct-causal", "existing-reference", "narrative-intent", "capture", "entity", "search", "language"]); });
 });

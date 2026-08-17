@@ -96,7 +96,7 @@ function referenceSummary(reference: { id: string; sourceType: string; sourceId:
   return { ...reference };
 }
 
-async function assertEndpoint(tx: Transaction, projectId: string, type: string, id: string): Promise<void> {
+async function assertEndpoint(tx: Transaction, projectId: string, type: string, id: string, ownerUserId?: string): Promise<void> {
   let found: { id: string } | null = null;
   switch (type) {
     case "PLOT": found = await tx.plot.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
@@ -109,6 +109,8 @@ async function assertEndpoint(tx: Transaction, projectId: string, type: string, 
     case "MANUSCRIPT_BLOCK": found = await tx.chapter.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "SCENE": found = await tx.scene.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "NARRATIVE_INTENT": found = await tx.narrativeIntent.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
+    case "ENTITY": found = await tx.storyEntity.findFirst({ where: { id, projectId, archivedAt: null, status: "ACTIVE" }, select: { id: true } }); break;
+    case "CAPTURE": found = ownerUserId ? await tx.capture.findFirst({ where: { id, projectId, userId: ownerUserId, lifecycle: { not: "DISMISSED" } }, select: { id: true } }) : null; break;
     default: throw errors.dependencyUnavailable();
   }
   if (!found) throw errors.notFound();
@@ -292,8 +294,8 @@ export class PrismaStructureRepository implements StructureRepository {
   async createStoryReference(actor: SessionActor, projectId: string, input: StoryReferenceInput) {
     return structureTransaction(this.prisma, async (tx) => {
       await ownedProject(tx, actor, projectId, input.expectedStructuralVersion);
-      await assertEndpoint(tx, projectId, input.sourceType, input.sourceId);
-      await assertEndpoint(tx, projectId, input.targetType, input.targetId);
+      await assertEndpoint(tx, projectId, input.sourceType, input.sourceId, actor.userId);
+      await assertEndpoint(tx, projectId, input.targetType, input.targetId, actor.userId);
       const existing = await tx.storyReference.findFirst({ where: { projectId, sourceType: input.sourceType, sourceId: input.sourceId, sourceBlockId: input.sourceBlockId ?? null, targetType: input.targetType, targetId: input.targetId, targetBlockId: input.targetBlockId ?? null, relationshipKey: input.relationshipKey, archivedAt: null }, select: { id: true, sourceType: true, sourceId: true, sourceBlockId: true, targetType: true, targetId: true, targetBlockId: true, relationshipKey: true, provenanceType: true, version: true } });
       if (existing) return { object: referenceSummary(existing), projectStructuralVersion: input.expectedStructuralVersion };
       const created = await tx.storyReference.create({ data: { projectId, sourceType: input.sourceType, sourceId: input.sourceId, sourceBlockId: input.sourceBlockId, targetType: input.targetType, targetId: input.targetId, targetBlockId: input.targetBlockId, relationshipKey: input.relationshipKey, provenanceType: input.provenanceType, provenanceNote: input.provenanceNote } });
@@ -402,7 +404,7 @@ export class PrismaStructureRepository implements StructureRepository {
   async saveViewState(actor: SessionActor, projectId: string, state: StructureViewStateModel): Promise<StructureViewStateModel> {
     return structureTransaction(this.prisma, async (tx) => {
       await ownedProject(tx, actor, projectId);
-      if (state.activeAnchorId && state.activeAnchorType) await assertEndpoint(tx, projectId, state.activeAnchorType, state.activeAnchorId);
+      if (state.activeAnchorId && state.activeAnchorType) await assertEndpoint(tx, projectId, state.activeAnchorType, state.activeAnchorId, actor.userId);
       const data = { mode: state.mode, activeLens: state.activeLens, expandedIds: json(state.expandedIds), activeAnchorType: state.activeAnchorType as StoryReferenceEndpointType | null, activeAnchorId: state.activeAnchorId, cursorOffset: state.cursorOffset, selectionAnchor: state.selectionAnchor, selectionHead: state.selectionHead, scrollTop: state.scrollTop, pinIds: json(state.pinIds) };
       const saved = await tx.structureViewState.upsert({ where: { userId_projectId: { userId: actor.userId, projectId } }, create: { userId: actor.userId, projectId, ...data }, update: data, select: { mode: true, activeLens: true, expandedIds: true, activeAnchorType: true, activeAnchorId: true, cursorOffset: true, selectionAnchor: true, selectionHead: true, scrollTop: true, pinIds: true } });
       return { mode: saved.mode, activeLens: saved.activeLens, expandedIds: stringArray(saved.expandedIds, 2_000), activeAnchorType: saved.activeAnchorType, activeAnchorId: saved.activeAnchorId, cursorOffset: saved.cursorOffset, selectionAnchor: saved.selectionAnchor, selectionHead: saved.selectionHead, scrollTop: saved.scrollTop, pinIds: stringArray(saved.pinIds, 100) };
