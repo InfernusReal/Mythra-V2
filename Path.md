@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — S7–S10 Passed; S11 evidence CI passed and reconciliation remote proof is pending** | Entries S7–S11 below | S11 product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569`; evidence `397307f2d2fff71f7b6f06f0cd8944775437da30`, CI `33239862800`/`99067231006` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — S7–S10 Passed; S11 audit correction is remotely verified and its ledger reconciliation is pending** | Entries S7–S11 below | S11 correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207` passed; Phase 3 macro audit remains mandatory |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -55,7 +55,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
-| 11 | Timeline + Research | 3 | **Evidence CI passed; reconciliation remote proof pending** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`, CI `33152387260`/`98787165138`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569`; evidence `397307f2d2fff71f7b6f06f0cd8944775437da30`, CI `33239862800`/`99067231006` passed |
+| 11 | Timeline + Research | 3 | **Correction product and CI passed; correction ledger reconciliation pending** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; evidence `397307f2d2fff71f7b6f06f0cd8944775437da30`; reconciliation `7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207` passed |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–10 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S11's pre-code, product and evidence commits are pushed, remotely matched and CI-passed; its complete local/database/browser audit has no open product-scope gap. This reconciliation commit's remote/CI proof remains mandatory before S11 can be marked Passed, and the distinct Phase 3 macro audit remains mandatory before Phase 3 can pass or S12 can start.
+Sub-gates 0–10 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S11's original reconciliation commit `7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0` passed CI `33240029594`/`99067658232`; the subsequent macro review correctly reopened S11 after finding that Search's request validator omitted the already-active Timeline causal endpoint. Product correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492` is pushed, remotely matched and CI-passed. Its ledger evidence/reconciliation remains mandatory before S11 can return to Passed, and the distinct Phase 3 macro audit remains mandatory before Phase 3 can pass or S12 can start.
 
 ## 4. Entry S0 — Foundation
 
@@ -2385,7 +2385,7 @@ Every S11 operational trace is immediately preceded by its identifying comment. 
 | `npm run db:verify:timeline-research` | 5 events/5 modes; Note backlink count 1; 3 promotion target types; 5 Research variants; signed download 19 bytes; exact 10, relative 13, ordinal neutral; chronology `CONSISTENT`; 3 active S11 Search types; cross-actor and invalid range rejected; 7 tables, 23 indexes; structural version 11. | Passed |
 | Rollback/reapply proof | Rollback left 0 S11 tables/enums and preserved sampled Chapter 1, Capture 1 and Entity 0 rows; migration redeployed and the complete verifier passed again. | Passed |
 | `npm run test` | 63 files, 227 tests passed. | Passed |
-| `npm run test:coverage` | Statements 88.77% (2879/3243), branches 75.27% (1671/2220), functions 85.09% (788/926), lines 94.04% (2007/2134); every configured threshold passed. | Passed |
+| `npm run test:coverage` | Statements 88.77% (2879/3243), branches 75.31% (1672/2220), functions 85.09% (788/926), lines 94.04% (2007/2134); every configured threshold passed after the Timeline Search correction. | Passed |
 | `npm run test:stress` | 10 files, 18 tests passed, including large mixed S11 collections and relative-chain bounds. | Passed |
 | `npm run test:a11y` | 4 files, 4 tests passed. JSDOM's informational Canvas-not-implemented message did not represent an accessibility failure. | Passed |
 | Focused S11 Playwright | 3 intended executions passed; 3 complementary project variants intentionally skipped. Desktop and mobile screenshots inspected. | Passed |
@@ -2448,6 +2448,34 @@ Findings closed before product proof:
 - Evidence commit `397307f2d2fff71f7b6f06f0cd8944775437da30` was pushed and remotely matched. GitHub Actions run `33239862800`, job `99067231006`, checked out that exact hash and passed clean install, Prisma generation, lint, typecheck, full coverage and production build in 3m6s.
 - This confirms that the complete file ledger, trace line inventory, measured validation table, side-by-side WorkPlan/Bible audit, contradiction review and closed gap register in sections 16.6–16.13 describe the same remotely tested product state.
 - No S11 product file changes in this reconciliation. S11 becomes formally Passed only after this reconciliation commit is pushed, the remote branch equals its exact hash, and its own CI passes. Phase 3 remains In progress until a subsequent distinct macro audit commit proves all S7→S11 exit conditions together.
+
+### 16.15 Post-reconciliation macro finding and product correction
+
+- **Audit time:** 29 August 2026, 12:51 Asia/Karachi.
+- **Why S11 was reopened:** the first Phase 3 aggregate review traced the Search result contract through its client action, request validator and causal resolver rather than accepting provider activation alone. Timeline Search documents correctly emitted `causalEndpointType: TIMELINE_EVENT`, and the S11 adapter correctly resolved Timeline events, but `domains/search/application/service.ts` rejected that endpoint before dispatch because its Zod enum stopped at the Phase 2/S9 endpoint set. Consequently, “Why?”/“What depends on this?” worked for earlier sources but failed validation for Timeline results. This was an in-scope S11 integration `Gap`, so the earlier formal-Passed state was revoked until repair and proof.
+
+| Corrected file and exact line | Product/test correction | Direct evidence |
+| --- | --- | --- |
+| `domains/search/application/service.ts:9` | Added `TIMELINE_EVENT` to the causal-action request enum. The same resolver/adapter architecture is retained; no new endpoint type or dependency is introduced. | A Timeline Search result can now traverse the already-registered bounded causal neighborhood instead of being rejected at validation. |
+| `tests/service/search-language-service.test.ts:24-25` | Added a `DEPENDS` action for `TIMELINE_EVENT` and asserted dispatch as `DOWNSTREAM` with the typed endpoint intact. | Prevents the application contract and resolver registry from drifting apart. |
+| `tests/e2e/timeline-research.spec.ts:37` | Extended the authenticated S11 browser journey to search for `Founding`, verify the Timeline result group, invoke “Why does this happen?”, and require the bounded-path response. | Proves provider projection → browser control → API validation → active Timeline adapter → causal response in the real application. |
+
+No new `console.log` site was needed: the correction repairs an existing typed dispatch path and executes through the already-ledgered content-safe S10 Search and S11 Timeline instrumentation. Therefore section 16.9 remains the complete S11 trace inventory; there is no unrecorded trace comment or line to add.
+
+Correction validation on the exact product state:
+
+| Check | Result | Decision |
+| --- | --- | --- |
+| Focused Search service regression | 1 file, 2 tests passed, including `TIMELINE_EVENT` → `DOWNSTREAM`. | Passed |
+| Focused S11 Playwright after restarting the detached test database | 3 intended tests passed, 3 complementary project cases skipped, 0 failures in 57.3s. | Passed |
+| Full Playwright matrix | 102 discovered cases; 53 intended executions passed, 49 complementary browser/project cases intentionally skipped, 0 failures in 7.6m. The Timeline Search causal action executed in Chromium. | Passed |
+| `npm run test:coverage` | 63 files/227 tests passed; 88.77% statements, 75.31% branches, 85.09% functions, 94.04% lines. | Passed |
+| `npm run test:stress`; `npm run test:a11y` | 10 files/18 stress tests and 4 files/4 accessibility tests passed. | Passed |
+| Production build with OIDC contract | Next.js production build passed. An earlier `npm run verify` invocation carried development-auth environment into the production build: lint/typecheck/tests passed and the production security guard correctly rejected dev auth. Rerunning with the required OIDC production contract passed. | Passed; expected security guard observed |
+| `npm audit --audit-level=high`; `git diff --check` | 0 vulnerabilities; clean diff. | Passed |
+| Git and remote CI | Correction commit `9abbcdb8417ef989cb0f7a78718d104ee1b6e492` was pushed and remotely matched. GitHub Actions run `33241370463`, job `99071181207`, checked out that hash and passed install, Prisma generation, lint, typecheck, coverage and production build in 3m15s. | Passed |
+
+**Correction disposition:** the only audit-discovered S11 product gap is fixed and remotely verified. This Path-only update records the correction but does not itself restore formal Passed status. It must be committed/pushed, remotely matched and CI-passed, followed by a separate correction reconciliation. Only then may the distinct Phase 3 macro audit begin; S12 remains locked.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
