@@ -4,7 +4,7 @@
 
 `SearchService` coordinates a typed `SearchProviderRegistry`, read-through `SearchRepository`, and existing bounded Causal traversal service. `SearchDocument` is disposable private projection data. It never owns story state. Synchronization collects canonical sources through Sub-gate 9, upserts changed stable source keys, deletes stale actor-visible projection rows, and reports explicit synchronization counts and project structural version.
 
-Active sources are chapters/manuscript blocks, chapter/plot/volume outlines, milestones, entities and aliases, Story Changes, fixed causal relation types, Universe relation types, StoryReferences, and actor-owned non-dismissed Captures. Timeline events, Notes, and Research remain registered as `DEPENDENCY_UNAVAILABLE` and collect nothing.
+Active sources are chapters/manuscript blocks, chapter/plot/volume outlines, milestones, entities and aliases, Story Changes, fixed causal relation types, Universe relation types, StoryReferences, actor-owned non-dismissed Captures, Timeline events, durable Notes, and Research items. S11 activated the last three only after their canonical repositories existed.
 
 PostgreSQL supplies generated English `tsvector` search plus GIN full-text and trigram indexes. The application computes a stable score from exact, prefix, phrase, all-token, fuzzy, explicit-reference, current-context, and recency evidence, then orders by score and source key. Queries cap at 160 characters; pages cap at 100; groups cap at 20; source synchronization caps at 25,000 and batches at 200.
 

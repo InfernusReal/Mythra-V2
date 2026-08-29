@@ -12,6 +12,8 @@ const baseSchema = z.object({
   DEV_AUTH_EMAIL: z.string().email().optional(),
   DEV_AUTH_NAME: z.string().min(1).optional(),
   APP_ORIGIN: z.string().url(),
+  MYTHRA_PRIVATE_STORAGE_ROOT: z.string().min(1).optional(),
+  MYTHRA_SCANNER_URL: z.string().url().optional(),
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info")
 });
 

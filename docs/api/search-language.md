@@ -10,4 +10,4 @@ All routes require an authenticated actor, use the V2 success/error envelope, va
 | `/api/v2/projects/{projectId}/vocabulary` | `GET` | Returns at most 100 actor-owned saved vocabulary entries for the project. |
 | `/api/v2/projects/{projectId}/vocabulary` | `PATCH` | Idempotent `SAVE` or `REMOVE` for a bounded term/locale and optional definition/part of speech. |
 
-Search actions expose only supported action metadata. Timeline Event, Note, and Research provider states remain `DEPENDENCY_UNAVAILABLE` until Sub-gate 11. Language failures do not alter editor state or disable writing.
+Search actions expose only supported action metadata. Timeline Event, Note, and Research provider states are active from Sub-gate 11. Language failures do not alter editor state or disable writing.

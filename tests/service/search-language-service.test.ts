@@ -2,7 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import type { Logger } from "@/lib/observability/logger";
 import { SearchService } from "@/domains/search/application/service";
 import type { SearchRepository } from "@/domains/search/application/ports";
-import { SearchProviderRegistry, dormantS11SearchProvider } from "@/domains/search/domain/provider-registry";
+import { SearchProviderRegistry } from "@/domains/search/domain/provider-registry";
+import { activeSearchDocumentTypes } from "@/domains/search/domain/types";
 import { LanguageService } from "@/domains/language/application/service";
 import type { DictionaryProvider, VocabularyRepository } from "@/domains/language/application/ports";
 
@@ -11,13 +12,13 @@ const actor = { userId: id(1), workspaceId: id(2), sessionId: id(3), role: "OWNE
 const logger = () => ({ info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn(), child: vi.fn() }) as unknown as Logger;
 
 describe("Search and Language services", () => {
-  it("synchronizes before querying, exposes dormant providers and delegates structured causal actions", async () => {
+  it("synchronizes before querying, exposes active S11 providers and delegates structured causal actions", async () => {
     const repository = { synchronize: vi.fn().mockResolvedValue({ insertedOrUpdated: 2, removed: 1, sourceCount: 3, capped: false, projectStructuralVersion: 5 }), search: vi.fn().mockResolvedValue({ projectId: id(4), projectStructuralVersion: 5, groups: [], page: { returned: 0, limit: 40, nextCursor: null, total: 0 } }) } satisfies SearchRepository;
-    const providers = new SearchProviderRegistry(); providers.register({ types: ["CHAPTER"], state: "ACTIVE", collect: vi.fn().mockResolvedValue([]) }); providers.register(dormantS11SearchProvider());
+    const providers = new SearchProviderRegistry(); providers.register({ types: activeSearchDocumentTypes, state: "ACTIVE", collect: vi.fn().mockResolvedValue([]) });
     const causality = { getNeighborhood: vi.fn().mockResolvedValue({ paths: [] }) }; const log = logger();
     const service = new SearchService(repository, providers, causality, log);
     const result = await service.query(actor, id(4), { query: "private query" }, id(9));
-    expect(repository.synchronize).toHaveBeenCalledBefore(repository.search); expect(result.synchronized.sourceCount).toBe(3); expect(result.providerStates.find((item) => item.type === "NOTE")?.state).toBe("DEPENDENCY_UNAVAILABLE");
+    expect(repository.synchronize).toHaveBeenCalledBefore(repository.search); expect(result.synchronized.sourceCount).toBe(3); expect(result.providerStates.find((item) => item.type === "NOTE")?.state).toBe("ACTIVE");
     await service.causalAction(actor, id(4), { endpointType: "STORY_CHANGE", endpointId: id(5), action: "WHY" }, id(9));
     expect(causality.getNeighborhood).toHaveBeenCalledWith(actor, id(4), expect.objectContaining({ direction: "UPSTREAM", endpointType: "STORY_CHANGE" }), id(9));
     expect(JSON.stringify(vi.mocked(log.info).mock.calls)).not.toContain("private query");

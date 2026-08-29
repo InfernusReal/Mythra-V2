@@ -109,9 +109,11 @@ async function assertEndpoint(tx: Transaction, projectId: string, type: string, 
     case "MANUSCRIPT_BLOCK": found = await tx.chapter.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "SCENE": found = await tx.scene.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
     case "NARRATIVE_INTENT": found = await tx.narrativeIntent.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
-    case "ENTITY": found = await tx.storyEntity.findFirst({ where: { id, projectId, archivedAt: null, status: "ACTIVE" }, select: { id: true } }); break;
-    case "CAPTURE": found = ownerUserId ? await tx.capture.findFirst({ where: { id, projectId, userId: ownerUserId, lifecycle: { not: "DISMISSED" } }, select: { id: true } }) : null; break;
-    default: throw errors.dependencyUnavailable();
+      case "ENTITY": found = await tx.storyEntity.findFirst({ where: { id, projectId, archivedAt: null, status: "ACTIVE" }, select: { id: true } }); break;
+      case "CAPTURE": found = ownerUserId ? await tx.capture.findFirst({ where: { id, projectId, userId: ownerUserId, lifecycle: { not: "DISMISSED" } }, select: { id: true } }) : null; break;
+      case "TIMELINE_EVENT": found = await tx.timelineEvent.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
+      case "NOTE": found = await tx.note.findFirst({ where: { id, projectId, archivedAt: null }, select: { id: true } }); break;
+      default: throw errors.dependencyUnavailable();
   }
   if (!found) throw errors.notFound();
 }

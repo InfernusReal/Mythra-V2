@@ -81,7 +81,7 @@ function metadata(value: unknown): JsonRecord {
 function referenceTarget(type: ActiveSearchDocumentType, sourceId: string, blockId?: string): JsonRecord {
   if (type === "CHAPTER") return { referenceTargetType: blockId ? "MANUSCRIPT_BLOCK" : "CHAPTER", referenceTargetId: sourceId, ...(blockId ? { referenceTargetBlockId: blockId } : {}) };
   const mapping: Partial<Record<ActiveSearchDocumentType, string>> = {
-    CHAPTER_OUTLINE: "CHAPTER_OUTLINE", PLOT_OUTLINE: "PLOT_OUTLINE", VOLUME_OUTLINE: "VOLUME_OUTLINE", MILESTONE: "MILESTONE", ENTITY: "ENTITY", CAPTURE: "CAPTURE",
+    CHAPTER_OUTLINE: "CHAPTER_OUTLINE", PLOT_OUTLINE: "PLOT_OUTLINE", VOLUME_OUTLINE: "VOLUME_OUTLINE", MILESTONE: "MILESTONE", ENTITY: "ENTITY", CAPTURE: "CAPTURE", TIMELINE_EVENT: "TIMELINE_EVENT", NOTE: "NOTE",
   };
   return mapping[type] ? { referenceTargetType: mapping[type], referenceTargetId: sourceId } : {};
 }
@@ -165,6 +165,15 @@ export class PrismaSearchRepository implements SearchRepository, SearchProvider 
 
     const captures = await this.prisma.capture.findMany({ where: { projectId: context.projectId, userId: context.actor.userId, lifecycle: { not: "DISMISSED" } }, take });
     append(captures.map((item) => ({ documentType: "CAPTURE", sourceId: item.id, sourceKey: `CAPTURE:${item.id}`, ownerUserId: item.userId, blockId: item.blockId ?? undefined, title: "Capture", bodyText: item.rawText, aliases: [item.lifecycle], metadata: { href: `/app/projects/${context.projectId}/captures`, chapterId: item.chapterId, ...referenceTarget("CAPTURE", item.id) }, sourceVersion: item.version, sourceUpdatedAt: item.updatedAt })));
+
+    const timelineEvents = await this.prisma.timelineEvent.findMany({ where: { projectId: context.projectId, archivedAt: null }, take });
+    append(timelineEvents.map((item) => ({ documentType: "TIMELINE_EVENT", sourceId: item.id, sourceKey: `TIMELINE_EVENT:${item.id}`, title: item.title, bodyText: [item.description, item.displayLabel, item.calendarKey, item.mode].filter(Boolean).join(" "), aliases: [item.displayLabel, item.mode], metadata: { href: `/app/projects/${context.projectId}/timeline`, ...referenceTarget("TIMELINE_EVENT", item.id), causalEndpointType: "TIMELINE_EVENT" }, sourceVersion: item.version, sourceUpdatedAt: item.updatedAt })));
+
+    const notes = await this.prisma.note.findMany({ where: { projectId: context.projectId, archivedAt: null }, take });
+    append(notes.map((item) => ({ documentType: "NOTE", sourceId: item.id, sourceKey: `NOTE:${item.id}`, title: item.title, bodyText: [item.body, jsonText(item.normalizedTags)].join(" "), aliases: Array.isArray(item.normalizedTags) ? item.normalizedTags.filter((tag): tag is string => typeof tag === "string") : [], metadata: { href: `/app/projects/${context.projectId}/research`, ...referenceTarget("NOTE", item.id) }, sourceVersion: item.version, sourceUpdatedAt: item.updatedAt })));
+
+    const researchItems = await this.prisma.researchItem.findMany({ where: { projectId: context.projectId, archivedAt: null, OR: [{ kind: { not: "FILE" } }, { asset: { scanStatus: "CLEAN", archivedAt: null } }] }, include: { asset: { select: { displayName: true } } }, take });
+    append(researchItems.map((item) => ({ documentType: "RESEARCH", sourceId: item.id, sourceKey: `RESEARCH:${item.id}`, title: item.title, bodyText: [item.body, item.url, item.citation, item.excerpt, item.asset?.displayName, item.kind].filter(Boolean).join(" "), aliases: [item.kind], metadata: { href: `/app/projects/${context.projectId}/research`, researchKind: item.kind }, sourceVersion: item.version, sourceUpdatedAt: item.updatedAt })));
 
     return documents;
   }

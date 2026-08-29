@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { SearchProviderRegistry, dormantS11SearchProvider } from "@/domains/search/domain/provider-registry";
+import { SearchProviderRegistry } from "@/domains/search/domain/provider-registry";
 import { activeSearchDocumentTypes, normalizeSearchText, scoreSearchResult, searchOffset, searchQuerySchema } from "@/domains/search/domain/types";
 
 describe("Search domain", () => {
@@ -19,14 +19,14 @@ describe("Search domain", () => {
     const phrase = scoreSearchResult({ normalizedQuery: "lost city", normalizedTitle: "chapter", normalizedText: "the lost city waits", aliases: [], currentContext: false, explicitReference: false, similarity: 0, sourceUpdatedAt: new Date("2020-01-01"), now });
     expect(phrase.reasons).toEqual(["phrase", "all_tokens"]);
   });
-  it("registers every active provider once and keeps S11 providers dependency-unavailable", async () => {
+  it("registers every active provider once after S11 activation", async () => {
     const registry = new SearchProviderRegistry();
     const active = { types: activeSearchDocumentTypes, state: "ACTIVE" as const, collect: vi.fn().mockResolvedValue([]) };
-    registry.register(active); registry.register(dormantS11SearchProvider());
+    registry.register(active);
     expect(registry.states().filter((item) => item.state === "ACTIVE")).toHaveLength(activeSearchDocumentTypes.length);
-    expect(registry.states().filter((item) => item.state === "DEPENDENCY_UNAVAILABLE").map((item) => item.type)).toEqual(["NOTE", "RESEARCH", "TIMELINE_EVENT"]);
-    expect(await registry.provider("NOTE")?.collect({ actor: { userId: "u", workspaceId: "w", sessionId: "s", role: "OWNER" }, projectId: "p", projectStructuralVersion: 1, limit: 1 })).toEqual([]);
+    expect(registry.states().filter((item) => item.state === "DEPENDENCY_UNAVAILABLE")).toEqual([]);
+    expect(registry.provider("NOTE")).toBe(active);
     expect(() => registry.register(active)).toThrow(/already registered/u);
-    expect(registry.provider("CHAPTER")).toBe(active); expect(registry.provider("TIMELINE_EVENT")?.state).toBe("DEPENDENCY_UNAVAILABLE");
+    expect(registry.provider("CHAPTER")).toBe(active); expect(registry.provider("TIMELINE_EVENT")?.state).toBe("ACTIVE");
   });
 });

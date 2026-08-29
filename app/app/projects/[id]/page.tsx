@@ -24,6 +24,8 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
         <a className="structure-link" href={`/app/projects/${model.project.id}/captures`}>Open Capture Inbox</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/universe`}>Open Universe</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/search`}>Search Project</a>
+        <a className="structure-link" href={`/app/projects/${model.project.id}/timeline`}>Open Timeline</a>
+        <a className="structure-link" href={`/app/projects/${model.project.id}/research`}>Open Notes and Research</a>
         {model.activeChapter ? (
           <>
             <a className="continue-writing" href={`/app/chapters/${model.activeChapter.id}`}>Continue Writing</a>

@@ -1,5 +1,5 @@
 import type { SessionActor } from "@/domains/accounts/domain/identity";
-import { dormantSearchDocumentTypes, type SearchDocumentType, type SearchProjectionDocument } from "./types";
+import type { SearchDocumentType, SearchProjectionDocument } from "./types";
 
 export interface SearchProviderContext {
   actor: SessionActor;
@@ -31,12 +31,4 @@ export class SearchProviderRegistry {
   states(): Array<{ type: SearchDocumentType; state: "ACTIVE" | "DEPENDENCY_UNAVAILABLE" }> {
     return [...this.providers.entries()].map(([type, provider]) => ({ type, state: provider.state })).sort((left, right) => left.type.localeCompare(right.type));
   }
-}
-
-export function dormantS11SearchProvider(): SearchProvider {
-  return {
-    types: dormantSearchDocumentTypes,
-    state: "DEPENDENCY_UNAVAILABLE",
-    async collect() { return []; },
-  };
 }

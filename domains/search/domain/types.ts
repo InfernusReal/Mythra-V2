@@ -12,9 +12,12 @@ export const activeSearchDocumentTypes = [
   "UNIVERSE_RELATION_TYPE",
   "STORY_REFERENCE",
   "CAPTURE",
+  "TIMELINE_EVENT",
+  "NOTE",
+  "RESEARCH",
 ] as const;
 
-export const dormantSearchDocumentTypes = ["TIMELINE_EVENT", "NOTE", "RESEARCH"] as const;
+export const dormantSearchDocumentTypes = [] as const;
 export const searchDocumentTypes = [...activeSearchDocumentTypes, ...dormantSearchDocumentTypes] as const;
 export type SearchDocumentType = (typeof searchDocumentTypes)[number];
 export type ActiveSearchDocumentType = (typeof activeSearchDocumentTypes)[number];

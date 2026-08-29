@@ -46,6 +46,8 @@
     "db:rollback:universe": "tsx scripts/verify-universe-db.ts rollback",
     "db:verify:search-language": "tsx scripts/verify-search-language-db.ts verify",
     "db:rollback:search-language": "tsx scripts/verify-search-language-db.ts rollback",
+    "db:verify:timeline-research": "tsx scripts/verify-timeline-research-db.ts verify",
+    "db:rollback:timeline-research": "tsx scripts/verify-timeline-research-db.ts rollback",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
@@ -88,6 +90,7 @@
     "vitest": "4.1.10"
   },
   "overrides": {
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.1",
+    "deepmerge-ts": "8.0.2"
   }
 }

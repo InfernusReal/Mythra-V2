@@ -2,8 +2,8 @@ import { z } from "zod";
 import { causalEndpointTypes, causalRelationTypes } from "@/domains/causality/domain/types";
 
 export const captureLifecycles = ["UNPROCESSED", "FILED", "CONVERTED", "DEFERRED", "DISMISSED"] as const;
-export const activeCaptureConversionTypes = ["MILESTONE", "STORY_CHANGE", "CHAPTER_ATTACHMENT", "OUTLINE_ATTACHMENT", "CAPTURE_DERIVED_CAUSAL", "ENTITY"] as const;
-export const reservedCaptureConversionTypes = ["NOTE", "TIMELINE_EVENT"] as const;
+export const activeCaptureConversionTypes = ["MILESTONE", "STORY_CHANGE", "CHAPTER_ATTACHMENT", "OUTLINE_ATTACHMENT", "CAPTURE_DERIVED_CAUSAL", "ENTITY", "NOTE", "TIMELINE_EVENT"] as const;
+export const reservedCaptureConversionTypes = [] as const;
 export type CaptureLifecycle = typeof captureLifecycles[number];
 export type ActiveCaptureConversionType = typeof activeCaptureConversionTypes[number];
 

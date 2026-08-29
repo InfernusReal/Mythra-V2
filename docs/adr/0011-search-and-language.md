@@ -12,7 +12,7 @@ Mythra requires universal project retrieval without making browser state canonic
 
 - Store a private, rebuildable `SearchDocument` projection in PostgreSQL. Read-through synchronization compares stable source keys and versions before each query; canonical chapter, structure, causal, Universe, reference, and actor-owned Capture rows remain authoritative.
 - Use PostgreSQL full-text and trigram indexes with deterministic application ranking for exactness, prefix/phrase/token matches, explicit references, current chapter/block context, and recency. Bound source collection at 25,000, provider batches at 200, each group at 20, and the public result page at 100.
-- Activate only types whose canonical sources exist through Sub-gate 9. Register Timeline Event, Note, and Research providers as explicitly dependency-unavailable until Sub-gate 11.
+- Activate only types whose canonical sources exist. Sub-gate 11 has now registered Timeline Event, Note, and Research through the same provider contract after their canonical repositories were installed.
 - Treat Peek, Open, copy, reference insertion/attachment, block jump/return, and causal Why/Depends as explicit actions. Search results never create causality from text.
 - Use the local MIT-licensed WordNet data supplied by exact dependency `wordpos@2.1.0`. Externalize `wordpos` and `wordnet-db` from Next server bundles so their Node filesystem-backed dictionaries execute through native Node loading.
 - Limit Language to six words and 160 characters, cap senses/synonyms/antonyms, sort deterministically, and cache only normalized lexical lookups in server memory. A provider failure degrades only the Language card.

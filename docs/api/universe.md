@@ -11,4 +11,4 @@ All routes use the authenticated V2 envelope and return stable errors without au
 | `/api/v2/projects/{projectId}/universe/entities/{entityId}` | `GET`, `PATCH` | Bounded detail/backlinks/history and optimistic complete-revision update. |
 | `/api/v2/projects/{projectId}/universe/entities/{entityId}/snapshots` | `POST` | Immutable state snapshot with optional canonical anchor. |
 
-`IMAGE`, `FILE`, and `TIMELINE_EVENT` state anchors return `DEPENDENCY_UNAVAILABLE` until Sub-gate 11. Cross-workspace and cross-project IDs return `NOT_FOUND` to avoid resource disclosure.
+`TIMELINE_EVENT` causal anchors are active from Sub-gate 11. Universe binary field controls remain dependency-unavailable; S11 Research files use the separate validated private-storage contract rather than silently changing Entity field semantics. Cross-workspace and cross-project IDs return `NOT_FOUND` to avoid resource disclosure.

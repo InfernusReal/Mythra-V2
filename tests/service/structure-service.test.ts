@@ -81,10 +81,10 @@ describe("StructureService", () => {
     expect(createNarrativeIntent).not.toHaveBeenCalled();
   });
 
-  it("rejects reserved later-domain StoryReference endpoints before repository access", async () => {
+  it("rejects ResearchItemLink-only endpoints before repository access", async () => {
     const createStoryReference = vi.fn();
     const service = new StructureService(repository({ createStoryReference }), createLogger());
-    await expect(service.createStoryReference(actor, projectId, { expectedStructuralVersion: 1, sourceType: "NOTE", sourceId: plotId, targetType: "PLOT", targetId: "00000000-0000-4000-8000-000000000005" }, "request")).rejects.toMatchObject({ name: "ZodError" });
+    await expect(service.createStoryReference(actor, projectId, { expectedStructuralVersion: 1, sourceType: "RESEARCH", sourceId: plotId, targetType: "PLOT", targetId: "00000000-0000-4000-8000-000000000005" }, "request")).rejects.toMatchObject({ name: "ZodError" });
     expect(createStoryReference).not.toHaveBeenCalled();
   });
 

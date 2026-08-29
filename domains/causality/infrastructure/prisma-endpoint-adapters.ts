@@ -1,10 +1,22 @@
 import type { Prisma, PrismaClient } from "@/app/generated/prisma/client";
 import { chapterDocumentSchema } from "@/domains/writing/domain/chapter-document";
 import { errors } from "@/lib/contracts/errors";
-import { CausalEndpointRegistry, reservedAdapter, type CausalEndpointAdapter, type ResolvedCausalEndpoint } from "../domain/endpoint-registry";
+import { CausalEndpointRegistry, type CausalEndpointAdapter, type ResolvedCausalEndpoint } from "../domain/endpoint-registry";
 import type { ActiveCausalEndpointType, CausalEndpoint } from "../domain/types";
 
 type Client = PrismaClient | Prisma.TransactionClient;
+
+async function timelineCoordinate(client: Client, projectId: string, eventId: string, visited = new Set<string>()): Promise<number | null> {
+  if (visited.has(eventId) || visited.size >= 128) return null;
+  visited.add(eventId);
+  const row = await client.timelineEvent.findFirst({ where: { id: eventId, projectId, archivedAt: null }, select: { mode: true, sortStart: true, ordinalValue: true, relativeToEventId: true, relativeOffset: true } });
+  if (!row) return null;
+  if (row.mode === "ORDINAL") return null;
+  if (row.mode === "ABSOLUTE" || row.mode === "APPROXIMATE" || row.mode === "RANGE") return row.sortStart === null ? null : Number(row.sortStart);
+  if (!row.relativeToEventId || row.relativeOffset === null) return null;
+  const anchor = await timelineCoordinate(client, projectId, row.relativeToEventId, visited);
+  return anchor === null ? null : anchor + Number(row.relativeOffset);
+}
 
 function result(endpoint: CausalEndpoint, projectId: string, label: string, archivedAt: Date | null, storyTime: number | null = null, discoveryTime: number | null = null): ResolvedCausalEndpoint {
   return { endpoint, projectId, label, archived: archivedAt !== null, storyTime, discoveryTime };
@@ -43,6 +55,10 @@ function activeAdapter(type: ActiveCausalEndpointType, client: Client): CausalEn
       const row = await client.entityStateSnapshot.findFirst({ where: { id: endpoint.id, projectId }, select: { orderIndex: true, archivedAt: true, entity: { select: { name: true, archivedAt: true, status: true } } } });
       if (!row) throw errors.notFound(); return result(endpoint, projectId, `${row.entity.name} · state ${row.orderIndex + 1}`, row.archivedAt ?? row.entity.archivedAt ?? (row.entity.status === "ARCHIVED" ? new Date(0) : null));
     }
+    if (type === "TIMELINE_EVENT") {
+      const row = await client.timelineEvent.findFirst({ where: { id: endpoint.id, projectId }, select: { title: true, archivedAt: true } });
+      if (!row) throw errors.notFound(); const coordinate = await timelineCoordinate(client, projectId, endpoint.id); return result(endpoint, projectId, row.title, row.archivedAt, coordinate, coordinate);
+    }
     const row = await client.storyChange.findFirst({ where: { id: endpoint.id, projectId }, select: { title: true, storyTime: true, discoveryTime: true, archivedAt: true } });
     if (!row) throw errors.notFound();
     return result(endpoint, projectId, row.title, row.archivedAt, row.storyTime === null ? null : Number(row.storyTime), row.discoveryTime === null ? null : Number(row.discoveryTime));
@@ -52,7 +68,6 @@ function activeAdapter(type: ActiveCausalEndpointType, client: Client): CausalEn
 export function createPrismaEndpointRegistry(client: Client): CausalEndpointRegistry {
   return new CausalEndpointRegistry([
     activeAdapter("MILESTONE", client), activeAdapter("CHAPTER_OUTLINE", client), activeAdapter("SCENE", client),
-    activeAdapter("NARRATIVE_INTENT", client), activeAdapter("MANUSCRIPT_BLOCK", client), activeAdapter("STORY_CHANGE", client), activeAdapter("CAPTURE_DERIVED", client), activeAdapter("ENTITY_STATE", client),
-    reservedAdapter("TIMELINE_EVENT")
+    activeAdapter("NARRATIVE_INTENT", client), activeAdapter("MANUSCRIPT_BLOCK", client), activeAdapter("STORY_CHANGE", client), activeAdapter("CAPTURE_DERIVED", client), activeAdapter("ENTITY_STATE", client), activeAdapter("TIMELINE_EVENT", client)
   ]);
 }

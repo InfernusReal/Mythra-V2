@@ -17,3 +17,7 @@ An endpoint archive never silently destroys evidence. The author chooses reattac
 ## Consequences
 
 Traversal is bounded, server-owned, direct-edge-first, filterable, and carries every relation ID/type/provenance step. Results use “potentially affected” language and never mutate prose or endpoints. The optional Architect graph is local and always paired with an accessible ordered list. A zero-causality project has no dashboard or warning and remains fully writable.
+
+## Capability evolution
+
+Sub-gates 8, 9, and 11 subsequently activated `CAPTURE_DERIVED`, `ENTITY_STATE`, and `TIMELINE_EVENT` after their canonical persistence and ownership rules existed. The enum-first dependency rule remains controlling; no reserved endpoint was treated as implemented before its owning gate. Timeline resolution uses explicit comparable story-time coordinates and never turns sequence or a Timeline link into causality.

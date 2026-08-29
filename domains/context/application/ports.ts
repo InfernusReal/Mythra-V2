@@ -8,10 +8,14 @@ export interface ContextCausalSource { id: string; relationType: string; directi
 export interface ContextIntentSource { id: string; targetType: string; targetId: string; blockId: string | null; category: string | null; customCategory: string | null; intentText: string; version: number }
 export interface ContextCaptureSource { id: string; rawText: string; lifecycle: string; capturedAt: Date; chapterId: string | null; blockId: string | null; version: number }
 export interface ContextEntitySource { id: string; name: string; summary: string | null; typeName: string; version: number }
+export interface ContextTimelineSource { id: string; title: string; displayLabel: string; mode: string; version: number }
+export interface ContextNoteSource { id: string; title: string; body: string; version: number }
+export interface ContextResearchSource { id: string; title: string; kind: string; summary: string; version: number }
 export interface ContextSnapshot {
   projectId: string; projectStructuralVersion: number; chapterId: string; chapterVersion: number;
   outline: ContextOutlineSource | null; extraOutlines: ContextOutlineSource[]; milestones: ContextMilestoneSource[]; references: ContextReferenceSource[];
   causal: ContextCausalSource[]; intents: ContextIntentSource[]; captures?: ContextCaptureSource[]; entities?: ContextEntitySource[];
+  timeline?: ContextTimelineSource[]; notes?: ContextNoteSource[]; research?: ContextResearchSource[];
   pins: Array<{ cardType: ContextCardType; sourceId: string }>;
   preferences: { mutedTypes: ContextCardType[]; directiveEnabled: boolean };
 }

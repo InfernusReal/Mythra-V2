@@ -3,6 +3,7 @@ node_modules/
 coverage/
 playwright-report/
 test-results/
+.mythra-private-storage/
 .env
 .env.local
 app/generated/prisma/

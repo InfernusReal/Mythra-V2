@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { CommandPalette } from "./CommandPalette";
 import { ThemeMenu } from "./ThemeMenu";
 import { SaveIndicator } from "@/components/editor/SaveIndicator";
+import { DegradedNetworkStatus } from "./DegradedNetworkStatus";
 
 export function AppShell({ children, saveStatus = "No document open" }: { children: ReactNode; saveStatus?: string }) {
   return (
@@ -14,6 +15,7 @@ export function AppShell({ children, saveStatus = "No document open" }: { childr
           <ThemeMenu />
         </div>
       </header>
+      <DegradedNetworkStatus />
       <nav className="app-rail" aria-label="Primary navigation">
         <a href="/app" aria-current="page" title="Home"><span aria-hidden="true">H</span><span className="sr-only">Home</span></a>
         <a href="/app" title="Projects"><span aria-hidden="true">P</span><span className="sr-only">Projects</span></a>

@@ -279,6 +279,37 @@ enum SearchDocumentType {
   RESEARCH
 }
 
+enum TimelineMode {
+  ABSOLUTE
+  APPROXIMATE
+  RELATIVE
+  ORDINAL
+  RANGE
+}
+
+enum TimelineLinkTargetType {
+  ENTITY
+  MILESTONE
+  CHAPTER
+  TIMELINE_EVENT
+}
+
+enum ResearchItemKind {
+  NOTE
+  URL
+  EXCERPT
+  CITATION
+  FILE
+}
+
+enum AssetScanStatus {
+  PENDING
+  CLEAN
+  INFECTED
+  REJECTED
+  ERROR
+}
+
 model User {
   id                  String                @id @default(uuid()) @db.Uuid
   email               String                @unique @db.VarChar(320)
@@ -304,6 +335,9 @@ model User {
   entityRevisions     EntityRevision[]      @relation("EntityRevisionActor")
   searchDocuments     SearchDocument[]      @relation("SearchDocumentOwner")
   savedVocabulary     SavedVocabularyTerm[]
+  notes               Note[]                @relation("NoteCreator")
+  researchItems       ResearchItem[]        @relation("ResearchItemCreator")
+  storedAssets        StoredAsset[]         @relation("StoredAssetCreator")
 
   @@index([deletionRequestedAt, purgeAfter])
 }
@@ -339,6 +373,7 @@ model Workspace {
   writingSessions WritingSessionState[]
   searchDocuments SearchDocument[]
   savedVocabulary SavedVocabularyTerm[]
+  storedAssets    StoredAsset[]
   owner           User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([archivedAt, purgeAfter])
@@ -390,6 +425,13 @@ model Project {
   entityRevisions       EntityRevision[]
   searchDocuments       SearchDocument[]
   savedVocabulary       SavedVocabularyTerm[]
+  timelineEvents        TimelineEvent[]
+  timelineEventLinks    TimelineEventLink[]
+  notes                 Note[]
+  researchItems         ResearchItem[]
+  storedAssets          StoredAsset[]
+  notePromotions        NotePromotion[]
+  researchItemLinks     ResearchItemLink[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -1179,6 +1221,151 @@ model SavedVocabularyTerm {
 
   @@unique([userId, projectId, normalizedTerm, locale])
   @@index([workspaceId, projectId, userId, updatedAt(sort: Desc)])
+}
+
+model TimelineEvent {
+  id                 String              @id @default(uuid()) @db.Uuid
+  projectId          String              @db.Uuid
+  title              String              @db.VarChar(200)
+  description        String?
+  mode               TimelineMode
+  displayLabel       String              @db.VarChar(200)
+  calendarKey        String?             @db.VarChar(80)
+  sortStart          Decimal?            @db.Decimal(30, 6)
+  sortEnd            Decimal?            @db.Decimal(30, 6)
+  relativeToEventId  String?             @db.Uuid
+  relativeOffset     Decimal?            @db.Decimal(30, 6)
+  ordinalValue       Decimal?            @db.Decimal(30, 6)
+  version            Int                 @default(1)
+  createdAt          DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime            @updatedAt @db.Timestamptz(3)
+  archivedAt         DateTime?           @db.Timestamptz(3)
+  project            Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  relativeToEvent    TimelineEvent?      @relation("TimelineRelativeAnchor", fields: [relativeToEventId], references: [id], onDelete: Restrict)
+  relativeDependents TimelineEvent[]     @relation("TimelineRelativeAnchor")
+  links              TimelineEventLink[] @relation("TimelineEventLinks")
+
+  @@index([projectId, archivedAt, mode, sortStart, ordinalValue])
+  @@index([projectId, relativeToEventId, archivedAt])
+  @@index([projectId, updatedAt(sort: Desc)])
+}
+
+model TimelineEventLink {
+  id         String                 @id @default(uuid()) @db.Uuid
+  projectId  String                 @db.Uuid
+  eventId    String                 @db.Uuid
+  targetType TimelineLinkTargetType
+  targetId   String                 @db.Uuid
+  label      String?                @db.VarChar(160)
+  createdAt  DateTime               @default(now()) @db.Timestamptz(3)
+  archivedAt DateTime?              @db.Timestamptz(3)
+  project    Project                @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  event      TimelineEvent          @relation("TimelineEventLinks", fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, targetType, targetId])
+  @@index([projectId, targetType, targetId, archivedAt])
+  @@index([projectId, eventId, archivedAt])
+}
+
+model Note {
+  id              String          @id @default(uuid()) @db.Uuid
+  projectId       String          @db.Uuid
+  createdById     String          @db.Uuid
+  title           String          @db.VarChar(200)
+  body            String
+  normalizedTags  Json            @default("[]")
+  sourceCaptureId String?         @db.Uuid
+  version         Int             @default(1)
+  createdAt       DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime        @updatedAt @db.Timestamptz(3)
+  archivedAt      DateTime?       @db.Timestamptz(3)
+  project         Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy       User            @relation("NoteCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  promotions      NotePromotion[]
+
+  @@index([projectId, archivedAt, updatedAt(sort: Desc)])
+  @@index([projectId, createdById, archivedAt])
+  @@index([sourceCaptureId])
+}
+
+model NotePromotion {
+  id                       String   @id @default(uuid()) @db.Uuid
+  projectId                String   @db.Uuid
+  noteId                   String   @db.Uuid
+  targetType               String   @db.VarChar(40)
+  targetId                 String   @db.Uuid
+  idempotencyKey           String   @db.VarChar(80)
+  projectStructuralVersion Int
+  createdAt                DateTime @default(now()) @db.Timestamptz(3)
+  project                  Project  @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  note                     Note     @relation(fields: [noteId], references: [id], onDelete: Restrict)
+
+  @@unique([noteId, targetType, idempotencyKey])
+  @@index([projectId, targetType, targetId])
+}
+
+model StoredAsset {
+  id           String          @id @default(uuid()) @db.Uuid
+  workspaceId  String          @db.Uuid
+  projectId    String          @db.Uuid
+  createdById  String          @db.Uuid
+  storageKey   String          @unique @db.VarChar(320)
+  displayName  String          @db.VarChar(255)
+  contentType  String          @db.VarChar(120)
+  sizeBytes    BigInt
+  sha256       String          @db.Char(64)
+  scanStatus   AssetScanStatus @default(PENDING)
+  scanMessage  String?         @db.VarChar(160)
+  createdAt    DateTime        @default(now()) @db.Timestamptz(3)
+  scannedAt    DateTime?       @db.Timestamptz(3)
+  archivedAt   DateTime?       @db.Timestamptz(3)
+  workspace    Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  project      Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy    User            @relation("StoredAssetCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  researchItem ResearchItem?
+
+  @@unique([projectId, sha256])
+  @@index([workspaceId, projectId, scanStatus, archivedAt])
+}
+
+model ResearchItem {
+  id          String           @id @default(uuid()) @db.Uuid
+  projectId   String           @db.Uuid
+  createdById String           @db.Uuid
+  kind        ResearchItemKind
+  title       String           @db.VarChar(200)
+  body        String?
+  url         String?          @db.VarChar(2048)
+  citation    String?
+  excerpt     String?
+  assetId     String?          @unique @db.Uuid
+  version     Int              @default(1)
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime         @updatedAt @db.Timestamptz(3)
+  archivedAt  DateTime?        @db.Timestamptz(3)
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy   User             @relation("ResearchItemCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  asset       StoredAsset?     @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  links       ResearchItemLink[]
+
+  @@index([projectId, kind, archivedAt, updatedAt(sort: Desc)])
+  @@index([projectId, createdById, archivedAt])
+}
+
+model ResearchItemLink {
+  id             String                     @id @default(uuid()) @db.Uuid
+  projectId      String                     @db.Uuid
+  researchItemId String                     @db.Uuid
+  targetType     StoryReferenceEndpointType
+  targetId       String                     @db.Uuid
+  label          String?                    @db.VarChar(160)
+  createdAt      DateTime                   @default(now()) @db.Timestamptz(3)
+  archivedAt     DateTime?                  @db.Timestamptz(3)
+  project        Project                    @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  researchItem   ResearchItem               @relation(fields: [researchItemId], references: [id], onDelete: Cascade)
+
+  @@unique([researchItemId, targetType, targetId])
+  @@index([projectId, targetType, targetId, archivedAt])
 }
 
 model WorkspaceMember {

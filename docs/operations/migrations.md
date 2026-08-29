@@ -43,6 +43,14 @@ The verifier also proves active/reserved endpoint registration, heterogeneous ed
 The verifier seeds representative canonical data, validates all eleven active types, generated full-text/trigram indexes, exact alias ordering, StoryReference projection, actor-only Capture visibility, cross-workspace rejection, vocabulary idempotency/versioning, and content-free logs. Rollback proves the S10 tables are absent while representative Chapter, Capture, and StoryEntity tables and rows remain. It removes the S10 migration-ledger row only after those checks pass. Reapply with `npm run db:deploy`, regenerate the Prisma client if the schema changed, and rerun `npm run db:verify:search-language` before resuming service.
 
 Never apply the S10 rollback beneath Sub-gate 11 Search provider data. Use a reviewed forward repair after Timeline, Note, or Research documents depend on the projection schema.
+
+## Sub-gate 11 rollback
+
+`20260828080000_timeline_research/rollback.sql` removes only the seven S11 tables and four S11 enums in reverse dependency order. Stop Timeline, Note, Research, upload, Context, Search synchronization, and Capture-conversion writes; retain a verified backup; then run `npm run db:rollback:timeline-research`.
+
+The verifier covers all five Timeline modes, relative coordinates, ordinal neutrality, explicit link idempotency, Note tag retrieval and promotion replay, all five Research variants, scan-gated private files, signed actor-bound downloads, Research links, Note/Timeline Capture conversions, Timeline causal resolution, chronology sanity, active S11 Search types, database constraints/indexes, and workspace isolation. Rollback proves S11 tables/enums are absent while sampled Chapter, Capture, and StoryEntity rows remain byte-equivalent, and only then removes the S11 migration ledger row. Reapply with `npm run db:deploy`, regenerate Prisma, and rerun `npm run db:verify:timeline-research` before service resumes.
+
+Never apply S11 rollback beneath Sub-gate 12 propagation state. Once a later gate consumes S11 identities, use a reviewed forward repair or restore from backup.
 # Universe migration and rollback
 
 `20260816223000_universe` changes Capture conversion discrimination from a closed PostgreSQL enum to the already application-bounded string registry, then adds entity types/fields/values, entities, relations, snapshots, and revisions. Apply with `prisma migrate deploy`, run `npm run db:verify:universe`, and retain the emitted `S9-DB-001` record.

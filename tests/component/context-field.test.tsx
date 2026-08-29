@@ -30,8 +30,8 @@ describe("Contextual Writing Field components", () => {
     fireEvent.click(screen.getByRole("button", { name: "Because value" })); expect(peek).toHaveBeenCalledWith(`CAUSAL:${id(1)}`);
   });
 
-  it("exposes renderers through canonical S10 Search and Language", () => {
-    expect(Object.keys(contextCardRegistry)).toEqual(["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE", "ENTITY", "SEARCH", "LANGUAGE"]);
+  it("exposes renderers through canonical S11 Timeline, Note and Research", () => {
+    expect(Object.keys(contextCardRegistry)).toEqual(["CHAPTER_OUTLINE", "MILESTONE", "CAUSAL", "REFERENCE", "NARRATIVE_INTENT", "CAPTURE", "ENTITY", "SEARCH", "LANGUAGE", "TIMELINE", "NOTE", "RESEARCH"]);
   });
 
   it("renders card-specific metadata and the disabled directive state", () => {

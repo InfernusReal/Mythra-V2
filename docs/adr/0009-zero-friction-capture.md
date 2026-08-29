@@ -17,3 +17,7 @@ Capture joins the Contextual Writing Field only after its canonical persistence 
 ## Consequences
 
 The author can leave the writing surface, browser history, selection, and scroll unchanged while recording a thought. Offline records survive reload and replay on the next online event with bounded exponential retry. Canonical source, reference, conversion, and causal meanings remain distinct and auditable.
+
+## Capability evolution
+
+Sub-gate 9 activated Entity conversion after Universe persistence. Sub-gate 11 activated durable Note and Timeline Event conversions after their canonical repositories existed. Both preserve the original Capture and immutable conversion provenance; neither activation changed the raw-save-first or optional-filing contract.

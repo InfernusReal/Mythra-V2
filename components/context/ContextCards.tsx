@@ -12,6 +12,9 @@ export function CaptureContextCard({ descriptor }: { descriptor: ContextFieldDes
 export function EntityContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.typeName ?? "Entity")}</small></>; }
 export function SearchContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>Search result</small></>; }
 export function LanguageContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>Language lookup</small></>; }
+export function TimelineContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.mode ?? "Story time")}</small></>; }
+export function NoteContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>Durable note</small></>; }
+export function ResearchContextCard({ descriptor }: { descriptor: ContextFieldDescriptor }) { return <><p>{descriptor.summary}</p><small>{String(descriptor.payload.kind ?? "Research")}</small></>; }
 
 export const contextCardRegistry = {
   CHAPTER_OUTLINE: ChapterOutlineCard,
@@ -22,5 +25,8 @@ export const contextCardRegistry = {
   CAPTURE: CaptureContextCard,
   ENTITY: EntityContextCard,
   SEARCH: SearchContextCard,
-  LANGUAGE: LanguageContextCard
+  LANGUAGE: LanguageContextCard,
+  TIMELINE: TimelineContextCard,
+  NOTE: NoteContextCard,
+  RESEARCH: ResearchContextCard
 } satisfies Record<ContextFieldDescriptor["type"], ComponentType<{ descriptor: ContextFieldDescriptor }>>;

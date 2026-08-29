@@ -1,0 +1,30 @@
+import { createHash, randomUUID } from "node:crypto";
+import type { SessionActor } from "@/domains/accounts/domain/identity";
+import type { PrivateObjectStorage } from "@/lib/storage/object-storage";
+import type { Logger } from "@/lib/observability/logger";
+import { researchCreateSchema, researchLinkSchema, researchListSchema, validateResearchFile } from "../domain/types";
+import type { MalwareScanner, ResearchRepository } from "./ports";
+import type { AssetAccessTokenService } from "../infrastructure/signed-asset-access";
+import { errors } from "@/lib/contracts/errors";
+
+export class ResearchService {
+  constructor(private readonly repository: ResearchRepository, private readonly storage: PrivateObjectStorage, private readonly scanner: MalwareScanner, private readonly accessTokens: AssetAccessTokenService, private readonly logger: Logger) {}
+  async list(actor: SessionActor, projectId: string, raw: unknown, requestId: string) { const input = researchListSchema.parse(raw); const result = await this.repository.list(actor, projectId, input);
+    // Console trace S11-RESEARCH-001: bounded Research retrieval records kind/count metadata only and excludes authored research content, URLs, citations, and file names.
+    this.logger.info("research.page_loaded", { step: "S11-RESEARCH-001", requestId, workspaceId: actor.workspaceId, projectId, hasKindFilter: Boolean(input.kind), returned: result.items.length, hasMore: Boolean(result.nextCursor) }); return result; }
+  async create(actor: SessionActor, projectId: string, raw: unknown, requestId: string) { const input = researchCreateSchema.parse(raw); const result = await this.repository.create(actor, projectId, input);
+    // Console trace S11-RESEARCH-002: Research mutation records kind/identity/version metadata only.
+    this.logger.info("research.item_created", { step: "S11-RESEARCH-002", requestId, workspaceId: actor.workspaceId, projectId, sourceId: result.item.id, kind: result.item.kind, version: result.item.version, hasAsset: Boolean(result.item.asset) }); return result; }
+  async link(actor: SessionActor, projectId: string, raw: unknown, requestId: string) { const input = researchLinkSchema.parse(raw); const result = await this.repository.link(actor, projectId, input);
+    // Console trace S11-RESEARCH-003: explicit Research link logs endpoint identity only and excludes research/story content.
+    this.logger.info("research.link_written", { step: "S11-RESEARCH-003", requestId, workspaceId: actor.workspaceId, projectId, sourceId: input.researchItemId, targetType: input.targetType, targetId: input.targetId, replayed: result.replayed }); return result; }
+  async upload(actor: SessionActor, projectId: string, file: { name: string; type: string; bytes: Uint8Array }, requestId: string) { let valid: ReturnType<typeof validateResearchFile>; try { valid = validateResearchFile({ displayName: file.name, contentType: file.type, sizeBytes: file.bytes.byteLength }); } catch (caught) { throw errors.validation(caught instanceof Error ? caught.message : "Research file validation failed."); } const sha256 = createHash("sha256").update(file.bytes).digest("hex"); const storageKey = `${actor.workspaceId}/${projectId}/${randomUUID()}`; const reserved = await this.repository.reserveAsset(actor, projectId, { storageKey, displayName: valid.displayName, contentType: valid.contentType, sizeBytes: valid.sizeBytes, sha256 }); if (!reserved.replayed) { await this.storage.putPrivate({ key: storageKey, bytes: file.bytes, contentType: valid.contentType }); let outcome: { status: "CLEAN" | "INFECTED" | "ERROR"; reasonCode: string }; try { outcome = await this.scanner.scan({ bytes: file.bytes, contentType: valid.contentType, sha256 }); } catch { outcome = { status: "ERROR", reasonCode: "SCANNER_UNAVAILABLE" }; } await this.repository.completeAsset(actor, projectId, reserved.assetId, outcome); if (outcome.status !== "CLEAN") await this.storage.deletePrivate(storageKey); }
+    // Console trace S11-STORAGE-001: private upload/scan records hashes only as opaque identity, byte count, MIME and outcome; file name/content are excluded.
+    this.logger.info("research.asset_processed", { step: "S11-STORAGE-001", requestId, workspaceId: actor.workspaceId, projectId, sourceId: reserved.assetId, mimeType: valid.contentType, sizeBytes: valid.sizeBytes, replayed: reserved.replayed }); return reserved; }
+  async issueAssetAccess(actor: SessionActor, projectId: string, assetId: string, requestId: string) { await this.repository.authorizeAsset(actor, projectId, assetId); const token = this.accessTokens.issue(actor, projectId, assetId);
+    // Console trace S11-STORAGE-002: signed access issuance logs resource identity and expiry only; token, storage key, name and content are excluded.
+    this.logger.info("research.asset_access_issued", { step: "S11-STORAGE-002", requestId, workspaceId: actor.workspaceId, projectId, sourceId: assetId, expiresInSeconds: 300 }); return { href: `/api/v2/projects/${projectId}/research/assets/${assetId}?access=${encodeURIComponent(token)}`, expiresInSeconds: 300 }; }
+  async download(actor: SessionActor, projectId: string, assetId: string, token: string, requestId: string) { this.accessTokens.verify(token, actor, projectId, assetId); const asset = await this.repository.authorizeAsset(actor, projectId, assetId); const bytes = await this.storage.getPrivate(asset.storageKey);
+    // Console trace S11-STORAGE-003: signed private download logs identity/byte count only and excludes token, key, name and content.
+    this.logger.info("research.asset_downloaded", { step: "S11-STORAGE-003", requestId, workspaceId: actor.workspaceId, projectId, sourceId: assetId, sizeBytes: bytes.byteLength }); return { ...asset, bytes }; }
+}
