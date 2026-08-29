@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gates 7–10 Passed; S11 product/audit CI passed and evidence reconciliation is pending** | Entries S7–S11 below | S11 product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; CI `33239613151`/`99066570569` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — S7–S10 Passed; S11 evidence CI passed and reconciliation remote proof is pending** | Entries S7–S11 below | S11 product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569`; evidence `397307f2d2fff71f7b6f06f0cd8944775437da30`, CI `33239862800`/`99067231006` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -55,7 +55,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
-| 11 | Timeline + Research | 3 | **Product and local audit verified; evidence reconciliation pending** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`, CI `33152387260`/`98787165138`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569` passed |
+| 11 | Timeline + Research | 3 | **Evidence CI passed; reconciliation remote proof pending** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`, CI `33152387260`/`98787165138`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569`; evidence `397307f2d2fff71f7b6f06f0cd8944775437da30`, CI `33239862800`/`99067231006` passed |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–10 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S11's pre-code checkpoint and product commit are pushed, remotely matched and CI-passed; its complete local/database/browser audit has no open product-scope gap. The S11 evidence commit and reconciliation remain mandatory before S11 can be marked Passed, and the distinct Phase 3 macro audit remains mandatory before Phase 3 can pass or S12 can start.
+Sub-gates 0–10 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S11's pre-code, product and evidence commits are pushed, remotely matched and CI-passed; its complete local/database/browser audit has no open product-scope gap. This reconciliation commit's remote/CI proof remains mandatory before S11 can be marked Passed, and the distinct Phase 3 macro audit remains mandatory before Phase 3 can pass or S12 can start.
 
 ## 4. Entry S0 — Foundation
 
@@ -2442,6 +2442,12 @@ Findings closed before product proof:
 - **Plan:** `f6d0a35ba982827c42847fbe95099f8cf59fa652`; remote match and CI `33152387260`/`98787165138` passed.
 - **Product:** `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; remote match and CI `33239613151`/`99066570569` passed.
 - **Current result:** every S11 implementation row is `Verified`, every discovered in-scope finding is repaired, and no product compliance gap remains. Under the gate protocol, S11 is not formally Passed until this Path evidence commit is itself pushed/remotely matched, passes CI, and a separate reconciliation entry records that result. Phase 3 also remains open pending its distinct macro audit.
+
+### 16.14 Evidence-CI reconciliation and formal gate condition
+
+- Evidence commit `397307f2d2fff71f7b6f06f0cd8944775437da30` was pushed and remotely matched. GitHub Actions run `33239862800`, job `99067231006`, checked out that exact hash and passed clean install, Prisma generation, lint, typecheck, full coverage and production build in 3m6s.
+- This confirms that the complete file ledger, trace line inventory, measured validation table, side-by-side WorkPlan/Bible audit, contradiction review and closed gap register in sections 16.6–16.13 describe the same remotely tested product state.
+- No S11 product file changes in this reconciliation. S11 becomes formally Passed only after this reconciliation commit is pushed, the remote branch equals its exact hash, and its own CI passes. Phase 3 remains In progress until a subsequent distinct macro audit commit proves all S7→S11 exit conditions together.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
