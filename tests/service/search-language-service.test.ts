@@ -21,6 +21,8 @@ describe("Search and Language services", () => {
     expect(repository.synchronize).toHaveBeenCalledBefore(repository.search); expect(result.synchronized.sourceCount).toBe(3); expect(result.providerStates.find((item) => item.type === "NOTE")?.state).toBe("ACTIVE");
     await service.causalAction(actor, id(4), { endpointType: "STORY_CHANGE", endpointId: id(5), action: "WHY" }, id(9));
     expect(causality.getNeighborhood).toHaveBeenCalledWith(actor, id(4), expect.objectContaining({ direction: "UPSTREAM", endpointType: "STORY_CHANGE" }), id(9));
+    await service.causalAction(actor, id(4), { endpointType: "TIMELINE_EVENT", endpointId: id(6), action: "DEPENDS" }, id(9));
+    expect(causality.getNeighborhood).toHaveBeenCalledWith(actor, id(4), expect.objectContaining({ direction: "DOWNSTREAM", endpointType: "TIMELINE_EVENT" }), id(9));
     expect(JSON.stringify(vi.mocked(log.info).mock.calls)).not.toContain("private query");
   });
   it("returns ready/not-found/unavailable Language states and persists vocabulary without logging content", async () => {

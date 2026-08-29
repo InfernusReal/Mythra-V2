@@ -6,7 +6,7 @@ import type { SearchProviderRegistry } from "../domain/provider-registry";
 import type { CausalSearchReader, SearchRepository } from "./ports";
 
 const causalActionSchema = z.object({
-  endpointType: z.enum(["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED", "ENTITY_STATE"]),
+  endpointType: z.enum(["MILESTONE", "CHAPTER_OUTLINE", "SCENE", "NARRATIVE_INTENT", "MANUSCRIPT_BLOCK", "STORY_CHANGE", "CAPTURE_DERIVED", "ENTITY_STATE", "TIMELINE_EVENT"]),
   endpointId: z.string().uuid(),
   blockId: z.string().uuid().optional(),
   action: z.enum(["WHY", "DEPENDS"]),
