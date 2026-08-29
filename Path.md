@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gates 7–10 Passed; S11 pre-code checkpoint pending remote proof** | Entries S7–S11 below | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
+| 3. In-Flow Author Environment | 7–11 | **In progress — Sub-gates 7–10 Passed; S11 product/audit CI passed and evidence reconciliation is pending** | Entries S7–S11 below | S11 product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; CI `33239613151`/`99066570569` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -55,7 +55,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 8 | Capture | 3 | **Passed** | S7 reconciliation `e044932a89e8ccfbb47976e14414250b6505579e`; CI `31949044123`/`95169528820` passed | Entry S8 | Plan `58437457018220b34c26cee1eb5e65ce4c85997f`; content `5bfb6397d457465fae31042aa327e137fa2dd7fe`; correction `3ef1b5641da38220559dd99e20074f03c2762a3a`; evidence `7bd4b85282b189d75e4333187dba009db267ce88`; reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed |
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
-| 11 | Timeline + Research | 3 | **Planning checkpoint; product code locked pending remote CI** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | This Path-only checkpoint pending commit/push/CI |
+| 11 | Timeline + Research | 3 | **Product and local audit verified; evidence reconciliation pending** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`, CI `33152387260`/`98787165138`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`, CI `33239613151`/`99066570569` passed |
 | 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–9 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S10's pre-code checkpoint passed before implementation began; its product implementation, complete local audit, product push and product CI are complete with no open product-scope gap. Its evidence and reconciliation commits remain mandatory before S10 can be marked Passed or S11 can start.
+Sub-gates 0–10 and delivery Phases 1–2 are closed after separate local, database, browser, content, evidence, push and remote-CI proof. S11's pre-code checkpoint and product commit are pushed, remotely matched and CI-passed; its complete local/database/browser audit has no open product-scope gap. The S11 evidence commit and reconciliation remain mandatory before S11 can be marked Passed, and the distinct Phase 3 macro audit remains mandatory before Phase 3 can pass or S12 can start.
 
 ## 4. Entry S0 — Foundation
 
@@ -2315,6 +2315,133 @@ All S10 implementation gaps found by lint, type, unit, database, stress, browser
 9. Commit/push S11 product separately and prove remote CI, then commit/push Path evidence separately and prove CI, then reconcile. Run a distinct Phase 3 macro audit/evidence push/CI before marking Phase 3 Passed or allowing S12.
 
 - **Pre-code state:** this checkpoint changes `Path.md` only. S11 product implementation remains locked pending this checkpoint's distinct remote proof.
+
+### 16.6 Pre-code release and implementation chronology
+
+- The Path-only plan commit `f6d0a35ba982827c42847fbe95099f8cf59fa652` was pushed to `origin/agent/workplan-subgates-audit`, remotely matched, and passed GitHub Actions run `33152387260`, job `98787165138`. Only then was the S11 product lock released.
+- Implementation followed the planned sequence: pure timeline/research/note types and bounds; PostgreSQL models and migration; ownership-scoped repositories; service and adapter seams; thin authenticated routes; Capture/Causality/Search/Context activation; degraded-mode behavior; UI; docs; database, unit, service, component, accessibility, stress and E2E evidence.
+- The immutable product result is commit `0a388fa8f2b9087b85e2947fbbd8c905d102637e`: 95 files, 1,681 insertions and 70 deletions. Its remote ref matched exactly and CI run `33239613151`, job `99066570569`, passed every required step in 3m37s.
+
+### 16.7 Complete file and responsibility ledger
+
+| Files | Implemented responsibility | WorkPlan/Bible boundary |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260828080000_timeline_research/{migration.sql,rollback.sql}`; `scripts/verify-timeline-research-db.ts` | Adds `TimelineMode`, `TimelineLinkTargetType`, `ResearchItemKind`, `AssetScanStatus`, and canonical `TimelineEvent`, `TimelineEventLink`, `Note`, `NotePromotion`, `StoredAsset`, `ResearchItem`, `ResearchItemLink` truth with project/workspace relations, checks, uniqueness and indexes; provides forward, rollback and real-PostgreSQL proof. | WorkPlan 7.1–7.3; Bible 3, 12, 16–18, 21, 25, 32, 35. |
+| `domains/timeline/{domain/types,application/ports,application/service,infrastructure/prisma-timeline-repository}.ts`; `lib/timeline/{runtime,http}.ts`; `app/api/v2/projects/[id]/timeline/{route,links/route}.ts`; `components/timeline/TimelineWorkspace.tsx`; `app/app/projects/[id]/timeline/page.tsx` | Implements five non-Gregorian modes, typed sortable coordinates, bounded relative traversal, range validation, optimistic writes, explicit non-causal links, invalidation keys, thin HTTP transport, quiet accessible list/form UI and Return-to-Chapter deep-work navigation. | S11 Timeline scope and no chronology/causality conflation. |
+| `domains/notes/{domain/types,application/ports,application/service,infrastructure/prisma-note-repository}.ts`; `lib/notes/{runtime,http}.ts`; `app/api/v2/projects/[id]/notes/{route,promotions/route}.ts` | Implements durable freeform Notes, bounded normalized flat tags, StoryReference backlink counts, optimistic writes, Capture provenance and idempotent promotion to Milestone, Story Change or Chapter Outline. | Notes remain distinct from raw Capture and never invent notebook hierarchy. |
+| `domains/research/{domain/types,application/ports,application/service,infrastructure/prisma-research-repository,infrastructure/local-storage,infrastructure/signed-asset-access}.ts`; `lib/research/{runtime,http}.ts`; Research routes under `app/api/v2/projects/[id]/research/**`; `components/research/ResearchWorkspace.tsx`; `app/app/projects/[id]/research/page.tsx`; `lib/storage/object-storage.ts` | Implements NOTE, URL, EXCERPT, CITATION and FILE variants; no implicit fetch; explicit reference links; 10 MiB/MIME/name validation; SHA-256 reservation; private storage; replaceable deterministic/HTTP scanners; clean-only visibility; five-minute HMAC actor/workspace/project/asset access; accessible Notes/Research/file UI. The existing shared storage port is extended instead of duplicating a `domains/storage` domain. | Storage/upload validation, scan gate and signed private access; local adapter only outside production. |
+| Capture integration: `domains/capture/domain/types.ts`, `domains/capture/infrastructure/prisma-capture-repository.ts` | Activates typed NOTE and TIMELINE_EVENT conversions only after their canonical repositories exist; replays by idempotency key and retains original Capture plus conversion provenance. | Mandatory S8→S11 dependency order. |
+| Causality integration: `domains/causality/domain/types.ts`, `domains/causality/infrastructure/prisma-endpoint-adapters.ts`, `docs/adr/0007-causal-boundaries.md`, `docs/api/causality.md` | Activates the previously reserved `TIMELINE_EVENT` endpoint, resolves comparable explicit story time, keeps ordinal/non-comparable values neutral, and enables chronology sanity without creating or mutating a causal relation. | Orthogonal truth invariant and S11 adapter activation. |
+| Context/reference integration: `domains/context/{application/ports,domain/resolver,domain/types,infrastructure/prisma-context-repository}.ts`, `lib/context/use-context-field.ts`, `components/context/ContextCards.tsx`, `domains/references/domain/story-reference.ts`, `docs/api/universe.md` | Registers Timeline/Note/Research descriptors after source creation, preserves Appendix A ordering and contextKey cancellation, surfaces linked cards/More/freshness, and adds Note/Timeline/Research reference discriminants. | Existing direct causal/reference precedence remains stable. |
+| Search integration: `domains/search/{domain/provider-registry,domain/types,infrastructure/prisma-search-repository}.ts`, `lib/search/runtime.ts`, `components/search/SearchWorkspace.tsx`, `docs/adr/0011-search-and-language.md`, `docs/api/search-language.md`, `docs/architecture/search-language.md` | Activates the three dormant S11 provider identities, builds bounded source rows, retains S10 ranking/freshness contracts, and limits offline results to labeled cached Chapters only. | Search covers all sources through S11 without exposing private content or changing S10 ordering doctrine. |
+| Degraded environment: `lib/offline/{degraded-mode,use-network-status}.ts`, `components/shell/DegradedNetworkStatus.tsx`, `components/shell/AppShell.tsx`, `components/structure/StructureWorkspace.tsx`, `app/app/projects/[id]/page.tsx`, `app/globals.css` | Adds hydration-safe online state, bounded recent-Chapter and one-model-per-chapter caches, stale Context labeling, limited Search labeling, online-only unsafe Structure controls and truthful unavailable export/snapshot/billing labels. Manuscript journal and queued Capture remain available. | WorkPlan 7.1 degraded matrix; no false S12–S14 capability claim. |
+| Configuration/operations: `.env.example`, `.gitignore`, `lib/env.ts`, `package.json`, `package-lock.json`, `docs/adr/0012-timeline-notes-research.md`, `docs/architecture/timeline-research.md`, `docs/api/timeline-research.md`, `docs/operations/migrations.md` | Documents env/config, ignores local private bytes, adds S11 verifier/rollback scripts, records architecture/API/migration recovery and pins `deepmerge-ts` 8.0.2 after dependency audit identified the vulnerable transitive version. | Replaceable production adapters, reviewed recovery and zero known dependency vulnerabilities. |
+| Tests: `tests/unit/timeline-research-domain.test.ts`, `tests/service/timeline-research-service.test.ts`, `tests/component/timeline-research-ui.test.tsx`, `tests/accessibility/timeline-research-accessibility.test.tsx`, `tests/stress/timeline-research.stress.test.ts`, `tests/e2e/timeline-research.spec.ts`; updated Capture/Context/Causality/Search/Structure/reference tests | Covers all modes/bounds, tags/variants/tokens, private scan lifecycle, conversions/promotions, provider activation, chronology neutrality, UI/forms/focus/degradation, load bounds, cross-domain browser flow and regressions. | WorkPlan 7.2–7.4 and S11 protocol 16.5. |
+
+### 16.8 Implemented code, state ownership, security and failure behavior
+
+- PostgreSQL is canonical for all seven S11 records. Search documents, Context descriptors and browser caches are projections; no client cache or UI component can overwrite source truth. Mutations enforce authenticated workspace/project ownership and return stable envelopes.
+- Timeline absolute/approximate/range coordinates use bounded decimal components independent of Gregorian parsing; relative coordinates resolve explicit event anchors within a 128-node visited budget; ordinal values remain intentionally unusable as causal story-time. Explicit Timeline links only create reference records.
+- Note writes normalize/deduplicate at most 32 tags. Promotion atomically creates an existing canonical structural object, records `NotePromotion`, increments the project structural version and replays safely. No notebook, folder or mandatory planning hierarchy was added.
+- Research validates each discriminated variant. URL/citation values are stored exactly as author-supplied metadata and never fetched. Upload performs bounded metadata validation before allocation, writes a server-generated private key, scans before activation, deletes rejected bytes, and returns neither storage key nor public URL. Production refuses to start storage/scanning without configured adapters.
+- Access tokens are HMAC-signed and bind user, workspace, project and asset with a 300-second expiry. Download rechecks the authenticated actor, owned clean asset, signature and expiry before a no-store binary response. Cross-actor reuse is rejected.
+- Timeline/Note/Research become active Search and Context providers only in this commit. Note/Timeline Capture conversion and Timeline causal resolution likewise activate only after source persistence. Timeline writes expose invalidation keys, but the durable propagation worker correctly remains S12.
+- Search and Context failure degrades only those surfaces; scan failure leaves an asset unavailable; upload/research/timeline failures cannot change manuscript state. Offline search is Chapter-only and labeled, cached Context is stale-labeled, and unsafe/nonexistent remote actions are disabled. The hydration defect found during browser testing was repaired by giving server and first client render the same online default and reconciling actual network state in the effect.
+
+### 16.9 Exact console trace and adjacent-comment ledger at product commit
+
+Every S11 operational trace is immediately preceded by its identifying comment. Service/API traces use the production logger, which ultimately emits `console.log`; UI, offline-state and verifier evidence use direct `console.log`. All metadata was audited against the forbidden creative-content key guard.
+
+| Trace | Comment line; invocation line | Safe evidence emitted |
+| --- | --- | --- |
+| S11-TIMELINE-001 | `domains/timeline/application/service.ts:10`; `:11` | Filter presence, returned count, cursor state. |
+| S11-TIMELINE-002 | `domains/timeline/application/service.ts:16`; `:17` | Event identity, mode, versions, invalidation count. |
+| S11-TIMELINE-003 | `domains/timeline/application/service.ts:22`; `:23` | Explicit endpoint identities and replay state; comment denies inferred causality. |
+| S11-NOTE-001 | `domains/notes/application/service.ts:8`; `:9` | Tag-filter presence, count and cursor state. |
+| S11-NOTE-002 | `domains/notes/application/service.ts:11`; `:12` | Note identity/version/tag count/provenance presence. |
+| S11-NOTE-003 | `domains/notes/application/service.ts:14`; `:15` | Source/target identities, replay and structural version. |
+| S11-RESEARCH-001 | `domains/research/application/service.ts:13`; `:14` | Kind-filter presence, count and cursor state. |
+| S11-RESEARCH-002 | `domains/research/application/service.ts:16`; `:17` | Item identity/kind/version and asset presence. |
+| S11-RESEARCH-003 | `domains/research/application/service.ts:19`; `:20` | Explicit source/target identity and replay state. |
+| S11-STORAGE-001 | `domains/research/application/service.ts:22`; `:23` | Asset identity, MIME, byte count and replay; no name, key or bytes. |
+| S11-STORAGE-002 | `domains/research/application/service.ts:25`; `:26` | Asset identity and 300-second lifetime; no token/URL/key. |
+| S11-STORAGE-003 | `domains/research/application/service.ts:28`; `:29` | Asset identity and byte count; no token/key/name/content. |
+| S11-API-001/002 | `lib/timeline/http.ts:12/:14`; `:13/:15` | Timeline success/failure request metadata and stable code/cause only. |
+| S11-API-003/004 | `lib/notes/http.ts:12/:14`; `:13/:15` | Note success/failure metadata with all authored Note data excluded. |
+| S11-API-005/006 | `lib/research/http.ts:12/:14`; `:13/:15` | Research success/failure metadata with URL/citation/excerpt/file data excluded. |
+| S11-UI-001/006 | `components/timeline/TimelineWorkspace.tsx:36/:46`; `:37/:47` | Timeline create/link identity, mode/version/replay only. |
+| S11-UI-002/003/004/005/007 | `components/research/ResearchWorkspace.tsx:28/:38/:51/:60/:69`; `:29/:39/:52/:61/:70` | Note/Research/upload/access/promotion identity, counts, types, versions and expiry only. |
+| S11-OFFLINE-001 | `components/search/SearchWorkspace.tsx:31`; `:32` | Cached Chapter result count and availability; query/content excluded. |
+| S11-OFFLINE-002 | `lib/context/use-context-field.ts:30`; `:31` | Chapter identity, cached card count and availability. |
+| S11-OFFLINE-003 | `components/shell/DegradedNetworkStatus.tsx:9`; `:10` | Network capability boolean only. |
+| S11-DB-001 | `scripts/verify-timeline-research-db.ts:69`; `:70` | Owned identities, counts, modes, isolation/replay/chronology/provider/schema outcomes and versions. |
+| S11-DB-002 | `scripts/verify-timeline-research-db.ts:83`; `:84` | Removed S11 table/enum counts and preserved predecessor-row counts. |
+
+### 16.10 Validation, stress, migration, browser and remote evidence
+
+| Check | Measured result | Decision |
+| --- | --- | --- |
+| `npm run db:validate`; `npm run db:generate`; fresh `npm run db:deploy` | Prisma 7.9.1 schema validated/generated; S11 migration deployed to detached PostgreSQL. | Passed |
+| `npm run db:verify:timeline-research` | 5 events/5 modes; Note backlink count 1; 3 promotion target types; 5 Research variants; signed download 19 bytes; exact 10, relative 13, ordinal neutral; chronology `CONSISTENT`; 3 active S11 Search types; cross-actor and invalid range rejected; 7 tables, 23 indexes; structural version 11. | Passed |
+| Rollback/reapply proof | Rollback left 0 S11 tables/enums and preserved sampled Chapter 1, Capture 1 and Entity 0 rows; migration redeployed and the complete verifier passed again. | Passed |
+| `npm run test` | 63 files, 227 tests passed. | Passed |
+| `npm run test:coverage` | Statements 88.77% (2879/3243), branches 75.27% (1671/2220), functions 85.09% (788/926), lines 94.04% (2007/2134); every configured threshold passed. | Passed |
+| `npm run test:stress` | 10 files, 18 tests passed, including large mixed S11 collections and relative-chain bounds. | Passed |
+| `npm run test:a11y` | 4 files, 4 tests passed. JSDOM's informational Canvas-not-implemented message did not represent an accessibility failure. | Passed |
+| Focused S11 Playwright | 3 intended executions passed; 3 complementary project variants intentionally skipped. Desktop and mobile screenshots inspected. | Passed |
+| Full integrated `npm run test:e2e` | 102 discovered project cases: 53 intended executions passed, 49 complementary desktop/mobile scopes intentionally skipped, 0 unexpected, 0 flaky; 426,072.302 ms. | Passed |
+| `npm run verify` | ESLint zero warnings, TypeScript clean, all 227 tests passed, Next.js 16 production build passed. | Passed |
+| `npm audit --audit-level=high` | 0 vulnerabilities after replacing vulnerable transitive `deepmerge-ts` 7.1.5 with override 8.0.2. | Passed |
+| Static hygiene | `git diff --check` clean after removing 13 trailing blank lines; authored-content logging review found no body/query/URL/citation/excerpt/name/token/key/bytes in metadata. | Passed |
+| Product remote proof | Remote `refs/heads/agent/workplan-subgates-audit` matched `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; CI `33239613151`/`99066570569` checked out that hash and passed install, generate, lint, typecheck, coverage and build. | Passed |
+
+Visual evidence exists for Timeline mobile, Research mobile, combined Timeline/Research desktop, Search desktop/mobile, Context desktop/mobile, Causality desktop/mobile, Capture desktop/mobile, Universe desktop/mobile, and all earlier writing/structure gates. Generated Playwright reports and private test storage remain ignored and were not committed.
+
+### 16.11 Side-by-side S11 WorkPlan/Bible conformance audit
+
+| Required S11 outcome | Direct implementation/evidence | Disposition |
+| --- | --- | --- |
+| Exact/absolute, approximate, relative, ordinal, range; no Gregorian assumption; display label separate | Typed discriminant validator, decimal coordinate fields, explicit display label, five-mode DB/browser proof | Verified |
+| Timeline links to entities, milestones, chapters and events without causality | Typed owned link table/repository/UI; causality relation count remains unchanged; S11-TIMELINE-003/DB proof | Verified |
+| Timeline-backed neutral causal sanity | Activated adapter returns only comparable explicit anchors; ordinal/unknown neutral; reveal discovery semantics retained; no relation mutation | Verified |
+| Durable tagged/backlinked Notes, no notebook hierarchy | Canonical Note/tag array, StoryReference backlink query, flat tag bounds and UI | Verified |
+| Provenance-preserving structural Note promotion | Atomic idempotent promotion to all three currently supported targets and DB proof of 3 types | Verified |
+| Research NOTE/URL/EXCERPT/CITATION/FILE, no implicit fetch | Discriminated validators/repository/routes/UI and five-variant DB proof | Verified |
+| Validated, scanned private files and signed access | 10 MiB allow-list, hash, pending→clean/rejected scanner flow, private adapter, actor-bound 300-second token, cross-actor rejection | Verified |
+| Note/Timeline Capture conversions | Registry activation after canonical sources, idempotent Capture conversion records, DB proof for both IDs | Verified |
+| Timeline/Note/Research Search and Context activation | Provider registry and repository active for all three; Context descriptors and linked cards; active-provider count 3 | Verified |
+| Degraded-network matrix | Chapter-only limited Search, stale Context, unsafe Structure disabled, export/snapshot/billing unavailable, manuscript/Capture retained | Verified |
+| Common inspect/edit without forced full route; deep pages return | Context cards and editor overlays remain Peek-first; Timeline/Research pages are explicit deep work and accept Return-to-Chapter | Verified |
+| Production-like quality, boundedness, security, observability | Ownership, CSRF/rate-limit HTTP wrapper, optimistic/idempotent writes, bounded lists/traversals/uploads, redacted adjacent-comment traces, audit 0 | Verified |
+| Tests, recovery, documentation and remote proof | Unit/service/component/a11y/stress/full E2E, real DB rollback/reapply, ADR/API/architecture/operations docs, exact remote+CI | Verified |
+| S12 outbox worker and later snapshot/export/billing | Invalidation keys emitted; no worker or unavailable later capability claimed | Planned-later by mandatory gate sequence; not an S11 gap |
+
+### 16.12 Contradiction, anti-goal, omission and repair audit
+
+- **Chronology versus causality:** event order and links never create containment or a causal edge; only explicit causal relations remain causal truth. Passed.
+- **Canonical versus projection:** PostgreSQL source rows remain authoritative; Search/Context/offline cards are bounded derived views. Passed.
+- **Author ownership and optional planning:** no prose is parsed, rewritten or reordered; no Timeline, Note, Research or hierarchy is required. Passed.
+- **Privacy:** file bytes are private; authored text, URLs, file names, storage keys and access tokens are absent from operational logs and public read models. Passed.
+- **Dependency sequence:** S11 activation occurred only after S10 reconciliation and S11 pre-code CI; S12 remains locked. Passed.
+- **WorkPlan wording versus implementation topology:** the planned storage area is realized by the existing `lib/storage/object-storage.ts` port plus Research-owned adapters instead of a redundant `domains/storage/**` tree. The behavior and replaceability boundary are exact; this is a documented file-placement refinement, not a capability deviation.
+- **Bible/WorkPlan contradiction review:** no implementation contradicts the orthogonal-truth invariant, Appendix A ordering, phased provider activation, Search ranking contract, offline matrix or six-phase/original-gate execution rules. No in-scope requirement is omitted.
+
+Findings closed before product proof:
+
+| Finding | Repair | Residual gap |
+| --- | --- | --- |
+| Browser hydration could render server/client network state differently | Initialized the shared hook consistently and reconciled `navigator.onLine` immediately in the effect | None |
+| Upload route needed rejection before multipart allocation for declared oversized bodies | Added content-length guard plus authoritative decoded-byte validation | None |
+| Research validation exposed inconsistent error mapping | Mapped Zod/domain failures to stable `VALIDATION` envelopes | None |
+| Safe provenance/MIME log keys matched the global forbidden substring guard | Renamed production logger metadata to `hasSourceProvenance` and `mimeType`; tests and full E2E passed | None |
+| Prisma CLI pulled vulnerable `deepmerge-ts` 7.1.5 | Pinned compatible 8.0.2 override; install, Prisma, full verify and audit passed | None |
+| Initial diff contained 13 trailing blank lines | Removed before push and amended the product commit; final diff check clean | None |
+
+### 16.13 Product Git proof and pending evidence reconciliation
+
+- **Plan:** `f6d0a35ba982827c42847fbe95099f8cf59fa652`; remote match and CI `33152387260`/`98787165138` passed.
+- **Product:** `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; remote match and CI `33239613151`/`99066570569` passed.
+- **Current result:** every S11 implementation row is `Verified`, every discovered in-scope finding is repaired, and no product compliance gap remains. Under the gate protocol, S11 is not formally Passed until this Path evidence commit is itself pushed/remotely matched, passes CI, and a separate reconciliation entry records that result. Phase 3 also remains open pending its distinct macro audit.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
