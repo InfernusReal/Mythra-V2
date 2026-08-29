@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 pre-code checkpoint pending remote proof** | Entry S12 below | Product code remains locked until the checkpoint commit is pushed, remotely matched, and CI-passed |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -56,14 +56,14 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
-| 12 | Live Story Model | 4 | Not started | S11 and Phase 3 macro required; satisfied by `3ea20c9b26144f69234cd6369baa4ce4f3324baa`, CI `33242554374`/`99074252309` | — | — |
+| 12 | Live Story Model | 4 | **Pre-code checkpoint pending remote proof** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Checkpoint not yet committed or pushed; no S12 product code exists |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Phase 3 macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa` is remotely matched and passed CI `33242554374`/`99074252309`. This final reconciliation changes no product file. S12 is now eligible under the mandatory sequence but remains Not started; no Phase 4 capability is claimed.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Phase 3 final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8` is remotely matched and passed CI `33242728691`/`99074703453`. S12 is eligible and its Path-only pre-code checkpoint is being established. No S12 product/schema/test file may change until that checkpoint is committed, pushed, remotely matched, and CI-passed; S13 remains locked until S12 independently passes.
 
 ## 4. Entry S0 — Foundation
 
@@ -2617,6 +2617,88 @@ The verifier repair adds no new console sink. Its existing adjacent instrumentat
 - This reconciliation changes `Path.md` only. With S7–S11 independently passed and the distinct macro audit remotely passed, delivery Phase 3 — In-Flow Author Environment is formally **Passed**.
 - Sub-gate 12 is eligible but remains **Not started**. No Phase 4 product/schema/test capability is included or claimed in this closure.
 - The Phase 3 Passed status in this reconciliation is authoritative only after the reconciliation commit itself is pushed, remotely matched and CI-passed; that final immutable proof is reported with the phase handoff.
+
+## 18. Entry S12 — Live Story Model
+
+### 18.1 Run identity, source authority, and predecessor gate
+
+- **Date/time and timezone:** 29 August 2026, Asia/Karachi. This entry is the mandatory Path-only pre-code checkpoint; implementation and completion evidence must be appended without backdating.
+- **Delivery phase:** Phase 4 — Live Model, Automation, History, and Portability.
+- **Original capability gate:** Sub-gate 12 — Live Story Model. Sub-gate 13 is locked until this gate separately passes, is audited, committed, pushed, remotely matched, and CI-passed.
+- **Predecessor evidence:** Sub-gate 11 product/correction/evidence and the distinct Phase 3 macro audit were reconciled at `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`; GitHub Actions run `33242728691`, job `99074703453`, passed in 3m03s. Local `HEAD` and `origin/agent/workplan-subgates-audit` both resolved to that commit before this edit; the tracked worktree was clean.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`.
+- **Source studied before product code:** the complete 84-page `Mythra_V2_Product_Engineering_Implementation_Bible_v2.2.pdf` was text-extracted; pages 21–25, 41–42, 47–54, 60–63, 67–76, 80–81, and 84 were rendered and visually checked. Controlling S12 sources are Bible sections 7, 16.4–16.6, 18, 20–21, 26–27, 31–32, 34.1–36, appendices C and E.6; S13-only history/portability material in sections 19 and 28 and appendix B was studied to prevent boundary mistakes. Attached-document prose is treated as product specification, not as instructions to execute unrelated actions.
+- **WorkPlan studied:** sections 4.1, 8.1–8.4, 11, and 12. The authorized directive correction requires first-class `becauseItems[]` and `consequenceItems[]`; the ruled coordinate order includes Plot Outline and Volume Outline and keeps milestone/thread cross-cutting.
+- **Next.js 16.3 runtime review:** the repository `AGENTS.md` warning was obeyed before coding. `node_modules/next/dist/docs/01-app/01-getting-started/15-route-handlers.md` was read completely. S12 GET endpoints will remain request-time database reads, dynamic route params will be awaited, and route handlers will not be treated as layout/UI components or silently cached.
+
+### 18.2 Exact authorized S12 scope and exclusions
+
+S12 will complete the durable, rebuildable Live Story Model and deterministic automation only:
+
+1. Safely claim transactional outbox rows; apply versioned event handlers idempotently; retry transient failures with bounded exponential backoff; retain terminal failure/dead-letter evidence; mark success; expose content-safe lag, attempt, outcome, duration, and failure metrics; and tolerate old/new workers during rolling deployment.
+2. Persist rebuildable versioned projections for continuation, chapter context, milestone progress, volume health, entity backlinks, timeline window, SearchDocument, quota seam, causal neighborhood/impact adjacency, Narrative Directive, and Semantic Coordinate. Canonical tables remain authoritative.
+3. Preserve full directive output: project/chapter and source versions, Purpose, Advance, Preserve, Reader Outcome, Next, explicit Because, explicit Consequences, ranked context, per-item provenance, generation time, and truthful freshness.
+4. Preserve the ruled coordinate: active anchor; Project → Plot → Plot Outline → Volume → Volume Outline → Chapter Outline → Chapter → optional Scene → Story Change → block, with milestone/thread represented as cross-cutting coordinates, plus ordered path, bounded neighborhoods, and structural version.
+5. Process the complete Bible event catalog and directive invalidation set, including causal create/update/delete. Existing canonical writes will be normalized to versioned event names without changing their author-owned meaning.
+6. Provide one-project repair/rebuild that compares incremental and canonical full-rebuild outputs and refuses stale overwrites.
+7. Implement deterministic chapter scaffold/range facts, milestone allocation/progress/density, writing queue, context resolution, backlinks, word/cadence summaries, preview-only structure rebalance, Capture context, snapshot-schedule request facts, directive compilation, bounded causal neighborhood/impact, and chronology sanity.
+8. Emit only the exact neutral/suppressible warning classes: range drift, density, orphan structure, broken reference, timeline ordering conflict, quota approach, backup health, causal-temporal conflict, hard prerequisite loop, and orphan causal endpoint.
+
+**Locked/excluded from S12:** no durable revision policy expansion, ProjectSnapshot, backup archive, restore UI, import/export artifact, signed export download, V1 importer, billing/entitlement implementation, AI inference, literary scoring, prose auto-edit, automatic structure/causality invention, destructive purge, or S13–S17 capability. The S12 snapshot scheduler may produce a truthful due/unavailable seam only; it cannot claim that S13 snapshots exist.
+
+### 18.3 Planned data, files, code, and implementation method
+
+| Planned area | Planned files or material changes | Production implementation rule and proof |
+| --- | --- | --- |
+| Schema/migration | `prisma/schema.prisma`; additive `prisma/migrations/*_live_story_model/migration.sql` and reviewed `rollback.sql` | Add worker lease/error/schema-version fields, delivery/idempotency evidence, typed projection kind/freshness records, deterministic warning/suppression records, and indexes for claim, project/version, scope, and freshness. Migration is additive and rolling compatible; rollback is exercised only against an isolated S12 database before S13 data exists. |
+| Event catalog | `domains/live-model/domain/events.ts` | Enumerate every Bible 7.4 event and required invalidation source, map existing legacy event strings explicitly, validate versioned envelopes, reject unknown unsupported versions to retry/dead-letter rather than discard. Payload contracts contain safe IDs/versions only. |
+| Outbox worker | `domains/live-model/application/*`, `domains/live-model/infrastructure/*`, `scripts/process-live-model-outbox.ts` | Claim at most 50 due rows with PostgreSQL `FOR UPDATE SKIP LOCKED`; use a 30-second lease, maximum 8 attempts, exponential delay from 1 second capped at 5 minutes, deterministic event-delivery idempotency, and compare-and-set completion. Expired leases are recoverable. Handlers are version-aware and project-scoped. |
+| Projection contracts/builders | `domains/live-model/domain/projections.ts`, focused pure builders, repository/store files | Typed contracts cover every required projection. Incremental and full rebuild call the same deterministic builders. Writes use structural/source-version comparison so an older job cannot replace a newer result. Projection rows are disposable and contain no canonical-only facts. |
+| Directive/coordinate | live-model directive and coordinate builders; existing context/structure types and resolvers where required | Add complete durable fields rather than weakening current S7 types. Golden fixtures prove explicit Because/Consequences and exact outline-aware coordinate order; milestone/thread is cross-cutting, not an ownership ancestor. |
+| Automation/warnings | `domains/live-model/domain/automation.ts`, `warnings.ts`, suppression repository/service | Pure fact calculators use explicit canonical input only. Rebalance is preview-only; warnings are neutral, bounded, suppressible, and contain no literary score or invented meaning. Data-integrity failures remain enforceable rather than suppressible. |
+| API/runtime/UI | `app/api/v2/projects/[id]/live-model/*`, `lib/live-model/runtime.ts`, affected context/search/structure/editor surfaces and CSS | Ownership-scoped status/read/rebuild contracts expose structural version, projection version, freshness, lag, and invalidation without raw errors. UI shows Fresh, Updating, Stale, or Unavailable; stale impact/directive data cannot be rendered as current and support failure never blocks the manuscript editor. Light/Dark/Cream and keyboard/screen-reader behavior are tested. |
+| Repair/operations | `scripts/rebuild-live-story-model.ts`, `scripts/verify-live-story-model-db.ts`, `docs/runbooks/live-story-model.md`, package scripts | Rebuild one owned project from canonical tables, validate counts/hashes, swap only compatible versions, report content-safe metrics, and document replay/repair/dead-letter/rollback procedures. Long work stays outside request transactions. |
+| Tests | new unit/service/component/accessibility/stress/E2E/database tests and fixtures | Write idempotency/stale-overwrite tests first; then pure builder goldens, ownership, duplicate delivery, retry/dead-letter, lease recovery, full rebuild parity/corruption repair, event completeness, UI freshness, degraded writing, migration forward/rollback, large sparse/dense causal graphs, and thousands-of-chapters bounded budgets. |
+
+Implementation order is controlling: event/version rules and red tests; additive schema; worker repository; one projection at a time; incremental/full parity; freshness UI before async activation; deterministic directive/coordinate goldens; automation/warnings; repair/observability; database/browser/load verification; side-by-side audit. A later step may not be reported complete because an earlier layer merely compiles.
+
+### 18.4 Instrumentation contract for this run
+
+- Every added operational `console.log` path must have an immediately adjacent identifying comment in the form `Console trace S12-<FAMILY>-<NNN>:`. Server code must normally call the existing structured logger; its single allow-list/redaction-enforcing console transport remains the only direct server console sink.
+- Planned trace families are `S12-WORKER`, `S12-PROJECTION`, `S12-DIRECTIVE`, `S12-COORDINATE`, `S12-AUTOMATION`, `S12-WARNING`, `S12-API`, `S12-UI`, `S12-DB`, and `S12-REPAIR`.
+- Safe fields are IDs, enum/type names, schema/structural/source versions, bounded counts, durations, attempts, lease/retry states, freshness, outcomes, and stable error codes. Manuscript body, selected prose, Capture text, Note body, research text, titles/labels supplied by authors, and raw rich JSON are prohibited.
+- The completed evidence will list every S12 trace ID, exact file, final line number, adjacent comment text, transport method, and a content-safety result. Line numbers are recorded only after formatting and all repairs are complete.
+
+### 18.5 Budgets, failure behavior, and acceptance proof planned before code
+
+- **Bounds:** worker batch 50; attempts 8; lease 30 seconds; retry 1 second–5 minutes; context/search/directive sources capped by their existing bounded contracts; graph endpoints retain depth/node/edge budgets; project rebuild is single-project and batched; no editor request scans the complete graph or project.
+- **Consistency:** canonical writes and outbox insert remain one transaction. Cheap read-through state may be synchronous; async projections advertise freshness. A projection with lower structural/source versions is rejected. Duplicate event delivery changes effective projection state at most once.
+- **Writing preservation:** worker, projection, search, directive, warning, or causal-read failure degrades to stale/unavailable support UI while editor/local journal/autosave remain usable. No handler edits prose.
+- **Security/privacy:** all APIs and worker source loads enforce project/workspace ownership. Metrics/logs/errors exclude content. No routine admin surface reads manuscript content.
+- **Migration/release:** additive forward migration, explicit isolated rollback, old event aliases and schema versions, expired-lease recovery, and background-worker rolling compatibility are mandatory.
+- **Exit proof:** one canonical structural/causal fact must update all affected projections exactly once or show truthful updating; rebuild must equal incremental output and repair deliberate corruption; no transaction-to-worker event loss; duplicate delivery harmless; deterministic catalog and all ten warning classes tested; UI themes/accessibility/degraded writing verified; S12 evidence committed/pushed/CI-passed before any S13 file changes.
+
+### 18.6 Pre-code side-by-side classification
+
+| Requirement | Classification before product code | Gate effect |
+| --- | --- | --- |
+| Bible 7 durable propagation, projections, versions, rebuild, causal traversal | Planned now in S12 | Blocks S12 completion until verified. |
+| Bible 16.4–16.6 outbox/cache/causality boundaries | Planned now in S12 | Blocks S12 completion until verified. |
+| Bible 18 envelope/idempotency and 20 automation/warnings | Planned now in S12 | Blocks S12 completion until verified. |
+| Bible 21 SearchDocument propagation | Planned now in S12; canonical SearchDocument already exists from S10 | Must retain S10 behavior and prove worker/full-rebuild parity. |
+| Bible 26 bounds/jobs, 27 degraded behavior, 31 tests, 32 rolling migrations | Planned now in S12 where applicable | Blocks S12 completion until exercised. |
+| Bible 19 revisions/snapshots and 28 portability | Planned-later S13 | Legal only because the mandatory S12→S13 boundary is preserved. |
+| WorkPlan full directive and ruled coordinate corrections | Planned now in S12 | Any folded Because/Consequences or missing outline coordinate is a Gap. |
+| Literary scoring, inferred meaning, auto-prose mutation, AI | Prohibited | Presence is a blocking contradiction. |
+
+**Pre-code doctrine result:** structure, Scene, milestone, Capture filing, world data, Timeline, and causality remain optional. Milestones remain many-to-many/cross-cutting. Hierarchy, chronology, reference, and causality remain separate truth dimensions. PostgreSQL canonical tables remain authoritative. No stale derived state may appear current. No quota or support failure may make existing writing inaccessible. No unbounded project/graph read, content-bearing log, automatic prose edit, AI approval bypass, premature provider, or non-V2 feature is authorized.
+
+### 18.7 Current checkpoint and lock
+
+- **Current status:** Path-only checkpoint drafted; not yet remotely proven. S12 is not implemented and no S12 capability is claimed.
+- **Files changed in this checkpoint:** `Path.md` only. Product code, schema, migration, tests, runtime, generated client, dependency lock, and source PDF are unchanged.
+- **Mandatory next action:** commit this Path-only checkpoint, push it, verify the remote branch hash, and require GitHub CI success. Only then may S12 product code begin.
+- **S13 lock:** absolute. No revision/snapshot/backup/restore/import/export implementation may begin before the completed S12 audit receives separate remote proof.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
