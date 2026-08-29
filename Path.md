@@ -35,7 +35,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | Planning correction audit | Gates/dependencies/directive/zoom/pricing cleanup | Verified | Entry P1 below | Pushed and remotely verified on `agent/workplan-subgates-audit` |
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
-| 3. In-Flow Author Environment | 7–11 | **In progress — S7–S11 Passed; macro audit locally passed and its distinct evidence/remote proof is pending** | Entries S7–S11 and Phase 3 macro audit 17 below | Integrated-verifier correction `e6f53dbff5030f2f9f1407265678f009755072e8`, CI `33242281126`/`99073540416` passed; macro evidence commit/CI pending |
+| 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | Not started | — | — |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
@@ -56,14 +56,14 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
-| 12 | Live Story Model | 4 | Not started | Sub-gate 11 required | — | — |
+| 12 | Live Story Model | 4 | Not started | S11 and Phase 3 macro required; satisfied by `3ea20c9b26144f69234cd6369baa4ce4f3324baa`, CI `33242554374`/`99074252309` | — | — |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–2 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. The S11 macro-review finding was corrected in product commit `9abbcdb8417ef989cb0f7a78718d104ee1b6e492` and recorded in evidence commit `a545a8a7c400c88cc86d667be961cd43951a2803`; both remotely matched and passed CI. This reconciliation changes no product file. Phase 3 remains In progress, and S12 remains locked, until a distinct Phase 3 macro audit is committed, pushed and remotely verified.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Phase 3 macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa` is remotely matched and passed CI `33242554374`/`99074252309`. This final reconciliation changes no product file. S12 is now eligible under the mandatory sequence but remains Not started; no Phase 4 capability is claimed.
 
 ## 4. Entry S0 — Foundation
 
@@ -2608,6 +2608,15 @@ The verifier repair adds no new console sink. Its existing adjacent instrumentat
 - Every WorkPlan 7.1 scope row, 7.2 file category, 7.3 implementation method, 7.4 exit condition and applicable global acceptance item is `Verified`; explicitly later S12/S13/S15 work is classified `Planned-later`, not hidden as complete.
 - Both audit findings are fixed and independently remote-CI verified. No in-scope product, test, documentation, trace-ledger, migration, security, accessibility, performance or writing-flow gap remains.
 - This is a Path-only macro evidence change. Phase 3 remains **In progress** until this commit is pushed/remotely matched and its CI passes, followed by a separate Path-only reconciliation. S12 remains locked.
+
+### 17.11 Macro evidence reconciliation and formal Phase 3 closure
+
+- Macro evidence commit `3ea20c9b26144f69234cd6369baa4ce4f3324baa` was pushed to `origin/agent/workplan-subgates-audit`, and the remote branch matched it exactly.
+- GitHub Actions run `33242554374`, job `99074252309`, checked out that exact hash and passed clean dependency installation, Prisma generation, lint, typecheck, full coverage and production build in 3m31s.
+- This remotely proves the 215-path inventory, original-gate chain, WorkPlan 7.1–7.4 matrices, global acceptance/doctrine review, measured integrated validation and zero-residual-gap register in sections 17.1–17.10 against the corrected product state.
+- This reconciliation changes `Path.md` only. With S7–S11 independently passed and the distinct macro audit remotely passed, delivery Phase 3 — In-Flow Author Environment is formally **Passed**.
+- Sub-gate 12 is eligible but remains **Not started**. No Phase 4 product/schema/test capability is included or claimed in this closure.
+- The Phase 3 Passed status in this reconciliation is authoritative only after the reconciliation commit itself is pushed, remotely matched and CI-passed; that final immutable proof is reported with the phase handoff.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
