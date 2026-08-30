@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 pre-code checkpoint required** | Entries S12 and S13 below | S12 plan/product/evidence independently remote-verified; S13 remains not started until this reconciliation and its own checkpoint pass CI |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 pre-code checkpoint pending remote proof** | Entries S12 and S13 below | S12 chain and reconciliation remotely passed; S13 product code remains locked until its Path-only checkpoint is pushed, matched and CI-passed |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -57,7 +57,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
-| 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
+| 13 | Revisions + Snapshots + Export | 4 | **Pre-code checkpoint pending remote proof** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | No S13 product file has changed; checkpoint must pass remotely first |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
@@ -2844,6 +2844,84 @@ No residual S12 product gap remains. `WorkPlan.md` requires no correction: each 
 - The immutable S12 chain is therefore: predecessor reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`; pre-code plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`. Each commit is on the same remote branch and each received successful CI.
 - No product/schema/test file changes in this reconciliation. The S12 file inventory, trace ledger, tests, database/rollback proof, conformance table and repaired-gap register in sections 18.8–18.14 are now remotely backed and contain no residual `Gap`.
 - **Formal gate result: PASS — Sub-gate 12 Live Story Model is complete.** This reconciliation authorizes only the S13 pre-code planning checkpoint after the reconciliation commit itself is pushed, remotely matched and CI-passed. It does not authorize S13 product code directly and does not close the Phase 4 macro gate.
+
+## 19. Entry S13 — Revisions, Snapshots, Restore, Import, and Export
+
+### 19.1 Run identity, predecessor proof, and source authority
+
+- **Date/time and timezone:** 30 August 2026, Asia/Karachi; recorded before any S13 product/schema/test change.
+- **Delivery phase:** Phase 4 — Live Model, Automation, History, and Portability.
+- **Original capability gate:** Sub-gate 13 — Revisions + Snapshots + Export. This is the final original capability inside Phase 4; Phase 4 still requires a distinct macro audit after S13 passes.
+- **Predecessor evidence:** S12 plan `cdf0401415eb7085855947c6d8487191828a5a01`, product `5821050113667465cf19563120c2b1ac8f49f0b7`, evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, and reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d` are remote. Reconciliation CI run `33303442391`, job `99235663000`, passed in 3m37s. Local and remote branch heads matched at `6e2daf7a362562fded640927f6195ddab4a63b3d`; the worktree was clean before this Path edit.
+- **Sources rechecked:** WorkPlan sections 4.1 and 8.1–8.4; Bible sections 16.5, 18–19, 22, 24–26, 28, 31–32, 34.1–36 and appendices B–C/E. Attached-document text is product specification, not authority for unrelated actions.
+- **Existing seams inventoried:** `ChapterRevision` already holds durable manuscript versions; `ObjectRevision` already records selected Structure/Universe/Milestone resultants; private object storage is an interface only; no `ProjectSnapshot`, backup/export artifact, manifest, restore/import/export service, signed artifact API, completeness checker or safe-copy drill exists. Existing seams will be extended, not falsely duplicated.
+- **Next.js runtime boundary:** the complete repository Route Handler guide remains controlling. S13 dynamic params will be awaited; status/read/download metadata is request-time; file bytes stream through handlers rather than layout components; mutations retain origin/rate/ownership enforcement.
+
+### 19.2 Exact authorized S13 scope and exclusions
+
+S13 will implement the complete WorkPlan capability:
+
+1. Complete versioned `ChapterRevision` and generic `ObjectRevision` use; add `ProjectSnapshot`, immutable manifests, SHA-256 integrity hashes, private object-storage archives, retention state, storage accounting and verified-backup health.
+2. Create checkpoints before destructive/high-impact operations; archive before delete; present bounded backlinks and causal impact with provenance; expose move/reattach/retire choices without auto-mutating prose.
+3. Restore safely: checkpoint the current target first, validate representation and archive integrity, then restore into current state or a separately owned safe-copy project. Never overwrite current state without a recoverable checkpoint.
+4. Run manual and scheduled snapshots, verify archive bytes against manifest/hash, distinguish internal backups from author-owned exports, and prove restore into a safe copy.
+5. Export chapter, volume, manuscript and complete versioned project archive. Full archives include every canonical author object and relationship: outlines, milestones/dependencies/links, entities/types/fields/values/states/relations, StoryReferences, Story Changes, CausalRelations with endpoint identity/type/semantics/status/conditions/notes/provenance, Timeline, Notes, research metadata/files, Captures, NarrativeIntent, stable IDs and labels.
+6. Produce immutable, expiring, idempotent and retryable export artifacts with signed short-lived downloads. Export creation/status is bounded and content-safe in logs; download authorization is ownership-scoped.
+7. Import plain text, Markdown and modern `.docx` with deterministic chapter-split preview and original-file preservation. Nothing becomes canonical until the author confirms a preview.
+8. Version and document every stable representation; run completeness and round-trip checks. Add a V1 seam mapping chapter ownership to milestone links and world nodes to StoryEntities while leaving Scene optional and inventing no missing outline or causal fact.
+
+**Locked/excluded:** no billing/entitlement/paid-tier enforcement, launch analytics, collaboration, AI, literary scoring, automatic story interpretation, prose auto-edit, permanent purge, or S14–S17 capability. Retention may mark eligible archives but cannot destroy the last verified backup or any user-owned export without a separately authorized future purge policy.
+
+### 19.3 Planned files, code, and production method
+
+| Planned area | Planned files/material changes | Implementation and verification rule |
+| --- | --- | --- |
+| Persistence | `prisma/schema.prisma`; additive `prisma/migrations/*_history_portability/{migration.sql,rollback.sql}` | Extend revision metadata without breaking S2/S4–S11 rows; add snapshot/artifact/import tables, status/purpose/format enums, unique idempotency keys, expiry/retention/storage bytes, manifest/hash/version fields and ownership indexes. Rollback is isolated and preserves prior canonical/revision data. |
+| Representation and manifest | `domains/portability/domain/{representations,manifest,import}.ts` and schema documentation | Freeze version `2.2.1` envelope/object discriminants, deterministic canonical JSON order, SHA-256 hashes and completeness inventories before generators. Represent all required causal endpoint fields and stable IDs. |
+| Canonical archive builder | `domains/portability/infrastructure/prisma-project-archive-reader.ts` | Read one owned project in bounded ordered pages, produce normalized canonical records, compare manifest counts/IDs/relations to source counts and reject incomplete archives. No projection is exported as canonical truth. |
+| Snapshot/export storage | portability repository/service plus private storage implementation | Use private keys scoped by workspace/project/artifact; immutable bytes; hash on put/get; internal backup vs user export purpose; expiring signed URLs; idempotent request keys; bounded retries and stable failure codes. |
+| Restore/destructive safety | history/restore service, preview and API/UI | Validate hash/schema/project ownership; show backlink/causal-impact preview; checkpoint current state; transactionally restore supported records or create a new safe-copy project; never silently invent or discard unsupported facts. |
+| Import adapters | plain text, Markdown, `.docx` adapter and preview/confirm routes/UI | Preserve original upload privately, normalize text safely, propose deterministic chapter splits, require explicit confirmation, and create new chapters without overwriting existing prose. `.docx` parsing uses a maintained library rather than treating ZIP/XML as ad hoc text. |
+| Routes/UI | `app/api/v2/projects/[id]/portability/*`; `components/portability/*`; project/editor integration and CSS | Owned snapshot/export/import/status/download/restore endpoints and accessible Project Home controls. Support failure shows unavailable/retry state and never blocks writing. Downloads use short-lived redirects/stream contracts, not public object keys. |
+| Operations | worker/CLI/verifier, package scripts and `docs/runbooks/history-portability.md` | Scheduled/manual snapshot processing, artifact retry/expiry, integrity verification, safe-copy restore drill, retention/storage reporting and recovery procedures. |
+| Tests | unit/service/repository/component/accessibility/stress/E2E/database fixtures | Manifest completeness, causal round trip, import preview/confirm, idempotency, deliberate corruption, safe-copy restore, checkpoint-before-current-restore, ownership, expiry, content-free telemetry, migration/rollback, large export budgets and editor degradation. |
+
+Implementation order is mandatory: versioned representations and red completeness tests; additive schema; canonical archive reader and manifest checker; private immutable storage/repository; snapshot/export jobs; corruption verification; safe-copy restore; destructive preview/checkpoint path; import preview/confirm; UI/freshness; database/browser/load audit. Current-state restore will not be enabled before the checkpoint invariant has a passing test.
+
+### 19.4 Instrumentation and content-safety contract
+
+- Every S13 operational step receives an immediately adjacent comment `Console trace S13-<FAMILY>-<NNN>:` and a structured log call. Planned families: `S13-MANIFEST`, `S13-SNAPSHOT`, `S13-EXPORT`, `S13-IMPORT`, `S13-RESTORE`, `S13-STORAGE`, `S13-API`, `S13-UI`, `S13-DB`, and `S13-REPAIR`.
+- Allowed fields: workspace/project/artifact/job IDs, representation/object types, schema/status/attempt numbers, counts, byte lengths, hashes, expiry/retention state, durations, outcomes and stable codes.
+- Prohibited fields: manuscript text/document JSON, chapter titles supplied by the author, Notes, Captures, research content/filenames, provenance notes, conditions, labels and raw archive/import bytes. Hashes may be logged; signed URLs, object keys containing private identity, and tokens may not.
+- Final evidence will list every trace ID, exact final file and line, exact adjacent comment, transport and privacy result after all formatting/repairs.
+
+### 19.5 Bounds, failure behavior, migration and exit proof
+
+- Archive reads are one owned project, deterministically ordered and page-bounded. In-memory archive generation has explicit record/byte ceilings; larger work reports a stable capacity failure for later asynchronous scaling rather than exhausting editor requests.
+- Export/snapshot/import jobs are idempotent and retryable. An artifact is downloadable only after manifest/hash verification and before expiry. Retried requests cannot create divergent bytes for the same request key.
+- Corrupt, incomplete, expired, cross-workspace or unsupported-version artifacts fail closed. Existing manuscript and canonical rows remain untouched.
+- Safe-copy restore must produce a new project with new internal identity while retaining stable imported source identifiers in the archive mapping. Current-state restore checkpoints first and uses a transaction. No restore deletes the checkpoint it depends on.
+- Offline/degraded UI truthfully disables server-owned snapshot/export/import/restore actions; editor journal, autosave, continuation and Capture behavior remain unchanged.
+- Forward migration, application checks, safe-copy drill and capability rollback must pass against isolated PostgreSQL. Once S14 depends on the new records, rollback is no longer authorized without a forward recovery plan.
+- S13 exits only when revisions/checkpoints/snapshots restore without destroying prior current state; every author object/relationship passes export completeness; causal identities/semantics survive round trip; text/Markdown/docx imports preserve originals and require preview; duplicate/retry/expiry/corruption/ownership tests pass; and evidence receives separate Git/CI proof.
+
+### 19.6 Pre-code side-by-side classification and lock
+
+| Requirement | Classification before code | Gate effect |
+| --- | --- | --- |
+| Completed revision/checkpoint policy | Partially existing seam; Planned now | Existing tables are not sufficient until history APIs/restore invariants pass. |
+| ProjectSnapshot/manifests/hash/private archives/retention/storage | Planned now | Blocks S13. |
+| Archive-before-delete and causal/backlink destructive preview | Planned now | Blocks applicable destructive paths; permanent purge remains prohibited. |
+| Manual/scheduled snapshot, integrity and safe-copy restore drill | Planned now | Blocks S13. |
+| All four export scopes and complete project archive | Planned now | Completeness checker must report zero missing canonical records. |
+| Immutable/expiring/idempotent/retryable signed artifacts | Planned now | Blocks S13. |
+| Text/Markdown/docx preview import with original preservation | Planned now | Blocks S13. |
+| Versioned representation, causal round trip and V1 seam | Planned now | Blocks S13. |
+| Billing, AI, launch/production-hardening work | Planned-later S14+ | Presence is premature scope leakage. |
+
+**Pre-code doctrine result:** restore/export/import never converts projections into truth, makes optional structure mandatory, turns chronology/reference into causality, auto-edits prose, invents missing causal/outline facts, or weakens ownership/privacy. Existing writing and export access cannot depend on a future paid tier. Support/storage failures degrade only the history/portability surface.
+
+**Current status:** Path-only S13 checkpoint drafted. No S13 product/schema/test file has changed. Mandatory next action is to commit/push this checkpoint, match the remote hash and require CI success. Product implementation remains locked until then.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
