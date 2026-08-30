@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 product remotely verified; evidence-ledger proof pending** | Entry S12 below | S12 product `5821050113667465cf19563120c2b1ac8f49f0b7`; CI `33302928197`/`99234283082` passed; S13 remains locked pending S12 evidence reconciliation |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 pre-code checkpoint required** | Entries S12 and S13 below | S12 plan/product/evidence independently remote-verified; S13 remains not started until this reconciliation and its own checkpoint pass CI |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -56,14 +56,14 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 9 | Universe | 3 | **Passed** | S8 reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137`; CI `31961088692`/`95199073965` passed | Entry S9 | Plan `b3f3e3a9176b501376bd5aef78bb26af054f8d8a`; product `e5131463791a5c20d005ae485f652922c8133876`; evidence `663ec69ea3d4869d43eb7a44de6d805a72ab339b`; CI `32046340519`/`95435025227` passed |
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
-| 12 | Live Story Model | 4 | **Product remotely verified; evidence ledger pending remote proof** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`, CI `33268323790`/`99142225083`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082` passed |
+| 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | Not started | Sub-gate 12 required | — | — |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Phase 3 final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8` is remotely matched and passed CI `33242728691`/`99074703453`. S12's pre-code checkpoint and product implementation are independently pushed, remotely matched, and CI-passed. This evidence update does not yet mark S12 Passed: its evidence commit and a separate reconciliation must also receive remote proof. S13 remains locked until that sequence closes S12.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. S12's pre-code checkpoint, product and evidence are independently pushed, remotely matched and CI-passed; section 18.15 reconciles those immutable results and marks S12 Passed. S13 remains Not started until this Path-only reconciliation is remotely proved and a separate S13 pre-code checkpoint is also remotely proved.
 
 ## 4. Entry S0 — Foundation
 
@@ -2836,6 +2836,14 @@ No residual S12 product gap remains. `WorkPlan.md` requires no correction: each 
 - **Scoped diff:** 35 product paths, 1,996 insertions and 10 deletions; no S13 or planning-document change in the product commit.
 - **Rollback/revert point:** S12 plan commit `cdf0401415eb7085855947c6d8487191828a5a01`; SQL capability rollback is `prisma/migrations/20260829190000_live_story_model/rollback.sql` before S13 dependencies exist.
 - **Current gate result:** every product, migration, test and audit row is locally and remotely `Verified`, but S12 is not yet formally marked Passed. This Path evidence commit must be pushed/remotely matched and CI-passed, followed by a separate Path-only reconciliation. S13 remains locked throughout that process.
+
+### 18.15 S12 evidence reconciliation and predecessor handoff
+
+- Evidence commit `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4` (`Record Sub-gate 12 Live Story Model evidence`) was pushed to `origin/agent/workplan-subgates-audit` and matched exactly by `git ls-remote`.
+- GitHub Actions run `33303253416`, verify job `99235147979`, passed in 3m40s. It completed checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, the full 246-test coverage suite and production build. The Node action-runtime deprecation annotation was informational and non-failing.
+- The immutable S12 chain is therefore: predecessor reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`; pre-code plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`. Each commit is on the same remote branch and each received successful CI.
+- No product/schema/test file changes in this reconciliation. The S12 file inventory, trace ledger, tests, database/rollback proof, conformance table and repaired-gap register in sections 18.8–18.14 are now remotely backed and contain no residual `Gap`.
+- **Formal gate result: PASS — Sub-gate 12 Live Story Model is complete.** This reconciliation authorizes only the S13 pre-code planning checkpoint after the reconciliation commit itself is pushed, remotely matched and CI-passed. It does not authorize S13 product code directly and does not close the Phase 4 macro gate.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
