@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | **S12 and S13 passed; macro audit locally passed and pending remote proof** | Entries S12, S13 and Phase 4 macro audit below | S13 evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed; distinct Phase 4 audit commit/CI still required |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13 after its separate plan/product/evidence chain passed remotely. Phase 4 remains open only because its distinct macro-audit commit and CI are pending. S14 remains locked until the macro audit is remotely proved and reconciled.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 is now eligible under the predecessor rule but remains Not started; no Phase 5 product work is included.
 
 ## 4. Entry S0 — Foundation
 
@@ -3173,12 +3173,21 @@ No source group owned by Phase 4 is omitted or deferred. Billing/launch hardenin
 - Project, graph, status, preview and archive operations are bounded. Large inputs fail with stable capacity errors rather than unbounded loading.
 - No collaboration/community/publisher/AI/purge/post-V2 feature entered Phase 4.
 
-### 20.8 Macro audit status and remote gate lock
+### 20.8 Macro audit status before remote proof
 
 - **Local macro result: PASS.** All WorkPlan 8.1–8.4 requirements and Phase 4 source groups have evidence; no contradiction and no unresolved in-scope `Gap` remains.
 - **Changed files in this macro audit:** `Path.md` only. `WorkPlan.md` remains unchanged because no plan contradiction was found.
 - **Remote condition:** Phase 4 is not yet formally Passed until this macro-audit commit is pushed, remote-matched and CI-passed, followed by a Path reconciliation that records that immutable result.
 - **Authorization:** S14 and Phase 5 remain locked. No billing/quota product work may start from the local audit alone.
+
+### 20.9 Remote macro-audit reconciliation and formal phase result
+
+- Macro-audit commit `fdbaae58399ac8a5e040d0059190cb5c74d110d4` (`Audit Phase 4 implementation`) changed only `Path.md`, was pushed, and exactly matched `refs/heads/agent/workplan-subgates-audit`.
+- GitHub Actions run `33324897620`, verify job `99293191100`, passed in 3m45s. It completed clean install, Prisma generation, lint, typecheck, all final coverage tests and production build. The actions Node-runtime annotation was informational and non-failing.
+- The final Phase 4 proof chain is S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; S13 plan/product/evidence `afcd9c205ac5f3b27d9702f576cb520523422ba7` → `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b` → `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`; and Phase 4 macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`. Every element is remote-matched and CI-passed in mandatory order.
+- **Formal phase result: PASS — Phase 4 Live Model, Automation, History, and Portability is complete.** Every WorkPlan 8.4 exit condition is verified; no in-scope `Gap` or contradiction remains.
+- **Handoff boundary:** Sub-gate 14/Phase 5 is now eligible but remains Not started. This reconciliation contains no billing, quota, performance-hardening, launch analytics or other S14+ implementation.
+- This final reconciliation commit cannot contain its own hash. Its pushed hash, remote match and CI result are reported in the final handoff; the immutable macro-audit commit/CI above is the authority that closes Phase 4.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
