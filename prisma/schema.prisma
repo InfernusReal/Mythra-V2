@@ -35,6 +35,41 @@ enum OutboxStatus {
   FAILED
 }
 
+enum LiveModelProjectionKind {
+  CONTINUATION
+  CHAPTER_CONTEXT
+  MILESTONE_PROGRESS
+  VOLUME_HEALTH
+  ENTITY_BACKLINKS
+  TIMELINE_WINDOW
+  SEARCH_DOCUMENT
+  QUOTA_SEAM
+  CAUSAL_NEIGHBORHOOD
+  CAUSAL_IMPACT
+  NARRATIVE_DIRECTIVE
+  SEMANTIC_COORDINATE
+}
+
+enum ProjectionFreshness {
+  FRESH
+  UPDATING
+  STALE
+  FAILED
+}
+
+enum LiveModelWarningType {
+  RANGE_DRIFT
+  DENSITY
+  ORPHAN_STRUCTURE
+  BROKEN_REFERENCE
+  TIMELINE_ORDER_CONFLICT
+  QUOTA_APPROACH
+  BACKUP_HEALTH
+  CAUSAL_TEMPORAL_CONFLICT
+  HARD_PREREQUISITE_LOOP
+  ORPHAN_CAUSAL_ENDPOINT
+}
+
 enum ProjectStatus {
   ACTIVE
   ARCHIVED
@@ -432,6 +467,9 @@ model Project {
   storedAssets          StoredAsset[]
   notePromotions        NotePromotion[]
   researchItemLinks     ResearchItemLink[]
+  liveModelProjections  LiveModelProjection[]
+  liveModelWarnings     LiveModelWarning[]
+  liveModelDeliveries   LiveModelEventDelivery[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -1426,11 +1464,79 @@ model OutboxEvent {
   payload       Json
   status        OutboxStatus @default(PENDING)
   attempts      Int          @default(0)
+  schemaVersion Int          @default(1)
   availableAt   DateTime     @default(now()) @db.Timestamptz(3)
+  leaseOwner    String?      @db.VarChar(128)
+  leasedUntil   DateTime?    @db.Timestamptz(3)
+  lastErrorCode String?      @db.VarChar(80)
+  lastErrorAt   DateTime?    @db.Timestamptz(3)
+  deadLetteredAt DateTime?   @db.Timestamptz(3)
   createdAt     DateTime     @default(now()) @db.Timestamptz(3)
   completedAt   DateTime?    @db.Timestamptz(3)
   workspace     Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  delivery      LiveModelEventDelivery?
 
-  @@index([status, availableAt])
+  @@index([status, availableAt, leasedUntil])
   @@index([workspaceId, createdAt(sort: Desc)])
+}
+
+model LiveModelEventDelivery {
+  id                       String      @id @default(uuid()) @db.Uuid
+  eventId                  String      @unique @db.Uuid
+  projectId                String      @db.Uuid
+  handlerKey               String      @db.VarChar(120)
+  eventSchemaVersion       Int
+  projectStructuralVersion Int
+  outputDigest             String      @db.VarChar(64)
+  processedAt              DateTime    @default(now()) @db.Timestamptz(3)
+  event                    OutboxEvent @relation(fields: [eventId], references: [id], onDelete: Restrict)
+  project                  Project     @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, projectStructuralVersion, processedAt(sort: Desc)])
+}
+
+model LiveModelProjection {
+  id                       String                  @id @default(uuid()) @db.Uuid
+  projectId                String                  @db.Uuid
+  kind                     LiveModelProjectionKind
+  scopeType                String                  @db.VarChar(80)
+  scopeId                  String                  @db.VarChar(128)
+  projectStructuralVersion Int
+  sourceObjectVersions     Json                    @default("{}")
+  payload                  Json
+  digest                   String                  @db.VarChar(64)
+  freshness                ProjectionFreshness     @default(FRESH)
+  generatedAt              DateTime                @default(now()) @db.Timestamptz(3)
+  invalidatedAt            DateTime?               @db.Timestamptz(3)
+  lastEventId              String?                 @db.Uuid
+  createdAt                DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt                DateTime                @updatedAt @db.Timestamptz(3)
+  project                  Project                 @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, kind, scopeType, scopeId])
+  @@index([projectId, freshness, projectStructuralVersion])
+  @@index([projectId, kind, generatedAt(sort: Desc)])
+}
+
+model LiveModelWarning {
+  id                       String               @id @default(uuid()) @db.Uuid
+  projectId                String               @db.Uuid
+  warningKey               String               @db.VarChar(320)
+  warningType              LiveModelWarningType
+  sourceType               String               @db.VarChar(80)
+  sourceId                 String               @db.VarChar(128)
+  relatedType              String?              @db.VarChar(80)
+  relatedId                String?              @db.VarChar(128)
+  facts                    Json                 @default("{}")
+  projectStructuralVersion Int
+  suppressedAt             DateTime?            @db.Timestamptz(3)
+  suppressedById           String?              @db.Uuid
+  resolvedAt               DateTime?            @db.Timestamptz(3)
+  createdAt                DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt                DateTime              @updatedAt @db.Timestamptz(3)
+  project                  Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, warningKey])
+  @@index([projectId, warningType, resolvedAt, suppressedAt])
+  @@index([projectId, projectStructuralVersion])
 }

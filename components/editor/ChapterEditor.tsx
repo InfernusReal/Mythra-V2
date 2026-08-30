@@ -25,6 +25,7 @@ import { ContextualWritingField } from "@/components/context/ContextualWritingFi
 import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import { EntityQuickCreate } from "@/components/universe/EntityQuickCreate";
 import { EditorSearchBridge } from "@/components/language/EditorSearchBridge";
+import { LiveModelFreshness } from "@/components/live-model/LiveModelFreshness";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -209,6 +210,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         </nav>
         <FocusMode active={focusMode} onChange={changeFocusMode} />
       </header>
+      <LiveModelFreshness projectId={model.project.id} />
       <div className="editor-structure-action"><a href={`/app/projects/${model.project.id}/structure`} onClick={() => {
         // Console trace S4-UI-015: editor-to-Structure navigation requested after continuation state capture remains active.
         console.log(JSON.stringify({ level: "info", step: "S4-UI-015", event: "structure.opened_from_editor", projectId: model.project.id, chapterId: model.chapter.id }));

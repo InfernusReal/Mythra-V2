@@ -94,7 +94,7 @@ export class PrismaCausalityRepository implements CausalityRepository {
       const data = { kind: input.kind as never, title: input.title, description: input.description ?? null, storyTime: input.storyTime === undefined ? null : new Prisma.Decimal(input.storyTime), discoveryTime: input.discoveryTime === undefined ? null : new Prisma.Decimal(input.discoveryTime), anchorType: input.anchor?.type ?? null, anchorId: input.anchor?.id ?? null, anchorBlockId: input.anchor?.blockId ?? null, isPlaceholder: input.isPlaceholder };
       const saved = input.storyChangeId ? await tx.storyChange.update({ where: { id: input.storyChangeId, projectId }, data: { ...data, version: { increment: 1 } }, select: changeSelect }) : await tx.storyChange.create({ data: { projectId, ...data }, select: changeSelect });
       const summary = changeSummary(saved); await revise(tx, projectId, "STORY_CHANGE", saved.id, saved.version, summary, input.storyChangeId ? "updated" : "created");
-      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, "causality.story_change_changed", "STORY_CHANGE", saved.id) };
+      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, "StoryChangeUpdated", "STORY_CHANGE", saved.id) };
     });
   }
 
@@ -109,7 +109,7 @@ export class PrismaCausalityRepository implements CausalityRepository {
       }
       const saved = await tx.causalRelation.create({ data: { projectId, sourceType: input.source.type, sourceId: input.source.id, sourceBlockId: input.source.blockId, targetType: input.target.type, targetId: input.target.id, targetBlockId: input.target.blockId, relationType: input.relationType, condition: input.condition, strength: input.strength, importance: input.importance, state: input.state, isHard: input.isHard, temporalProgression: input.temporalProgression, mutualStateSemantics: input.mutualStateSemantics, note: input.note, provenanceType: input.provenanceType, provenanceNote: input.provenanceNote }, select: relationSelect });
       const summary = relationSummary(saved); await revise(tx, projectId, "CAUSAL_RELATION", saved.id, saved.version, summary, "created");
-      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, "causality.relation_changed", "CAUSAL_RELATION", saved.id) };
+      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, "CausalRelationCreated", "CAUSAL_RELATION", saved.id) };
     });
     try { return await run(); } catch (error) {
       if (!(error instanceof AppError) || error.code !== "CONFLICT") throw error;
@@ -132,7 +132,7 @@ export class PrismaCausalityRepository implements CausalityRepository {
       }
       const saved = await tx.causalRelation.update({ where: { id: input.relationId, projectId }, data: input.action === "REATTACH" ? { sourceType: input.source!.type, sourceId: input.source!.id, sourceBlockId: input.source!.blockId ?? null, targetType: input.target!.type, targetId: input.target!.id, targetBlockId: input.target!.blockId ?? null, version: { increment: 1 } } : input.action === "RETIRE" ? { state: "RETIRED", version: { increment: 1 } } : { archivedAt: new Date(), version: { increment: 1 } }, select: relationSelect });
       const summary = relationSummary(saved); await revise(tx, projectId, "CAUSAL_RELATION", saved.id, saved.version, summary, input.action.toLowerCase());
-      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, "causality.relation_lifecycle", "CAUSAL_RELATION", saved.id) };
+      return { object: summary, projectStructuralVersion: await finish(tx, actor, projectId, input.expectedStructuralVersion, input.action === "REATTACH" ? "CausalRelationUpdated" : "CausalRelationDeleted", "CAUSAL_RELATION", saved.id) };
     });
   }
 

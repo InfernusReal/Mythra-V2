@@ -33,7 +33,7 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
 
       const chapter = await tx.chapter.findFirst({
         where: { id: chapterId, archivedAt: null, project: { workspaceId: actor.workspaceId, status: "ACTIVE" } },
-        select: { id: true, version: true, bodyDocument: true }
+        select: { id: true, version: true, bodyDocument: true, projectId: true, project: { select: { structuralVersion: true } } }
       });
       if (!chapter) throw errors.notFound();
       if (input.baseVersion > chapter.version) throw errors.integrity();
@@ -59,6 +59,7 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
 
       const version = input.baseVersion + 1;
       await tx.chapterSaveReceipt.create({ data: { chapterId, clientSaveId: input.clientSaveId, bodyHash: hash, baseVersion: input.baseVersion, resultingVersion: version } });
+      await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Chapter", aggregateId: chapterId, eventType: "ChapterUpdated", payload: { projectId: chapter.projectId, objectType: "CHAPTER", objectId: chapterId, chapterId, version, structuralVersion: chapter.project.structuralVersion } } });
       return { kind: "saved", acknowledgement: { status: "SAVED", chapterId, version, clientSaveId: input.clientSaveId, idempotentReplay: false, wordCount: derived.wordCount } };
     }, { isolationLevel: "Serializable" });
     if (outcome.kind === "conflict") throw conflictError(outcome.conflictId, outcome.serverVersion);
@@ -69,10 +70,14 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
     const acknowledgement = await this.saveDraft(actor, chapterId, input);
     const document = normalizeChapterDocument(input.document);
     const derived = deriveChapterText(document);
-    const owned = await this.prisma.chapter.findFirst({ where: { id: chapterId, project: { workspaceId: actor.workspaceId } }, select: { id: true } });
+    const owned = await this.prisma.chapter.findFirst({ where: { id: chapterId, project: { workspaceId: actor.workspaceId } }, select: { id: true, projectId: true, project: { select: { structuralVersion: true } } } });
     if (!owned) throw errors.notFound();
-    const created = await this.prisma.chapterRevision.createMany({ data: [{ chapterId, version: acknowledgement.version, kind: "CHECKPOINT", label: input.label, clientSaveId: input.clientSaveId, bodyDocument: document, bodyText: derived.plainText, wordCount: derived.wordCount }], skipDuplicates: true });
-    const revision = await this.prisma.chapterRevision.findUniqueOrThrow({ where: { clientSaveId: input.clientSaveId } });
+    const { created, revision } = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.chapterRevision.createMany({ data: [{ chapterId, version: acknowledgement.version, kind: "CHECKPOINT", label: input.label, clientSaveId: input.clientSaveId, bodyDocument: document, bodyText: derived.plainText, wordCount: derived.wordCount }], skipDuplicates: true });
+      const revision = await tx.chapterRevision.findUniqueOrThrow({ where: { clientSaveId: input.clientSaveId } });
+      if (created.count) await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "ChapterRevision", aggregateId: revision.id, eventType: "RevisionCheckpointCreated", payload: { projectId: owned.projectId, objectType: "CHAPTER_REVISION", objectId: revision.id, chapterId, version: acknowledgement.version, structuralVersion: owned.project.structuralVersion } } });
+      return { created, revision };
+    });
     return { revisionId: revision.id, version: acknowledgement.version, idempotentReplay: acknowledgement.idempotentReplay || created.count === 0 };
   }
 
@@ -110,6 +115,7 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
         const localDerived = deriveChapterText(localDocument);
         const nextVersion = conflict.serverVersion + 1;
         await tx.chapter.update({ where: { id: conflict.chapterId }, data: { bodyDocument: localDocument, bodyText: localDerived.plainText, wordCount: localDerived.wordCount, version: nextVersion } });
+        await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Chapter", aggregateId: conflict.chapterId, eventType: "ChapterUpdated", payload: { projectId: conflict.chapter.projectId, objectType: "CHAPTER", objectId: conflict.chapterId, chapterId: conflict.chapterId, version: nextVersion } } });
         await tx.draftConflict.update({ where: { id: conflict.id }, data: { status: "RESOLVED", resolution, resolvedAt: new Date(), resolvedVersion: nextVersion } });
         return { status: "RESOLVED", resolution, chapterId: conflict.chapterId, version: nextVersion, document: localDocument };
       }
@@ -118,6 +124,7 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
       const localDerived = deriveChapterText(localDocument);
       const aggregate = await tx.chapter.aggregate({ where: { projectId: conflict.chapter.projectId }, _max: { sequenceIndex: true } });
       const recovery = await tx.chapter.create({ data: { projectId: conflict.chapter.projectId, sequenceIndex: (aggregate._max.sequenceIndex ?? -1) + 1, title: `${conflict.chapter.title} (Recovery copy)`, bodyDocument: localDocument, bodyText: localDerived.plainText, wordCount: localDerived.wordCount } });
+      await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Chapter", aggregateId: recovery.id, eventType: "ChapterUpdated", payload: { projectId: conflict.chapter.projectId, objectType: "CHAPTER", objectId: recovery.id, chapterId: recovery.id, version: recovery.version } } });
       await tx.draftConflict.update({ where: { id: conflict.id }, data: { status: "RESOLVED", resolution, resolvedAt: new Date(), resolvedVersion: conflict.chapter.version, recoveryChapterId: recovery.id } });
       return { status: "RESOLVED", resolution, chapterId: conflict.chapterId, version: conflict.chapter.version, recoveryChapterId: recovery.id, document: normalizeChapterDocument(conflict.chapter.bodyDocument) };
     }, { isolationLevel: "Serializable" });

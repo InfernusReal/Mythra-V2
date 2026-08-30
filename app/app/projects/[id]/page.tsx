@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { AppShell } from "@/components/shell/AppShell";
 import { StartFirstChapter } from "@/components/projects/StartFirstChapter";
 import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
+import { LiveModelFreshness } from "@/components/live-model/LiveModelFreshness";
 import { requireActor } from "@/lib/auth/runtime";
 import { logger } from "@/lib/observability/logger";
 import { continuationService } from "@/lib/writing/runtime";
@@ -20,6 +21,7 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
       <section className="project-home" aria-labelledby="project-home-title" data-search-project-id={model.project.id}>
         <p className="eyebrow">Project</p>
         <h1 id="project-home-title">{model.project.title}</h1>
+        <LiveModelFreshness projectId={model.project.id} allowRepair />
         <a className="structure-link" href={`/app/projects/${model.project.id}/structure`}>Open Structure</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/captures`}>Open Capture Inbox</a>
         <a className="structure-link" href={`/app/projects/${model.project.id}/universe`}>Open Universe</a>

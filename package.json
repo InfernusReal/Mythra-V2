@@ -48,6 +48,10 @@
     "db:rollback:search-language": "tsx scripts/verify-search-language-db.ts rollback",
     "db:verify:timeline-research": "tsx scripts/verify-timeline-research-db.ts verify",
     "db:rollback:timeline-research": "tsx scripts/verify-timeline-research-db.ts rollback",
+    "db:verify:live-model": "tsx scripts/verify-live-story-model-db.ts verify",
+    "db:rollback:live-model": "tsx scripts/verify-live-story-model-db.ts rollback",
+    "worker:live-model": "tsx scripts/process-live-model-outbox.ts --drain",
+    "repair:live-model": "tsx scripts/rebuild-live-story-model.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

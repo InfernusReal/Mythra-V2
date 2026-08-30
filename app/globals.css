@@ -398,3 +398,14 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .degraded-network strong { margin-right: .35rem; }
 .degraded-structure { padding: .75rem; border: 1px solid var(--border); background: var(--surface-raised); }
 .structure-online-boundary { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.live-model-freshness { display: grid; gap: .55rem; margin: .75rem 0; padding: .65rem .75rem; border: 1px solid var(--border); border-radius: .55rem; background: var(--surface); color: var(--text-muted); font-size: .8125rem; }
+.live-model-freshness > div { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.live-model-freshness strong { color: var(--text); }
+.live-model-freshness small { color: var(--text-muted); }
+.live-model-dot { inline-size: .55rem; block-size: .55rem; border-radius: 50%; background: var(--text-muted); }
+.live-model-freshness[data-state="FRESH"] .live-model-dot { background: var(--success); }
+.live-model-freshness[data-state="UPDATING"] .live-model-dot { background: var(--accent); }
+.live-model-freshness[data-state="STALE"] .live-model-dot, .live-model-freshness[data-state="UNAVAILABLE"] .live-model-dot { background: var(--danger); }
+.live-model-freshness button { justify-self: start; min-height: 2rem; padding: .3rem .55rem; color: var(--text); border: 1px solid var(--border); border-radius: .4rem; background: var(--surface-raised); font-weight: 650; }
+.live-model-freshness ul { display: grid; gap: .45rem; margin: .5rem 0 0; padding: 0; list-style: none; }
+.live-model-freshness li { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
