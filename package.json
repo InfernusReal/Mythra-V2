@@ -52,6 +52,9 @@
     "db:rollback:live-model": "tsx scripts/verify-live-story-model-db.ts rollback",
     "worker:live-model": "tsx scripts/process-live-model-outbox.ts --drain",
     "repair:live-model": "tsx scripts/rebuild-live-story-model.ts",
+    "worker:snapshots": "tsx scripts/process-scheduled-snapshots.ts",
+    "db:verify:portability": "tsx scripts/verify-portability-db.ts verify",
+    "db:rollback:portability": "tsx scripts/verify-portability-db.ts rollback",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
@@ -64,6 +67,7 @@
     "@tiptap/react": "3.30.0",
     "@tiptap/starter-kit": "3.30.0",
     "jose": "6.1.0",
+    "mammoth": "1.11.0",
     "next": "16.3.0",
     "pg": "8.16.3",
     "react": "19.2.8",
@@ -88,6 +92,7 @@
     "eslint-config-next": "16.3.0",
     "fake-indexeddb": "6.2.5",
     "jsdom": "29.1.1",
+    "jszip": "^3.10.1",
     "prisma": "7.9.1",
     "tsx": "4.21.0",
     "typescript": "6.0.3",

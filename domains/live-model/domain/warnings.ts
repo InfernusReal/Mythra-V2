@@ -20,7 +20,7 @@ export const neutralWarningMessages: Readonly<Record<LiveModelWarningType, strin
   BROKEN_REFERENCE: "A reference points to an archived or unavailable object.",
   TIMELINE_ORDER_CONFLICT: "Two explicit timeline ordering constraints do not agree.",
   QUOTA_APPROACH: "A measured storage resource is approaching its configured limit.",
-  BACKUP_HEALTH: "A verified project snapshot is older than the configured interval.",
+  BACKUP_HEALTH: "No verified project snapshot exists or the latest snapshot is older than the configured interval.",
   CAUSAL_TEMPORAL_CONFLICT: "An explicit cause appears after its effect in comparable story time.",
   HARD_PREREQUISITE_LOOP: "Active hard prerequisites form a cycle without explicit progression or mutual-state semantics.",
   ORPHAN_CAUSAL_ENDPOINT: "A causal relation points to an archived or unavailable endpoint.",
@@ -69,7 +69,7 @@ export function calculateNeutralWarnings(input: WarningEngineInput): WarningFact
   for (const id of [...input.brokenReferenceIds].sort()) warnings.push({ warningKey: `broken-reference:${id}`, warningType: "BROKEN_REFERENCE", sourceType: "STORY_REFERENCE", sourceId: id, facts: { inspectAvailable: true } });
   for (const id of [...input.timelineConflictIds].sort()) warnings.push({ warningKey: `timeline-order:${id}`, warningType: "TIMELINE_ORDER_CONFLICT", sourceType: "TIMELINE_EVENT", sourceId: id, facts: { overrideAvailable: true } });
   if (input.quotaPercent !== null && input.quotaPercent >= 0.8) warnings.push({ warningKey: "quota-approach:project", warningType: "QUOTA_APPROACH", sourceType: "PROJECT", sourceId: "project", facts: { measuredPercent: Math.round(input.quotaPercent * 100) } });
-  if (input.snapshotProviderAvailable && input.snapshotAgeHours !== null && input.snapshotAgeHours > input.backupIntervalHours) warnings.push({ warningKey: "backup-health:project", warningType: "BACKUP_HEALTH", sourceType: "PROJECT", sourceId: "project", facts: { ageHours: Math.floor(input.snapshotAgeHours), configuredIntervalHours: input.backupIntervalHours } });
+  if (input.snapshotProviderAvailable && (input.snapshotAgeHours === null || input.snapshotAgeHours > input.backupIntervalHours)) warnings.push({ warningKey: "backup-health:project", warningType: "BACKUP_HEALTH", sourceType: "PROJECT", sourceId: "project", facts: { hasVerifiedSnapshot: input.snapshotAgeHours !== null, ageHours: input.snapshotAgeHours === null ? null : Math.floor(input.snapshotAgeHours), configuredIntervalHours: input.backupIntervalHours } });
   for (const id of [...input.causalTemporalConflictIds].sort()) warnings.push({ warningKey: `causal-temporal:${id}`, warningType: "CAUSAL_TEMPORAL_CONFLICT", sourceType: "CAUSAL_RELATION", sourceId: id, facts: { overrideAvailable: true, comparableExplicitAnchors: true } });
   for (const id of [...input.hardPrerequisiteLoopIds].sort()) warnings.push({ warningKey: `hard-loop:${id}`, warningType: "HARD_PREREQUISITE_LOOP", sourceType: "CAUSAL_RELATION", sourceId: id, facts: { integrityConstraint: true } });
   for (const id of [...input.orphanCausalRelationIds].sort()) warnings.push({ warningKey: `orphan-causal:${id}`, warningType: "ORPHAN_CAUSAL_ENDPOINT", sourceType: "CAUSAL_RELATION", sourceId: id, facts: { reattachAvailable: true, retireAvailable: true, inspectImpactAvailable: true } });

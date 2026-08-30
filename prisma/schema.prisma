@@ -86,6 +86,49 @@ enum ChapterStatus {
 enum ChapterRevisionKind {
   CHECKPOINT
   CONFLICT_SERVER
+  RESTORE_CHECKPOINT
+  DESTRUCTIVE_CHECKPOINT
+}
+
+enum PortabilityArtifactPurpose {
+  INTERNAL_BACKUP
+  USER_EXPORT
+  IMPORT_ORIGINAL
+}
+
+enum PortabilityArtifactScope {
+  CHAPTER
+  VOLUME
+  MANUSCRIPT
+  FULL_PROJECT
+}
+
+enum PortabilityArtifactFormat {
+  TEXT
+  MARKDOWN
+  DOCX
+  MYTHRA_JSON
+}
+
+enum PortabilityArtifactStatus {
+  PENDING
+  PROCESSING
+  VERIFIED
+  FAILED
+  EXPIRED
+}
+
+enum ProjectSnapshotStatus {
+  PENDING
+  VERIFIED
+  FAILED
+}
+
+enum ImportSessionStatus {
+  PREVIEW_READY
+  CONFIRMED
+  FAILED
+  EXPIRED
 }
 
 enum DraftConflictStatus {
@@ -416,20 +459,20 @@ model Workspace {
 }
 
 model Project {
-  id                    String                 @id @default(uuid()) @db.Uuid
-  workspaceId           String                 @db.Uuid
-  title                 String                 @db.VarChar(240)
+  id                    String                   @id @default(uuid()) @db.Uuid
+  workspaceId           String                   @db.Uuid
+  title                 String                   @db.VarChar(240)
   description           String?
-  status                ProjectStatus          @default(ACTIVE)
-  structuralVersion     Int                    @default(1)
-  activeChapterId       String?                @unique @db.Uuid
-  createdAt             DateTime               @default(now()) @db.Timestamptz(3)
-  updatedAt             DateTime               @updatedAt @db.Timestamptz(3)
-  archivedAt            DateTime?              @db.Timestamptz(3)
-  purgeAfter            DateTime?              @db.Timestamptz(3)
-  workspace             Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
-  chapters              Chapter[]              @relation("ProjectChapters")
-  activeChapter         Chapter?               @relation("ActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
+  status                ProjectStatus            @default(ACTIVE)
+  structuralVersion     Int                      @default(1)
+  activeChapterId       String?                  @unique @db.Uuid
+  createdAt             DateTime                 @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime                 @updatedAt @db.Timestamptz(3)
+  archivedAt            DateTime?                @db.Timestamptz(3)
+  purgeAfter            DateTime?                @db.Timestamptz(3)
+  workspace             Workspace                @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  chapters              Chapter[]                @relation("ProjectChapters")
+  activeChapter         Chapter?                 @relation("ActiveChapter", fields: [activeChapterId], references: [id], onDelete: SetNull)
   writingSessions       WritingSessionState[]
   plot                  Plot?
   volumes               Volume[]
@@ -470,6 +513,9 @@ model Project {
   liveModelProjections  LiveModelProjection[]
   liveModelWarnings     LiveModelWarning[]
   liveModelDeliveries   LiveModelEventDelivery[]
+  projectSnapshots      ProjectSnapshot[]
+  portabilityArtifacts  PortabilityArtifact[]
+  importSessions        ImportSession[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -695,18 +741,99 @@ model StoryReference {
 }
 
 model ObjectRevision {
-  id         String              @id @default(uuid()) @db.Uuid
-  projectId  String              @db.Uuid
-  objectType StructureObjectType
-  objectId   String              @db.Uuid
-  version    Int
-  snapshot   Json
-  reason     String?             @db.VarChar(120)
-  createdAt  DateTime            @default(now()) @db.Timestamptz(3)
-  project    Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  id                    String              @id @default(uuid()) @db.Uuid
+  projectId             String              @db.Uuid
+  objectType            StructureObjectType
+  objectId              String              @db.Uuid
+  version               Int
+  snapshot              Json
+  reason                String?             @db.VarChar(120)
+  representationVersion String              @default("2.2.1") @db.VarChar(24)
+  snapshotHash          String?             @db.Char(64)
+  createdById           String?             @db.Uuid
+  createdAt             DateTime            @default(now()) @db.Timestamptz(3)
+  project               Project             @relation(fields: [projectId], references: [id], onDelete: Restrict)
 
   @@unique([objectType, objectId, version])
   @@index([projectId, objectType, objectId, createdAt(sort: Desc)])
+}
+
+model ProjectSnapshot {
+  id                    String                @id @default(uuid()) @db.Uuid
+  projectId             String                @db.Uuid
+  createdById           String                @db.Uuid
+  status                ProjectSnapshotStatus @default(PENDING)
+  representationVersion String                @default("2.2.1") @db.VarChar(24)
+  structuralVersion     Int
+  storageKey            String?               @unique @db.VarChar(320)
+  manifest              Json?
+  sha256                String?               @db.Char(64)
+  sizeBytes             BigInt?
+  idempotencyKey        String                @db.VarChar(96)
+  attempts              Int                   @default(0)
+  lastErrorCode         String?               @db.VarChar(80)
+  requestedAt           DateTime              @default(now()) @db.Timestamptz(3)
+  completedAt           DateTime?             @db.Timestamptz(3)
+  verifiedAt            DateTime?             @db.Timestamptz(3)
+  retentionUntil        DateTime              @db.Timestamptz(3)
+  project               Project               @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  artifacts             PortabilityArtifact[]
+
+  @@unique([projectId, idempotencyKey])
+  @@index([projectId, status, requestedAt(sort: Desc)])
+  @@index([status, retentionUntil])
+}
+
+model PortabilityArtifact {
+  id                    String                     @id @default(uuid()) @db.Uuid
+  projectId             String                     @db.Uuid
+  snapshotId            String?                    @db.Uuid
+  createdById           String                     @db.Uuid
+  purpose               PortabilityArtifactPurpose
+  scope                 PortabilityArtifactScope
+  format                PortabilityArtifactFormat
+  status                PortabilityArtifactStatus  @default(PENDING)
+  representationVersion String                     @default("2.2.1") @db.VarChar(24)
+  sourceObjectId        String?                    @db.Uuid
+  storageKey            String?                    @unique @db.VarChar(320)
+  manifest              Json?
+  sha256                String?                    @db.Char(64)
+  sizeBytes             BigInt?
+  idempotencyKey        String                     @db.VarChar(96)
+  attempts              Int                        @default(0)
+  lastErrorCode         String?                    @db.VarChar(80)
+  createdAt             DateTime                   @default(now()) @db.Timestamptz(3)
+  completedAt           DateTime?                  @db.Timestamptz(3)
+  verifiedAt            DateTime?                  @db.Timestamptz(3)
+  expiresAt             DateTime?                  @db.Timestamptz(3)
+  project               Project                    @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  snapshot              ProjectSnapshot?           @relation(fields: [snapshotId], references: [id], onDelete: Restrict)
+
+  @@unique([projectId, idempotencyKey])
+  @@index([projectId, purpose, status, createdAt(sort: Desc)])
+  @@index([status, expiresAt])
+}
+
+model ImportSession {
+  id                    String                    @id @default(uuid()) @db.Uuid
+  projectId             String                    @db.Uuid
+  createdById           String                    @db.Uuid
+  format                PortabilityArtifactFormat
+  status                ImportSessionStatus       @default(PREVIEW_READY)
+  representationVersion String                    @default("2.2.1") @db.VarChar(24)
+  originalStorageKey    String                    @unique @db.VarChar(320)
+  originalSha256        String                    @db.Char(64)
+  originalSizeBytes     BigInt
+  preview               Json
+  idempotencyKey        String                    @db.VarChar(96)
+  createdAt             DateTime                  @default(now()) @db.Timestamptz(3)
+  confirmedAt           DateTime?                 @db.Timestamptz(3)
+  expiresAt             DateTime                  @db.Timestamptz(3)
+  project               Project                   @relation(fields: [projectId], references: [id], onDelete: Restrict)
+
+  @@unique([projectId, idempotencyKey])
+  @@index([projectId, status, createdAt(sort: Desc)])
+  @@index([status, expiresAt])
 }
 
 model StructureViewState {
@@ -1367,23 +1494,23 @@ model StoredAsset {
 }
 
 model ResearchItem {
-  id          String           @id @default(uuid()) @db.Uuid
-  projectId   String           @db.Uuid
-  createdById String           @db.Uuid
+  id          String             @id @default(uuid()) @db.Uuid
+  projectId   String             @db.Uuid
+  createdById String             @db.Uuid
   kind        ResearchItemKind
-  title       String           @db.VarChar(200)
+  title       String             @db.VarChar(200)
   body        String?
-  url         String?          @db.VarChar(2048)
+  url         String?            @db.VarChar(2048)
   citation    String?
   excerpt     String?
-  assetId     String?          @unique @db.Uuid
-  version     Int              @default(1)
-  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
-  updatedAt   DateTime         @updatedAt @db.Timestamptz(3)
-  archivedAt  DateTime?        @db.Timestamptz(3)
-  project     Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  createdBy   User             @relation("ResearchItemCreator", fields: [createdById], references: [id], onDelete: Restrict)
-  asset       StoredAsset?     @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  assetId     String?            @unique @db.Uuid
+  version     Int                @default(1)
+  createdAt   DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime           @updatedAt @db.Timestamptz(3)
+  archivedAt  DateTime?          @db.Timestamptz(3)
+  project     Project            @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy   User               @relation("ResearchItemCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  asset       StoredAsset?       @relation(fields: [assetId], references: [id], onDelete: Restrict)
   links       ResearchItemLink[]
 
   @@index([projectId, kind, archivedAt, updatedAt(sort: Desc)])
@@ -1456,25 +1583,25 @@ model AuditEvent {
 }
 
 model OutboxEvent {
-  id            String       @id @default(uuid()) @db.Uuid
-  workspaceId   String       @db.Uuid
-  aggregateType String       @db.VarChar(80)
-  aggregateId   String       @db.VarChar(128)
-  eventType     String       @db.VarChar(120)
-  payload       Json
-  status        OutboxStatus @default(PENDING)
-  attempts      Int          @default(0)
-  schemaVersion Int          @default(1)
-  availableAt   DateTime     @default(now()) @db.Timestamptz(3)
-  leaseOwner    String?      @db.VarChar(128)
-  leasedUntil   DateTime?    @db.Timestamptz(3)
-  lastErrorCode String?      @db.VarChar(80)
-  lastErrorAt   DateTime?    @db.Timestamptz(3)
-  deadLetteredAt DateTime?   @db.Timestamptz(3)
-  createdAt     DateTime     @default(now()) @db.Timestamptz(3)
-  completedAt   DateTime?    @db.Timestamptz(3)
-  workspace     Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
-  delivery      LiveModelEventDelivery?
+  id             String                  @id @default(uuid()) @db.Uuid
+  workspaceId    String                  @db.Uuid
+  aggregateType  String                  @db.VarChar(80)
+  aggregateId    String                  @db.VarChar(128)
+  eventType      String                  @db.VarChar(120)
+  payload        Json
+  status         OutboxStatus            @default(PENDING)
+  attempts       Int                     @default(0)
+  schemaVersion  Int                     @default(1)
+  availableAt    DateTime                @default(now()) @db.Timestamptz(3)
+  leaseOwner     String?                 @db.VarChar(128)
+  leasedUntil    DateTime?               @db.Timestamptz(3)
+  lastErrorCode  String?                 @db.VarChar(80)
+  lastErrorAt    DateTime?               @db.Timestamptz(3)
+  deadLetteredAt DateTime?               @db.Timestamptz(3)
+  createdAt      DateTime                @default(now()) @db.Timestamptz(3)
+  completedAt    DateTime?               @db.Timestamptz(3)
+  workspace      Workspace               @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  delivery       LiveModelEventDelivery?
 
   @@index([status, availableAt, leasedUntil])
   @@index([workspaceId, createdAt(sort: Desc)])
@@ -1532,9 +1659,9 @@ model LiveModelWarning {
   suppressedAt             DateTime?            @db.Timestamptz(3)
   suppressedById           String?              @db.Uuid
   resolvedAt               DateTime?            @db.Timestamptz(3)
-  createdAt                DateTime              @default(now()) @db.Timestamptz(3)
-  updatedAt                DateTime              @updatedAt @db.Timestamptz(3)
-  project                  Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt                DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt                DateTime             @updatedAt @db.Timestamptz(3)
+  project                  Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([projectId, warningKey])
   @@index([projectId, warningType, resolvedAt, suppressedAt])
