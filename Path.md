@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 pre-code checkpoint pending remote proof** | Entries S12 and S13 below | S12 chain and reconciliation remotely passed; S13 product code remains locked until its Path-only checkpoint is pushed, matched and CI-passed |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 product and product CI passed; evidence commit pending** | Entries S12 and S13 below | S13 plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`; product CI `33324168066`/`99291266317` passed; distinct evidence and macro-audit proof still required |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -57,13 +57,13 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
-| 13 | Revisions + Snapshots + Export | 4 | **Pre-code checkpoint pending remote proof** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | No S13 product file has changed; checkpoint must pass remotely first |
+| 13 | Revisions + Snapshots + Export | 4 | **Implemented and locally audited — evidence commit pending remote proof** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`, CI `33303679067`/`99236307264`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317` passed; this evidence commit must pass before formal closure |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. S12's pre-code checkpoint, product and evidence are independently pushed, remotely matched and CI-passed; section 18.15 reconciles those immutable results and marks S12 Passed. S13 remains Not started until this Path-only reconciliation is remotely proved and a separate S13 pre-code checkpoint is also remotely proved.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12. S13's pre-code checkpoint and product are independently pushed, remotely matched and CI-passed; sections 19.7–19.14 record the implementation and audit. S13 remains formally open until its evidence commit is remotely matched and CI-passed. Phase 4 remains open until S13 closes and a later distinct Phase 4 macro audit is also remotely proved.
 
 ## 4. Entry S0 — Foundation
 
@@ -2921,7 +2921,161 @@ Implementation order is mandatory: versioned representations and red completenes
 
 **Pre-code doctrine result:** restore/export/import never converts projections into truth, makes optional structure mandatory, turns chronology/reference into causality, auto-edits prose, invents missing causal/outline facts, or weakens ownership/privacy. Existing writing and export access cannot depend on a future paid tier. Support/storage failures degrade only the history/portability surface.
 
-**Current status:** Path-only S13 checkpoint drafted. No S13 product/schema/test file has changed. Mandatory next action is to commit/push this checkpoint, match the remote hash and require CI success. Product implementation remains locked until then.
+**Historical checkpoint status:** this Path-only S13 checkpoint was committed as `afcd9c205ac5f3b27d9702f576cb520523422ba7`, pushed, remotely matched and passed CI run `33303679067`, job `99236307264`. Only then did S13 product work start. The implementation and evidence below supersede this point-in-time lock without rewriting its chronology.
+
+### 19.7 Actual file inventory and implemented behavior
+
+Product commit `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b` contains exactly 40 files, 1,682 insertions and 62 deletions. `Path.md` was deliberately excluded so this entry can cite an immutable product commit.
+
+| Files | Action | Implemented behavior and WorkPlan ownership |
+| --- | --- | --- |
+| `package.json`, `package-lock.json` | Modified | Added snapshot worker/database verification scripts, production `.docx` parsing through patched `mammoth@1.11.0`, and `jszip` only for standards-conformant test fixture generation. Implements WorkPlan 8.1 import and 8.2 operations/test tooling. |
+| `prisma/schema.prisma`; `prisma/migrations/20260830120000_history_portability/migration.sql`; `rollback.sql` | Modified/created | Completed revision metadata; added restore/destructive checkpoint kinds, ProjectSnapshot, PortabilityArtifact and ImportSession enums/tables/relations, manifest/hash/size/expiry/retention/attempt fields, ownership/idempotency/index/check constraints, and isolated rollback. Implements 8.1 revision/snapshot/storage contracts. |
+| `domains/portability/domain/representations.ts`, `import.ts` | Created | Frozen representation `2.2.1`; exact 35-collection canonical archive contract; deterministic key ordering, date/bigint/decimal normalization, SHA-256, counts and ID digests, corruption/completeness verification, deterministic safe-copy IDs; bounded Text/Markdown/DOCX preview, rich chapter documents and V1 seam with zero invented outlines/causality. Implements 8.1 portability and 8.3 steps 5–6. |
+| `domains/portability/application/ports.ts`, `service.ts` | Created | Defined repository/storage/archive ports and orchestrated status, immutable writes, manual snapshots, all four export scopes, expiry/integrity reads, import preview/confirm, safe-copy/current restore, and archive-first destructive preview. Failed replays recover already-written immutable bytes before database completion; retries cap at eight. User archives remove private storage keys. Implements 8.1 and the failure/portability invariants. |
+| `domains/portability/infrastructure/prisma-project-archive-reader.ts` | Created | Performs workspace-owned, deterministic, bounded reads over all canonical collections, rejects >100,000 records per collection or >250,000 total, exports manuscript Markdown and excludes rebuildable projections as truth. Implements archive completeness and bounded-query rules. |
+| `domains/portability/infrastructure/prisma-portability-repository.ts`, `signed-artifact-access.ts` | Created | Implements transactional reserve/complete/fail records, attempt bounds, import confirmation, safe-copy identity remapping across all collections, current restore checkpoint/upsert, bounded backlink/causal-impact preview, five-minute HMAC artifact access, cross-workspace rejection and safe-copy replay idempotency. |
+| `lib/portability/http.ts`, `runtime.ts` | Created | Centralizes authenticated/origin/rate-limited response envelopes, stable content-free failures, private filesystem storage binding, repository/service factories and signed-access service. |
+| `app/api/v2/projects/[id]/portability/route.ts`; `snapshots/route.ts`; `snapshots/[snapshotId]/restore/route.ts`; `exports/route.ts`; `artifacts/[artifactId]/access/route.ts`; `artifacts/[artifactId]/download/route.ts`; `imports/preview/route.ts`; `imports/[importId]/confirm/route.ts`; `destructive-preview/route.ts` | Created | Added owned status, manual snapshot, safe/current restore, chapter/volume/manuscript/full export, signed download, multipart preview, explicit confirmation and destructive-preview endpoints. Dynamic params are awaited under Next 16.3 Route Handler rules; all mutations use the shared security boundary. |
+| `components/portability/PortabilityPanel.tsx`; `app/app/projects/[id]/page.tsx`; `app/globals.css` | Created/modified | Added accessible Project Home snapshot/export/import/restore controls, disclosure-based status lists, preview-before-confirm interaction, browser connectivity detection, offline disabling, support-failure messaging that explicitly preserves writing, responsive styling and Dark-theme compatibility. |
+| `domains/live-model/infrastructure/projector.ts`, `domains/live-model/domain/warnings.ts` | Modified | Replaced the S12 snapshot-provider placeholder with latest verified snapshot age/availability, feeds backup health automation, and warns neutrally when no verified snapshot exists. Snapshot completion emits `RevisionCheckpointCreated` through the existing outbox seam. |
+| `docs/architecture/portability-representation.md`, `docs/runbooks/history-portability.md` | Created | Documents stable representation, collection authority, hash/completeness rules, V1 mapping, operations, retention/no-purge boundary, corruption response, safe-copy/current restore, signed download and rollback limitations. |
+| `scripts/process-scheduled-snapshots.ts`, `scripts/verify-portability-db.ts` | Created | Added bounded scheduled snapshot runner and isolated PostgreSQL verifier/rollback proof covering idempotency, corruption, ownership, causal round-trip, imports, both restore modes, destructive checkpointing and schema isolation. |
+| `tests/fixtures/portability.ts`; `tests/unit/portability-representations.test.ts`; `tests/unit/portability-import.test.ts`; `tests/service/portability-service.test.ts`; `tests/component/portability-ui.test.tsx`; `tests/accessibility/portability-accessibility.test.tsx`; `tests/stress/portability.stress.test.ts`; `tests/e2e/portability.spec.ts` | Created | Added deterministic round-trip, real DOCX, V1 non-invention, immutable partial-failure retry, expiry/corruption, UI success/failure/offline, axe, 25,000-object and 1,000-chapter budgets, desktop/mobile/degraded browser and full database drill evidence. |
+
+### 19.8 Code, data ownership, recovery, and failure semantics
+
+- **Canonical representation:** `ProjectArchive` contains Project plus `chapters`, `chapterRevisions`, `plot`, `plotOutlines`, `volumes`, `volumeOutlines`, `chapterOutlines`, `scenes`, `narrativeIntents`, `storyReferences`, `objectRevisions`, `milestones`, `chapterMilestoneLinks`, `milestoneDependencies`, `storyChanges`, `causalRelations`, `captures`, `captureAttachments`, `captureConversions`, `captureRevisions`, `entityTypes`, `entityFieldDefinitions`, `storyEntities`, `entityFieldValues`, `relationTypes`, `entityRelations`, `entityStateSnapshots`, `entityRevisions`, `timelineEvents`, `timelineEventLinks`, `notes`, `notePromotions`, `researchItems`, `researchItemLinks`, and `storedAssets`. Search/projection tables are excluded because they are rebuildable, not canonical.
+- **Completeness/integrity:** every collection has a count and sorted-ID digest. The whole deterministic byte sequence has a SHA-256 and byte count. Readback verifies representation, required collections, byte hash/length and all inventory digests before a snapshot becomes VERIFIED or a restore begins.
+- **History and restore:** current restore first creates a verified full-current snapshot and per-current-chapter `RESTORE_CHECKPOINT` revisions, then transactionally applies the selected archive identities/values. It does not purge additional current facts; therefore it cannot silently destroy present work. Safe-copy mode reconstructs the complete selected archive into a separate owned project using deterministic non-source UUIDs and remapped relationships. A repeated safe-copy request resolves to the same completed copy.
+- **Destructive safety:** destructive preview first makes a verified checkpoint, then returns at most 100 StoryReference backlinks and 300 ranked CausalRelations with endpoint/relation/provenance facts plus MOVE/REATTACH/RETIRE choices. It never performs the destructive mutation or edits prose.
+- **Artifacts:** internal ProjectSnapshot records and user PortabilityArtifact records are different tables/purposes. Private object keys include workspace/project identity but are never logged or exposed in user archive JSON. User exports expire after 24 hours; access tokens expire after five minutes. Original import bytes are retained privately for seven days. Snapshot retention is 90 days; no purge process was introduced.
+- **Retry and immutability:** unique `(projectId,idempotencyKey)` reservations stabilize identities. Writes are create-only; an identical existing object is accepted only after hash equality. If object storage succeeds and database completion fails, retry reads/verifies the immutable bytes and completes the same record. Attempts cannot exceed eight.
+- **Import:** files are limited to 25 MiB and 2,000 proposed chapters. Text and Markdown split deterministically on chapter headings; DOCX is parsed by Mammoth, not custom ZIP/XML interpretation. Preview returns titles/body/word counts only to the author UI; no Chapter write occurs until confirmation. Confirmation appends new chapters and never overwrites manuscript prose.
+- **Offline/degraded behavior:** the panel combines its server-availability state with `navigator.onLine`; server-owned controls disable offline. Portability errors do not remove or disable the editor, local journal, autosave, continuation, Capture or other authoring paths.
+- **Privacy/observability:** server logs flow through the S0 forbidden-key logger; client/database proof logs use identifiers, enums, counts, sizes, hashes and stable codes only. No manuscript/import/archive bytes, title, Note, Capture, condition, provenance note, object key, signed URL or token is emitted.
+- **No scope leakage:** no billing/entitlement, paid tier, AI, literary score, automatic filing, automatic prose edit, permanent purge, collaboration or S14+ endpoint was added. Existing Project/Chapter/editor behavior remains readable and writable without portability availability.
+
+### 19.9 Validation and stress evidence
+
+| Command/check | Final result | Exact evidence and interpretation |
+| --- | --- | --- |
+| `npm run lint` | Pass | ESLint completed with zero warnings/errors after final retry/privacy/offline repairs. |
+| `npm run typecheck` | Pass | `tsc --noEmit` completed after the final product change. |
+| `npm run test:coverage` | Pass | 75 files/264 tests; statements 88.69%, branches 75.45%, functions 85.51%, lines 94.42%. All thresholds passed. jsdom printed its known non-failing canvas limitation during axe setup. |
+| `npm run test:stress` | Pass | 12 files/23 tests in 9.70s; includes 25,000-object archive and 1,000-chapter full export/verify budgets under 5s and 25 MiB. |
+| `npm run test:a11y` | Pass | 6 files/8 tests; serious/critical axe results empty. The non-failing jsdom canvas notice is recorded, not suppressed. |
+| `npm audit --audit-level=moderate` | Pass after repair | Initial audit identified Mammoth 1.10.0 path traversal advisory; upgraded to 1.11.0. Final audit: 0 vulnerabilities. |
+| CI-equivalent `npm run build` with documented OIDC environment | Pass | Next 16.3 production build compiled, typechecked, prerendered 10 static pages and enumerated all portability routes. The first no-env attempt correctly failed the Zod environment guard and was not counted as a pass. |
+| Focused S13 unit/service/component/accessibility/stress | Pass | 6 files/16 tests before final repairs; final service/stress rerun 2 files/7 tests; coverage run subsumes the complete final suite. |
+| `npm run test:e2e -- tests/e2e/portability.spec.ts` against isolated PostgreSQL | Pass after test repair | 3 executed passes and 3 intentional cross-project skips: desktop snapshot/full export/safe copy/import/axe, degraded support plus continued editor writing/offline disable, mobile Dark. Initial assertion looked inside a collapsed `<details>` and failed; test was corrected to open the disclosure, product code unchanged. |
+| Fresh `prisma dev` + `prisma migrate deploy` | Pass | Applied all 14 migrations in order through `20260830120000_history_portability` on a new isolated server. |
+| `npm run db:verify:portability` after final code freeze | Pass | 35 collections; snapshot/export replay true; export 3,238 bytes; import 1 chapter; safe copy 1 chapter/1 causal relation; current checkpoint count 1; destructive causal impact count 1; cross-workspace and corruption rejected; 3 S13 tables and 15 indexes verified. |
+| `npm run worker:snapshots` | Pass | Bounded scheduler selected 6 projects and completed 6 verified snapshots with 0 failures. |
+| `npm run db:rollback:portability` after final code freeze | Pass | S13 tables 0 and ObjectRevision-added columns 0; preserved 2 Projects, 3 Chapters, 2 ChapterRevisions and 0 pre-existing ObjectRevisions in the final isolated drill. Enum additions intentionally remain for rolling safety. |
+| `git diff --cached --check`, file/secret/trace audit | Pass | 40-file product scope, no whitespace error after EOF cleanup, no credential/test DB URL committed, and every S13 operational step has an adjacent identifying comment. |
+| GitHub CI `33324168066`, job `99291266317` | Pass | Product commit completed `npm ci`, Prisma generation, lint, typecheck, final coverage and production build in 3m53s. The actions Node-runtime deprecation annotation was informational. |
+
+### 19.10 Exact S13 console instrumentation ledger
+
+Server logger calls below terminate at the existing content-safe `console.log` transport in `lib/observability/logger.ts`. UI and verifier calls are literal `console.log`. “Comment line” is the exact product-commit line; inline means the comment follows the immediately preceding operation on the same source line and the call is on the next line.
+
+| Step | Comment line; exact adjacent comment | Call line/transport |
+| --- | --- | --- |
+| `S13-API-001` | `domains/portability/application/service.ts:27` — `// Console trace S13-API-001: portability status reports bounded artifact states and counts without archive or manuscript content.` | line 28, `this.logger.info` |
+| `S13-STORAGE-001` | `domains/portability/application/service.ts:33` — `// Console trace S13-STORAGE-001: immutable private write begins with byte count and digest only.` | line 34, `this.logger.info` |
+| `S13-STORAGE-002` | `domains/portability/application/service.ts:40` — `// Console trace S13-STORAGE-002: immutable private write completion discloses no object key or signed credential.` | line 41, `this.logger.info` |
+| `S13-SNAPSHOT-001` | `domains/portability/application/service.ts:45` — `// Console trace S13-SNAPSHOT-001: owned snapshot build begins with stable identity and idempotency metadata only.` | line 46, `this.logger.info` |
+| `S13-MANIFEST-001` | `domains/portability/application/service.ts:62` — `// Console trace S13-MANIFEST-001: complete archive manifest records only source counts, structural version, bytes and hash.` | line 63, `this.logger.info` |
+| `S13-SNAPSHOT-002` | `domains/portability/application/service.ts:68` — `// Console trace S13-SNAPSHOT-002: verified snapshot completion contains integrity, version and size evidence only.` | line 69, `this.logger.info` |
+| `S13-EXPORT-001` | `domains/portability/application/service.ts:87` — `// Console trace S13-EXPORT-001: export request logs scope, format and stable identifiers without generated content.` | line 88, `this.logger.info` |
+| `S13-EXPORT-002` | `domains/portability/application/service.ts:104` — `// Console trace S13-EXPORT-002: immutable export completion logs integrity and expiry facts only.` | line 105, `this.logger.info` |
+| `S13-STORAGE-003` | `domains/portability/application/service.ts:114` — `// Console trace S13-STORAGE-003: authenticated artifact read verifies size and digest without logging bytes, key or token.` | line 115, `this.logger.info` |
+| `S13-IMPORT-001` | `domains/portability/application/service.ts:120` — `// Console trace S13-IMPORT-001: import parsing begins with format, byte count and digest only.` | line 121, `this.logger.info` |
+| `S13-IMPORT-002` | `domains/portability/application/service.ts:125` — `// Console trace S13-IMPORT-002: preview completion reports bounded chapter and warning counts, never imported text or titles.` | line 126, `this.logger.info` |
+| `S13-IMPORT-003` | `domains/portability/application/service.ts:132` — `// Console trace S13-IMPORT-003: confirmed import logs created identities/counts only after explicit preview acceptance.` | line 133, `this.logger.info` |
+| `S13-RESTORE-001` | `domains/portability/application/service.ts:138` — `// Console trace S13-RESTORE-001: restore starts with owned snapshot identity and selected safety mode only.` | line 139, `this.logger.info` |
+| `S13-RESTORE-002` | `domains/portability/application/service.ts:145` — `// Console trace S13-RESTORE-002: current restore completion proves the mandatory checkpoint identity and restored count.` | line 146, `this.logger.info` |
+| `S13-RESTORE-003` | `domains/portability/application/service.ts:156` — `// Console trace S13-RESTORE-003: safe-copy restore reports new identity and bounded restored counts without canonical content.` | line 157, `this.logger.info` |
+| `S13-RESTORE-004` | `domains/portability/application/service.ts:164` — `// Console trace S13-RESTORE-004: destructive preview proves archive-first ordering and bounded impact counts/provenance only.` | line 165, `this.logger.info` |
+| `S13-API-002` | `lib/portability/http.ts:18` — `// Console trace S13-API-002: history/portability route completion contains only route, identity and status metadata.` | line 19, `logger.info` |
+| `S13-API-003` | `lib/portability/http.ts:23` — `// Console trace S13-API-003: route failure exposes a stable code and excludes runtime messages, archive bytes and author content.` | line 24, `logger.warn` |
+| `S13-API-004` | `app/api/v2/projects/[id]/portability/artifacts/[artifactId]/download/route.ts:7` inline — `// Console trace S13-API-004: signed artifact download logs only identity, byte count and successful authorization.` | line 8, `logger.info` |
+| `S13-UI-001` | `components/portability/PortabilityPanel.tsx:15` inline — `// Console trace S13-UI-001: status applies only bounded artifact states, counts, versions and dates.` | line 16, literal `console.log` |
+| `S13-UI-002` | `components/portability/PortabilityPanel.tsx:17` inline — `// Console trace S13-UI-002: support-surface failure is content-free and does not alter editor availability.` | line 18, literal `console.log` |
+| `S13-UI-003` | `components/portability/PortabilityPanel.tsx:21` inline — `// Console trace S13-UI-003: successful history mutation logs only action and resulting stable identities.` | line 22, literal `console.log` |
+| `S13-UI-004` | `components/portability/PortabilityPanel.tsx:23` inline — `// Console trace S13-UI-004: failed history mutation uses a stable code and explicitly preserves writing flow.` | line 24, literal `console.log` |
+| `S13-UI-005` | `components/portability/PortabilityPanel.tsx:29` inline — `// Console trace S13-UI-005: download handoff logs artifact identity but never the signed URL or token.` | line 30, literal `console.log` |
+| `S13-UI-006` | `components/portability/PortabilityPanel.tsx:31` inline — `// Console trace S13-UI-006: import preview logs only format and bounded chapter/warning counts, not titles or imported text.` | line 32, literal `console.log` |
+| `S13-SNAPSHOT-003` | `scripts/process-scheduled-snapshots.ts:12` — `// Console trace S13-SNAPSHOT-003: scheduler exit reports bounded project and outcome counts only.` | line 13, literal `console.log` |
+| `S13-DB-001` | `scripts/verify-portability-db.ts:37` — `// Console trace S13-DB-001: database proof records IDs, counts, bytes, integrity, ownership and restore outcomes only.` | line 38, literal `console.log` |
+| `S13-DB-002` | `scripts/verify-portability-db.ts:44` inline — `// Console trace S13-DB-002: rollback proof records only S13 schema removal and preserved prior row counts.` | line 45, literal `console.log` |
+
+### 19.11 Side-by-side WorkPlan S13 conformance audit
+
+| Exact requirement | WorkPlan owner | Actual evidence | Classification | Action/result |
+| --- | --- | --- | --- | --- |
+| Complete ObjectRevision, ChapterRevision, ProjectSnapshot, manifests, hashes, private archives, retention and accounting | 8.1 lines 551–553 | Schema/migration, representation manifest, private storage, status UI, database shape/index proof | Verified | No gap. |
+| Checkpoint before destructive/high-impact work; archive before delete; bounded backlinks/causal provenance; move/reattach/retire | 8.1 lines 553–555 | `destructivePreview`, S13-RESTORE-004, database causal impact=1, no mutation route | Verified | No delete/purge added; preview is safety-only. |
+| Restore never destroys current state; current or safe copy | 8.1 line 555 | Verified checkpoint before current transaction; exact safe-copy archive reconstruction; current mode preserves additional present facts rather than deleting them | Verified | Previous state is recoverable from checkpoint; safe copy is recommended exact isolation. |
+| Scheduled/manual snapshots, integrity, backup health and practiced safe-copy restore | 8.1 line 556 | worker 6/6, manual UI/API, readback verification, Live Model provider/warning, fresh DB safe-copy drill | Verified | No gap. |
+| Internal backup distinct from user export | 8.1 line 557 | Separate ProjectSnapshot vs PortabilityArtifact purpose/status; private storage keys removed from user JSON | Verified | No gap. |
+| Chapter, volume, manuscript and versioned full-project exports | 8.1 line 561 | ExportScope/Format validation and service filters/full archive; service tests and 1,000-chapter stress | Verified | UI exposes common manuscript/full actions; chapter/volume remain API-capable. |
+| Human-readable manuscript plus structured outlines/milestones/entities/states/relations/references/changes/causality/timeline/notes/research/captures/intents/stable IDs | 8.1 line 562 | 35 canonical collections, manuscriptMarkdown, manifest count/ID digests, source reader and completeness tests | Verified | Rebuildable projections intentionally excluded. |
+| Preserve causal identities/types/semantics/status/conditions/notes/provenance | 8.1 line 563 | Fixture, round-trip unit test and real DB safe-copy relation proof | Verified | Initial StoryReference/CausalEndpoint enum coupling bug found by DB test and repaired with distinct valid-type sets. |
+| Immutable, expiring, idempotent, retryable artifacts and signed short-lived downloads | 8.1 line 564 | Unique reservations, eight-attempt bound, immutable hash compare, partial-completion recovery test, expiry test, five-minute HMAC token | Verified | No public key/token exposure. |
+| Text, Markdown and reliable modern word-processing import; split preview; original preservation | 8.1 line 565 | Deterministic adapters, real DOCX container test, private original, PREVIEW_READY then explicit confirm | Verified | Mammoth upgraded to non-vulnerable 1.11.0. |
+| Version/document stable representation and round-trip validation | 8.1 line 566 | `2.2.1`, architecture doc, manifest round trip/corruption/completeness tests | Verified | No gap. |
+| V1 seam without invented outlines/causality | 8.1 line 567 | `mapV1Seam` and zero-invention test | Verified | No V1 auto-migration route activated. |
+| Required services/storage/manifests/UI/runbook/import-export domains/tests | 8.2 lines 574–577 | Complete 40-file inventory and all validation classes above | Verified | No named file class omitted. |
+| Manifest/checker before generators; corruption and safe-copy tests; thousand-chapter budget | 8.3 lines 585–587 | Deterministic domain-first design; corruption DB/unit; 25k/1k stress | Verified | No threshold reduction. |
+| Revisions/snapshots restore without destroying prior current state | 8.4 line 594 | Current checkpoint snapshot + ChapterRevision; safe-copy exact project; database proof | Verified | No purge path exists. |
+| Every author object/relationship represented; causal round trip | 8.4 line 595 | Exact 35-list checker, count/ID digests, 1 causal relation survives safe copy | Verified | No projection substitutes for canonical data. |
+| Destructive preview does not auto-mutate prose | 8.4 line 596 | Preview-only endpoint/service, causal/backlink bounds, editor unchanged | Verified | No mutation implementation. |
+| Separate S12/S13 Path and remote evidence before Phase 4 audit | 8.4 line 597 | S12 immutable chain; S13 plan/product remote CI; current evidence commit remains pending | Implemented-not-verified | S13 and Phase 4 remain open until evidence CI and later macro-audit proof. |
+
+### 19.12 Contradiction, doctrine, and anti-goal answers
+
+- Structure, Scene, Universe, Capture filing and causality remain optional. Import creates Chapters only after confirmation; no outline/causal fact is invented.
+- Milestones remain many-to-many through ChapterMilestoneLink; no chapter ownership field was added.
+- Hierarchy, chronology, StoryReference and CausalRelation retain distinct tables and enums. The database audit repaired an invalid attempt to reuse the broader causal type set in the narrower StoryReference enum.
+- No snapshot/export/import/restore path auto-edits prose. Current restore is an explicit high-impact choice preceded by a recoverable checkpoint.
+- ProjectArchive is a versioned transfer/checkpoint representation of canonical tables; Live Model/Search projections and client status are not canonical.
+- Backup health reports verified snapshot age/availability truthfully. No stale or absent snapshot appears healthy.
+- No quota, downgrade or pricing check was added; owned work remains readable/exportable. The USD 15 Core/USD 25 future Intelligence ruling is unchanged and remains S14-owned.
+- Portability support/storage failure disables only portability controls and explicitly leaves editor writing available; browser and component tests prove it.
+- Logs and errors contain no author content, filenames, conditions, provenance notes, storage keys, signed URLs or tokens. Full user JSON additionally strips private `storageKey` fields.
+- Archive reads are ownership-scoped and bounded at 100,000 per collection/250,000 total; backlink/causal preview is bounded at 100/300; status lists are 50/100/50.
+- No AI proposal, automatic interpretation, billing, analytics, collaboration, purge or S14–S17 capability was activated.
+- Existing Because/Consequences directive arrays and the outline-aware Semantic Zoom coordinate remain untouched; S13 archives their canonical sources without redefining either contract.
+
+### 19.13 Deviations, audit findings, and repairs
+
+| Finding | Classification at discovery | Repair and final status |
+| --- | --- | --- |
+| Story Change destructive preview was passed to the narrower StoryReference enum | Gap found by first real DB run | Split reference-valid and causal-valid endpoint sets; final fresh database proof passes. |
+| Live Model snapshot provider still returned unavailable after snapshot implementation | Gap | Projector now reads latest VERIFIED snapshot and warning engine reports factual age/absence; snapshot completion emits checkpoint event. |
+| UI `online` prop did not observe real browser changes | Gap | Composed with `useNetworkStatus`; component and Playwright offline tests pass. |
+| User full archive exposed private object-storage keys | Privacy gap | User-export clone strips `storageKey`; internal snapshot retains keys for asset restore; service test asserts absence. |
+| Failed replay after storage success could regenerate divergent immutable bytes | Reliability gap | Failed replay recovers/verifies existing bytes and completes same record; explicit partial-completion test passes. |
+| Snapshot/artifact attempt increment could exceed database check | Reliability gap | Failure updates only below eight; service refuses exhausted retries with stable conflict. |
+| Mammoth 1.10.0 had a published path-traversal advisory | Dependency gap | Upgraded/pinned 1.11.0; final npm audit reports 0 vulnerabilities. |
+| Initial coverage branch result was 73.70% | Test gap | Added behavioral failure/offline/normalization/UI tests; final branch coverage 75.45% without changing thresholds. |
+| Initial browser assertion targeted content inside a closed disclosure | Test defect, not product gap | Test opens disclosure before assertion; rerun passes all applicable projects. |
+| Initial local build/browser attempts lacked required environment | Validation setup failure | Recorded as failure; reran build with CI OIDC variables and browser with isolated PostgreSQL/development auth. Both pass. |
+| Thousand-chapter export wording was not directly exercised | Audit gap | Added 1,000-chapter full archive generation/verification budget; full stress suite passes. |
+
+No unresolved in-scope `Gap` remains. `WorkPlan.md` requires no correction: the implementation choices preserve its six-phase/original-gate ordering, S13 scope, portability semantics and anti-goals.
+
+### 19.14 Product Git evidence and current gate lock
+
+- **Pre-code checkpoint:** `afcd9c205ac5f3b27d9702f576cb520523422ba7`; pushed/matched; CI `33303679067`, job `99236307264`, passed.
+- **Product commit:** `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b` — `Implement S13 history and portability`; 40 files, 1,682 insertions, 62 deletions.
+- **Branch/remote:** `agent/workplan-subgates-audit` at `https://github.com/InfernusReal/Mythra-V2.git`.
+- **Product remote match:** local HEAD and `refs/heads/agent/workplan-subgates-audit` both resolved to `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b` after push.
+- **Product CI:** run `33324168066`, verify job `99291266317`, passed all steps in 3m53s.
+- **Scope audit:** product commit contains no `Path.md`, temporary database/storage data, screenshots, Playwright traces, credentials or source PDF.
+- **Current formal status:** S13 implementation and local audit pass, but S13 remains open until the separate commit containing sections 19.7–19.14 is pushed, remotely matched and CI-passed. Phase 4 macro audit is not yet authorized. S14 remains locked.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
