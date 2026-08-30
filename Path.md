@@ -36,7 +36,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 1. Trusted Writing Foundation | 0–3 | **Passed - macro audit and CI reconciliation complete** | Entries S0, S1, S2, S3, Phase 1 macro audit 8.1–8.9, and correction 8.10 | Final ledger `543fe83345d1ec2066a21010046e9a6025175c2e` remotely verified; CI run `31612678269` passed all steps |
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
-| 4. Live Model, Automation, History, and Portability | 12–13 | **In progress — S12 passed; S13 product and product CI passed; evidence commit pending** | Entries S12 and S13 below | S13 plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`; product CI `33324168066`/`99291266317` passed; distinct evidence and macro-audit proof still required |
+| 4. Live Model, Automation, History, and Portability | 12–13 | **S12 and S13 passed; macro audit locally passed and pending remote proof** | Entries S12, S13 and Phase 4 macro audit below | S13 evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed; distinct Phase 4 audit commit/CI still required |
 | 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
@@ -57,13 +57,13 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 10 | Search + Language | 3 | **Passed** | S9 reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd`; CI `32046631131`/`95435939423` passed | Entry S10 | Plan `038946827bce1e9b749ad3df3815b40c63027cda`; product `2a512b6d1409831f433b56853ddd256428b1b36b`; evidence `4287dd2c8665b54f8777e38eb28e4d700646e657`; reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed |
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
-| 13 | Revisions + Snapshots + Export | 4 | **Implemented and locally audited — evidence commit pending remote proof** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`, CI `33303679067`/`99236307264`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317` passed; this evidence commit must pass before formal closure |
+| 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12. S13's pre-code checkpoint and product are independently pushed, remotely matched and CI-passed; sections 19.7–19.14 record the implementation and audit. S13 remains formally open until its evidence commit is remotely matched and CI-passed. Phase 4 remains open until S13 closes and a later distinct Phase 4 macro audit is also remotely proved.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13 after its separate plan/product/evidence chain passed remotely. Phase 4 remains open only because its distinct macro-audit commit and CI are pending. S14 remains locked until the macro audit is remotely proved and reconciled.
 
 ## 4. Entry S0 — Foundation
 
@@ -3075,7 +3075,110 @@ No unresolved in-scope `Gap` remains. `WorkPlan.md` requires no correction: the 
 - **Product remote match:** local HEAD and `refs/heads/agent/workplan-subgates-audit` both resolved to `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b` after push.
 - **Product CI:** run `33324168066`, verify job `99291266317`, passed all steps in 3m53s.
 - **Scope audit:** product commit contains no `Path.md`, temporary database/storage data, screenshots, Playwright traces, credentials or source PDF.
-- **Current formal status:** S13 implementation and local audit pass, but S13 remains open until the separate commit containing sections 19.7–19.14 is pushed, remotely matched and CI-passed. Phase 4 macro audit is not yet authorized. S14 remains locked.
+- **Historical gate status at product-evidence commit:** S13 implementation and local audit passed but remained open pending evidence CI. That evidence subsequently passed and is reconciled below.
+
+### 19.15 S13 evidence reconciliation and formal gate result
+
+- Evidence commit `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0` (`Record S13 history and portability evidence`) contains only `Path.md`, was pushed, and exactly matched `refs/heads/agent/workplan-subgates-audit`.
+- GitHub Actions run `33324606334`, verify job `99292415683`, passed in 3m44s. It completed clean install, Prisma generation, lint, typecheck, all final coverage tests and production build. The actions Node-runtime annotation was informational and non-failing.
+- The immutable S13 chain is predecessor S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; pre-code plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`. Every commit is pushed, remote-matched and CI-passed in that order.
+- Sections 19.7–19.14 contain the exact file inventory, data/failure semantics, final validation results, exact trace lines/comments, WorkPlan side-by-side classifications, doctrine answers and repaired-gap register. No in-scope `Gap` remains.
+- **Formal gate result: PASS — Sub-gate 13 Revisions + Snapshots + Export is complete.** This authorizes only the distinct Phase 4 macro audit. It does not authorize S14 product code.
+
+## 20. Phase 4 macro audit — Live Model, Automation, History, and Portability
+
+### 20.1 Audit identity and immutable input chain
+
+- **Date/time and timezone:** 30 August 2026, Asia/Karachi; performed only after S13 evidence CI passed.
+- **Scope:** integrated WorkPlan sections 8.1–8.4 across Sub-gates 12 and 13. This audit adds no product/schema/test code.
+- **S12 immutable chain:** plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`; reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`. All are remote and their final CI runs passed.
+- **S13 immutable chain:** plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`. All are remote and CI-passed.
+- **Sequencing proof:** S13 plan timestamp/commit follows the remotely passed S12 reconciliation; S13 product follows the remotely passed S13 plan; macro audit follows the remotely passed S13 evidence. No original capability was bypassed.
+
+### 20.2 WorkPlan 8.1 integrated scope audit
+
+| Phase 4 scope | Owning gate/evidence | Integrated result | Classification |
+| --- | --- | --- | --- |
+| Safely claimed, idempotent, backoff/retry/dead-letter outbox with lag/failure metrics | S12 sections 18.8–18.14, product/CI | Transactional canonical writes feed claim/lease/retry/dead-letter worker; duplicate delivery and lease recovery pass | Verified |
+| Every named rebuildable projection including directives, semantic coordinates, Search/quota seams and causal adjacency | S12 projection registry/builders, DB rebuild parity | Complete projection-kind count and corrupt-projection repair pass; canonical sources remain separate | Verified |
+| Complete directive fields including explicit Because/Consequences and ruled outline-aware coordinate | S12 compiler/golden tests | Durable contract and deterministic order remain present; S13 neither rewrites nor omits it | Verified |
+| Structural/source versions, freshness, honest Updating/stale UI and stale-result rejection | S12 service/UI/tests | Mutation/outbox versions and projection freshness prevent authoritative stale replacement | Verified |
+| Complete event catalog/invalidation and deterministic automation/warning catalog | S12 events/projector/automation/warnings | All listed facts, including snapshot scheduling and backup health, are deterministic/suppressible; no literary scoring | Verified |
+| Revision/snapshot/checkpoint/backup/restore/destructive safety | S13 sections 19.7–19.15 | Versioned revisions, verified archives, safe/current restore and archive-first bounded impact pass | Verified |
+| Import/export/portability and V1 seam | S13 domain/routes/UI/tests/docs | Four export scopes, 35-collection archive, causal round trip, three import formats and zero-invention seam pass | Verified |
+| Failure isolation and writing flow | S12 degraded projection test; S13 component/E2E | Projection or portability dependency failures never block manuscript editing; UI truth is explicit | Verified |
+
+### 20.3 WorkPlan 8.2 file/deliverable audit
+
+| Required deliverable | Evidence | Result |
+| --- | --- | --- |
+| Jobs/outbox repository, worker, handlers, retry/dead-letter/repair and observability | S12 product files and sections 18.8–18.14 | Present and verified |
+| Projection stores/builders and rebuild tooling | S12 projection infrastructure, rebuild CLI/API, parity/corruption tests | Present and verified |
+| Full directive compiler and SemanticCoordinateProjection | S12 pure builders/golden fixtures/DB proof | Present and verified |
+| Revision/snapshot/backup/restore services, storage, manifests, UI and runbook | S13 40-file inventory and database/browser drill | Present and verified |
+| Export/import domains, routes/status/download UI, schemas/docs/adapters/fixtures | S13 domain/application/infrastructure/routes/UI/docs/tests | Present and verified |
+| Warning engine and suppress/override metadata | S12 warning projection/API plus S13 backup-health provider | Present and verified |
+| Integration/E2E/load coverage for propagation through causal round trip | Final 75-file/264-test coverage, 12-file/23-test stress, S12/S13 E2E and database scripts | Present and verified |
+
+### 20.4 WorkPlan 8.3 production-method audit
+
+1. Canonical events/version rules and stale/idempotency tests preceded durable projection closure in S12.
+2. Projection builders are independently rebuildable and incremental/full rebuild parity is verified.
+3. Freshness UI exists before/asynchronous propagation and exposes Updating/stale/unavailable truth.
+4. Directive precedence is deterministic and golden-tested; no model/AI inference exists.
+5. S13 froze representation `2.2.1` and the completeness checker before relying on archive generators.
+6. Corruption rejection, current checkpointing and safe-copy restore are verified in unit/service and fresh PostgreSQL drills.
+7. Phase-wide stress includes 100,000 stale deliveries, 100,000 causal node/edge automation inputs, 25,000 directive/archive objects and 1,000 chapters under explicit budgets.
+
+Result: every required method is evidenced. No threshold was weakened and no planned-later capability was used to simulate completion.
+
+### 20.5 WorkPlan 8.4 exit-gate proof
+
+| Exit condition | Evidence | Result |
+| --- | --- | --- |
+| One structural/causal fact updates all affected projections exactly once or truthfully exposes freshness | S12 real DB event/worker status, UI updating/current states, duplicate-delivery tests | Pass |
+| Full rebuild equals incremental state and repairs corrupted projection | S12 rebuild parity and corruption repair in `S12-DB-001` | Pass |
+| No event loss; duplicate harmless | Transactional outbox counts, retries, lease recovery, duplicate deliveries | Pass |
+| Revisions/checkpoints/snapshots restore without destroying previous current state | S13 verified current checkpoint, ChapterRevision, immutable prior archive and separate safe copy | Pass |
+| Export completeness and causal round trip | 35 collections with count/ID digests; safe copy retains one tested causal relation and semantics | Pass |
+| Destructive previews show bounded backlinks/causal impact without prose mutation | 100/300 bounds, provenance fields, options, DB impact proof, no destructive command | Pass |
+| S12 and S13 separately pass with Path and remote Git evidence | Immutable chains in 20.1 and successful CI IDs | Pass |
+| Phase 4 summary tests/backup drill/audit pass before S14 | Final coverage/stress/build, fresh database verify/rollback, 6/6 scheduler drill and this audit | Locally pass; remote audit CI pending |
+
+### 20.6 Source-coverage audit
+
+| Bible/WorkPlan source group | Practical implication | Evidence owner | Result |
+| --- | --- | --- | --- |
+| Section 7 | Live Model, Relevant Now, Because/Consequences, semantic coordinate | S12 compiler/projections/freshness | Covered |
+| Sections 16.4–16.6 | jobs, event processing, projection/canonical separation | S12 outbox/worker/rebuild | Covered |
+| Sections 18–21 | contracts, durability/history, automation, warnings | S12 events/automation and S13 revisions | Covered |
+| Sections 26–28 | storage/recovery, import/export/portability | S13 private storage/manifests/restore/import/export | Covered |
+| Sections 31–32 | test matrix, performance, migrations/rollback/operations | Coverage/stress/E2E/database/CI/runbook | Covered |
+| Sections 34.1–36 | accessibility/mobile/offline/privacy/security/scale | axe/mobile/offline/ownership/content-safe logs/bounds | Covered |
+| Appendices B–C | event/warning contracts and operational recovery | S12 catalog/warnings; S13 backup runbook | Covered |
+| Appendix E.6 | causality integrity/round-trip | S12 graph checks; S13 archive fixture and DB safe copy | Covered |
+
+No source group owned by Phase 4 is omitted or deferred. Billing/launch hardening remains correctly owned by later phases.
+
+### 20.7 Integrated contradiction and anti-goal audit
+
+- Optional Structure/Causality remains optional; projections and archives tolerate absent levels and never require Scene/Universe/Capture filing.
+- Milestones remain cross-cutting many-to-many links, not chapter owners. Semantic Zoom preserves Plot → Plot Outline → Volume → Volume Outline → cross-cutting milestone/thread → Chapter Outline → Chapter → optional Scene → Prose/block.
+- Hierarchy, chronology, StoryReference and causality remain distinct facts. No automation or archive infers one from another.
+- Canonical PostgreSQL tables remain truth; outbox, projections, browser state and archive manifests are derived/transfer representations with explicit versions.
+- Async work exposes freshness and cannot replace newer state; history support failure cannot block editor writing.
+- Warnings are neutral facts with suppression/override; there is no literary score, AI judgment or automatic story meaning.
+- Restore/checkpoint/export access has no billing/quota gate. USD 15 Core and dormant USD 25 Intelligence decisions remain untouched for S14.
+- Logs, metrics, errors, admin seams and tests exclude manuscript/Note/Capture/research text, archive bytes, keys and signed credentials.
+- Project, graph, status, preview and archive operations are bounded. Large inputs fail with stable capacity errors rather than unbounded loading.
+- No collaboration/community/publisher/AI/purge/post-V2 feature entered Phase 4.
+
+### 20.8 Macro audit status and remote gate lock
+
+- **Local macro result: PASS.** All WorkPlan 8.1–8.4 requirements and Phase 4 source groups have evidence; no contradiction and no unresolved in-scope `Gap` remains.
+- **Changed files in this macro audit:** `Path.md` only. `WorkPlan.md` remains unchanged because no plan contradiction was found.
+- **Remote condition:** Phase 4 is not yet formally Passed until this macro-audit commit is pushed, remote-matched and CI-passed, followed by a Path reconciliation that records that immutable result.
+- **Authorization:** S14 and Phase 5 remain locked. No billing/quota product work may start from the local audit alone.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
