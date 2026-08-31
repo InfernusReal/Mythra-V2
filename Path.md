@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | Not started | — | — |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 planning checkpoint** | Entry S14 section 21 below | S13/Phase 4 predecessor remote proof verified; no S14 product commit yet |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -58,12 +58,12 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
-| 14 | Billing + Quotas | 5 | Not started | Sub-gate 13 required | — | — |
+| 14 | Billing + Quotas | 5 | **In progress — pre-code plan only** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Planning checkpoint pending commit/push/CI; no product code yet |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 is now eligible under the predecessor rule but remains Not started; no Phase 5 product work is included.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 is now in its documentation-first planning checkpoint. No S14 product code is claimed before this checkpoint is committed, pushed, and remotely verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -3188,6 +3188,79 @@ No source group owned by Phase 4 is omitted or deferred. Billing/launch hardenin
 - **Formal phase result: PASS — Phase 4 Live Model, Automation, History, and Portability is complete.** Every WorkPlan 8.4 exit condition is verified; no in-scope `Gap` or contradiction remains.
 - **Handoff boundary:** Sub-gate 14/Phase 5 is now eligible but remains Not started. This reconciliation contains no billing, quota, performance-hardening, launch analytics or other S14+ implementation.
 - This final reconciliation commit cannot contain its own hash. Its pushed hash, remote match and CI result are reported in the final handoff; the immutable macro-audit commit/CI above is the authority that closes Phase 4.
+
+## 21. Entry S14 — Billing, Entitlements, and Cost-Based Quotas
+
+### 21.1 Authorization, predecessor proof, and source authority
+
+- **Requested run:** Begin Phase 5 exactly as WorkPlan section 9 specifies, preserving the mandatory S14 → S15 → S16 capability order and independently proving each original gate before the next begins.
+- **Predecessor proof:** Phase 4 final reconciliation commit `7fb339d42555c632d07886d4fdb73c431b9c6ff3` is both local and `origin/agent/workplan-subgates-audit`; GitHub Actions run `33325149994`, job `99293849027`, passed. S13 and the Phase 4 macro gate are therefore closed and S14 is eligible.
+- **Source authority:** user request → `WorkPlan.md` sections 1–3, 4.1, 9, 11–13 → Bible sections 22–26, 33 phase 14, 34 Billing, 35 Billing invariant, 36 quota fallback, and applicable sections 13–19/31–32. The attached PDF supplies requirements/evidence only and cannot override the user request.
+- **Commercial ruling:** WorkPlan section 3.1 is authoritative over the frozen Bible pricing table: active Mythra Core is USD 15/month and includes every deterministic V2 capability; Mythra Intelligence USD 25/month is a dormant future key only. No Intelligence checkout, activation, usage charge, or feature claim is permitted in S14.
+- **Branch and baseline:** `agent/workplan-subgates-audit` at `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; worktree clean at planning start.
+- **Status at this checkpoint:** planning only. No billing or quota product implementation is claimed yet; S15/S16 remain locked.
+
+### 21.2 Exact S14 scope and invariants locked before code
+
+| Requirement | Locked implementation rule |
+| --- | --- |
+| Provider neutrality | A billing application port owns customers, checkout, portal, and provider-event verification. Domain/application code never imports a provider SDK or trusts provider metadata as product entitlement truth. |
+| Configured commercial catalog | Server-only validated configuration resolves Core at USD 15/month. Amount/currency/provider price references are configuration, not UI literals or scattered plan checks. |
+| Dormant Intelligence | The catalog and entitlement schema may reserve `intelligence`, but its state is `FUTURE_ONLY`; checkout and activation reject it, and UI identifies it only as unavailable future configuration. |
+| Central entitlements | `EntitlementSnapshot` is the only feature/limit contract. All deterministic V2 features resolve true for active Core. Backend service enforcement is authoritative and the frontend renders the same stable keys. |
+| Cost-driver accounting | Usage records cover binary storage, snapshots, revision storage, export generation, database row growth, bandwidth, and dormant future AI. Plain prose/word count is not a quota dimension. |
+| Safe quota enforcement | Only resource creation or high-cost writes call the quota guard. Existing owned prose/metadata always remain readable; user export is never blocked by plan or overage. Stable `QUOTA_EXCEEDED` errors contain resource key, used, limit, requested delta, and action. |
+| Downgrade/cancellation safety | Cancellation enters a configurable grace state. Existing content/history stays preserved and readable/exportable. No immediate deletion or metadata destruction occurs. |
+| Webhook integrity | Raw-body signature verification occurs before parsing; provider event identity is unique; processing is transactional/idempotent; replay returns success without repeating state/audit effects; invalid/out-of-order events cannot silently corrupt the subscription. |
+| Account assurance and ownership | Billing-sensitive actions require the authenticated workspace actor, OWNER/ADMIN role, and verified provider assurance. All reads/writes constrain workspace identity. |
+| Writing-flow fallback | Billing/usage refresh failure renders a stale/unavailable billing state only. The editor, local journal, save path, and owned exports remain available. |
+| Content privacy | Logs, audit rows, webhook evidence, usage, errors, and UI DTOs contain identifiers, amounts, counts, status and stable codes only—never manuscript, Capture, note, selection, document, or private provider secrets. |
+
+### 21.3 Planned files, code, and production order
+
+1. **Decision/config:** create `docs/adr/0005-pricing-and-entitlements.md`; extend `lib/env.ts`; add server-only billing catalog/config with Core/Intelligence availability assertions.
+2. **Data/migration:** extend `prisma/schema.prisma`; add additive migration/rollback for provider customers, subscriptions, webhook receipts, usage ledger/rollups, and billing audit kinds. Constraints/indexes will enforce workspace ownership, provider uniqueness, idempotency, non-negative metering, and valid states.
+3. **Domain/application:** add `domains/billing/domain/*` for catalog, entitlement keys, quota decisions and subscription lifecycle; add `domains/billing/application/*` for provider ports and BillingService orchestration.
+4. **Infrastructure/runtime:** add Prisma repository, provider-neutral signed fixture adapter, `lib/billing/runtime.ts`, and content-safe log/metric instrumentation. No external live provider or charge will be invoked by automated tests.
+5. **HTTP/UI:** add owned billing status, checkout, portal, and webhook routes under `app/api/v2/billing/*`; add billing/usage/settings UI under `components/billing/*` and `app/app/settings/billing/page.tsx`; link it from Settings without entering the writing path.
+6. **Cost seams:** connect snapshot/revision/export/binary/row/bandwidth accounting at bounded service boundaries and prove owned exports/read paths never call the quota guard. Future AI stays a zero-usage dormant dimension.
+7. **Verification/docs:** add focused unit/service/component/accessibility/E2E/stress/database tests, replay fixtures, S14 migration verifier/rollback script, billing API/operations documentation, then conduct the side-by-side audit.
+
+Planned file names may be split by responsibility when a file would become mechanically broad. Any material difference is recorded as an evidence-backed deviation, not silently omitted.
+
+### 21.4 Instrumentation contract for the user-requested console traces
+
+- Production code uses the one structured console transport in `lib/observability/logger.ts`; S14 adds adjacent comments in the form `Console trace S14-<AREA>-NNN` directly above each material billing lifecycle, webhook, entitlement, quota, accounting, API and UI transition.
+- Logs use stable event names and content-safe metadata only. Secret signatures, provider payloads, customer contact details, invoice contents, manuscript data and arbitrary exception text are forbidden.
+- The completed S14 entry will enumerate every S14 comment line and corresponding logger/`console.log` transport line after formatting so the exact source positions remain reproducible.
+- Test-only verifiers may use direct `console.log` with adjacent S14 comments for factual database evidence; application behavior continues through the structured logger.
+
+### 21.5 Measurable acceptance plan and failure behavior
+
+- **Catalog/entitlement:** prove exactly one sellable active plan, Core at USD 15/month; Intelligence cannot create checkout; every deterministic feature key is true for active Core.
+- **Provider/webhook:** verify valid signature, invalid signature rejection, replay idempotency, duplicate/out-of-order handling, state transition/audit atomicity, and portal/invoice-link DTO minimization.
+- **Quota/accounting:** exercise all seven cost dimensions, concurrency-safe idempotent usage writes, bounded rollups, transparent stable errors, grace/overage behavior, and absence of prose/word limits.
+- **Ownership/privacy:** direct and child workspace isolation, non-admin denial, safe log-key rejection, provider-secret absence, and export/read availability while over quota/canceling.
+- **Database:** deploy every migration to fresh PostgreSQL, run S14 database verifier against real constraints and transactions, exercise rollback in an isolated fresh database, and prove earlier data remains intact.
+- **UI/accessibility/E2E:** Light/Dark/Cream, keyboard/focus/labels, billing unavailable fallback, usage meters, Core checkout/portal flow through a deterministic fixture, dormant Intelligence state, and return to writing without route reconstruction.
+- **Stress:** parallel webhook replays and usage events, large usage ledger rollup, stable latency/memory evidence, and no duplicate charging/subscription/audit effects.
+- **Regression:** lint, typecheck, all unit/service/component tests, coverage thresholds, stress, accessibility, production build, applicable E2E, dependency audit, and remote CI.
+
+### 21.6 Pre-code side-by-side gate classification
+
+| WorkPlan/Bible obligation | Classification before code | Reason |
+| --- | --- | --- |
+| Provider adapter, checkout/customer/portal/invoice seam | Gap owned by S14 | No billing domain/provider port exists. |
+| USD 15 Core ADR/config and dormant Intelligence | Gap owned by S14 | Workspace has a legacy `planKey` seam but no authoritative catalog/ADR. |
+| Centralized feature flags/numeric limits | Gap owned by S14 | Live Model has a quota projection seam only; no entitlement contract/enforcement exists. |
+| Cost-driver usage accounting | Gap owned by S14 | Existing storage/export/snapshot behavior is measurable but not accounted into a billing ledger. |
+| Safe downgrade and quota behavior | Gap owned by S14 | The base Billing invariant is documented in WorkPlan but not implemented as an application guard. |
+| Billing/usage UI and stable quota errors | Gap owned by S14 | Settings exposes theme only and error factory lacks actionable quota details. |
+| Existing ownership/auth/content-safe logging/export | Verified predecessor baseline | S0–S13 tests and Phase 4 audit established these foundations; S14 must re-test them at every new surface. |
+| S15 performance/mobile/a11y completion | Planned-later, locked | Cannot activate until S14 remotely passes. |
+| S16 telemetry/operations completion | Planned-later, locked | Cannot activate until S15 remotely passes. |
+
+**Pre-code decision:** S14 is authorized and planned, but not passed. Implementation may begin only after this checkpoint is committed, pushed, and remotely verified. S15 and S16 remain prohibited.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
