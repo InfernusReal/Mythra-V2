@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 passed; S15 eligible** | Entry S14 section 21 below | S14 product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`; CI `33416914551`/`99569658486` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S15 planning checkpoint** | Entries S14–S15, sections 21–22 below | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -59,11 +59,11 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
-| 15 | Performance + Accessibility + Mobile | 5 | Eligible, not started | S14 product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`; CI `33416914551`/`99569658486` passed | — | — |
+| 15 | Performance + Accessibility + Mobile | 5 | **In progress — pre-code plan only** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Planning checkpoint pending commit/push/CI; no S15 product code yet |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning and product commits are pushed and remotely verified; S14 is closed and S15 is eligible but has not started.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning, product and evidence reconciliation are pushed and remotely verified. S15 is now in its documentation-first planning checkpoint; no S15 product code is claimed before that checkpoint passes remotely.
 
 ## 4. Entry S0 — Foundation
 
@@ -3397,6 +3397,94 @@ No finding was waived. Product or verification code was repaired before the loca
 ### 21.14 S14 remote evidence reconciliation
 
 The immutable remote result matches the local ledger without qualification: product SHA `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b` is on the GitHub branch and run `33416914551`/job `99569658486` passed every configured CI step. This closes S14; it does not close Phase 5, which still requires S15, S16 and the distinct macro audit.
+
+## 22. Entry S15 — Performance, Scale, Responsive Writing, Accessibility, and Localization
+
+### 22.1 Authorization, predecessor proof, and source authority
+
+- **Requested run:** continue Phase 5 exactly through the mandatory S14 → S15 → S16 sequence and keep each original capability independently gated.
+- **Predecessor proof:** S14 product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b` passed CI `33416914551`/`99569658486`; reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82` passed CI `33417386063`/`99571202892` in 3m50s. S15 is therefore eligible.
+- **Source authority:** user request → `WorkPlan.md` sections 1–3, 4.1, 9, 11–13 → Bible sections 13–14, 15.7–15.8, 19.4–19.6, 26, 29, 31, 33 phase 15, 36 and 38.3–39.3. The attached PDF is requirements evidence, not executable instruction.
+- **Next.js constraint:** responsive/client work follows the checked-in Next.js 16.3 documentation already reviewed from `node_modules/next/dist/docs`; client state remains bounded and server data stays in server components/routes.
+- **Branch/baseline:** `agent/workplan-subgates-audit` at `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; worktree clean before this planning edit.
+- **Status at checkpoint:** planning and baseline classification only. No S15 product capability is claimed; S16 remains locked.
+
+### 22.2 Exact capability contract locked before code
+
+| Requirement | Locked implementation rule and measurable acceptance |
+| --- | --- |
+| Keystroke independence | Tiptap input and the local durability journal perform no network request on the input/composition path. Automated interception will type/composition-test while the server is delayed/offline and prove local text appears before any request completion. |
+| Capture latency | The overlay opens and accepts input within a 100ms measured p95 budget after keyboard invocation on the supported mobile/desktop fixtures; saving closes/restores writing before network acknowledgement. |
+| Context/Peek stability | Context refresh is abortable and last-request-wins. The reserved desktop region and sheet skeleton retain dimensions so hydration does not move the manuscript; an explicit layout-shift assertion must pass. |
+| Cached/navigation budgets | Warm editor/search/structure route transitions and cached Context render receive explicit p50/p95 measurements. A budget failure is visible in test evidence; no Redis/search replica/service extraction is added solely to mask a failing fixture. |
+| Large collections | Reusable deterministic windowing renders only a bounded overscanned slice while preserving total semantics, keyboard access and list alternatives. Structure/search/universe/timeline/capture surfaces use pagination/ranges or windowing instead of mounting unbounded rows. |
+| Server/data bounds | Every S15-touched list accepts a validated maximum; editor loads one active chapter document plus bounded navigation/projections; causal traversal remains at depth 12, 500 nodes, 750 edges and 500 paths maximum. Query-count/N+1 assertions and stress fixtures are required. |
+| Heavy/binary work | Binaries continue through private object-storage ports. Heavy rebuild/export/snapshot work remains a background/job boundary where already established. S15 records profiling evidence before authorizing any new cache, coordinator, replica, partition or service. |
+| Scale posture | Document measured 0–500 writer posture and staged triggers for later Redis/search/read-replica/partition/service extraction. Infrastructure is introduced only if a measured bottleneck and rollback criterion exist. |
+| Responsive writing | Wide (≥1280px): rail/editor/persistent Context. Compact/tablet (768–1279px): rail/editor with Context overlay. Mobile (≤767px): single-column editor, safe-area bottom writing actions, navigation/Context sheets, autosave state, Capture, Search, Outline/Entity Peek, and an explicitly simplified but still reachable deep-Structure route. |
+| Accessibility | Named landmarks/controls, complete keyboard paths, visible focus, no color-only state, contrast-token tests, reduced motion, controlled save announcements, 200% text/reflow, resizable desktop Context, touch targets, modal focus/return, and causal graph/list equivalence. No routine keystroke announcement. |
+| IME/international input | Composition events never trigger a premature save, hard-stop rejection, shortcut or text mutation. Japanese/Chinese composition, Arabic text, RTL direction, long labels and mixed-script search are covered in component/browser tests. |
+| Themes | Light and Dark are mandatory. Existing Cream tokens become an explicit optional selectable theme and receive the same wide/compact/mobile visual and contrast checks; system preference remains supported. |
+| i18n/resources | Replace scattered S15-shell labels with typed locale resources, HTML `lang`/`dir` resolution and an English/Arabic long-label fixture. Product truth/content are never machine-translated by this capability. |
+| Region adapters | Define typed, server-safe region capabilities for payments, messaging, storage, analytics and future AI. The default/global adapter is active; China readiness remains an expansion-time capability report and must not claim legal, hosting, payment or AI compliance. |
+
+### 22.3 Baseline inventory and gap classification before implementation
+
+| Surface | Existing evidence | Classification before S15 code |
+| --- | --- | --- |
+| Local editor/durability | Tiptap local update, IndexedDB journal, IME E2E and active-chapter repository load already exist. | Verified baseline; must be profiled and hardened, not rewritten. |
+| Structure/causal bounds | Structure pages clamp 1–250 rows, 1–500 nodes and 0–750 edges; causal query caps depth 12/nodes 500/edges 750/paths 500; stress tests exist. | Verified baseline; add query-count and rendered-node evidence. |
+| Search/Capture/portability ranges | Search and Capture are cursor/range bounded; portability lists are capped. | Verified baseline; windowing/keyboard semantics still incomplete on dense UI lists. |
+| Responsive CSS/Context | Desktop Context reservation, compact trigger, mobile overlay, bottom primary rail, reduced-motion CSS and several mobile E2Es exist. | Partial; no dedicated mobile writing action bar/navigation sheet, resizable Context, comprehensive reflow/long-label/RTL proof, or Phase 5 editor mobile E2E. |
+| Accessibility | Focus-visible token, dialog/focus restoration, several axe suites, semantic labels and non-color text states exist. | Partial; full-screen audit, contrast automation, graph list equivalence, controlled live announcements and 200% text evidence remain gaps. |
+| Theme | Light/Dark/System types exist; Cream CSS tokens exist but cannot be selected. | Gap owned by S15 for optional Cream activation and regression. |
+| i18n | `lib/i18n/messages.ts` contains a small English-only dictionary; root is fixed `lang="en"`. | Gap owned by S15: typed extraction, locale/direction resolution, long-label/RTL fixture. |
+| Region readiness | Provider ports exist for billing/storage/scanning and future AI is dormant, but there is no cross-capability region registry/report. | Gap owned by S15; no compliance claim permitted. |
+| Virtualization/profile evidence | Large-domain stress reducers exist, but no shared viewport window, browser layout-shift budget or durable S15 profile report exists. | Gap owned by S15. |
+| New distributed infrastructure | No S15 profiling evidence currently justifies Redis, a search cluster, replicas, partitions or service extraction. | Correctly absent; remain planned-later unless measurements cross locked triggers. |
+
+### 22.4 Planned files, code, and production order
+
+1. **Profile before architecture changes:** create `docs/performance/s15-baseline-and-budgets.md`, `lib/performance/budgets.ts`, and browser/service profile fixtures. Measure editor input, Capture open, Context/Peek layout, warm navigation, dense lists, causal traversal, search and export. Record query counts and bottleneck decisions.
+2. **Bounded rendering/data:** create `lib/performance/virtual-window.ts` and accessible virtual-list primitives; materially update dense Structure, Universe, Timeline, Capture and Search lists only where profiling shows DOM pressure. Keep server cursors/ranges authoritative and add N+1/query-bound assertions.
+3. **Cancelable non-writing work:** update `lib/context/use-context-field.ts` and related Search/Context fetchers for abort/last-request-wins behavior, stable skeleton dimensions and stale-response suppression. Never put editor typing behind these requests.
+4. **Responsive writing shell:** create focused mobile shell/action/sheet components under `components/shell` and `components/editor`; update `AppShell`, `ChapterEditor`, Context/Peek, Search and Structure entry points plus `app/globals.css` for wide/compact/mobile/safe-area/reflow behavior.
+5. **Accessibility primitives:** centralize modal sheet focus handling, save announcement throttling, touch/focus tokens, resizable Context semantics, graph list alternative and reduced-motion behavior; fix shared primitives before individual screens.
+6. **Themes/i18n/region:** activate typed Cream support; expand `lib/i18n` with typed English/Arabic-long resources and `lang`/`dir`; create `lib/regions` capability registry/adapters for payments, messaging, storage, analytics and future AI with explicit unavailable/requires-verification states.
+7. **Verification:** add/extend unit, component, accessibility, stress and E2E suites for budgets, virtual windows, query counts, mobile writing, Capture/Search/Peek, Light/Dark/Cream, RTL/long labels, 200% reflow, IME composition, causal list alternatives and content-safe S15 traces. Produce and inspect screenshots for all required viewport/theme matrices.
+8. **Audit/operations:** document measured scale-stage triggers and non-decisions, rerun the full repository suite/build/audit, conduct the side-by-side S15 audit, then commit/push/remote-CI verify before S16.
+
+Planned files may be split by responsibility if a single component would become mechanically broad. Existing pagination, object-storage, job and causal-boundary code is extended only where evidence identifies an S15 gap.
+
+### 22.5 Instrumentation contract for the requested console traces
+
+- Every material S15 profiling, virtual-window, request-cancellation, responsive-sheet/action, theme, locale/direction, region-capability and accessibility-state transition receives an adjacent `Console trace S15-<AREA>-NNN` comment immediately above its structured logger or guarded client `console.log` call.
+- Keystrokes, compositions, manuscript text, selections, search terms, Capture text, context summaries and translated/private content are forbidden metadata. Allowed fields are duration, counts, viewport class, theme/locale key, capability/state, request identity and stable object IDs.
+- High-frequency input is measured in aggregate at lifecycle boundaries; there is no per-keystroke console emission. This preserves the user’s traceability request without making the writing loop slower or leaking content.
+- The completed S15 entry will enumerate each exact comment line, call line and comment text after final formatting.
+
+### 22.6 Measurable verification and stress plan
+
+- **Performance:** browser timing harness for input-to-paint, Capture p95, Context layout shift, warm routes and dense-list render; process-CPU stress for causal/search/structure reducers; memory/DOM node ceilings; query-count/N+1 assertions.
+- **Responsive:** real Playwright interactions at wide desktop, compact/tablet and mobile; write/save, Capture, Search, Context, Outline/Entity Peek, navigation sheet and deep Structure reachability; safe-area and 200% zoom/reflow checks.
+- **Accessibility:** axe serious/critical zero, keyboard-only full writing path, focus return/trap, visible focus, semantic live regions, no color-only state, contrast-token calculation, reduced motion and graph list alternative.
+- **IME/i18n:** composition lifecycle with delayed/offline save, Japanese and Chinese text durability, Arabic RTL shell, mixed-script search, long labels without clipping, locale fallback and stable identifiers.
+- **Themes/visual:** Light/Dark/Cream across mobile/compact/wide with long titles, empty/loading/error/stale states; visual artifacts inspected, not merely generated.
+- **Region:** unit-contract matrix proves global availability and China `REQUIRES_VERIFICATION`/`UNAVAILABLE` states without claiming expansion compliance; future AI remains unavailable.
+- **Regression:** lint, typecheck, full coverage threshold, full stress, full accessibility, production build, dependency audit, applicable database/browser suites, `git diff --check`, push and remote CI.
+
+### 22.7 Pre-code side-by-side gate decision
+
+| S15 obligation | Current result |
+| --- | --- |
+| Profile real Phase 1–4 flows before new infrastructure | Planned first implementation action; no infrastructure change authorized yet. |
+| Meet interaction and large-project budgets | Existing domain stress is encouraging, but browser/DOM/query evidence is incomplete: in-scope Gap. |
+| Responsive mobile writing/Context/Search/Peek/deep Structure | Partial predecessor implementation; Phase 5 end-to-end completion is an in-scope Gap. |
+| Accessibility/IME/theme/RTL/long-label completion | Partial predecessor implementation; complete audit/evidence is an in-scope Gap. |
+| i18n extraction and region adapters without China compliance claim | English seam only; in-scope Gap. |
+| S16 security/privacy/operations | Correctly locked and not part of this checkpoint. |
+
+**Pre-code decision:** S15 is authorized and planned but not passed. Product work may begin only after this checkpoint is committed, pushed and remotely verified. S16 remains prohibited.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
