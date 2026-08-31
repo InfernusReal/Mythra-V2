@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 locally complete; product push/remote CI pending** | Entry S14 section 21 below | S14 plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803` passed; local product audit complete |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 passed; S15 eligible** | Entry S14 section 21 below | S14 product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`; CI `33416914551`/`99569658486` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -58,12 +58,12 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
-| 14 | Billing + Quotas | 5 | **Locally passed — product push/remote CI pending** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803` passed; product commit pending |
-| 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
+| 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
+| 15 | Performance + Accessibility + Mobile | 5 | Eligible, not started | S14 product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`; CI `33416914551`/`99569658486` passed | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. The S14 planning checkpoint is remotely verified. S14 product code and the local conformance audit are complete, but S14 remains open until the product commit is pushed and its remote CI passes; S15 remains locked.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning and product commits are pushed and remotely verified; S14 is closed and S15 is eligible but has not started.
 
 ## 4. Entry S0 — Foundation
 
@@ -3366,11 +3366,11 @@ Every S14 trace call has the requested adjacent identifying comment. The comment
 | Downgrade preserves prose/metadata/history and allows grace | Grace/access-through fields and constraint; no deletion path; billing is absent from read/export; provider failure is billing-only stale state | Verified |
 | Transparent usage UI and stable actionable errors | Seven meters, plan/status/fallback, deterministic quota safeDetails and API propagation | Verified |
 | Ownership, assurance and privacy | OWNER/ADMIN pre-provider guard, verified-email repository preflight, workspace isolation, safe log metadata and rejected client content keys | Verified |
-| Migration/rollback/stress/regression evidence | Fresh deployment, repeatable DB verifier, isolated rollback, real concurrent stress, coverage/a11y/E2E/build/audit | Verified locally; remote product CI pending |
+| Migration/rollback/stress/regression evidence | Fresh deployment, repeatable DB verifier, isolated rollback, real concurrent stress, coverage/a11y/E2E/build/audit plus GitHub Actions `33416914551`/`99569658486` | Verified locally and remotely |
 | S15 performance/mobile/a11y completion | Not implemented by S14; desktop Billing a11y is verified, mobile Billing E2E remains explicitly skipped | Planned-later and correctly locked |
 | S16 launch telemetry/operations completion | Only S14 lifecycle logs/metrics and billing runbook exist; broad launch operations remain unimplemented | Planned-later and correctly locked |
 
-**Local audit result:** no in-scope S14 `Gap` remains. The only pending evidence is the product commit/push/remote CI required by the original gate discipline.
+**Audit result:** no in-scope S14 `Gap` remains. Product and remote CI evidence satisfy the original gate discipline.
 
 ### 21.12 Findings and repairs made before S14 completion
 
@@ -3388,10 +3388,15 @@ No finding was waived. Product or verification code was repaired before the loca
 
 ### 21.13 Current gate and Git state
 
-- **Local product status:** pass; the final full coverage rerun and `git diff --check` pass.
-- **Product commit:** pending.
-- **Push/remote CI:** pending.
-- **S15 authorization:** locked until the S14 product commit is remotely verified and this ledger is reconciled with its immutable commit/run/job evidence.
+- **Product commit:** `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b` (`Implement S14 billing entitlements and quotas`).
+- **Push:** `origin/agent/workplan-subgates-audit` at the same SHA; worktree was clean and local equaled remote immediately after push.
+- **Remote CI:** GitHub Actions run `33416914551`, job `99569658486`, passed in 3m46s. `npm ci`, Prisma generation, lint, typecheck, coverage and production build all passed. The runner emitted one non-blocking GitHub annotation that Actions v4 packages are being forced from deprecated Node 20 metadata to Node 24; no project check failed.
+- **Formal gate result:** **PASS — Sub-gate 14 Billing + Quotas is complete.**
+- **S15 authorization:** eligible only after this reconciliation commit is pushed and its remote CI passes; no S15 product code is present in this reconciliation.
+
+### 21.14 S14 remote evidence reconciliation
+
+The immutable remote result matches the local ledger without qualification: product SHA `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b` is on the GitHub branch and run `33416914551`/job `99569658486` passed every configured CI step. This closes S14; it does not close Phase 5, which still requires S15, S16 and the distinct macro audit.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
