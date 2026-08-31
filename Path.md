@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 planning checkpoint** | Entry S14 section 21 below | S13/Phase 4 predecessor remote proof verified; no S14 product commit yet |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S14 locally complete; product push/remote CI pending** | Entry S14 section 21 below | S14 plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803` passed; local product audit complete |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -58,12 +58,12 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 11 | Timeline + Research | 3 | **Passed** | S10 reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c`; CI `32056804153`/`95468737816` passed | Entry S11 | Plan `f6d0a35ba982827c42847fbe95099f8cf59fa652`; product `0a388fa8f2b9087b85e2947fbbd8c905d102637e`; initial evidence/reconciliation `397307f2d2fff71f7b6f06f0cd8944775437da30`/`7ad34fc7a8fe67e8fab0844b7e944429f2f0dcd0`; correction `9abbcdb8417ef989cb0f7a78718d104ee1b6e492`, CI `33241370463`/`99071181207`; correction evidence `a545a8a7c400c88cc86d667be961cd43951a2803`, CI `33241852820`/`99072432245` passed |
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
-| 14 | Billing + Quotas | 5 | **In progress — pre-code plan only** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Planning checkpoint pending commit/push/CI; no product code yet |
+| 14 | Billing + Quotas | 5 | **Locally passed — product push/remote CI pending** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803` passed; product commit pending |
 | 15 | Performance + Accessibility + Mobile | 5 | Not started | Sub-gate 14 required | — | — |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 is now in its documentation-first planning checkpoint. No S14 product code is claimed before this checkpoint is committed, pushed, and remotely verified.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. The S14 planning checkpoint is remotely verified. S14 product code and the local conformance audit are complete, but S14 remains open until the product commit is pushed and its remote CI passes; S15 remains locked.
 
 ## 4. Entry S0 — Foundation
 
@@ -3261,6 +3261,137 @@ Planned file names may be split by responsibility when a file would become mecha
 | S16 telemetry/operations completion | Planned-later, locked | Cannot activate until S15 remotely passes. |
 
 **Pre-code decision:** S14 is authorized and planned, but not passed. Implementation may begin only after this checkpoint is committed, pushed, and remotely verified. S15 and S16 remain prohibited.
+
+### 21.7 Planning checkpoint and actual implementation ledger
+
+The pre-code checkpoint was committed as `2101fae44085557d43bd266ff6323c1a5f039cfe`, pushed to `origin/agent/workplan-subgates-audit`, and passed GitHub Actions run `33386697192`, job `99470820803`, in 4m02s. Only then did S14 product implementation begin.
+
+| Actual file group | Code produced and implementation method | WorkPlan obligation |
+| --- | --- | --- |
+| `docs/adr/0005-pricing-and-entitlements.md`; `.env.example`; `lib/env.ts`; `.github/workflows/ci.yml` | Locks Core at 1,500 USD cents/month and Intelligence at 2,500 cents/month as `FUTURE_ONLY`; validates provider mode, secrets, price reference, and commercial amounts; forbids fixture billing in production and supplies non-secret CI build configuration. | 9.1 commercial erratum; 9.2 ADR/config; 9.3 step 1. |
+| `domains/billing/domain/{types,catalog,quota}.ts` | Defines one sellable Core plan, one dormant Intelligence plan, 20 deterministic feature keys plus disabled `storyIntelligence`, seven cost resources, immutable `EntitlementSnapshot`, completeness assertions, stable quota decisions, and explicit `READ`/`EXPORT_OWNED` exemption. No word/prose counter exists. | Central entitlements; cost-driver quotas; existing-work safety. |
+| `domains/billing/application/{ports,service}.ts`; `domains/billing/infrastructure/{provider-adapters,prisma-billing-repository}.ts`; `lib/billing/runtime.ts` | Adds provider-neutral checkout/portal/invoice/webhook ports; HMAC raw-body verification before strict bounded parsing; fixture and HTTP adapters; workspace-scoped repository; OWNER/ADMIN plus verified-email preflight before provider mutation; transactionally replay-safe/version-ordered webhook application; idempotent usage recording; minimized billing DTOs and provider fallback. | 9.1 provider adapter, replay fixtures, ownership/assurance, downgrade/data safety; 9.3 step 2. |
+| `prisma/schema.prisma`; `prisma/migrations/20260831163000_billing_quotas/{migration,rollback}.sql`; `domains/accounts/infrastructure/prisma-identity-repository.ts` | Adds billing/provider/plan/webhook/usage enums, verified identity assurance, customer/subscription/webhook/usage records, uniqueness/index/check constraints, dormant-Intelligence database guard, grace invariant, safe billing audits, and a bounded capability rollback that preserves predecessor content/audit rows. | Durable billing truth, replay/idempotency, safe migrations and rollback. |
+| `app/api/v2/billing/{status,checkout,portal,webhooks}/route.ts`; `lib/billing/http.ts`; `lib/contracts/errors.ts` | Implements authenticated status/checkout/portal APIs and signed public webhook intake; same-origin mutation checks, rate limits, safe envelopes, and stable `QUOTA_EXCEEDED` details (`resource`, `used`, `limit`, `requested`, `action`). | Billing routes; backend-authoritative enforcement; actionable quota errors. |
+| `app/app/settings/billing/page.tsx`; `components/billing/BillingPanel.tsx`; `app/app/settings/page.tsx`; `app/globals.css`; `lib/observability/client-trace.ts` | Implements the transparent Billing screen, seven usage meters, complete Core access statement, dormant/unsellable Intelligence statement, checkout and portal actions, provider-unavailable state, and direct return to writing. Client traces reject content-like keys and emit structured metadata only. | Plan/usage UI; no hidden tier; writing-flow fallback; content privacy. |
+| `domains/portability/application/{ports,service}.ts`; `lib/portability/runtime.ts` | Guards snapshot creation, meters snapshot/export-generation/download bandwidth, and intentionally lets accounting failure degrade independently after an owned artifact exists. Owned download/export is never quota-blocked. | Snapshot/export/bandwidth accounting and anti-lock-in invariant. |
+| `domains/research/application/service.ts`; `lib/research/runtime.ts` | Guards binary uploads, meters only clean stored assets and authorized download bandwidth, and never withholds a clean owned asset merely because accounting is unavailable. | Binary storage/bandwidth cost seams. |
+| `domains/writing/application/{commands,durability}.ts`; `lib/writing/runtime.ts`; `app/api/v2/projects/route.ts`; `app/api/v2/projects/[id]/chapters/route.ts` | Guards project/chapter row growth and revision storage, meters only successfully created rows/revisions, preserves an accepted write if post-write accounting fails, and returns safe quota details. | Database-row/revision accounting; creation/high-cost-write-only gate. |
+| `docs/api/billing.md`; `docs/runbooks/billing-and-quotas.md`; `package.json`; `scripts/{verify-billing-db,stress-billing-db}.ts` | Documents contracts, operations, failure behavior, replay, rollback and quota response; adds repeatable database verification, rollback and concurrency stress commands. | 9.2 operational documentation and 9.3 staged verification. |
+| `tests/unit/{billing-domain,billing-provider,env}.test.ts`; `tests/service/billing-service.test.ts`; `tests/component/billing-ui.test.tsx`; `tests/accessibility/billing-accessibility.test.tsx`; `tests/stress/billing.stress.test.ts`; `tests/e2e/billing.spec.ts`; `tests/stress/live-model.stress.test.ts` | Proves pricing/feature completeness, dormant Intelligence, signatures, non-admin denial before provider calls, replay/versioning, all cost dimensions, quota safety, provider degradation, UI semantics/a11y, concurrent determinism, real browser behavior, and a contention-safe process-CPU budget for the pre-existing Live Model stress case. | Focused plus full regression/stress/accessibility/E2E evidence. |
+
+No planned file responsibility was omitted. Actual file splitting follows the pre-code responsibility rule. No provider SDK, live charge, AI behavior, arbitrary prose limit, S15 responsive completion, or S16 launch telemetry was introduced.
+
+### 21.8 Architecture and writing-flow proof
+
+1. `BillingService` is the only application orchestrator for status, checkout, portal, webhooks, usage, and quota decisions. Product code depends on the provider port; only the runtime chooses fixture or HTTP infrastructure.
+2. Checkout is rejected for `intelligence` before provider invocation. A database constraint independently rejects active/trial/grace/past-due Intelligence records. Positive `futureAiUnits` usage is rejected. UI labels Intelligence future and unavailable; it has no action.
+3. Core entitlements are constructed once and assert every deterministic V2 key enabled. Frontend receives that same snapshot. The only false feature is future `storyIntelligence`.
+4. Seven cost dimensions are durable and idempotent. Quota checks occur before creation/high-cost writes; post-success accounting is fail-soft so a provider/accounting outage cannot undo an accepted manuscript checkpoint, clean research asset, snapshot, export, or download.
+5. `READ` and `EXPORT_OWNED` return an explicit exempt decision without reading quota state. This is executable proof that overage/cancellation cannot make existing work unreadable or unexportable.
+6. Billing management checks OWNER/ADMIN and verified external-email assurance before calling the provider. Repository writes recheck membership/assurance transactionally. Status/read paths remain workspace-scoped.
+7. Webhook verification uses the untouched raw bytes, a bounded 256 KiB body, timing-safe HMAC comparison, strict schema, global provider-event uniqueness, monotonic provider version, transactional state/audit application, and replay success without duplicate effects.
+8. Billing refresh failure marks only billing data stale/unavailable. No billing request is inserted into editor loading, local journal, autosave, Capture, or owned-export reads.
+9. Logs and audits contain stable identifiers, numeric usage, status, event type, digest and result flags only. They exclude prose, notes, Captures, selections, raw webhooks, signatures, provider secrets, contact details and invoice line content.
+
+### 21.9 Exact S14 console trace/comment ledger
+
+Every S14 trace call has the requested adjacent identifying comment. The comment line is immediately above the structured logger, client transport, or verifier `console.log` line.
+
+| File | Comment line and exact comment | Call line and statement |
+| --- | --- | --- |
+| `lib/observability/client-trace.ts` | 7 — `Console trace S14-UI-000: single client trace transport emits content-safe interaction metadata only.` | 8 — `console.log(JSON.stringify({ level: "info", event, timestamp: new Date().toISOString(), ...metadata }));` |
+| `components/billing/BillingPanel.tsx` | 33 — `Console trace S14-UI-001: author-initiated billing action records action and plan only.` | 34 — `clientTrace("billing.ui_action_started", { step: "S14-UI-001", action, planKey: "core" });` |
+| `components/billing/BillingPanel.tsx` | 41 — `Console trace S14-UI-002: verified billing navigation records action completion without destination or provider identifiers.` | 42 — `clientTrace("billing.ui_action_completed", { step: "S14-UI-002", action, planKey: "core" });` |
+| `components/billing/BillingPanel.tsx` | 46 — `Console trace S14-UI-003: billing UI failure records stable interaction state and no provider response body.` | 47 — `clientTrace("billing.ui_action_failed", { step: "S14-UI-003", action, planKey: "core" });` |
+| `app/app/settings/billing/page.tsx` | 10 — `Console trace S14-UI-004: billing settings render reports workspace/status only and excludes customer/invoice provider data.` | 11 — `logger.info("billing.settings_rendered", { step: "S14-UI-004", ... });` |
+| `lib/billing/http.ts` | 20 — `Console trace S14-API-001: authenticated billing route completion records only identity, route and HTTP state.` | 21 — `logger.info("billing.api_completed", { step: "S14-API-001", ... });` |
+| `lib/billing/http.ts` | 25 — `Console trace S14-API-002: billing route failure uses stable error codes and excludes provider/manuscript content.` | 26 — `logger.warn("billing.api_failed", { step: "S14-API-002", ... });` |
+| `app/api/v2/billing/webhooks/route.ts` | 18 — `Console trace S14-API-003: webhook HTTP completion records only request identity and replay state.` | 19 — `logger.info("billing.webhook_api_completed", { step: "S14-API-003", ... });` |
+| `app/api/v2/billing/webhooks/route.ts` | 23 — `Console trace S14-API-004: webhook HTTP failure contains no raw body, signature or provider secret.` | 24 — `logger.warn("billing.webhook_api_failed", { step: "S14-API-004", ... });` |
+| `domains/billing/application/service.ts` | 38 — `Console trace S14-ENTITLEMENT-001: entitlement resolution reports only plan/status and bounded resource counts.` | 39 — `logger.info("billing.entitlements_resolved", { step: "S14-ENTITLEMENT-001", ... });` |
+| `domains/billing/application/service.ts` | 52 — `Console trace S14-STATUS-001: billing status completion excludes provider secrets and invoice line-item content.` | 53 — `logger.info("billing.status_read", { step: "S14-STATUS-001", ... });` |
+| `domains/billing/application/service.ts` | 62 — `Console trace S14-CHECKOUT-001: checkout creation starts with stable workspace/plan identifiers only.` | 63 — `logger.info("billing.checkout_started", { step: "S14-CHECKOUT-001", ... });` |
+| `domains/billing/application/service.ts` | 67 — `Console trace S14-CHECKOUT-002: checkout completion records expiry but never a checkout URL or provider credential.` | 68 — `logger.info("billing.checkout_created", { step: "S14-CHECKOUT-002", ... });` |
+| `domains/billing/application/service.ts` | 78 — `Console trace S14-PORTAL-001: provider portal creation logs workspace identity and expiry only.` | 79 — `logger.info("billing.portal_created", { step: "S14-PORTAL-001", ... });` |
+| `domains/billing/application/service.ts` | 84 — `Console trace S14-WEBHOOK-001: webhook verification starts with payload size/digest and never logs raw provider content or signature.` | 85 — `logger.info("billing.webhook_received", { step: "S14-WEBHOOK-001", ... });` |
+| `domains/billing/application/service.ts` | 90 — `Console trace S14-WEBHOOK-002: webhook completion reports stable event identity/state without payload content.` | 91 — `logger.info("billing.webhook_processed", { step: "S14-WEBHOOK-002", ... });` |
+| `domains/billing/application/service.ts` | 98 — `Console trace S14-USAGE-001: cost event records resource/count/source identity only and is idempotent.` | 99 — `logger.info("billing.usage_recorded", { step: "S14-USAGE-001", ... });` |
+| `domains/billing/application/service.ts` | 105 — `Console trace S14-QUOTA-001: owned read/export bypass is explicit so quota cannot manufacture data lock-in.` | 106 — `logger.info("billing.quota_exempt", { step: "S14-QUOTA-001", ... });` |
+| `domains/billing/application/service.ts` | 110 — `Console trace S14-QUOTA-002: successful cost guard reports bounded numeric decision facts only.` | 111 — `logger.info("billing.quota_allowed", { step: "S14-QUOTA-002", ... });` |
+| `domains/portability/application/service.ts` | 29 — `Console trace S14-METER-001: portability cost accounting completion records only resource/quantity/source identity.` | 30 — `logger.info("portability.cost_accounted", { step: "S14-METER-001", ... });` |
+| `domains/portability/application/service.ts` | 32 — `Console trace S14-METER-002: metering failure degrades independently and never invalidates an owned export or verified snapshot.` | 33 — `logger.warn("portability.cost_accounting_failed", { step: "S14-METER-002", ... });` |
+| `domains/research/application/service.ts` | 45 — `Console trace S14-METER-003: research storage accounting records cost dimensions without file names, keys or bytes.` | 46 — `logger.info("research.cost_accounted", { step: "S14-METER-003", ... });` |
+| `domains/research/application/service.ts` | 48 — `Console trace S14-METER-004: accounting failure never withholds a clean owned asset or authorized download.` | 49 — `logger.warn("research.cost_accounting_failed", { step: "S14-METER-004", ... });` |
+| `domains/writing/application/durability.ts` | 33 — `Console trace S14-METER-005: checkpoint storage accounting records bytes and revision identity without document content.` | 34 — `logger.info("checkpoint.cost_accounted", { step: "S14-METER-005", ... });` |
+| `domains/writing/application/durability.ts` | 36 — `Console trace S14-METER-006: metering failure does not invalidate a durable checkpoint already accepted by storage.` | 37 — `logger.warn("checkpoint.cost_accounting_failed", { step: "S14-METER-006", ... });` |
+| `domains/writing/application/commands.ts` | 37 — `Console trace S14-METER-007: canonical row-growth accounting records only resource type and stable identity.` | 38 — `logger.info("writing.row_cost_accounted", { step: "S14-METER-007", ... });` |
+| `domains/writing/application/commands.ts` | 40 — `Console trace S14-METER-008: row metering failure never rolls back a successfully created writing object.` | 41 — `logger.warn("writing.row_cost_accounting_failed", { step: "S14-METER-008", ... });` |
+| `scripts/verify-billing-db.ts` | 46 — `Console trace S14-DB-001: database proof reports bounded commercial, idempotency, ownership, quota and schema facts only.` | 47 — `console.log(JSON.stringify({ level: "info", step: "S14-DB-001", ... }));` |
+| `scripts/verify-billing-db.ts` | 64 — `Console trace S14-DB-002: rollback proof records only S14 schema removal and preserved predecessor row counts.` | 65 — `console.log(JSON.stringify({ level: "info", step: "S14-DB-002", ... }));` |
+| `scripts/stress-billing-db.ts` | 24 — `Console trace S14-STRESS-001: real PostgreSQL replay/usage stress begins with only bounded operation counts and workspace identity.` | 25 — `console.log(JSON.stringify({ level: "info", step: "S14-STRESS-001", ... }));` |
+| `scripts/stress-billing-db.ts` | 34 — `Console trace S14-STRESS-002: stress completion proves exactly-once effects, exact aggregation and elapsed time without content.` | 35 — `console.log(JSON.stringify({ level: "info", step: "S14-STRESS-002", ... }));` |
+
+`rg -n 'Console trace S14' app components domains lib scripts` resolves 31 adjacent comment/call pairs. `rg -n 'step: "S14-' ...` resolves 30 fixed call-site steps; the remaining documented pair is the generic `S14-UI-000` client `console.log` transport whose three callers supply `S14-UI-001` through `003`. There is no unlabelled S14 call-site step.
+
+### 21.10 Validation, stress, migration, recovery, and visual evidence
+
+| Validation | Exact result |
+| --- | --- |
+| `npm run lint` | Pass, zero warnings. |
+| `npm run typecheck` | Pass after final verified-assurance preflight. |
+| `npm run test:coverage` | Pass: 81/81 files and 283/283 tests; 88.01% statements, 75.19% branches, 85.49% functions and 93.19% lines. |
+| `npm run test:stress` | Pass: 13/13 files, 25/25 tests. |
+| `npm run test:a11y` | Pass: 7/7 files, 9/9 tests. jsdom emits its known canvas-not-implemented diagnostic; axe assertions pass. |
+| `npx playwright test tests/e2e/billing.spec.ts` | Pass: desktop Chromium 1/1; mobile case intentionally skipped because responsive/mobile completion belongs to S15. Screenshot `test-results/billing-core-desktop.png` was visually inspected; no visible defect. |
+| production-configured `npm run build` | Pass on Next.js 16.3.0; route map contains status/checkout/portal/webhook and `/app/settings/billing`. |
+| `npm audit --audit-level=moderate` | Pass: zero vulnerabilities. |
+| fresh PostgreSQL migration deployment | Pass: all 15 migrations apply, including `20260831163000_billing_quotas`. |
+| `npm run db:verify:billing`, repeated on the same database | Pass twice after run-ID repair: Core 1500; Intelligence dormant; replay true; old event ignored; provider version 2; two billing audits; one usage effect; 2,048 snapshot bytes; quota, cross-workspace, unverified-account, future-checkout and active-Intelligence rejection all true; owned export allowed; four tables; fourteen indexes; four metrics. |
+| `npm run test:stress:billing-db` | Pass in 13,997ms: 32 webhook attempts at peak concurrency 4 produce one webhook row, one audit and one non-replay; 200 distinct plus 200 duplicate usage attempts at peak concurrency 2 produce exactly 200 rows/non-replays and 409,600 bytes. |
+| isolated `npm run db:rollback:billing` | Pass: zero S14 tables and zero assurance columns remain; one predecessor Project, Chapter and Audit row remain. Additive enum values intentionally remain because PostgreSQL enum contraction is not a safe capability rollback. |
+| `git diff --check` | Pass; only Git line-ending notices are emitted on Windows. |
+
+### 21.11 Side-by-side S14 conformance audit
+
+| WorkPlan/Bible requirement | Evidence | Classification |
+| --- | --- | --- |
+| Provider-neutral customer/subscription adapter, checkout, invoices and portal | Provider application port, fixture/HTTP adapters, runtime selection, four APIs, minimized invoice/status DTOs and Billing UI | Verified |
+| Verified idempotent webhook handling | Raw HMAC verification, strict bounded event, unique receipt, transaction, monotonic version, replay/out-of-order unit/database/concurrency evidence | Verified |
+| USD 15 Core with all deterministic V2 access | ADR, config lock, catalog, 20-key completeness assertion, UI, unit/database/E2E evidence | Verified |
+| USD 25 Intelligence dormant and unsellable | `FUTURE_ONLY`, no price ref required, no checkout/action, positive AI usage rejected, service and database activation guards | Verified |
+| Central `EntitlementSnapshot`, same frontend keys, backend authority | Domain snapshot returned by status; service quota guard authoritative; component consumes snapshot | Verified |
+| Seven actual cost drivers; no tiny prose limit | All seven keys exist and are tested; six current seams are integrated; future AI is zero/dormant; no word-count quota exists | Verified |
+| Gate creation/high-cost writes only | Project/Chapter/revision/snapshot/binary guards; read and owned export explicit exemptions | Verified |
+| Downgrade preserves prose/metadata/history and allows grace | Grace/access-through fields and constraint; no deletion path; billing is absent from read/export; provider failure is billing-only stale state | Verified |
+| Transparent usage UI and stable actionable errors | Seven meters, plan/status/fallback, deterministic quota safeDetails and API propagation | Verified |
+| Ownership, assurance and privacy | OWNER/ADMIN pre-provider guard, verified-email repository preflight, workspace isolation, safe log metadata and rejected client content keys | Verified |
+| Migration/rollback/stress/regression evidence | Fresh deployment, repeatable DB verifier, isolated rollback, real concurrent stress, coverage/a11y/E2E/build/audit | Verified locally; remote product CI pending |
+| S15 performance/mobile/a11y completion | Not implemented by S14; desktop Billing a11y is verified, mobile Billing E2E remains explicitly skipped | Planned-later and correctly locked |
+| S16 launch telemetry/operations completion | Only S14 lifecycle logs/metrics and billing runbook exist; broad launch operations remain unimplemented | Planned-later and correctly locked |
+
+**Local audit result:** no in-scope S14 `Gap` remains. The only pending evidence is the product commit/push/remote CI required by the original gate discipline.
+
+### 21.12 Findings and repairs made before S14 completion
+
+1. The first full regression exposed optional metering services logging false accounting success when billing was absent. Each integration now returns before logging unless a billing dependency exists; regression passed.
+2. Real E2E found the portal button inferred availability from subscription state after checkout. Status now exposes minimized `portalAvailable`; E2E passed.
+3. Identity provisioning did not persist verified-email assurance. The identity repository and additive migration now retain `emailVerifiedAt`; billing management checks it.
+4. The provider call originally preceded the repository assurance check. `assertCanManageBilling` now runs before checkout/portal provider invocation, while the transactional write rechecks it; a non-admin test proves the provider is untouched and the real database verifier proves unverified checkout rejection.
+5. The first real stress attempt used unbounded/overlarge local Prisma concurrency and encountered pool/transaction timeouts. The final bounded producer still applies 32 replay attempts and 400 usage attempts, records peak concurrency, and proves exact effects within 13,997ms.
+6. A reused verifier database exposed globally fixed event IDs. Per-run provider/event/usage/checkout IDs now make the verifier repeatable; two consecutive runs on the same database pass.
+7. The pre-existing Live Model test called a wall-clock duration a CPU budget, so full-suite worker contention produced 7.23s and 6.26s false failures while isolation passed. It now measures `process.cpuUsage` and retains the same 5,000ms CPU ceiling; focused stress and full coverage pass.
+8. One command was initially mistyped as nonexistent `test:accessibility`; the authoritative repository command is `npm run test:a11y`, which passes. This was a procedural correction, not a product gap.
+9. The jsdom canvas diagnostic remains informational and pre-existing; seven accessibility files and nine axe/semantic tests pass. S15 still owns browser-level mobile/RTL/IME/visual completion.
+
+No finding was waived. Product or verification code was repaired before the local gate decision.
+
+### 21.13 Current gate and Git state
+
+- **Local product status:** pass; the final full coverage rerun and `git diff --check` pass.
+- **Product commit:** pending.
+- **Push/remote CI:** pending.
+- **S15 authorization:** locked until the S14 product commit is remotely verified and this ledger is reconciled with its immutable commit/run/job evidence.
 
 ## 5. Entry P0 — Planning baseline and source audit
 

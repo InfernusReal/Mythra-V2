@@ -26,6 +26,43 @@ enum AuditEventKind {
   DELETE_REQUEST
   RESTORE
   EXPORT_REQUEST
+  BILLING_CHANGE
+  QUOTA_EVENT
+}
+
+enum BillingProvider {
+  FIXTURE
+  HTTP
+}
+
+enum BillingPlanKey {
+  CORE
+  INTELLIGENCE
+}
+
+enum SubscriptionStatus {
+  INCOMPLETE
+  TRIALING
+  ACTIVE
+  GRACE
+  PAST_DUE
+  CANCELED
+}
+
+enum BillingWebhookStatus {
+  RECEIVED
+  PROCESSED
+  REJECTED
+}
+
+enum UsageResource {
+  BINARY_STORAGE_BYTES
+  SNAPSHOT_BYTES
+  REVISION_STORAGE_BYTES
+  EXPORT_GENERATION_BYTES
+  DATABASE_ROWS
+  BANDWIDTH_BYTES
+  FUTURE_AI_UNITS
 }
 
 enum OutboxStatus {
@@ -427,6 +464,7 @@ model ExternalIdentity {
   userId          String   @db.Uuid
   createdAt       DateTime @default(now()) @db.Timestamptz(3)
   lastSeenAt      DateTime @default(now()) @db.Timestamptz(3)
+  emailVerifiedAt DateTime? @db.Timestamptz(3)
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerSubject])
@@ -452,6 +490,10 @@ model Workspace {
   searchDocuments SearchDocument[]
   savedVocabulary SavedVocabularyTerm[]
   storedAssets    StoredAsset[]
+  billingCustomer BillingCustomer?
+  subscription    BillingSubscription?
+  billingWebhooks BillingWebhookEvent[]
+  usageEvents     UsageEvent[]
   owner           User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([archivedAt, purgeAfter])
@@ -1580,6 +1622,72 @@ model AuditEvent {
 
   @@index([workspaceId, createdAt(sort: Desc)])
   @@index([correlationId])
+}
+
+model BillingCustomer {
+  id                 String          @id @default(uuid()) @db.Uuid
+  workspaceId        String          @unique @db.Uuid
+  provider           BillingProvider
+  providerCustomerId String          @db.VarChar(160)
+  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime        @updatedAt @db.Timestamptz(3)
+  workspace          Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, providerCustomerId])
+}
+
+model BillingSubscription {
+  id                     String             @id @default(uuid()) @db.Uuid
+  workspaceId            String             @unique @db.Uuid
+  provider               BillingProvider
+  providerSubscriptionId String             @db.VarChar(160)
+  planKey                BillingPlanKey
+  status                 SubscriptionStatus @default(INCOMPLETE)
+  currentPeriodStart     DateTime?           @db.Timestamptz(3)
+  currentPeriodEnd       DateTime?           @db.Timestamptz(3)
+  cancelAtPeriodEnd      Boolean            @default(false)
+  graceEndsAt            DateTime?           @db.Timestamptz(3)
+  providerVersion        BigInt              @default(0)
+  createdAt              DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime            @updatedAt @db.Timestamptz(3)
+  workspace              Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, providerSubscriptionId])
+  @@index([status, currentPeriodEnd])
+}
+
+model BillingWebhookEvent {
+  id              String               @id @default(uuid()) @db.Uuid
+  workspaceId     String?              @db.Uuid
+  provider        BillingProvider
+  providerEventId String               @db.VarChar(160)
+  eventType       String               @db.VarChar(120)
+  payloadSha256   String               @db.Char(64)
+  providerVersion BigInt               @default(0)
+  status          BillingWebhookStatus @default(RECEIVED)
+  errorCode       String?              @db.VarChar(80)
+  receivedAt      DateTime             @default(now()) @db.Timestamptz(3)
+  processedAt     DateTime?            @db.Timestamptz(3)
+  workspace       Workspace?           @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, providerEventId])
+  @@index([workspaceId, receivedAt(sort: Desc)])
+  @@index([status, receivedAt])
+}
+
+model UsageEvent {
+  id             String        @id @default(uuid()) @db.Uuid
+  workspaceId    String        @db.Uuid
+  resource       UsageResource
+  quantity       BigInt
+  idempotencyKey String        @db.VarChar(128)
+  sourceType     String        @db.VarChar(80)
+  sourceId       String?       @db.VarChar(128)
+  occurredAt     DateTime      @default(now()) @db.Timestamptz(3)
+  workspace      Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, resource, idempotencyKey])
+  @@index([workspaceId, resource, occurredAt])
 }
 
 model OutboxEvent {

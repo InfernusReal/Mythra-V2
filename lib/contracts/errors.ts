@@ -33,6 +33,13 @@ export const errors = {
   notFound: () => new AppError("NOT_FOUND", "The requested resource was not found.", 404),
   conflict: (message = "The resource changed. Refresh and compare before continuing.") =>
     new AppError("CONFLICT", message, 409),
+  quotaExceeded: (details: { resource: string; used: number; limit: number; requested: number; action: string }) =>
+    new AppError(
+      "QUOTA_EXCEEDED",
+      "This cost-based limit is reached. Existing work remains readable and exportable.",
+      409,
+      details
+    ),
   rateLimited: () => new AppError("RATE_LIMITED", "Too many requests. Try again shortly.", 429),
   dependencyUnavailable: () =>
     new AppError("DEPENDENCY_UNAVAILABLE", "A supporting service is temporarily unavailable.", 503),

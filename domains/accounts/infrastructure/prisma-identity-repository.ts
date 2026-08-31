@@ -29,7 +29,7 @@ export class PrismaIdentityRepository implements IdentityRepository {
         });
         const membership = existing?.user.memberships[0];
         if (existing && membership) {
-          await transaction.externalIdentity.update({ where: { id: existing.id }, data: { lastSeenAt: new Date() } });
+          await transaction.externalIdentity.update({ where: { id: existing.id }, data: { lastSeenAt: new Date(), ...(principal.emailVerified && !existing.emailVerifiedAt ? { emailVerifiedAt: new Date() } : {}) } });
           return {
             userId: existing.userId,
             workspaceId: membership.workspaceId,
@@ -43,7 +43,7 @@ export class PrismaIdentityRepository implements IdentityRepository {
             email: principal.email.toLocaleLowerCase("en-US"),
             displayName: principal.displayName,
             externalIdentities: {
-              create: { provider: principal.provider, providerSubject: principal.subject }
+              create: { provider: principal.provider, providerSubject: principal.subject, emailVerifiedAt: principal.emailVerified ? new Date() : null }
             }
           }
         });

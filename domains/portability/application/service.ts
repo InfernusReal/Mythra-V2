@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type { SessionActor } from "@/domains/accounts/domain/identity";
 import type { Logger } from "@/lib/observability/logger";
 import { errors } from "@/lib/contracts/errors";
@@ -21,6 +21,18 @@ function userOwnedArchive(archive: ProjectArchive): ProjectArchive {
 
 export class PortabilityService {
   constructor(private readonly dependencies: PortabilityDependencies, private readonly logger: Logger) {}
+
+  private async recordUsageSafe(actor: SessionActor, input: { resource: "snapshotBytes" | "exportGenerationBytes" | "bandwidthBytes"; quantity: number; idempotencyKey: string; sourceType: string; sourceId?: string }): Promise<void> {
+    if (!this.dependencies.recordUsage) return;
+    try {
+      await this.dependencies.recordUsage(actor, input);
+      // Console trace S14-METER-001: portability cost accounting completion records only resource/quantity/source identity.
+      this.logger.info("portability.cost_accounted", { step: "S14-METER-001", workspaceId: actor.workspaceId, resource: input.resource, quantity: input.quantity, sourceType: input.sourceType, sourceId: input.sourceId ?? null });
+    } catch {
+      // Console trace S14-METER-002: metering failure degrades independently and never invalidates an owned export or verified snapshot.
+      this.logger.warn("portability.cost_accounting_failed", { step: "S14-METER-002", workspaceId: actor.workspaceId, resource: input.resource, quantity: input.quantity, sourceType: input.sourceType, sourceId: input.sourceId ?? null, errorCode: "USAGE_ACCOUNTING_UNAVAILABLE" });
+    }
+  }
 
   async status(actor: SessionActor, projectId: string) {
     const result = await this.dependencies.repository.status(actor, projectId);
@@ -45,6 +57,7 @@ export class PortabilityService {
     // Console trace S13-SNAPSHOT-001: owned snapshot build begins with stable identity and idempotency metadata only.
     this.logger.info("portability.snapshot_started", { step: "S13-SNAPSHOT-001", projectId, idempotencyKeyHash: sha256(new TextEncoder().encode(idempotencyKey)) });
     const now = this.dependencies.now(); const archive = await this.dependencies.buildArchive(actor, projectId, now); let { manifest, bytes } = buildManifest(archive);
+    await this.dependencies.authorizeCost?.(actor, "snapshotBytes", manifest.sizeBytes);
     const reserved = await this.dependencies.repository.reserveSnapshot(actor, projectId, { idempotencyKey, structuralVersion: manifest.structuralVersion, retentionUntil: new Date(now.getTime() + SNAPSHOT_RETENTION_MS) });
     if (reserved.replayed && reserved.status === "VERIFIED") {
       const persisted = await this.dependencies.repository.snapshot(actor, projectId, reserved.id);
@@ -65,6 +78,7 @@ export class PortabilityService {
       await this.putImmutable(storageKey, bytes, "application/vnd.mythra.project+json");
       const stored = await this.dependencies.storage.getPrivate(storageKey); verifyArchive(stored, manifest);
       await this.dependencies.repository.completeSnapshot(actor, projectId, reserved.id, { storageKey, manifest, sha256: manifest.archiveSha256, sizeBytes: manifest.sizeBytes });
+      await this.recordUsageSafe(actor, { resource: "snapshotBytes", quantity: manifest.sizeBytes, idempotencyKey: `snapshot:${reserved.id}`, sourceType: "ProjectSnapshot", sourceId: reserved.id });
       // Console trace S13-SNAPSHOT-002: verified snapshot completion contains integrity, version and size evidence only.
       this.logger.info("portability.snapshot_verified", { step: "S13-SNAPSHOT-002", projectId, snapshotId: reserved.id, structuralVersion: manifest.structuralVersion, sizeBytes: manifest.sizeBytes, sha256: manifest.archiveSha256 });
       return { snapshotId: reserved.id, replayed: reserved.replayed, manifest };
@@ -101,6 +115,7 @@ export class PortabilityService {
     }
     try { await this.putImmutable(storageKey, bytes, artifactContentType(input.format)); const stored = await this.dependencies.storage.getPrivate(storageKey); if (sha256(stored) !== digest) throw new Error("ARTIFACT_INTEGRITY_MISMATCH"); await this.dependencies.repository.completeArtifact(actor, projectId, reserved.id, { storageKey, manifest: fullManifest, sha256: digest, sizeBytes: bytes.byteLength }); }
     catch (caught) { const code = stableCode(caught); await this.dependencies.repository.failArtifact(actor, projectId, reserved.id, code); throw errors.retryable(); }
+    await this.recordUsageSafe(actor, { resource: "exportGenerationBytes", quantity: bytes.byteLength, idempotencyKey: `export:${reserved.id}`, sourceType: "PortabilityArtifact", sourceId: reserved.id });
     // Console trace S13-EXPORT-002: immutable export completion logs integrity and expiry facts only.
     this.logger.info("portability.export_verified", { step: "S13-EXPORT-002", projectId, artifactId: reserved.id, scope: input.scope, format: input.format, sizeBytes: bytes.byteLength, sha256: digest, expiresInSeconds: EXPORT_TTL_MS / 1_000 });
     return { artifactId: reserved.id, replayed: reserved.replayed };
@@ -111,6 +126,7 @@ export class PortabilityService {
     if (!artifact || artifact.status !== "VERIFIED" || !artifact.storageKey || !artifact.sha256 || !artifact.sizeBytes) throw errors.notFound();
     if (artifact.expiresAt && artifact.expiresAt <= this.dependencies.now()) throw errors.conflict("The export artifact expired.");
     const bytes = await this.dependencies.storage.getPrivate(artifact.storageKey); if (sha256(bytes) !== artifact.sha256 || BigInt(bytes.byteLength) !== artifact.sizeBytes) throw errors.integrity();
+    await this.recordUsageSafe(actor, { resource: "bandwidthBytes", quantity: bytes.byteLength, idempotencyKey: `download:${artifact.id}:${randomUUID()}`, sourceType: "PortabilityDownload", sourceId: artifact.id });
     // Console trace S13-STORAGE-003: authenticated artifact read verifies size and digest without logging bytes, key or token.
     this.logger.info("portability.artifact_read_verified", { step: "S13-STORAGE-003", projectId, artifactId, sizeBytes: bytes.byteLength, sha256: artifact.sha256 });
     return bytes;

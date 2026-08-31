@@ -12,5 +12,5 @@ export async function POST(request: Request) {
     if (!actor) throw errors.unauthenticated();
     return NextResponse.json(success(await writingService().createProject(actor, await request.json(), requestId), requestId), { status: 201 });
   }
-  catch (error) { const safe = error instanceof Error && error.name === "ZodError" ? errors.validation() : asAppError(error); return NextResponse.json(failure(safe.code, safe.message, requestId), { status: safe.status }); }
+  catch (error) { const safe = error instanceof Error && error.name === "ZodError" ? errors.validation() : asAppError(error); return NextResponse.json(failure(safe.code, safe.message, requestId, safe.safeDetails), { status: safe.status }); }
 }

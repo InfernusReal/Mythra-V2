@@ -8,8 +8,8 @@ describe("Live Story Model stress budgets", () => {
     const chapters = Array.from({ length: 10_000 }, (_, index) => ({ id: `chapter-${String(index).padStart(5, "0")}`, sequenceIndex: index, volumeId: index % 20 ? `volume-${index % 20}` : null, wordCount: 1_000, targetWords: 1_500, status: index % 4 ? "DRAFT" : "FINAL", updatedAt: new Date("2026-08-30T00:00:00.000Z") }));
     const milestones = Array.from({ length: 2_000 }, (_, index) => ({ id: `milestone-${String(index).padStart(4, "0")}`, targetChapterStart: index * 5, targetChapterEnd: index * 5 + 4, status: "IN_PROGRESS", linkedChapterIds: [`chapter-${String(index * 5).padStart(5, "0")}`] }));
     const input = { projectStructuralVersion: 99, chapters, milestones, referenceCounts: {}, captureCounts: {}, causalNodeCount: 100_000, causalEdgeCount: 100_000, snapshotProviderAvailable: false, lastVerifiedSnapshotAt: null, now: new Date("2026-08-30T00:00:00.000Z") };
-    const started = performance.now(); const first = runDeterministicAutomations(input); const duration = performance.now() - started; const second = runDeterministicAutomations(input);
-    expect(second).toEqual(first); expect(first.writingQueue).toHaveLength(7_500); expect(first.structureRebalancePreview).toHaveLength(10_000); expect(duration).toBeLessThan(5_000);
+    const started = process.cpuUsage(); const first = runDeterministicAutomations(input); const consumed = process.cpuUsage(started); const durationCpuMs = (consumed.user + consumed.system) / 1_000; const second = runDeterministicAutomations(input);
+    expect(second).toEqual(first); expect(first.writingQueue).toHaveLength(7_500); expect(first.structureRebalancePreview).toHaveLength(10_000); expect(durationCpuMs).toBeLessThan(5_000);
   });
 
   it("caps directive collections and preserves the ruled coordinate under high input density", () => {

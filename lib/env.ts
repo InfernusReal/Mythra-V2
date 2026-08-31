@@ -14,6 +14,14 @@ const baseSchema = z.object({
   APP_ORIGIN: z.string().url(),
   MYTHRA_PRIVATE_STORAGE_ROOT: z.string().min(1).optional(),
   MYTHRA_SCANNER_URL: z.string().url().optional(),
+  BILLING_PROVIDER: z.enum(["fixture", "http"]).default("fixture"),
+  BILLING_PROVIDER_API_URL: z.string().url().optional(),
+  BILLING_PROVIDER_SECRET: z.string().min(32).optional(),
+  BILLING_WEBHOOK_SECRET: z.string().min(32).optional(),
+  BILLING_CORE_PRICE_REF: z.string().min(1).default("core-usd-monthly-v1"),
+  BILLING_INTELLIGENCE_PRICE_REF: z.string().min(1).optional(),
+  BILLING_CORE_AMOUNT_USD_CENTS: z.coerce.number().int().positive().default(1500),
+  BILLING_INTELLIGENCE_AMOUNT_USD_CENTS: z.coerce.number().int().positive().default(2500),
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info")
 });
 
@@ -26,6 +34,15 @@ export function parseEnv(source: NodeJS.ProcessEnv): AppEnv {
   }
   if (env.AUTH_MODE === "oidc" && (!env.AUTH_ISSUER || !env.AUTH_AUDIENCE || !env.AUTH_JWKS_URL)) {
     throw new Error("OIDC authentication requires issuer, audience, and JWKS URL.");
+  }
+  if (env.BILLING_CORE_AMOUNT_USD_CENTS !== 1500 || env.BILLING_INTELLIGENCE_AMOUNT_USD_CENTS !== 2500) {
+    throw new Error("The active pricing decision requires Core USD 15 and dormant Intelligence USD 25.");
+  }
+  if (env.BILLING_PROVIDER === "http" && (!env.BILLING_PROVIDER_API_URL || !env.BILLING_PROVIDER_SECRET || !env.BILLING_WEBHOOK_SECRET)) {
+    throw new Error("HTTP billing requires API URL, provider secret, and webhook secret.");
+  }
+  if (env.NODE_ENV === "production" && env.BILLING_PROVIDER !== "http") {
+    throw new Error("Fixture billing is forbidden in production.");
   }
   return env;
 }

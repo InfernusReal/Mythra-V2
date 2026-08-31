@@ -6,13 +6,14 @@ import { getPrisma } from "@/lib/db/prisma";
 import { logger } from "@/lib/observability/logger";
 import { PrismaContinuationRepository } from "@/domains/writing/infrastructure/prisma-continuation-repository";
 import { ContinuationService } from "@/domains/writing/application/continuation";
+import { billingService } from "@/lib/billing/runtime";
 
 export function writingService(): WritingService {
-  return new WritingService(new PrismaWritingRepository(getPrisma()), logger.child({ module: "writing" }));
+  return new WritingService(new PrismaWritingRepository(getPrisma()), logger.child({ module: "writing" }), billingService());
 }
 
 export function durabilityService(): DurabilityService {
-  return new DurabilityService(new PrismaDurabilityRepository(getPrisma()), logger.child({ module: "writing-durability" }));
+  return new DurabilityService(new PrismaDurabilityRepository(getPrisma()), logger.child({ module: "writing-durability" }), billingService());
 }
 
 export function continuationService(): ContinuationService {

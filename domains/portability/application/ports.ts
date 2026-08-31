@@ -30,4 +30,11 @@ export interface PortabilityRepository {
   destructivePreview(actor: SessionActor, projectId: string, objectType: string, objectId: string): Promise<{ backlinks: Array<{ id: string; sourceType: string; sourceId: string; relationshipKey: string }>; causalImpact: Array<{ id: string; sourceType: string; sourceId: string; targetType: string; targetId: string; relationType: string; provenanceType: string }>; truncated: boolean; options: readonly ["MOVE", "REATTACH", "RETIRE"] }>;
 }
 
-export interface PortabilityDependencies { repository: PortabilityRepository; storage: PrivateObjectStorage; buildArchive(actor: SessionActor, projectId: string, generatedAt: Date): Promise<ProjectArchive>; now(): Date }
+export interface PortabilityDependencies {
+  repository: PortabilityRepository;
+  storage: PrivateObjectStorage;
+  buildArchive(actor: SessionActor, projectId: string, generatedAt: Date): Promise<ProjectArchive>;
+  authorizeCost?(actor: SessionActor, resource: "snapshotBytes", requested: number): Promise<unknown>;
+  recordUsage?(actor: SessionActor, input: { resource: "snapshotBytes" | "exportGenerationBytes" | "bandwidthBytes"; quantity: number; idempotencyKey: string; sourceType: string; sourceId?: string }): Promise<unknown>;
+  now(): Date;
+}

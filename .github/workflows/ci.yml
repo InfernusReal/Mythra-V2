@@ -34,3 +34,8 @@ jobs:
           AUTH_JWKS_URL: https://identity.example.com/.well-known/jwks.json
           SESSION_SECRET: ci-only-session-secret-with-32-characters
           APP_ORIGIN: https://mythra.example.com
+          BILLING_PROVIDER: http
+          BILLING_PROVIDER_API_URL: https://billing.example.com
+          BILLING_PROVIDER_SECRET: ci-only-billing-provider-secret-32-characters
+          BILLING_WEBHOOK_SECRET: ci-only-billing-webhook-secret-32-characters
+          BILLING_CORE_PRICE_REF: core-usd-monthly-v1

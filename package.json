@@ -55,6 +55,9 @@
     "worker:snapshots": "tsx scripts/process-scheduled-snapshots.ts",
     "db:verify:portability": "tsx scripts/verify-portability-db.ts verify",
     "db:rollback:portability": "tsx scripts/verify-portability-db.ts rollback",
+    "db:verify:billing": "tsx scripts/verify-billing-db.ts verify",
+    "db:rollback:billing": "tsx scripts/verify-billing-db.ts rollback",
+    "test:stress:billing-db": "tsx scripts/stress-billing-db.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

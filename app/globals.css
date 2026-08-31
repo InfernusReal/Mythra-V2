@@ -161,6 +161,27 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .sign-in-card { width: min(100%, 440px); padding: 32px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
 .primary-action { width: 100%; min-height: 44px; margin-top: 20px; border: 0; border-radius: 8px; color: white; background: var(--accent-action); font-weight: 700; }
 .settings-panel { width: min(100%, 680px); }
+.billing-panel { width: min(100%, 900px); display: grid; gap: 20px; align-self: start; }
+.billing-panel > header { display: flex; align-items: start; justify-content: space-between; gap: 24px; }
+.billing-panel > header h1 { margin: 4px 0 8px; font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -.04em; }
+.billing-panel > header p:not(.eyebrow), .billing-panel section > p { max-width: 64ch; color: var(--text-muted); line-height: 1.55; }
+.billing-panel > header > strong { white-space: nowrap; color: var(--accent); font-size: 1.25rem; }
+.billing-status, .billing-panel > section { padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.billing-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.billing-status span { color: var(--text-muted); }
+.billing-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.billing-actions button, .billing-actions a, .future-plan button { min-height: 42px; display: inline-flex; align-items: center; padding: 8px 14px; color: var(--text); border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-weight: 700; text-decoration: none; }
+.billing-actions button:first-child { color: white; border-color: var(--accent-action); background: var(--accent-action); }
+.billing-actions button:disabled, .future-plan button:disabled { opacity: .6; cursor: not-allowed; }
+.billing-message:empty { display: none; }
+.billing-message { margin: -8px 0 0; color: var(--danger); }
+.billing-panel h2 { margin: 0 0 12px; font-size: 1rem; }
+.usage-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.usage-list li { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(160px, 1fr); align-items: center; gap: 18px; }
+.usage-list li div { display: flex; justify-content: space-between; gap: 12px; }
+.usage-list li span { color: var(--text-muted); font-size: .8125rem; }
+.usage-list progress { width: 100%; accent-color: var(--accent); }
+.future-plan { border-style: dashed !important; }
 .project-create { display: grid; gap: 16px; max-width: 420px; margin-top: 24px; }
 .project-summary, .new-project { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .project-summary h2, .new-project h2 { margin: 0 0 8px; }

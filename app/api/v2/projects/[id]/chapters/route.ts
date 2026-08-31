@@ -13,5 +13,5 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     const { id } = await params;
     return NextResponse.json(success(await writingService().createChapter(actor, id, await request.json(), requestId), requestId), { status: 201 });
   }
-  catch (error) { const safe = error instanceof Error && error.name === "ZodError" ? errors.validation() : asAppError(error); return NextResponse.json(failure(safe.code, safe.message, requestId), { status: safe.status }); }
+  catch (error) { const safe = error instanceof Error && error.name === "ZodError" ? errors.validation() : asAppError(error); return NextResponse.json(failure(safe.code, safe.message, requestId, safe.safeDetails), { status: safe.status }); }
 }
