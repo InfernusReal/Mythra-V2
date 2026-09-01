@@ -13,7 +13,7 @@ export interface IdentityRecord {
 }
 
 export interface UserPreferenceReadModel {
-  theme: "light" | "dark" | "system";
+  theme: "light" | "dark" | "cream" | "system";
   locale: string;
 }
 

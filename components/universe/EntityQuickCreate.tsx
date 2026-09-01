@@ -1,9 +1,10 @@
 "use client";
 
 import type { Editor } from "@tiptap/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
 import { useFocusPreservingOverlay } from "@/lib/editor/use-focus-preserving-overlay";
+import { MOBILE_WRITING_ACTION, type MobileWritingAction } from "@/lib/editor/mobile-actions";
 
 type Selection = { from: number; to: number; blockId: string; name: string };
 type Envelope<T> = { data?: T; error?: { message: string } };
@@ -67,7 +68,7 @@ export function EntityQuickCreate({
         );
       });
   }, [catalog, open, projectId]);
-  const begin = () => {
+  const begin = useCallback(() => {
     if (!editor) return;
     const selected = selectionOf(editor);
     if (!selected) {
@@ -77,7 +78,17 @@ export function EntityQuickCreate({
     capture();
     setSelection(selected);
     setOpen(true);
-  };
+  }, [capture, editor]);
+  useEffect(() => {
+    const action = (event: Event) => {
+      if ((event as CustomEvent<MobileWritingAction>).detail !== "entity") return;
+      begin();
+      // Console trace S15-MOBILE-007: mobile Entity action records availability without selected manuscript content.
+      console.log(JSON.stringify({ level: "info", step: "S15-MOBILE-007", event: "responsive.entity_action_invoked", projectId, chapterId, selectionAvailable: Boolean(editor && selectionOf(editor)) }));
+    };
+    window.addEventListener(MOBILE_WRITING_ACTION, action);
+    return () => window.removeEventListener(MOBILE_WRITING_ACTION, action);
+  }, [begin, chapterId, editor, projectId]);
   const close = () => {
     setOpen(false);
     setSelection(null);

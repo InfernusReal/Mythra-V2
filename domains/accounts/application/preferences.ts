@@ -3,7 +3,7 @@ import type { Logger } from "@/lib/observability/logger";
 import type { SessionActor } from "../domain/identity";
 import type { IdentityRepository, UserPreferenceReadModel } from "./ports";
 
-const themeInputSchema = z.object({ theme: z.enum(["light", "dark", "system"]) }).strict();
+const themeInputSchema = z.object({ theme: z.enum(["light", "dark", "cream", "system"]) }).strict();
 
 export class ManagePreferences {
   constructor(private readonly identities: IdentityRepository, private readonly logger: Logger) {}

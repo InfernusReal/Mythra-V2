@@ -105,7 +105,7 @@ export class PrismaIdentityRepository implements IdentityRepository {
       where: { userId_workspaceId: { userId: actor.userId, workspaceId: actor.workspaceId } },
       select: { theme: true, locale: true }
     });
-    if (preference.theme !== "light" && preference.theme !== "dark" && preference.theme !== "system") {
+    if (preference.theme !== "light" && preference.theme !== "dark" && preference.theme !== "cream" && preference.theme !== "system") {
       return { theme: "system", locale: preference.locale };
     }
     return preference as UserPreferenceReadModel;

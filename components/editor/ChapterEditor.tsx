@@ -26,6 +26,7 @@ import { QuickCaptureOverlay } from "@/components/capture/QuickCaptureOverlay";
 import { EntityQuickCreate } from "@/components/universe/EntityQuickCreate";
 import { EditorSearchBridge } from "@/components/language/EditorSearchBridge";
 import { LiveModelFreshness } from "@/components/live-model/LiveModelFreshness";
+import { MobileWritingActions } from "./MobileWritingActions";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -233,6 +234,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
         <WordTarget wordCount={wordCount} delta={delta} />
         <span>Autosave on</span>
       </footer>
+      <MobileWritingActions projectId={model.project.id} chapterId={model.chapter.id} />
     </div>
   );
 }

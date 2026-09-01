@@ -8,6 +8,7 @@ import { SEARCH_EDITOR_RESULT } from "@/lib/search/editor-events";
 import { SearchPeek } from "@/components/search/SearchPeek";
 import { SearchResultGroups } from "@/components/search/SearchResultGroups";
 import { ThemeMenu } from "./ThemeMenu";
+import { MOBILE_WRITING_ACTION, type MobileWritingAction } from "@/lib/editor/mobile-actions";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 type PaletteContext = { projectId: string | null; chapterId: string | null };
@@ -75,6 +76,17 @@ export function CommandPalette() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [closePalette, open, openPalette, peek]);
+
+  useEffect(() => {
+    const action = (event: Event) => {
+      if ((event as CustomEvent<MobileWritingAction>).detail !== "search") return;
+      openPalette();
+      // Console trace S15-MOBILE-005: mobile Search open records the interaction source only.
+      console.log(JSON.stringify({ level: "info", step: "S15-MOBILE-005", event: "responsive.search_opened", input: "touch" }));
+    };
+    window.addEventListener(MOBILE_WRITING_ACTION, action);
+    return () => window.removeEventListener(MOBILE_WRITING_ACTION, action);
+  }, [openPalette]);
 
   useEffect(() => {
     const listener = (event: Event) => {

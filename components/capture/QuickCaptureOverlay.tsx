@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { Editor } from "@tiptap/core";
 import { enqueueCapture, markCaptureRetry, removeQueuedCapture, syncCaptureQueue, type PendingCapture } from "@/lib/indexed-db/capture-queue";
 import { useFocusPreservingOverlay } from "@/lib/editor/use-focus-preserving-overlay";
+import { MOBILE_WRITING_ACTION, type MobileWritingAction } from "@/lib/editor/mobile-actions";
 
 type QuickTarget = "NONE" | "MILESTONE" | "STORY_CHANGE" | "CAPTURE_DERIVED_CAUSAL";
 type Envelope<T> = { data?: T; error?: { message: string } };
@@ -11,6 +12,9 @@ type Envelope<T> = { data?: T; error?: { message: string } };
 export function QuickCaptureOverlay({ editor, projectId, chapterId, outlineId, entityContext = [] }: { editor: Editor | null; projectId: string; chapterId?: string; outlineId?: string; entityContext?: string[] }) {
   const [open, setOpen] = useState(false); const [rawText, setRawText] = useState(""); const [target, setTarget] = useState<QuickTarget>("NONE"); const [error, setError] = useState<string | null>(null); const { capture, restore } = useFocusPreservingOverlay(editor);
   const close = useCallback(() => { setOpen(false); setRawText(""); setTarget("NONE"); restore(); }, [restore]);
+  const openOverlay = useCallback(() => { capture(); setOpen(true);
+    // Console trace S15-MOBILE-004: touch-triggered Capture open records writing coordinates and excludes Capture/manuscript content.
+    console.log(JSON.stringify({ level: "info", step: "S15-MOBILE-004", event: "responsive.capture_opened", projectId, chapterId, input: "touch" })); }, [capture, chapterId, projectId]);
   useEffect(() => { const synchronize = () => { if (typeof indexedDB === "undefined") {
         // Console trace S8-UI-005: local replay was safely unavailable without blocking the mounted writing surface.
         console.log(JSON.stringify({ level: "warn", step: "S8-UI-005", event: "capture.local_queue_unavailable", projectId })); return; }
@@ -23,7 +27,7 @@ export function QuickCaptureOverlay({ editor, projectId, chapterId, outlineId, e
       }); }; synchronize(); window.addEventListener("online", synchronize); return () => window.removeEventListener("online", synchronize); }, [projectId]);
   useEffect(() => { const key = (event: KeyboardEvent) => { if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === "Space") { event.preventDefault(); capture(); setOpen(true);
         // Console trace S8-UI-001: global quick Capture opened with route identity only.
-        console.log(JSON.stringify({ level: "info", step: "S8-UI-001", event: "capture.overlay_opened", projectId, chapterId, route: `${location.pathname}${location.search}` })); } if (event.key === "Escape" && open) { event.preventDefault(); close(); } }; window.addEventListener("keydown", key); return () => window.removeEventListener("keydown", key); }, [capture, chapterId, close, open, projectId]);
+        console.log(JSON.stringify({ level: "info", step: "S8-UI-001", event: "capture.overlay_opened", projectId, chapterId, route: `${location.pathname}${location.search}` })); } if (event.key === "Escape" && open) { event.preventDefault(); close(); } }; const action = (event: Event) => { if ((event as CustomEvent<MobileWritingAction>).detail === "capture") openOverlay(); }; window.addEventListener("keydown", key); window.addEventListener(MOBILE_WRITING_ACTION, action); return () => { window.removeEventListener("keydown", key); window.removeEventListener(MOBILE_WRITING_ACTION, action); }; }, [capture, chapterId, close, open, openOverlay, projectId]);
   const save = async () => { if (!rawText.trim()) return; setError(null); const selection = editor?.state.selection; const from = selection?.from; const to = selection?.to; const clientCaptureId = crypto.randomUUID(); const blockId = selection && typeof selection.$from.parent.attrs.blockId === "string" ? selection.$from.parent.attrs.blockId : undefined; const record: PendingCapture = { clientCaptureId, projectId, rawText: rawText.trim(), route: `${location.pathname}${location.search}${location.hash}`, ...(chapterId ? { chapterId } : {}), ...(outlineId ? { outlineId } : {}), ...(blockId ? { blockId } : {}), ...(from !== undefined && to !== undefined ? { selectionAnchor: from, selectionHead: to } : {}), entityContext: entityContext.slice(0, 50), capturedAt: new Date().toISOString(), attempts: 0, nextAttemptAt: 0, state: "QUEUED" }; await enqueueCapture(record);
     // Console trace S8-UI-002: raw-first local Capture save completed before optional filing; authored text is excluded.
     console.log(JSON.stringify({ level: "info", step: "S8-UI-002", event: "capture.raw_first_saved", projectId, chapterId, clientCaptureId, quickTarget: target, selectedLength: from === undefined || to === undefined ? 0 : to - from })); close();

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
 import type { UniverseEntitySummary } from "@/domains/universe/domain/types";
+import { VirtualList } from "@/components/performance/VirtualList";
 
 type Props = {
   projectId: string;
@@ -241,9 +242,7 @@ export function UniverseWorkspace({
           ))}
         </select>
       </label>
-      <ol className="universe-list">
-        {visible.map((entity) => (
-          <li key={entity.id}>
+      {visible.length ? <VirtualList items={visible} getKey={(entity) => entity.id} label="Universe entities" className="universe-list" rowHeight={144} renderItem={(entity) => (
             <a
               href={`/app/projects/${projectId}/universe/${entity.id}${returnChapterId ? `?returnChapterId=${returnChapterId}` : ""}`}
             >
@@ -251,9 +250,7 @@ export function UniverseWorkspace({
               <span>{entity.typeName}</span>
               {entity.summary ? <p>{entity.summary}</p> : null}
             </a>
-          </li>
-        ))}
-      </ol>
+      )} /> : null}
       {visible.length === 0 ? (
         <p>
           No entities match this view. Writing remains available without

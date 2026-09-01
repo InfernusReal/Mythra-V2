@@ -25,7 +25,12 @@ export function useContextField(editor: Editor | null, chapterId: string) {
   useEffect(() => { modelRef.current = model; }, [model]);
   const refresh = useCallback(async (peek?: { type: ContextCardType; id: string }, cardCap = 8, acceptFresh = false) => {
     if (!editor) return; const sequence = ++sequenceRef.current; const current = cursor(editor); const known = modelRef.current; const requestedContextKey = known && !peek && !acceptFresh ? await expectedKey(known, current.blockId, current.selectedIds) : undefined;
-    abortRef.current?.abort(); const controller = new AbortController(); abortRef.current = controller; setLoading(true); setError(null);
+    if (abortRef.current && !abortRef.current.signal.aborted) {
+      abortRef.current.abort();
+      // Console trace S15-CONTEXT-001: superseded context cancellation records only chapter identity and request sequence.
+      console.log(JSON.stringify({ level: "info", step: "S15-CONTEXT-001", event: "performance.context_request_cancelled", chapterId, sequence }));
+    }
+    const controller = new AbortController(); abortRef.current = controller; setLoading(true); setError(null);
     if (!online) { const cached = readStaleContextModel(chapterId); setModel(cached); setError(cached ? "Cached context is stale while offline." : "Context is unavailable offline until it has been cached."); setLoading(false);
       // Console trace S11-OFFLINE-002: offline context fallback records identity/card count only and excludes authored context content.
       console.log(JSON.stringify({ level: "info", step: "S11-OFFLINE-002", event: "context.offline_cache_resolved", chapterId, returnedCards: cached?.descriptors.length ?? 0, cacheAvailable: Boolean(cached) })); return; }

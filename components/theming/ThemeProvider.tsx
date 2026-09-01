@@ -12,7 +12,7 @@ function applyTheme(theme: Theme): void {
     ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
     : theme;
   document.documentElement.dataset.theme = resolved;
-  document.documentElement.style.colorScheme = resolved;
+  document.documentElement.style.colorScheme = resolved === "dark" ? "dark" : "light";
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -52,6 +52,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     applyTheme(next);
     // Console trace S0-THEME-001: theme preference changed; only the theme key is emitted.
     console.log(JSON.stringify({ level: "info", step: "S0-THEME-001", event: "theme.changed", theme: next }));
+    if (next === "cream") {
+      // Console trace S15-THEME-001: optional Cream activation records only the stable theme key.
+      console.log(JSON.stringify({ level: "info", step: "S15-THEME-001", event: "theme.cream_activated", theme: next }));
+    }
     void fetch("/api/v2/preferences/theme", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ theme: next }) }).then((response) => {
       if (!response.ok) throw new Error("Preference persistence failed.");
       // Console trace S0-THEME-004: the canonical preference acknowledged the already-applied local theme.
