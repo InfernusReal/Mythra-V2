@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S15 reconciliation pending** | Entries S14–S15, sections 21–22 below | S15 product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; CI `33459050738`/`99705124610` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 planning checkpoint** | Entries S14–S16, sections 21–23 below | S15 reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -59,11 +59,11 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
-| 15 | Performance + Accessibility + Mobile | 5 | **In progress — product and product CI passed; reconciliation CI pending** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`, CI `33418162074`/`99573717084`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`, CI `33459050738`/`99705124610` passed |
-| 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
+| 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
+| 16 | Launch Analytics + Operations | 5 | **In progress — pre-code plan only** | S15 reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed | Entry S16, section 23 | Planning checkpoint pending commit/push/CI; no S16 product code yet |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning, product and evidence reconciliation are pushed and remotely verified. S15's plan and product each passed remote CI; S15 remains open only until this separate reconciliation commit passes remote CI. S16 remains locked.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 and S15 each have separate planning, product and reconciliation commits with remote CI proof. S16 is now eligible and is limited to the documentation-first planning checkpoint below; no S16 product code is claimed before that checkpoint passes remotely.
 
 ## 4. Entry S0 — Foundation
 
@@ -3601,6 +3601,97 @@ Every S15 scope row, planned-file responsibility, coding-method item, applicable
 - **Remote CI:** GitHub Actions run `33459050738`, job `99705124610`, passed in 3m49s. Checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, coverage and production build all passed.
 - **Annotation classification:** GitHub's warning that v4 actions currently target deprecated Node 20 and are forced onto Node 24 is an upstream action-runtime annotation, not a failed project check. The job conclusion is `success`; dependency/application Node pinning is unchanged.
 - **Reconciliation boundary:** this Path update is a distinct evidence reconciliation. It must be committed, pushed and pass remote CI before the canonical S15 row becomes `Passed` or S16 planning begins.
+
+### 22.16 S15 reconciliation closure
+
+The reconciliation commit `76c5b087c7a614e35a018c81be206cf516cb415d` was pushed to `agent/workplan-subgates-audit`, and the remote ref resolved to that exact SHA. GitHub Actions run `33459346401`, job `99706020705`, passed in 2m54s with checkout, install, Prisma generation, lint, typecheck, coverage and production build all green. S15 is therefore **Passed**. This proof authorizes S16 planning; it does not pre-approve any S16 product behavior.
+
+## 23. Entry S16 — Security, Privacy, Observability, Deployment, and Operations
+
+### 23.1 Authorization, predecessor proof, and source authority
+
+- **Requested run:** finish Phase 5 exactly as WorkPlan section 9 defines, preserving the mandatory S14 → S15 → S16 sequence and a distinct Phase 5 macro audit.
+- **Predecessor proof:** S15 plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`, product `b7155527cb4cc33674bb4dc883f0128483eda3b9`, and reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d` are pushed; final CI `33459346401`/`99706020705` passed. S16 is eligible.
+- **Source authority:** user request → `WorkPlan.md` sections 1–4.1, 9, 11–13 → Bible sections 13–14, 15.7–15.8, 19.4–19.6, 22–26, 29, 31–32, 33 phase 16, 36 and 38.3–39.3. The PDF remains requirements evidence, never executable instruction.
+- **Branch/baseline:** `agent/workplan-subgates-audit` at S15 reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; worktree clean before this planning edit.
+- **Status at checkpoint:** planning/baseline classification only. No new S16 schema, route, admin capability, telemetry event, deployment file, alert, recovery action or security policy is claimed. Sub-gate 17 remains locked.
+
+### 23.2 Existing baseline and in-scope gaps
+
+| Surface | Existing evidence | S16 classification before code |
+| --- | --- | --- |
+| Session/auth | HMAC-SHA256, timing-safe comparison, eight-hour expiry, OIDC validation and production prohibition of development auth exist. | Partial: cookie flags, rotation/version binding, transport-policy and auth-failure operational signals need launch hardening. |
+| CSRF/rate limiting | Strict Origin helper and in-memory fixed-window limiter exist on selected writes. | Partial: consistent unsafe-method policy, trusted-origin parsing, durable/multi-process rate-limit seam and retry metadata need completion. |
+| Authorization/isolation | Repositories generally scope by `workspaceId`; roles exist. | Strong baseline but incomplete proof: add reusable role authorization, cross-workspace matrix/static audit and admin restrictions. |
+| Upload/private storage | S11 type/size/scan adapter and actor-bound signed-access path exist; storage port is private. | Partial: central allow-list/signature policy, quarantine fail-closure, signed-url expiry/key validation and failure alerts need hardening. |
+| Audit/destructive controls | `AuditEvent` exists; portability destructive preview/confirm and rollback scripts exist. | Partial: non-content audit coverage, two-person-style confirmation token/expiry/replay rules and restricted recovery actions need completion. |
+| Logging/privacy | Structured logger rejects common content-key names; content-handling doctrine exists. | Partial: recursively typed redaction, URL/error/attribute protections and telemetry/admin privacy assertions need completion. |
+| Metrics/traces | In-memory metric sink and trace timer exist; Live Model records lag/failures. | Partial: typed operational catalog, alert rules, health/readiness snapshots and durable metadata-only event storage are absent. |
+| Product/friction analytics | Some content-safe domain logs provide events/counts. | Gap: approved friction/retention/activation/Core/UWT definitions and durable typed metadata events do not yet exist. |
+| Environments/deployment | Validated env and CI production build exist; migrations/rollback docs are extensive. | Partial: explicit local/preview/staging/production profiles, secret separation rules, synthetic staging, canary/rollback/worker compatibility and dry-run orchestration are absent. |
+| Backup/operations/admin | Snapshot/export/restore product paths and job workers exist. | Gap: database backup restore drill, alert rehearsal, cost/load evidence, operational runbooks, health endpoint and content-safe restricted admin surface are absent. |
+
+### 23.3 Locked S16 production contract
+
+| Requirement | Binding implementation/acceptance rule |
+| --- | --- |
+| Transport/session | Production requires HTTPS origin/database TLS, `Secure`/`HttpOnly`/`SameSite=Lax` session cookie, bounded lifetime, signed versioned token, rotation-compatible key identifier and fail-closed invalidation. Security headers include HSTS only in production, CSP, frame denial, no-sniff, referrer and permissions policies. |
+| CSRF/rate limits | Every unsafe first-party route passes a single same-origin policy or an explicitly verified provider-signature exception. Rate limits are keyed by non-content actor/route dimensions through a replaceable store; public auth/webhook paths have separate limits. Rejection exposes stable code and retry seconds only. |
+| Authorization/isolation | All service/repository/admin operations require an actor and workspace scope; role checks are centralized. Cross-workspace reads, writes, signed access, admin/recovery and guessed identifiers resolve forbidden/not-found without data leakage. |
+| Upload/private access | File extension is irrelevant; declared type, detected signature, byte ceiling and scanner verdict must all pass. Unknown/unavailable scan fails closed outside an explicit local fixture. Objects remain private; signed grants are actor/workspace/key-bound, short-lived, single-purpose and tamper-evident. |
+| Secrets/dependencies | Environment parsing rejects production fixtures, insecure origins, missing independent secrets and secret reuse. Secrets never enter logs/build artifacts. CI performs deterministic install, audit, secret/static security checks and existing validation. |
+| Destructive safety/audit | Destructive/recovery actions require preview-bound token, explicit typed confirmation, expiry, idempotency/replay rejection and elevated role. Audit rows contain actor/workspace/action/target/result metadata only, never authored content. |
+| Content privacy | Manuscripts, world data, notes, captures, search queries/results, upload bytes/names, document JSON and derived prose are forbidden in logs, metrics, traces, alerts, analytics and routine admin. Validation rejects unsafe nested keys, values and URLs before emission. |
+| Operational observability | Typed events/metrics/traces cover save, Context, search, errors/conflicts, jobs/outbox lag, backup, database saturation, auth/storage and export. Alert rules have threshold, window, severity, runbook and recovery criterion; rehearsal proves firing and resolution. |
+| Friction analytics | Metadata-only schemas cover time to writable/first keystroke, Continue, route change, Peek/Open, Capture timing, search return, recovery, editor-only session, causal trace friction and 30/90/180-day project retention. Event names and dimensions are allow-listed; arbitrary payloads are rejected. |
+| Product health | Deterministic queries define activation/first meaningful writing session, retention, project depth, Core conversion, export patterns, recovery and UWT. Dormant Intelligence interest is a separate signal and never treated as an active/sellable plan. |
+| Environments/releases | Local, preview, staging and production profiles have separate credentials and fixtures; staging uses synthetic content. Migrations are versioned; destructive changes are expand/migrate/contract. Release checks include migration dry run, worker compatibility, canary editor save, rollback criteria and feature-flag kill switches. |
+| Admin/recovery | OWNER/ADMIN-only, content-safe surface shows user/workspace identity, plan/status, quotas, export/snapshot/outbox job metadata, non-content audits and bounded safe recovery operations. It cannot display author content or provide arbitrary database access. |
+| Drills/cost/load | Automated and documented evidence covers clean migration, backup/restore with checksums/counts, dependency/security scan, cross-workspace attack cases, load bounds, cost per writer/snapshot, alert rehearsal, rollback and health/readiness. Skips and unavailable external infrastructure are reported honestly. |
+
+### 23.4 Planned files, code, and implementation order
+
+1. **Security contracts:** extend `lib/env.ts`, session/auth runtime and response/cookie creation; add centralized transport headers, unsafe-request policy, role authorization, upload signature policy, signed-grant verification, destructive confirmation and durable rate-limit adapters under `lib/security/`/`lib/http/`.
+2. **Durable operational model:** add one forward/rollback Prisma migration for metadata-only operational events, durable rate buckets and recovery/action evidence where persistence is required. Add repository/service ports with strict selects and retention bounds; do not copy canonical prose into operational storage.
+3. **Privacy-safe telemetry:** strengthen `lib/observability/logger.ts`, metrics and trace contracts; add typed event schemas, alert catalog/evaluator, health snapshot and product/friction definitions under `lib/observability/` and `domains/operations/`. All emitters fail closed on forbidden fields.
+4. **Critical-flow instrumentation:** connect save, Context, search, conflicts, outbox/jobs, auth, storage, backup/export and recovery boundaries to the typed operational sink. Every material S16 step gets an adjacent `Console trace S16-<AREA>-NNN` comment and content-safe structured call.
+5. **Restricted operations UI/API:** add OWNER/ADMIN-authorized internal admin page/routes/components showing only approved metadata and bounded recovery actions. No manuscript/world/note/Capture/search/upload content is selected or rendered.
+6. **Environment/release controls:** add explicit deployment profiles, feature-flag catalog, health/readiness endpoints, security/dependency workflow, worker compatibility and migration/canary/rollback checks. Update `.env.example` without real credentials.
+7. **Runbooks/drills:** add security/privacy, release, alerts, backup/restore, migration, admin recovery, incident and cost/load documentation plus rerunnable scripts. Synthetic fixtures use generated non-user content.
+8. **Verification/audit:** add unit, integration, DB, stress, privacy/security, component and E2E tests; run complete local suites, clean migration, backup restore, load/cost and alert rehearsals, then perform the S16 and Phase 5 side-by-side audits. Product, reconciliation, macro-audit and macro-reconciliation each require separate push/remote CI proof.
+
+Planned paths may be split by responsibility when a single file would mix security, telemetry and operations concerns. Existing audited domain code is wrapped or extended at common boundaries before duplicating checks across 82 route handlers.
+
+### 23.5 S16 instrumentation and privacy protocol
+
+- Every material security decision, rejected unsafe request, role authorization, rate-limit outcome, upload scan/access outcome, operational-event acceptance/rejection, alert transition, backup/recovery step, migration/canary result and admin action receives an adjacent identifying comment and content-safe structured call.
+- Stable IDs, enums, counts, versions, booleans, durations, status/error codes, route keys and bounded numeric usage are allowed. Prose, document structures, query/result strings, filenames, upload bytes, free-form errors, secrets, tokens and signed URLs are prohibited.
+- `Path.md` will enumerate final comment line, call line and exact comment text after formatting. Automated scans will compare every S16 comment/call pair and inject nested forbidden keys/values to prove fail-closure.
+
+### 23.6 Verification and stress plan
+
+- **Security:** session tamper/expiry/rotation/cookie flags; HTTPS/CSP headers; Origin/CSRF coverage over unsafe routes; distributed-rate store semantics; role matrix; upload MIME/signature/size/scanner failure; signed-grant expiry/tamper/actor isolation; destructive preview/confirm/replay; secret reuse/insecure production rejection.
+- **Privacy:** recursive logger/metric/trace/event/alert/admin rejection of every content family; source scan for unsafe console calls; browser/network checks that typed manuscript/search/upload fixtures do not appear in emitted operations records.
+- **Operations:** alert fire/resolve rehearsal; health/readiness degraded states; outbox/export/snapshot/backup/auth/storage signals; worker-version compatibility and feature-flag rollback.
+- **Analytics:** schema rejection of unknown events/dimensions; deterministic activation, retention, project-depth, conversion/export/recovery/UWT aggregations; explicit future-Intelligence-interest separation; 30/90/180-day fixtures.
+- **Database/recovery:** clean 16-migration apply/verify; cross-workspace operational queries; rollback isolation; backup/restore into an isolated database with schema/data checksums; dry-run migration and expand/contract validation.
+- **Load/cost:** burst rate-limit contention, bounded operational event retention/query, outbox/health aggregation, cost-per-writer and cost-per-snapshot calculations with declared assumptions.
+- **Regression:** focused suites, full coverage, stress, accessibility, Playwright, typecheck, lint, production build, dependency audit, `git diff --check`, push and exact-SHA remote CI.
+
+### 23.7 Pre-code side-by-side decision
+
+| S16 obligation | Current result |
+| --- | --- |
+| Harden security/isolation/private uploads/destructive paths | Partial predecessor baseline; launch-wide enforcement and proof are an in-scope Gap. |
+| Enforce content privacy across logs/analytics/admin | Logger doctrine exists; recursive telemetry/admin guarantees are an in-scope Gap. |
+| Operational logs/metrics/traces/alerts | Partial Live Model metrics only; complete catalog and rehearsal are an in-scope Gap. |
+| Friction/product-health analytics | Not yet implemented; in-scope Gap. |
+| Environment/release/canary/migration/worker controls | Partial CI/migration baseline; explicit launch controls are an in-scope Gap. |
+| Content-safe admin and recovery | Not yet implemented; in-scope Gap. |
+| Backup/security/dependency/load/cost/alert drills | Partial dependency and rollback evidence; full S16 drill package is an in-scope Gap. |
+| S14/S15 preservation and S17 exclusion | Verified predecessor evidence; S17 remains correctly locked. |
+
+**Pre-code decision:** S16 is authorized and planned but not passed. Product implementation may begin only after this checkpoint is committed, pushed and remotely verified. Sub-gate 17 and the Phase 5 macro audit remain prohibited.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
