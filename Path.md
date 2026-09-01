@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S15 product locally verified; remote product proof pending** | Entries S14–S15, sections 21–22 below | S15 plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; CI `33418162074`/`99573717084` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S15 reconciliation pending** | Entries S14–S15, sections 21–22 below | S15 product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; CI `33459050738`/`99705124610` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -59,11 +59,11 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 12 | Live Story Model | 4 | **Passed** | S11 and Phase 3 macro required; satisfied by final reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8`, CI `33242728691`/`99074703453` | Entry S12 | Plan `cdf0401415eb7085855947c6d8487191828a5a01`; product `5821050113667465cf19563120c2b1ac8f49f0b7`, CI `33302928197`/`99234283082`; evidence `7a63a2f291048e3088ffbdc9bdf243d9de4f2af4`, CI `33303253416`/`99235147979` passed |
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
-| 15 | Performance + Accessibility + Mobile | 5 | **In progress — product locally verified; commit/push/CI pending** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; CI `33418162074`/`99573717084` passed; local product proof in 22.8–22.14 |
+| 15 | Performance + Accessibility + Mobile | 5 | **In progress — product and product CI passed; reconciliation CI pending** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`, CI `33418162074`/`99573717084`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`, CI `33459050738`/`99705124610` passed |
 | 16 | Launch Analytics + Operations | 5 | Not started | Sub-gate 15 required | — | — |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning, product and evidence reconciliation are pushed and remotely verified. S15's plan passed remotely before product work began; its product is locally complete and remains open until product and reconciliation commits both pass remote CI. S16 remains locked.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 planning, product and evidence reconciliation are pushed and remotely verified. S15's plan and product each passed remote CI; S15 remains open only until this separate reconciliation commit passes remote CI. S16 remains locked.
 
 ## 4. Entry S0 — Foundation
 
@@ -3593,6 +3593,14 @@ The browser test also asserts that emitted traces do not contain the typed Engli
 ### 22.14 Local S15 gate decision
 
 Every S15 scope row, planned-file responsibility, coding-method item, applicable Phase 5 exit condition, global acceptance rule, authorized ruling and anti-goal has evidence above. No in-scope `Gap` remains. The local product decision is **Pass**, with the procedural condition that S15 is not globally `Passed` and S16 cannot start until this product commit is pushed, remote CI passes, and a separate evidence reconciliation commit also passes remotely.
+
+### 22.15 S15 product Git and remote-CI evidence
+
+- **Product commit:** `b7155527cb4cc33674bb4dc883f0128483eda3b9` — `Implement S15 production readiness`; 36 files, 850 insertions and 69 deletions.
+- **Push proof:** `agent/workplan-subgates-audit` advanced from planning commit `05f1a7a` to product commit `b715552`; `git ls-remote` returned the exact full product SHA.
+- **Remote CI:** GitHub Actions run `33459050738`, job `99705124610`, passed in 3m49s. Checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, coverage and production build all passed.
+- **Annotation classification:** GitHub's warning that v4 actions currently target deprecated Node 20 and are forced onto Node 24 is an upstream action-runtime annotation, not a failed project check. The job conclusion is `success`; dependency/application Node pinning is unchanged.
+- **Reconciliation boundary:** this Path update is a distinct evidence reconciliation. It must be committed, pushed and pass remote CI before the canonical S15 row becomes `Passed` or S16 planning begins.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
