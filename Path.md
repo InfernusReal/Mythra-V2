@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 local product pass; security correction push/CI pending** | Entries S14–S16, sections 21–23 below | S16 product `45a9b63967d1893bb023e389f90c42bf98169ee2`; CI `33598522018`/`100146877717` passed; Security exposed a new transitive advisory and the local correction is verified in section 23.15 |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 corrected product passed remotely; reconciliation pending** | Entries S14–S16, sections 21–23 below | Corrected product `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; CI `33599056333`/`100148493633` and Security `33599056358`/`100148493827`, `33599052234`/`100148480421` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -60,7 +60,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
-| 16 | Launch Analytics + Operations | 5 | **In progress — local product pass; security correction push/CI pending** | Product `45a9b63967d1893bb023e389f90c42bf98169ee2`; CI `33598522018`/`100146877717` passed; failed Security evidence and verified correction in section 23.15 | Entry S16, sections 23.8–23.15 | Global Pass requires corrected product Security/CI and separate reconciliation push/CI |
+| 16 | Launch Analytics + Operations | 5 | **In progress — corrected product passed remotely; reconciliation pending** | Corrected product `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; all three remote workflows passed | Entry S16, sections 23.8–23.16 | Separate evidence reconciliation commit/push/CI required before global Pass |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
 Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 and S15 each have separate planning, product and reconciliation commits with remote CI proof. S16 planning passed remotely at `6b9527a02659ff09403df78509ea737879edc0ee`; the implementation and local audit now pass in sections 23.8–23.14. S16 remains globally In progress until the product and separate evidence reconciliation commits both pass remotely. Sub-gate 17 and the Phase 5 macro audit remain locked.
@@ -3847,7 +3847,24 @@ The rigorous audit exposed and closed the following gaps before the local Pass d
 - **Security first attempt:** pull-request run `33598522019`, job `100146877995`, and push run `33598519304`, job `100146880488`, both failed at the high-severity audit before tests. The exact report named `mysql2 <3.22.0`, `GHSA-3f6p-5ww8-9rcr`, installed only beneath Prisma. These failed runs are retained as evidence and are not treated as a pass.
 - **Correction:** `package.json` has the explicit `mysql2: 3.24.3` override and `package-lock.json` removes vulnerable 3.15.3/obsolete dependencies and pins 3.24.3. No MySQL product path is enabled; Mythra remains PostgreSQL-only.
 - **Corrected local verification:** `npm audit --audit-level=high` reports zero vulnerabilities; `npm ls mysql2` resolves only `prisma@7.9.1 -> mysql2@3.24.3 overridden`; Prisma Client generation passes; lint and typecheck pass; `npm run test:security` passes 2 files/8 tests.
-- **Gate decision:** the corrective product commit/push and its CI/Security results are pending. S16 remains In progress and S17 remains locked.
+- **Corrected product commit:** `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9` was pushed and the remote branch resolved exactly to that SHA.
+- **Corrected product CI:** run `33599056333`, job `100148493633`, passed install, Prisma generation, lint, typecheck, coverage and production build in 4m15s.
+- **Corrected product Security:** pull-request run `33599056358`, job `100148493827`, and push run `33599052234`, job `100148480421`, both passed install, high-severity audit, 8 security tests and secret-bearing-file rejection.
+- **Gate decision:** the corrected product is remotely verified without qualification. The separate evidence reconciliation commit/push/CI is now pending; S16 remains In progress and S17 remains locked until it passes.
+
+### 23.16 S16 evidence reconciliation checkpoint
+
+The immutable repository and remote evidence agree:
+
+| Evidence layer | Result |
+| --- | --- |
+| Planning | `6b9527a02659ff09403df78509ea737879edc0ee`; CI `33459698752`/`99707084722` passed before product work. |
+| Product implementation | `45a9b63967d1893bb023e389f90c42bf98169ee2`; CI `33598522018`/`100146877717` passed. Its Security attempts correctly failed on a newly surfaced high advisory and are retained as negative evidence. |
+| Security correction | `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; CI `33599056333`/`100148493633`, Security PR `33599056358`/`100148493827`, and Security push `33599052234`/`100148480421` passed. |
+| Local product matrix | Sections 23.11–23.14: 44/44 adjacent trace pairs; lint/typecheck/build/audit/security/a11y/stress/coverage pass; 314 coverage tests; 64/64 applicable E2Es; migration/rollback/restore/dashboard/release drills pass; side-by-side audit has no open gap. |
+| Scope order | S14 and S15 remain Passed. No S17 or Phase 6 code exists. |
+
+**Reconciliation decision before push:** S16 evidence is internally consistent and complete. This documentation-only reconciliation must be committed, pushed, resolve exactly on the remote branch, and pass CI and Security before S16 may become globally Passed or the Phase 5 macro audit may start.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
