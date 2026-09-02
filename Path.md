@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — local macro audit passed; remote audit confirmation pending** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | S16 reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; CI `33599523197`/`100149900488`, Security `33599523211`/`100149900833` and `33599518628`/`100149886746` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — macro audit passed remotely; evidence reconciliation pending** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro audit `75f14ddd8bc7670abf529bf4c3e0a8d0c9166c74`; CI `33600197783`/`100151985006`, Security `33600197764`/`100151984810` and `33600194562`/`100151975599` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -3942,6 +3942,14 @@ The original gates are neither merged nor inferred from the macro result. Each h
 ### 24.7 Macro decision before push
 
 The Phase 5 side-by-side audit finds **zero open compliance gaps**. S14, S15 and S16 are independently Passed; all WorkPlan 9.1 scope, 9.2 file, 9.3 method and 9.4 exit rows pass. The local macro decision is **Pass**, subject to this distinct audit commit resolving exactly on GitHub and passing CI and Security. Phase 5 remains globally In progress and S17 remains locked until that remote result is reconciled in a separate evidence commit.
+
+### 24.8 Macro audit remote result and reconciliation checkpoint
+
+- **Macro audit commit:** `75f14ddd8bc7670abf529bf4c3e0a8d0c9166c74`; the pushed remote branch resolved to the exact SHA.
+- **Macro audit CI:** run `33600197783`, job `100151985006`, passed install, Prisma generation, lint, typecheck, coverage and production build in 3m35s.
+- **Macro audit Security:** pull-request run `33600197764`, job `100151984810`, and push run `33600194562`, job `100151975599`, passed install, high-severity audit, the 8-test security suite and secret-bearing-file rejection.
+- **Evidence consistency:** the remote-tested tree is the same tree audited in sections 24.2–24.7. S14–S16 remain independently Passed, the macro audit retains zero open gaps, and no S17 file or behavior exists.
+- **Reconciliation decision before push:** this separate documentation-only macro reconciliation must resolve exactly on the GitHub branch and pass CI and Security. Until then, Phase 5 remains In progress and S17 remains locked.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
