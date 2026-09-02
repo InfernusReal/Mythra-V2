@@ -4,6 +4,7 @@ import { DurabilityService } from "@/domains/writing/application/durability";
 import type { DurabilityRepository } from "@/domains/writing/application/durability-ports";
 import { emptyChapterDocument } from "@/domains/writing/domain/chapter-document";
 import { createLogger } from "@/lib/observability/logger";
+import { InMemoryOperationalEventSink } from "@/lib/observability/operations";
 
 const actor: SessionActor = { userId: "eb0580e5-63dd-42f8-8b31-3126d5486395", workspaceId: "a7ccfcaa-217c-4381-b51e-f50ade701066", role: "OWNER", sessionId: "88f99868-c607-4c0e-bb76-2635e8650846" };
 const chapterId = "399dc9ee-fda5-434a-95b5-36f60f166e86";
@@ -37,5 +38,14 @@ describe("DurabilityService", () => {
       await expect(service.resolveConflict(actor, clientSaveId, { resolution }, "request")).resolves.toBeDefined();
     }
     await expect(service.resolveConflict(actor, clientSaveId, { resolution: "MERGE_SILENTLY" }, "request")).rejects.toThrow();
+  });
+
+  it("labels the deterministic canary cohort in content-safe save telemetry", async () => {
+    const repo = repository();
+    vi.mocked(repo.saveDraft).mockResolvedValue({ status: "SAVED", chapterId, projectId: "4ab218e3-a86f-4f41-a11a-ec29971578aa", version: 2, clientSaveId, idempotentReplay: false, wordCount: 0 });
+    const operations = new InMemoryOperationalEventSink();
+    const service = new DurabilityService(repo, createLogger(), undefined, operations, (workspaceId) => workspaceId === actor.workspaceId);
+    await service.save(actor, chapterId, { baseVersion: 1, clientSaveId, document }, "canary-request");
+    expect(operations.events).toMatchObject([{ workspaceId: actor.workspaceId, projectId: "4ab218e3-a86f-4f41-a11a-ec29971578aa", eventName: "writing.save", dimensions: { outcome: "success", featureFlag: "editor_save_canary" } }]);
   });
 });

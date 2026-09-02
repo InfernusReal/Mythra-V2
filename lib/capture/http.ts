@@ -4,8 +4,9 @@ import { failure, success } from "@/lib/contracts/envelope";
 import { asAppError, errors } from "@/lib/contracts/errors";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
+import { assertApiRateLimit } from "@/lib/http/api-rate-limit";
 
-export async function captureHttp(request: Request, routeKey: string, operation: (actor: SessionActor, requestId: string) => Promise<unknown>) { const requestId = requestIdFrom(request.headers); try { const actor = await optionalActor(); if (!actor) throw errors.unauthenticated(); const data = await operation(actor, requestId);
+export async function captureHttp(request: Request, routeKey: string, operation: (actor: SessionActor, requestId: string) => Promise<unknown>) { const requestId = requestIdFrom(request.headers); try { const actor = await optionalActor(); if (!actor) throw errors.unauthenticated(); await assertApiRateLimit(actor, routeKey); const data = await operation(actor, requestId);
     // Console trace S8-API-001: Capture API operation completed with transport metadata only.
     logger.info("capture.api_completed", { step: "S8-API-001", requestId, workspaceId: actor.workspaceId, routeKey, method: request.method, status: 200 }); return Response.json(success(data, requestId), { status: 200 });
   } catch (caught) { const error = caught instanceof Error && caught.name === "ZodError" ? errors.validation() : asAppError(caught);

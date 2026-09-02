@@ -1,12 +1,17 @@
+import { assertContentSafeRecord } from "@/lib/security/privacy";
+
 type SafeLogValue = string | number | boolean | null | undefined;
 export type SafeLogMetadata = Readonly<Record<string, SafeLogValue>>;
 
-const forbiddenKeyPattern = /(body|text|prose|content|document|capture|note|manuscript|selection)/i;
 type LogLevel = "debug" | "info" | "warn" | "error";
 
 function assertContentSafe(metadata: SafeLogMetadata): void {
-  const unsafeKey = Object.keys(metadata).find((key) => forbiddenKeyPattern.test(key));
-  if (unsafeKey) throw new Error(`Unsafe log metadata key rejected: ${unsafeKey}`);
+  try {
+    assertContentSafeRecord(Object.fromEntries(Object.entries(metadata).filter((entry): entry is [string, string | number | boolean | null] => entry[1] !== undefined)));
+  } catch (caught) {
+    if (caught instanceof Error && caught.message.startsWith("Unsafe telemetry key rejected:")) throw new Error(caught.message.replace("Unsafe telemetry key rejected:", "Unsafe log metadata key rejected:"));
+    throw caught;
+  }
 }
 
 function writeStructuredConsole(level: LogLevel, event: string, metadata: SafeLogMetadata): void {

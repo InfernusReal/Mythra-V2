@@ -27,6 +27,8 @@ import { EntityQuickCreate } from "@/components/universe/EntityQuickCreate";
 import { EditorSearchBridge } from "@/components/language/EditorSearchBridge";
 import { LiveModelFreshness } from "@/components/live-model/LiveModelFreshness";
 import { MobileWritingActions } from "./MobileWritingActions";
+import { recordClientOperationalEvent } from "@/lib/observability/client-operations";
+import { useWritingSessionAnalytics } from "@/lib/observability/writing-session";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -105,6 +107,10 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
   const [hardStopMessage, setHardStopMessage] = useState<string | null>(null);
   const hardStop = model.chapter.hardStopEnabled ? model.chapter.hardCharacterStop : null;
   const durabilityRef = useRef<DurabilityController | null>(null);
+  const mountedAtRef = useRef<number | null>(null);
+  const firstKeystrokeRecordedRef = useRef(false);
+  useWritingSessionAnalytics(model.project.id, firstKeystrokeRecordedRef);
+  useEffect(() => { mountedAtRef.current = performance.now(); }, []);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -117,10 +123,21 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
     ],
     content: tiptapAdapter.toEngine(model.chapter.document),
     onCreate: () => {
+      const durationMs = Math.max(0, Math.round(performance.now() - (mountedAtRef.current ?? performance.now())));
+      recordClientOperationalEvent({ projectId: model.project.id, eventName: "writing.editor_writable", durationMs, dimensions: { outcome: "ready" } });
+      // Console trace S16-FRICTION-001: writable-editor timing records duration and stable chapter identity without manuscript data.
+      console.log(JSON.stringify({ level: "info", step: "S16-FRICTION-001", event: "friction.editor_writable", chapterId: model.chapter.id, durationMs }));
       // Console trace S1-EDITOR-CLIENT-001: local editor initialized; document content is excluded.
       console.log(JSON.stringify({ level: "info", step: "S1-EDITOR-CLIENT-001", event: "editor.local_ready", chapterId: model.chapter.id, version: model.chapter.version }));
     },
     onUpdate: ({ editor: instance }) => {
+      if (!firstKeystrokeRecordedRef.current) {
+        firstKeystrokeRecordedRef.current = true;
+        const durationMs = Math.max(0, Math.round(performance.now() - (mountedAtRef.current ?? performance.now())));
+        recordClientOperationalEvent({ projectId: model.project.id, eventName: "writing.first_keystroke", durationMs, dimensions: { outcome: "local" } });
+        // Console trace S16-FRICTION-002: first-keystroke timing records duration and stable chapter identity without entered text.
+        console.log(JSON.stringify({ level: "info", step: "S16-FRICTION-002", event: "friction.first_keystroke", chapterId: model.chapter.id, durationMs }));
+      }
       const nextWordCount = countWords(instance.getText());
       setWordCount(nextWordCount);
       setHardStopMessage(null);

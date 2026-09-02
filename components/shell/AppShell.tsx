@@ -7,11 +7,13 @@ import { SaveIndicator } from "@/components/editor/SaveIndicator";
 import { DegradedNetworkStatus } from "./DegradedNetworkStatus";
 import { MobileNavigationSheet } from "./MobileNavigationSheet";
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import { NavigationAnalytics } from "@/components/operations/NavigationAnalytics";
 
 export function AppShell({ children, saveStatus = "No document open" }: { children: ReactNode; saveStatus?: string }) {
   const { messages } = useLocale();
   return (
     <div className="app-shell">
+      <NavigationAnalytics />
       <header className="command-bar">
         <strong className="wordmark">{messages.productName}</strong>
         <div className="command-actions">

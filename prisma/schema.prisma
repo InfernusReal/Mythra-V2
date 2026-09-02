@@ -28,6 +28,8 @@ enum AuditEventKind {
   EXPORT_REQUEST
   BILLING_CHANGE
   QUOTA_EVENT
+  SECURITY_EVENT
+  ADMIN_RECOVERY
 }
 
 enum BillingProvider {
@@ -453,6 +455,8 @@ model User {
   notes               Note[]                @relation("NoteCreator")
   researchItems       ResearchItem[]        @relation("ResearchItemCreator")
   storedAssets        StoredAsset[]         @relation("StoredAssetCreator")
+  operationalEvents   OperationalEvent[]    @relation("OperationalEventActor")
+  recoveryActions     RecoveryAction[]      @relation("RecoveryActionActor")
 
   @@index([deletionRequestedAt, purgeAfter])
 }
@@ -494,6 +498,8 @@ model Workspace {
   subscription    BillingSubscription?
   billingWebhooks BillingWebhookEvent[]
   usageEvents     UsageEvent[]
+  operationalEvents OperationalEvent[]
+  recoveryActions RecoveryAction[]
   owner           User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([archivedAt, purgeAfter])
@@ -558,6 +564,7 @@ model Project {
   projectSnapshots      ProjectSnapshot[]
   portabilityArtifacts  PortabilityArtifact[]
   importSessions        ImportSession[]
+  operationalEvents     OperationalEvent[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -1622,6 +1629,57 @@ model AuditEvent {
 
   @@index([workspaceId, createdAt(sort: Desc)])
   @@index([correlationId])
+}
+
+model OperationalEvent {
+  id             String   @id @default(uuid()) @db.Uuid
+  workspaceId    String   @db.Uuid
+  actorUserId    String?  @db.Uuid
+  projectId      String?  @db.Uuid
+  eventName      String   @db.VarChar(120)
+  routeKey       String?  @db.VarChar(120)
+  durationMs     Int?
+  numericValue   BigInt?
+  safeDimensions Json     @default("{}")
+  occurredAt     DateTime @default(now()) @db.Timestamptz(3)
+  workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  actor          User?     @relation("OperationalEventActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+  project        Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId, eventName, occurredAt(sort: Desc)])
+  @@index([eventName, occurredAt(sort: Desc)])
+  @@index([projectId, eventName, occurredAt(sort: Desc)])
+}
+
+model RateLimitBucket {
+  keyHash     String   @id @db.Char(64)
+  count       Int
+  limitValue  Int
+  windowStart DateTime @db.Timestamptz(3)
+  resetAt     DateTime @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([resetAt])
+}
+
+model RecoveryAction {
+  id                 String    @id @default(uuid()) @db.Uuid
+  workspaceId        String    @db.Uuid
+  actorUserId        String    @db.Uuid
+  actionKey          String    @db.VarChar(80)
+  targetType         String    @db.VarChar(80)
+  targetId           String?   @db.VarChar(128)
+  previewDigest      String    @db.Char(64)
+  confirmationDigest String?   @db.Char(64)
+  status             String    @default("PREVIEWED") @db.VarChar(32)
+  expiresAt          DateTime  @db.Timestamptz(3)
+  completedAt        DateTime? @db.Timestamptz(3)
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  workspace          Workspace @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  actor              User      @relation("RecoveryActionActor", fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([status, expiresAt])
 }
 
 model BillingCustomer {

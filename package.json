@@ -18,6 +18,7 @@
     "test:stress": "vitest run tests/stress",
     "test:e2e": "playwright test",
     "test:a11y": "vitest run tests/accessibility",
+    "test:security": "vitest run tests/unit/operations-security.test.ts tests/accessibility/admin-operations-accessibility.test.tsx",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",
@@ -58,6 +59,10 @@
     "db:verify:billing": "tsx scripts/verify-billing-db.ts verify",
     "db:rollback:billing": "tsx scripts/verify-billing-db.ts rollback",
     "test:stress:billing-db": "tsx scripts/stress-billing-db.ts",
+    "db:verify:operations": "tsx scripts/verify-launch-operations-db.ts verify",
+    "db:rollback:operations": "tsx scripts/verify-launch-operations-db.ts rollback",
+    "drill:backup-restore": "tsx scripts/drill-backup-restore.ts",
+    "drill:release": "tsx scripts/verify-release-readiness.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

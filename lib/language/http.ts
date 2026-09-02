@@ -4,12 +4,14 @@ import { failure, success } from "@/lib/contracts/envelope";
 import { asAppError, errors } from "@/lib/contracts/errors";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
+import { assertApiRateLimit } from "@/lib/http/api-rate-limit";
 
 export async function languageHttp(request: Request, routeKey: string, operation: (actor: SessionActor, requestId: string) => Promise<unknown>) {
   const requestId = requestIdFrom(request.headers);
   try {
     const actor = await optionalActor();
     if (!actor) throw errors.unauthenticated();
+    await assertApiRateLimit(actor, routeKey);
     const data = await operation(actor, requestId);
     // Console trace S10-API-003: Language API success logs transport identity only; selection/definitions/terms are excluded.
     logger.info("language.api_completed", { step: "S10-API-003", requestId, workspaceId: actor.workspaceId, routeKey, method: request.method, status: 200 });

@@ -10,6 +10,7 @@ export interface DraftSaveInput {
 export interface DraftSaveAcknowledgement {
   status: "SAVED";
   chapterId: string;
+  projectId?: string;
   version: number;
   clientSaveId: string;
   idempotentReplay: boolean;

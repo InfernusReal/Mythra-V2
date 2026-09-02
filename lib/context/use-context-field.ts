@@ -5,6 +5,7 @@ import type { Editor } from "@tiptap/core";
 import type { ContextCardType, ContextFieldReadModel } from "@/domains/context/domain/types";
 import { cacheContextModel, readStaleContextModel } from "@/lib/offline/degraded-mode";
 import { useNetworkStatus } from "@/lib/offline/use-network-status";
+import { recordClientOperationalEvent } from "@/lib/observability/client-operations";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 const utf8 = new TextEncoder();
@@ -18,13 +19,13 @@ async function expectedKey(model: ContextFieldReadModel, blockId: string | undef
   return sha256(JSON.stringify({ chapterId: model.chapterId, chapterVersion: model.chapterVersion, structuralVersion: model.projectStructuralVersion, cursorBlockId: blockId ?? null, selectedIds: [...selectedIds].sort(), pins: [...model.pinKeys].sort(), causal: [null, null, null] }));
 }
 
-export function useContextField(editor: Editor | null, chapterId: string) {
+export function useContextField(editor: Editor | null, chapterId: string, projectId: string) {
   const online = useNetworkStatus();
   const [model, setModel] = useState<ContextFieldReadModel | null>(null); const [error, setError] = useState<string | null>(null); const [loading, setLoading] = useState(false); const [hidden, setHidden] = useState<Set<string>>(() => new Set());
   const abortRef = useRef<AbortController | null>(null); const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null); const sequenceRef = useRef(0); const modelRef = useRef<ContextFieldReadModel | null>(null); const refreshRef = useRef<(peek?: { type: ContextCardType; id: string }, cardCap?: number, acceptFresh?: boolean) => Promise<void>>(async () => undefined);
   useEffect(() => { modelRef.current = model; }, [model]);
   const refresh = useCallback(async (peek?: { type: ContextCardType; id: string }, cardCap = 8, acceptFresh = false) => {
-    if (!editor) return; const sequence = ++sequenceRef.current; const current = cursor(editor); const known = modelRef.current; const requestedContextKey = known && !peek && !acceptFresh ? await expectedKey(known, current.blockId, current.selectedIds) : undefined;
+    if (!editor) return; const startedAt = performance.now(); const sequence = ++sequenceRef.current; const current = cursor(editor); const known = modelRef.current; const requestedContextKey = known && !peek && !acceptFresh ? await expectedKey(known, current.blockId, current.selectedIds) : undefined;
     if (abortRef.current && !abortRef.current.signal.aborted) {
       abortRef.current.abort();
       // Console trace S15-CONTEXT-001: superseded context cancellation records only chapter identity and request sequence.
@@ -43,10 +44,14 @@ export function useContextField(editor: Editor | null, chapterId: string) {
         console.log(JSON.stringify({ level: "info", step: "S7-CLIENT-002", event: "context.stale_response_discarded", chapterId, sequence, sequenceCurrent: sequence === sequenceRef.current, contextKeyMatched: envelope.data.contextKey === requestedContextKey })); if (sequence === sequenceRef.current) void refreshRef.current(undefined, cardCap, true); return;
       }
       setModel(envelope.data); cacheContextModel(envelope.data);
+      const durationMs = Math.max(0, Math.round(performance.now() - startedAt));
+      recordClientOperationalEvent({ projectId, eventName: "context.resolve", durationMs, dimensions: { outcome: "success" }, numericValue: envelope.data.page.returnedCards });
+      // Console trace S16-FRICTION-005: Context timing records duration and returned-card count without contextual or manuscript content.
+      console.log(JSON.stringify({ level: "info", step: "S16-FRICTION-005", event: "friction.context_resolved", chapterId, durationMs, returnedCards: envelope.data.page.returnedCards }));
       // Console trace S7-CLIENT-003: current context response applied with card counts and freshness only.
       console.log(JSON.stringify({ level: "info", step: "S7-CLIENT-003", event: "context.response_applied", chapterId, sequence, returnedCards: envelope.data.page.returnedCards, hasMore: envelope.data.page.hasMore, structuralVersion: envelope.data.projectStructuralVersion }));
     } catch (caught) { if (caught instanceof DOMException && caught.name === "AbortError") return; const cached = readStaleContextModel(chapterId); if (cached) { setModel(cached); setError("Cached context is stale because the server could not be reached."); } else setError(caught instanceof Error ? caught.message : "Context is unavailable."); } finally { if (sequence === sequenceRef.current) setLoading(false); }
-  }, [chapterId, editor, online]);
+  }, [chapterId, editor, online, projectId]);
   useEffect(() => { refreshRef.current = refresh; }, [refresh]);
   const schedule = useCallback(() => { if (timerRef.current) clearTimeout(timerRef.current); timerRef.current = setTimeout(() => void refresh(), 300); }, [refresh]);
   useEffect(() => { if (!editor) return; timerRef.current = setTimeout(() => void refresh(), 0); const selection = () => schedule(); const transaction = ({ transaction }: { transaction: { docChanged: boolean } }) => { if (transaction.docChanged) schedule(); }; editor.on("selectionUpdate", selection); editor.on("transaction", transaction); return () => { editor.off("selectionUpdate", selection); editor.off("transaction", transaction); abortRef.current?.abort(); if (timerRef.current) clearTimeout(timerRef.current); }; }, [editor, refresh, schedule]);

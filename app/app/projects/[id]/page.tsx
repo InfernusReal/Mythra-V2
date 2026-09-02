@@ -8,6 +8,7 @@ import { PortabilityPanel } from "@/components/portability/PortabilityPanel";
 import { requireActor } from "@/lib/auth/runtime";
 import { logger } from "@/lib/observability/logger";
 import { continuationService } from "@/lib/writing/runtime";
+import { ContinueWritingLink } from "@/components/operations/ContinueWritingLink";
 
 export default async function ProjectHomePage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requireActor();
@@ -32,7 +33,7 @@ export default async function ProjectHomePage({ params }: { params: Promise<{ id
         <a className="structure-link" href={`/app/projects/${model.project.id}/research`}>Open Notes and Research</a>
         {model.activeChapter ? (
           <>
-            <a className="continue-writing" href={`/app/chapters/${model.activeChapter.id}`}>Continue Writing</a>
+            <ContinueWritingLink projectId={model.project.id} chapterId={model.activeChapter.id} />
             <p className="continuation-fact">Return to {model.activeChapter.title} at the last saved writing position.</p>
           </>
         ) : (

@@ -1,18 +1,16 @@
 import { billingService } from "@/lib/billing/runtime";
 import { failure, success } from "@/lib/contracts/envelope";
 import { asAppError, errors } from "@/lib/contracts/errors";
-import { FixedWindowRateLimiter } from "@/lib/http/rate-limit";
+import { assertPublicApiRateLimit } from "@/lib/http/api-rate-limit";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
-
-const limiter = new FixedWindowRateLimiter(process.env.NODE_ENV === "production" ? 120 : 10_000, 60_000);
 
 export async function POST(request: Request) {
   const requestId = requestIdFrom(request.headers);
   try {
     const signature = request.headers.get("x-mythra-billing-signature");
     if (!signature) throw errors.forbidden();
-    limiter.assertAllowed(request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "billing-provider");
+    await assertPublicApiRateLimit("billing.webhook", request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "billing-provider", 120);
     const rawBody = new Uint8Array(await request.arrayBuffer());
     const data = await billingService().handleWebhook(rawBody, signature, requestId);
     // Console trace S14-API-003: webhook HTTP completion records only request identity and replay state.

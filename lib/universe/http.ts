@@ -4,6 +4,7 @@ import { failure, success } from "@/lib/contracts/envelope";
 import { asAppError, errors } from "@/lib/contracts/errors";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
+import { assertApiRateLimit } from "@/lib/http/api-rate-limit";
 
 export async function universeHttp(
   request: Request,
@@ -15,6 +16,7 @@ export async function universeHttp(
   try {
     const actor = await optionalActor();
     if (!actor) throw errors.unauthenticated();
+    await assertApiRateLimit(actor, routeKey);
     const data = await operation(actor, requestId);
     // Console trace S9-API-001: Universe API success emits transport and identity metadata only.
     logger.info("universe.api_completed", {

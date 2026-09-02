@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 planning checkpoint** | Entries S14–S16, sections 21–23 below | S15 reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 local product pass; product push/CI pending** | Entries S14–S16, sections 21–23 below | S16 plan `6b9527a02659ff09403df78509ea737879edc0ee`; CI `33459698752`/`99707084722` passed; sections 23.8–23.14 hold local product proof |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -60,10 +60,10 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
-| 16 | Launch Analytics + Operations | 5 | **In progress — pre-code plan only** | S15 reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed | Entry S16, section 23 | Planning checkpoint pending commit/push/CI; no S16 product code yet |
+| 16 | Launch Analytics + Operations | 5 | **In progress — local product pass; product push/CI pending** | S16 planning checkpoint `6b9527a02659ff09403df78509ea737879edc0ee`; CI `33459698752`/`99707084722` passed | Entry S16, sections 23.8–23.14 | Local audit has no open implementation gap; global Pass requires product push/CI and separate reconciliation push/CI |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 and S15 each have separate planning, product and reconciliation commits with remote CI proof. S16 is now eligible and is limited to the documentation-first planning checkpoint below; no S16 product code is claimed before that checkpoint passes remotely.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 and S15 each have separate planning, product and reconciliation commits with remote CI proof. S16 planning passed remotely at `6b9527a02659ff09403df78509ea737879edc0ee`; the implementation and local audit now pass in sections 23.8–23.14. S16 remains globally In progress until the product and separate evidence reconciliation commits both pass remotely. Sub-gate 17 and the Phase 5 macro audit remain locked.
 
 ## 4. Entry S0 — Foundation
 
@@ -3692,6 +3692,152 @@ Planned paths may be split by responsibility when a single file would mix securi
 | S14/S15 preservation and S17 exclusion | Verified predecessor evidence; S17 remains correctly locked. |
 
 **Pre-code decision:** S16 is authorized and planned but not passed. Product implementation may begin only after this checkpoint is committed, pushed and remotely verified. Sub-gate 17 and the Phase 5 macro audit remain prohibited.
+
+### 23.8 Implemented outcome and current authorization boundary
+
+- **Planning authorization:** checkpoint `6b9527a02659ff09403df78509ea737879edc0ee` was pushed to `agent/workplan-subgates-audit`; GitHub Actions run `33459698752`, job `99707084722`, passed before any S16 product work began.
+- **Implemented capability:** security, privacy, durable operational events, friction/product-health analytics, alert definitions, content-safe restricted administration, safe recovery, environment/canary controls, migration and rollback proof, backup restore, release/cost rehearsal, dashboards, and launch runbooks are active.
+- **Local decision:** **Pass**. Every S16 WorkPlan obligation and applicable Phase 5 exit condition has executable evidence below. Product commit/push/remote CI and a separate evidence reconciliation remain procedural conditions; therefore S16 is not yet labeled globally Passed.
+- **Capability order:** S14 and S15 remain preserved. S17 code, tools, Suggestion model, MCP seam, AI behavior, or Intelligence activation was not introduced. S17 and the Phase 5 macro audit remain locked.
+
+### 23.9 Complete S16 file responsibility and implementation inventory
+
+| Responsibility | Files created or materially implemented | Produced code and method |
+| --- | --- | --- |
+| Durable schema and reversible migration | `prisma/schema.prisma`; `prisma/migrations/20260901020000_launch_operations/migration.sql`; `rollback.sql` | Added `OperationalEvent`, `RateLimitBucket`, `RecoveryAction`, security/recovery audit kinds, bounded indexes/checks, optional workspace-validated project coordinate, and capability-bounded rollback. |
+| Operations domain and repository | `domains/operations/application/ports.ts`; `service.ts`; `infrastructure/prisma-operations-repository.ts` | Strict event ingestion, workspace/project isolation, bounded content-safe admin snapshots, OWNER/ADMIN authorization, preview/confirm recovery, single-use transaction semantics, and non-content recovery audit. |
+| Typed telemetry, health and alert contracts | `lib/observability/operations.ts`; `client-operations.ts`; `alerts.ts`; `product-health.ts`; `writing-session.ts`; `logger.ts`; `lib/operations/cost-model.ts`; `environments.ts`; `feature-flags.ts`; `health.ts`; `runtime.ts` | Closed event/dimension enums, recursive privacy validation, durable client ingestion, nested interruption accounting, 30/90/180 retention helpers, activation/UWT helpers, six alert rules with hysteresis, four isolated environments, deterministic canary selection, readiness/DB saturation, and cost models. |
+| Security primitives and request boundary | `lib/security/authorization.ts`; `destructive-confirmation.ts`; `privacy.ts`; `upload-policy.ts`; `lib/http/request-security.ts`; `api-rate-limit.ts`; `rate-limit.ts`; `proxy.ts`; `next.config.ts`; `lib/contracts/errors.ts` | Central role/workspace enforcement, HMAC-bound expiring confirmations, recursive content/secret/URL rejection, byte-signature and scan boundary, durable deployed rate limits with bounded in-memory local fallback, CSRF/origin rejection, CSP/HSTS/security headers, and stable 429/403 errors. |
+| Authentication, environment and public entry points | `.env.example`; `lib/env.ts`; `lib/auth/session.ts`; `lib/auth/runtime.ts`; `app/api/v2/auth/development/route.ts`; `app/api/v2/billing/webhooks/route.ts` | Strict boolean parsing, independent secrets, current/previous key identifiers, exact previous-key rotation acceptance, versioned sessions, authentication failure signal, and durable public webhook/auth throttling. |
+| API-wide authoritative throttling | `lib/billing/http.ts`; `capture/http.ts`; `causality/http.ts`; `context/http.ts`; `language/http.ts`; `live-model/http.ts`; `milestones/http.ts`; `notes/http.ts`; `portability/http.ts`; `research/http.ts`; `search/http.ts`; `structure/http.ts`; `timeline/http.ts`; `universe/http.ts` | Applied workspace/user/route-keyed authoritative rate limits across material read/write/high-cost boundaries without withholding owned reads/exports through entitlements. |
+| Operational APIs and restricted admin | `app/api/v2/operations/events/route.ts`; `app/api/v2/admin/operations/route.ts`; `admin/recovery/route.ts`; `app/app/admin/page.tsx`; `components/operations/AdminOperationsPanel.tsx`; `RecoveryActionControl.tsx` | Authenticated typed event ingestion, restricted bounded metadata read, operator identity, plan/status/usage/jobs/exports/snapshots/non-content audits/events, and feature-flagged preview plus exact-phrase signed recovery. |
+| Health and release surfaces | `app/api/v2/health/live/route.ts`; `health/ready/route.ts`; `docs/operations/deployment.md`; `migrations.md`; `docs/runbooks/incidents.md`; `backup-restore.md`; `admin-recovery.md` | Liveness/readiness, DB saturation and worker compatibility, release/canary/rollback criteria, two-phase migration practice, credential isolation, synthetic staging restriction, and evidence-based incident/recovery procedures. |
+| Friction and health producers | `components/editor/ChapterEditor.tsx`; `CausalComposer.tsx`; `capture/QuickCaptureOverlay.tsx`; `context/ContextualWritingField.tsx`; `lib/context/use-context-field.ts`; `shell/CommandPalette.tsx`; `AppShell.tsx`; `components/operations/ContinueWritingLink.tsx`; `NavigationAnalytics.tsx`; `app/app/projects/[id]/page.tsx`; `app/app/settings/page.tsx`; `app/globals.css` | Timed editor writable/first keystroke/Capture/Context/Search/causal actions, Continue, normalized routes, Peek/Open, editor-only sessions and UWT; mobile Context participates in nested interruption accounting. |
+| Durable save/context/search/conflict producers | `domains/writing/application/durability.ts`; `durability-ports.ts`; `infrastructure/prisma-durability-repository.ts`; `lib/writing/runtime.ts`; `domains/context/application/service.ts`; `lib/context/runtime.ts`; `domains/search/application/service.ts`; `lib/search/runtime.ts` | Recorded project-scoped save timing with stable/canary cohort, conflict outcomes, server Context and Search latency/counts through a fail-nonblocking operational sink. |
+| Backup/export/storage/job producers | `domains/portability/application/service.ts`; `lib/portability/runtime.ts`; `domains/research/application/service.ts`; `infrastructure/local-storage.ts`; `lib/research/runtime.ts`; `scripts/process-live-model-outbox.ts`; `process-scheduled-snapshots.ts` | Durable success/failure metadata for backup, export, recovery, private-storage/scanner failure, job completion and oldest outbox lag; no payload, file name, query, prose, or artifact content. |
+| Dashboard and security automation | `docs/analytics/operations-dashboard.sql`; `docs/security/content-handling.md`; `.github/workflows/security.yml` | Executable metadata-only latency/use/retention/activation/UWT/depth/Core conversion/Intelligence-interest/export/recovery queries; recursive privacy doctrine; audit, security tests, and tracked secret-bearing-file rejection on every push/PR. |
+| Operational verification programs | `scripts/verify-launch-operations-db.ts`; `drill-backup-restore.ts`; `verify-release-readiness.ts`; `package.json` | Real PostgreSQL schema/isolation/rate/recovery verifier and rollback, custom-format physical restore/fingerprint comparison, alert/cost/environment/worker rehearsal, and reproducible commands. The backup drill normalizes Prisma's `schema` query parameter before `pg_dump`. |
+| Portability correction | `domains/writing/domain/chapter-document.ts` | Replaced client-shared `node:crypto` UUID generation with `globalThis.crypto.randomUUID()`, eliminating the webpack/browser portability failure exposed by the audit. |
+| Complete S16 tests | `tests/unit/operations-security.test.ts`; `env.test.ts`; `rate-limit.test.ts`; `tests/service/durability-service.test.ts`; `tests/component/admin-operations.test.tsx`; `writing-session-analytics.test.tsx`; `tests/accessibility/admin-operations-accessibility.test.tsx`; `tests/stress/operations-s16.stress.test.ts`; `tests/e2e/operations.spec.ts` | Proved content fail-closure, key rotation, strict flags, durable/bounded limits, canary labeling, nested UWT interruptions, admin semantics/a11y, stress isolation/replay/alerts, health, recovery, content exclusion and browser flows. |
+
+### 23.10 Security, privacy, analytics, administration and release behavior
+
+1. **Security/isolation:** TLS is required by deployed environment validation; production headers enforce HSTS/CSP and related browser controls. Unsafe authenticated mutation origins fail closed. Sessions carry a version and key ID, rotate only through an explicitly configured previous key, and never accept an arbitrary unknown key ID. Central role/workspace checks protect administration and recovery. Durable deployed rate-limit buckets prevent multi-instance bypass and cardinality-bounded local buckets fail closed. Cross-workspace project event insertion, admin reads and recovery targets were rejected in PostgreSQL.
+2. **Private files and signed access:** research uploads enforce declared size/type, actual byte signature and an explicit scanner boundary; non-clean/scanner-error objects are removed. Private storage and signed short-lived artifact/asset access remain authoritative. Failure events carry only stable codes and coordinates.
+3. **Destructive safety and audit:** recovery requires OWNER/ADMIN role, a server-generated preview, digest-bound HMAC, exact phrase, five-minute expiry and a single-use transaction. Success writes `ADMIN_RECOVERY`; replay, outsider and MEMBER attempts fail.
+4. **Privacy doctrine:** the event schema is strict and dimension keys are allowlisted. Recursive metadata checks reject content-like keys, multiline/long/URL/secret-shaped values, arrays, class instances, excess depth and excess width. Routine logs, alerts, metrics, dashboard queries and admin surfaces omit manuscripts, world text, Notes, Captures, search terms/results, file names, payloads, tokens and signed URLs.
+5. **Technical operations:** durable signals cover save, Context, Search, conflicts, system errors, jobs, outbox lag, backups, DB saturation, authentication, storage and exports. Six alert rules have firing/recovery hysteresis. Liveness/readiness expose dependency state and release identity without content.
+6. **Friction/product health:** typed signals and documented SQL cover writable editor, first keystroke, Continue, normalized route changes, Peek/Open/mobile Context, Capture, Search, recovery, editor-only sessions, causal traces, 30/90/180 project retention, meaningful-writing activation, UWT, author retention seam, project depth, active Core conversion, export/recovery patterns, and separately measured dormant Intelligence interest.
+7. **Deployment/operations:** local, preview, staging and production profiles require isolated credentials; staging is synthetic-only. Migrations are versioned with capability rollback and two-phase destructive policy. Canary editor-save cohorts are deterministic and explicitly labeled in save events. Worker schema compatibility, rollback criteria, physical backup verification, migration dry runs and restricted recovery are executable.
+8. **Admin surface:** the visual page shows operator role/identity, workspace, plan/status, quotas, full bounded job/export/snapshot metadata, non-content audit facts and allowlisted operational events. No title, document, query, Capture, Note, world text, file name or payload is rendered.
+
+### 23.11 Mandatory S16 console trace ledger
+
+The final source scan found **44** S16 trace comments and **zero** adjacency failures. “Call line” is the immediately following structured `console`/logger line and contains the same step identifier. Exact comment text follows.
+
+| Step | File | Comment line | Call line | Exact comment text after the identifier |
+| --- | --- | ---: | ---: | --- |
+| S16-CSRF-001 | `proxy.ts` | 12 | 13 | rejected unsafe request records method and fixed pathname only; headers and payload are excluded. |
+| S16-FRICTION-003 | `components/capture/QuickCaptureOverlay.tsx` | 18 | 19 | Capture-open timing records duration and interaction source without Capture or manuscript text. |
+| S16-FRICTION-005 | `lib/context/use-context-field.ts` | 49 | 50 | Context timing records duration and returned-card count without contextual or manuscript content. |
+| S16-RELEASE-001 | `scripts/verify-release-readiness.ts` | 10 | 11 | release rehearsal records environment, alert, worker, and aggregate cost facts only. |
+| S16-DB-001 | `scripts/verify-launch-operations-db.ts` | 45 | 46 | launch-operations database proof reports only bounded schema, isolation, rate, recovery, and metadata counts. |
+| S16-DB-002 | `scripts/verify-launch-operations-db.ts` | 59 | 60 | rollback proof records only S16 schema removal and preserved predecessor row counts. |
+| S16-OPS-001 | `domains/writing/application/durability.ts` | 25 | 26 | durable-save operations signal records timing/outcome and stable identities without document data. |
+| S16-OPS-002 | `domains/writing/application/durability.ts` | 63 | 64 | conflict recovery signal records resolution enum and stable identities without conflict variants. |
+| S16-OPS-010 | `scripts/process-scheduled-snapshots.ts` | 12 | 13 | scheduled snapshot job completion records bounded counts and stable job type only. |
+| S16-OPS-011 | `scripts/process-scheduled-snapshots.ts` | 14 | 15 | scheduled backup signal records aggregate success/failure counts without project content. |
+| S16-OPS-008 | `scripts/process-live-model-outbox.ts` | 20 | 21 | worker job completion signal records bounded batch/outcome counts without event payloads. |
+| S16-OPS-009 | `scripts/process-live-model-outbox.ts` | 22 | 23 | outbox-lag signal records only oldest pending age and worker identity. |
+| S16-BACKUP-001 | `scripts/drill-backup-restore.ts` | 53 | 54 | backup/restore drill reports only isolated database identity and aggregate fingerprints. |
+| S16-BACKUP-002 | `scripts/drill-backup-restore.ts` | 56 | 57 | backup/restore drill failure reports a fixed error code without database content or command output. |
+| S16-FRICTION-011 | `components/editor/CausalComposer.tsx` | 21 | 22 | causal trace-open timing records bounded graph counts and outcome without Story Change or manuscript text. |
+| S16-FRICTION-013 | `components/editor/CausalComposer.tsx` | 26 | 27 | failed causal trace timing records only duration and failure class; the error message and content are excluded. |
+| S16-FRICTION-012 | `components/editor/CausalComposer.tsx` | 38 | 39 | causal composition timing records only duration, stable coordinates, and success outcome. |
+| S16-FRICTION-001 | `components/editor/ChapterEditor.tsx` | 128 | 129 | writable-editor timing records duration and stable chapter identity without manuscript data. |
+| S16-FRICTION-002 | `components/editor/ChapterEditor.tsx` | 138 | 139 | first-keystroke timing records duration and stable chapter identity without entered text. |
+| S16-FRICTION-014 | `components/context/ContextualWritingField.tsx` | 21 | 22 | compact Context opening records only project identity and enumerated input mode. |
+| S16-FRICTION-008 | `components/context/ContextualWritingField.tsx` | 25 | 26 | Peek analytics records only the stable descriptor identity and enumerated card type. |
+| S16-FRICTION-009 | `components/context/ContextualWritingField.tsx` | 39 | 40 | full Context navigation records only the stable descriptor identity and enumerated card type. |
+| S16-FRICTION-004 | `components/shell/CommandPalette.tsx` | 117 | 118 | Search-return timing records duration and result count without query or result content. |
+| S16-HEALTH-001 | `app/api/v2/health/ready/route.ts` | 8 | 9 | readiness evaluation records dependency states and release identifier only. |
+| S16-HEALTH-002 | `app/api/v2/health/ready/route.ts` | 11 | 12 | database-saturation alert signal records only the bounded connection percentage and release identity. |
+| S16-RECOVERY-003 | `components/operations/RecoveryActionControl.tsx` | 20 | 21 | admin recovery preview UI records stable identities and expiry; the confirmation token is excluded. |
+| S16-RECOVERY-004 | `components/operations/RecoveryActionControl.tsx` | 33 | 34 | admin recovery completion UI records stable identities and outcome; tokens and job payloads are excluded. |
+| S16-FRICTION-006 | `components/operations/NavigationAnalytics.tsx` | 22 | 23 | route-change analytics records only a normalized route template and navigation source. |
+| S16-AUTH-001 | `app/api/v2/auth/development/route.ts` | 30 | 31 | hardened session issuance records key identifier and stable actor coordinates without token or credential data. |
+| S16-AUTH-002 | `app/api/v2/auth/development/route.ts` | 37 | 38 | authentication failure records only its stable error code and request identity for alerting. |
+| S16-FRICTION-007 | `components/operations/ContinueWritingLink.tsx` | 8 | 9 | Continue usage records the stable chapter identity and fixed source without project or chapter text. |
+| S16-RATE-002 | `lib/http/rate-limit.ts` | 55 | 56 | durable rate rejection records only hashed key, fixed bounds, and retry interval. |
+| S16-RATE-001 | `lib/http/rate-limit.ts` | 59 | 60 | durable rate acceptance records only hashed key and remaining/reset metadata. |
+| S16-FRICTION-010 | `lib/observability/writing-session.ts` | 58 | 59 | writing-session completion emits uninterrupted duration and interruption class without document data. |
+| S16-OPS-004 | `domains/search/application/service.ts` | 33 | 34 | server Search operations signal records timing/counts and stable identities without query or result content. |
+| S16-TELEMETRY-001 | `domains/operations/application/service.ts` | 15 | 16 | accepted operational event records only typed identity, timing, and enum dimensions. |
+| S16-ADMIN-001 | `domains/operations/application/service.ts` | 22 | 23 | restricted admin read records bounded metadata counts and never author content. |
+| S16-RECOVERY-001 | `domains/operations/application/service.ts` | 34 | 35 | recovery preview records stable target and expiry only; confirmation token is excluded. |
+| S16-RECOVERY-002 | `domains/operations/application/service.ts` | 47 | 48 | completed recovery records stable identities and replay-safe outcome without token data. |
+| S16-UPLOAD-001 | `domains/research/application/service.ts` | 35 | 36 | signature and scanner enforcement records only MIME, byte count, stable identity, and scan outcome. |
+| S16-OPS-007 | `domains/research/application/service.ts` | 48 | 49 | private-storage failure records only actor/project/asset identity and stable error code. |
+| S16-OPS-003 | `domains/context/application/service.ts` | 17 | 18 | server Context operations signal records timing/counts and stable identities without directive or card content. |
+| S16-OPS-005 | `domains/portability/application/service.ts` | 94 | 95 | snapshot failure signal records only stable project/error/status dimensions and duration. |
+| S16-OPS-006 | `domains/portability/application/service.ts` | 129 | 130 | export failure signal records only stable project/error/status dimensions and duration. |
+
+### 23.12 Stress, database, browser, visual and build evidence
+
+| Check | Result and factual evidence |
+| --- | --- |
+| Lint | `npm run lint`: pass, zero warnings. |
+| TypeScript | `npm run typecheck`: pass. |
+| Coverage | `npm run test:coverage`: **90 files / 314 tests passed**; statements **87.72%** (4222/4813), branches **75.19%** (2374/3157), functions **85.32%** (1058/1240), lines **93.10%** (3038/3263). |
+| Stress | `npm run test:stress`: **15 files / 29 tests passed**, including S16 rate/cardinality, cross-workspace, recovery replay, privacy and alert/load cases. |
+| Accessibility | `npm run test:a11y`: **9 files / 12 tests passed**. The jsdom canvas implementation notice is informational; no assertion failed. |
+| Security | `npm run test:security`: **2 files / 8 tests passed**; nested content, secret/URL values, role/isolation, HMAC expiry/tamper, session rotation and admin accessibility passed. |
+| Dependency/secret scan | `npm audit --audit-level=moderate`: **0 vulnerabilities**. Tracked secret-bearing-file scan: **0 files**. Security workflow runs audit, security tests and tracked key/environment rejection on every push and pull request. |
+| Production build | Production-configured `npm run build`: Next 16.3.0 Turbopack compiled, type-checked, generated **21/21** static pages and registered health/operations/admin routes successfully. |
+| Clean migration | A fresh named PostgreSQL database applied **16/16 migrations** in strict order through `20260901020000_launch_operations`. |
+| Database verifier | Three S16 tables, nine indexes and two check constraints; durable event write; project/workspace validation; MEMBER denial; outsider denial; rate rejection; recovery completion; replay rejection; one recovery audit; admin content exclusion all passed. |
+| Rollback/redeploy | S16 rollback removed all three S16 tables and preserved **3 workspaces, 57 projects and 57 chapters**; the migration ledger entry was removed, redeploy reapplied S16, and the verifier passed again. |
+| Physical restore | Custom-format `pg_dump`/`pg_restore` into a random isolated database matched source fingerprints: **65 tables, 16 migrations, 5 workspaces, 58 projects, 58 chapters, 7 audits**; temporary restore database and archive were removed. |
+| Dashboard execution | All eight content-safe SQL result sets executed with `ON_ERROR_STOP=1`: latency, feature use, 30/90/180 retention, activation/UWT, project depth, Core/Intelligence separation, export patterns and recovery/failure events. |
+| Release/alert/cost drill | Four environment profiles isolated credentials; all **6/6 alerts** fired and recovered; worker schema version 1 was compatible. At 500 modeled writers: USD 750/month, USD 1.50/writer and USD 0.375/snapshot, average 25,000,000 bytes/snapshot. |
+| Browser E2E | Fresh migrated database, normal Turbopack server, one worker: **124 discovered; 64 applicable passed; 60 intentional project skips; 0 failed in 7.2 minutes**. Capture profile p95 was **31.6 ms**, below 100 ms. |
+| Visual inspection | `test-results/s16-admin-content-safe.png` was inspected: restricted heading/notice, operator/workspace/plan/status/member/project facts, usage, bounded jobs, exports, snapshots, non-content audit and allowlisted events render legibly in dark theme; no authored content is visible. |
+| Trace/diff integrity | Automated scan: **44 trace pairs, 0 adjacency failures**. `git diff --check`: pass; only expected Git LF-to-CRLF checkout notices were printed. |
+
+### 23.13 WorkPlan 9 side-by-side compliance audit
+
+| WorkPlan obligation | Implementation evidence | Decision |
+| --- | --- | --- |
+| TLS/session/CSRF/rate/authorization/upload scan/signed URLs/audit/secrets/dependencies/destructive controls/cross-workspace | Sections 23.9–23.12: deployed TLS/origin/header validation, exact-key rotation, durable limits, central admin authorization, byte signature/scanner, existing signed private access retained, security/recovery audit, independent secrets, workflow, HMAC recovery and PostgreSQL isolation proof. | **Pass** |
+| Manuscript/world content sensitive; metadata-only logs/traces/alerts/admin | Strict event/dimension schema plus recursive fail-closed validator; content-safe producers/dashboard/admin; security/unit/browser/database checks and inspected screenshot. | **Pass** |
+| Logs/metrics/traces/alerts for save/context/search/errors/conflicts/jobs/outbox/backup/DB/auth/storage/export | Closed event catalog, integrated producers, six rehearsed alert rules, readiness DB saturation and dashboard queries cover every named class. | **Pass** |
+| Friction analytics: writable/keystroke/Continue/routes/Peek/Open/Capture/Search/recovery/editor-only/causal/30-90-180 | Client and server producers, nested writing-session tracker, recovery signal and executable retention SQL cover the complete list without prose. | **Pass** |
+| Product health: activation/retention/depth/Core conversion/export/recovery/UWT; future Intelligence separate | Product-health helpers and executable SQL implement each measure; `intelligence.interest` remains separate from active Core subscription counts and does not sell/enable Intelligence. | **Pass** |
+| Environments/synthetic staging/separate credentials/migrations/two-phase/flags/canary/rollback/backup/worker/restricted admin | Four profiles, synthetic staging invariant, strict secrets, migration/rollback scripts/docs, deterministic observable canary, release criteria, physical restore, worker compatibility and role-gated admin/recovery are verified. | **Pass** |
+| Minimal content-safe admin and safe recovery | Operator/workspace/plan/status/usage/jobs/exports/snapshots/audits/events plus preview/exact-phrase/signed/single-use recovery; a11y, E2E, DB and visual evidence pass. | **Pass** |
+| Backup/security/dependency/load/cost/alert drills | Physical restore, security suite/workflow, zero-vulnerability audit, 29-test stress suite, cost model and six-alert fire/recovery rehearsal pass. | **Pass** |
+| Files promised by 9.2 | Security middleware/rate/upload/signed-access audit; telemetry/dashboard/redaction/alerts; deployment/flags/migration/recovery/admin runbooks/routes/components; stress/a11y/E2E fixtures are all present. S14/S15 files were already remotely verified. | **Pass** |
+| Coding method in 9.3 | S14 ADR/provider work preceded UI; S15 measured real flows and fixed primitives; S16 telemetry is typed and content-rejecting; real migration/rollback/restore/alert drills ran; mobile writing was validated by interaction E2Es. | **Pass** |
+| Exit: security/privacy/ownership/a11y/IME/theme/localization | S15 remote proof remains intact; S16 focused security/privacy/ownership/admin-a11y and full regression suites pass. | **Pass** |
+| Exit: observability detects named failures without content | Typed durable events, fixed-code logs, dashboard, alerts, recursive privacy checks, admin/browser/database evidence prove detection without authored content. | **Pass** |
+| Exit: backup, migration rollback/dry run, canary, recovery and alerts verified | Clean migration, capability rollback/redeploy, physical restore, canary unit proof, transactional recovery and alert rehearsal all pass. | **Pass** |
+| Gate order and remote boundary | S14 and S15 are remotely Passed; S16 plan passed remotely before code. Product/reconciliation remote proof is still pending, so S17 remains locked. | **Procedurally pending; correctly not overclaimed** |
+
+### 23.14 Defect resolution and zero-gap local audit decision
+
+The rigorous audit exposed and closed the following gaps before the local Pass decision:
+
+1. A shared client domain module imported `node:crypto`; webpack returned an HTML error page instead of the editor bundle. It now uses browser-standard `globalThis.crypto.randomUUID()`. A webpack-backed editor suite passed, and the definitive Turbopack matrix subsequently passed 64/64 applicable tests.
+2. Zod boolean coercion interpreted the string `"false"` as true. Environment feature flags now use a strict textual boolean parser, with false-value and incomplete-rotation tests.
+3. Session rotation accepted any non-current key ID when a previous secret existed. The previous secret now requires an exact, distinct `SESSION_PREVIOUS_KEY_ID`; valid old sessions remain readable and unknown IDs fail.
+4. The privacy validator was shallow while the doctrine claimed recursive rejection. It now recursively bounds plain objects and rejects nested forbidden keys, arrays, class instances, URLs, secret shapes, excess depth and excess width.
+5. Writing interruption tracking used a set, so overlapping mobile Context/Peek interruptions could resume UWT early. Reference counts now preserve interruption until every matching close occurs.
+6. The admin surface summarized rather than rendering the complete bounded metadata contract. It now shows operator identity and full bounded job/export/snapshot metadata while preserving content exclusion.
+7. Public development-auth and billing-webhook limiting was process-local. Deployed public routes now use the durable PostgreSQL limiter; local/test uses a high-bounded, pruning, fail-closed in-memory implementation.
+8. Canary selection existed but was not visible in save operations. Every durable save now carries `editor_save_canary` or `editor_save_stable`; a service test proves deterministic canary labeling.
+9. Backup restore initially failed because `pg_dump` rejects Prisma's `?schema=public` parameter. The drill now normalizes the database URL before native tooling; rerun fingerprints matched across 65 tables and 16 migrations.
+
+**Local compliance result:** all previously identified S16 gaps are closed. There is no unresolved implementation, privacy, security, test, migration, browser, visual, trace-ledger, documentation, WorkPlan contradiction, or scope-order gap. The product slice is ready for its distinct commit/push/remote CI. S16 remains globally In progress until that remote proof and the separate evidence reconciliation both pass; Phase 5 remains In progress until the later distinct macro audit also passes remotely.
 
 ## 5. Entry P0 — Planning baseline and source audit
 

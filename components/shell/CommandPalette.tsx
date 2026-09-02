@@ -9,6 +9,8 @@ import { SearchPeek } from "@/components/search/SearchPeek";
 import { SearchResultGroups } from "@/components/search/SearchResultGroups";
 import { ThemeMenu } from "./ThemeMenu";
 import { MOBILE_WRITING_ACTION, type MobileWritingAction } from "@/lib/editor/mobile-actions";
+import { recordClientOperationalEvent } from "@/lib/observability/client-operations";
+import { markWritingInterruption } from "@/lib/observability/writing-session";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 type PaletteContext = { projectId: string | null; chapterId: string | null };
@@ -50,12 +52,12 @@ export function CommandPalette() {
   const openPalette = useCallback(() => {
     const activeElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     returnFocusRef.current = activeElement && activeElement !== document.body ? activeElement : triggerRef.current;
-    setContext(contextFromDocument(pathname)); setOpen(true); setMessage(null);
+    setContext(contextFromDocument(pathname)); markWritingInterruption("OPEN", "search"); setOpen(true); setMessage(null);
     // Console trace S1-COMMAND-001: command palette opened; editor selection and content are excluded.
     console.log(JSON.stringify({ level: "info", step: "S1-COMMAND-001", event: "command_palette.opened" }));
   }, [pathname]);
   const closePalette = useCallback(() => {
-    setOpen(false); setQuery(""); setModel(null); setPeek(null);
+    setOpen(false); setQuery(""); setModel(null); setPeek(null); markWritingInterruption("CLOSE", "search");
     requestAnimationFrame(() => returnFocusRef.current?.focus());
     // Console trace S1-COMMAND-002: command palette closed and prior focus restoration was requested.
     console.log(JSON.stringify({ level: "info", step: "S1-COMMAND-002", event: "command_palette.closed" }));
@@ -102,6 +104,7 @@ export function CommandPalette() {
     if (!open || !context.projectId || !query.trim()) return;
     const sequence = ++sequenceRef.current; const controller = new AbortController();
     const timer = window.setTimeout(async () => {
+      const startedAt = performance.now();
       setLoading(true); setMessage(null);
       try {
         const params = new URLSearchParams({ query, limit: "40" }); if (context.chapterId) params.set("chapterId", context.chapterId);
@@ -109,6 +112,10 @@ export function CommandPalette() {
         if (!response.ok || !envelope.data) throw new Error(envelope.error?.message ?? "Search is unavailable.");
         if (sequence !== sequenceRef.current) return;
         setModel(prioritizeRecent(envelope.data));
+        const durationMs = Math.max(0, Math.round(performance.now() - startedAt));
+        recordClientOperationalEvent({ projectId: context.projectId ?? undefined, eventName: "search.returned", durationMs, dimensions: { outcome: "success" }, numericValue: envelope.data.page.returned });
+        // Console trace S16-FRICTION-004: Search-return timing records duration and result count without query or result content.
+        console.log(JSON.stringify({ level: "info", step: "S16-FRICTION-004", event: "friction.search_returned", projectId: context.projectId, durationMs, returned: envelope.data.page.returned }));
         // Console trace S10-UI-009: command palette search records counts/context presence only and excludes the query/results.
         console.log(JSON.stringify({ level: "info", step: "S10-UI-009", event: "command_palette.search_resolved", projectId: context.projectId, hasChapterContext: Boolean(context.chapterId), returned: envelope.data.page.returned, groupCount: envelope.data.groups.length }));
       } catch (caught) { if (!controller.signal.aborted) setMessage(caught instanceof Error ? caught.message : "Search is unavailable."); }

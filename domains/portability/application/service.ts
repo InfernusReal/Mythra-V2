@@ -5,6 +5,7 @@ import { errors } from "@/lib/contracts/errors";
 import { previewImport, type SupportedImportFormat } from "../domain/import";
 import { buildManifest, normalizeJson, safeCopyId, sha256, verifyArchive, type ArchiveManifest, type JsonRecord, type ProjectArchive } from "../domain/representations";
 import type { ExportFormat, ExportScope, PortabilityDependencies } from "./ports";
+import { recordOperationalEvent, type OperationalEventSink } from "@/lib/observability/operations";
 
 const EXPORT_TTL_MS = 24 * 60 * 60 * 1_000;
 const IMPORT_TTL_MS = 7 * 24 * 60 * 60 * 1_000;
@@ -20,7 +21,12 @@ function userOwnedArchive(archive: ProjectArchive): ProjectArchive {
 }
 
 export class PortabilityService {
-  constructor(private readonly dependencies: PortabilityDependencies, private readonly logger: Logger) {}
+  constructor(private readonly dependencies: PortabilityDependencies, private readonly logger: Logger, private readonly operations?: OperationalEventSink) {}
+
+  private async recordOperationSafe(actor: SessionActor, projectId: string, eventName: "backup.status" | "export.status" | "recovery.incident" | "storage.failure", dimensions: Record<string, string>, durationMs?: number): Promise<void> {
+    if (!this.operations) return;
+    await recordOperationalEvent(this.operations, { workspaceId: actor.workspaceId, actorUserId: actor.userId, projectId, eventName, durationMs, dimensions }).catch(() => undefined);
+  }
 
   private async recordUsageSafe(actor: SessionActor, input: { resource: "snapshotBytes" | "exportGenerationBytes" | "bandwidthBytes"; quantity: number; idempotencyKey: string; sourceType: string; sourceId?: string }): Promise<void> {
     if (!this.dependencies.recordUsage) return;
@@ -54,6 +60,7 @@ export class PortabilityService {
   }
 
   async createSnapshot(actor: SessionActor, projectId: string, idempotencyKey: string) {
+    const startedAt = performance.now();
     // Console trace S13-SNAPSHOT-001: owned snapshot build begins with stable identity and idempotency metadata only.
     this.logger.info("portability.snapshot_started", { step: "S13-SNAPSHOT-001", projectId, idempotencyKeyHash: sha256(new TextEncoder().encode(idempotencyKey)) });
     const now = this.dependencies.now(); const archive = await this.dependencies.buildArchive(actor, projectId, now); let { manifest, bytes } = buildManifest(archive);
@@ -81,8 +88,11 @@ export class PortabilityService {
       await this.recordUsageSafe(actor, { resource: "snapshotBytes", quantity: manifest.sizeBytes, idempotencyKey: `snapshot:${reserved.id}`, sourceType: "ProjectSnapshot", sourceId: reserved.id });
       // Console trace S13-SNAPSHOT-002: verified snapshot completion contains integrity, version and size evidence only.
       this.logger.info("portability.snapshot_verified", { step: "S13-SNAPSHOT-002", projectId, snapshotId: reserved.id, structuralVersion: manifest.structuralVersion, sizeBytes: manifest.sizeBytes, sha256: manifest.archiveSha256 });
+      await this.recordOperationSafe(actor, projectId, "backup.status", { status: "verified", resource: "project_snapshot" }, Math.max(0, Math.round(performance.now() - startedAt)));
       return { snapshotId: reserved.id, replayed: reserved.replayed, manifest };
-    } catch (caught) { const code = stableCode(caught); await this.dependencies.repository.failSnapshot(actor, projectId, reserved.id, code); throw errors.retryable(); }
+    } catch (caught) { const code = stableCode(caught); await this.dependencies.repository.failSnapshot(actor, projectId, reserved.id, code); await this.recordOperationSafe(actor, projectId, "backup.status", { status: "failed", errorCode: code, resource: "project_snapshot" }, Math.max(0, Math.round(performance.now() - startedAt)));
+      // Console trace S16-OPS-005: snapshot failure signal records only stable project/error/status dimensions and duration.
+      this.logger.error("backup.status", { step: "S16-OPS-005", workspaceId: actor.workspaceId, projectId, status: "failed", errorCode: code, durationMs: Math.max(0, Math.round(performance.now() - startedAt)) }); throw errors.retryable(); }
   }
 
   private exportBytes(archive: ProjectArchive, scope: ExportScope, format: ExportFormat, sourceObjectId?: string): Uint8Array {
@@ -97,6 +107,7 @@ export class PortabilityService {
   }
 
   async createExport(actor: SessionActor, projectId: string, input: { idempotencyKey: string; scope: ExportScope; format: ExportFormat; sourceObjectId?: string }) {
+    const startedAt = performance.now();
     const now = this.dependencies.now();
     // Console trace S13-EXPORT-001: export request logs scope, format and stable identifiers without generated content.
     this.logger.info("portability.export_started", { step: "S13-EXPORT-001", projectId, scope: input.scope, format: input.format, sourceObjectId: input.sourceObjectId ?? null });
@@ -114,10 +125,13 @@ export class PortabilityService {
       }
     }
     try { await this.putImmutable(storageKey, bytes, artifactContentType(input.format)); const stored = await this.dependencies.storage.getPrivate(storageKey); if (sha256(stored) !== digest) throw new Error("ARTIFACT_INTEGRITY_MISMATCH"); await this.dependencies.repository.completeArtifact(actor, projectId, reserved.id, { storageKey, manifest: fullManifest, sha256: digest, sizeBytes: bytes.byteLength }); }
-    catch (caught) { const code = stableCode(caught); await this.dependencies.repository.failArtifact(actor, projectId, reserved.id, code); throw errors.retryable(); }
+    catch (caught) { const code = stableCode(caught); await this.dependencies.repository.failArtifact(actor, projectId, reserved.id, code); await this.recordOperationSafe(actor, projectId, "export.status", { status: "failed", errorCode: code, resource: "user_export" }, Math.max(0, Math.round(performance.now() - startedAt)));
+      // Console trace S16-OPS-006: export failure signal records only stable project/error/status dimensions and duration.
+      this.logger.error("export.status", { step: "S16-OPS-006", workspaceId: actor.workspaceId, projectId, status: "failed", errorCode: code, durationMs: Math.max(0, Math.round(performance.now() - startedAt)) }); throw errors.retryable(); }
     await this.recordUsageSafe(actor, { resource: "exportGenerationBytes", quantity: bytes.byteLength, idempotencyKey: `export:${reserved.id}`, sourceType: "PortabilityArtifact", sourceId: reserved.id });
     // Console trace S13-EXPORT-002: immutable export completion logs integrity and expiry facts only.
     this.logger.info("portability.export_verified", { step: "S13-EXPORT-002", projectId, artifactId: reserved.id, scope: input.scope, format: input.format, sizeBytes: bytes.byteLength, sha256: digest, expiresInSeconds: EXPORT_TTL_MS / 1_000 });
+    await this.recordOperationSafe(actor, projectId, "export.status", { status: "verified", resource: "user_export" }, Math.max(0, Math.round(performance.now() - startedAt)));
     return { artifactId: reserved.id, replayed: reserved.replayed };
   }
 
@@ -160,6 +174,7 @@ export class PortabilityService {
       const result = await this.dependencies.repository.checkpointAndRestoreCurrent(actor, projectId, archive, checkpoint.snapshotId);
       // Console trace S13-RESTORE-002: current restore completion proves the mandatory checkpoint identity and restored count.
       this.logger.info("portability.restore_current_completed", { step: "S13-RESTORE-002", projectId, snapshotId, checkpointSnapshotId: checkpoint.snapshotId, chapterCount: result.chapterCount });
+      await this.recordOperationSafe(actor, projectId, "recovery.incident", { status: "completed", action: "restore_current" });
       return { ...result, mode, checkpointSnapshotId: checkpoint.snapshotId };
     }
     const targetProjectId = safeCopyId(projectId, snapshotId); const copiedKeys: string[] = [];
@@ -171,6 +186,7 @@ export class PortabilityService {
       const result = await this.dependencies.repository.restoreSafeCopy(actor, archive, snapshotId);
       // Console trace S13-RESTORE-003: safe-copy restore reports new identity and bounded restored counts without canonical content.
       this.logger.info("portability.restore_safe_copy_completed", { step: "S13-RESTORE-003", projectId, snapshotId, safeCopyProjectId: result.projectId, chapterCount: result.chapterCount, restoredCollectionCount: result.restoredCollectionCount, copiedAssetCount: copiedKeys.length });
+      await this.recordOperationSafe(actor, projectId, "recovery.incident", { status: "completed", action: "restore_safe_copy" });
       return { ...result, mode };
     } catch (caught) { await Promise.all(copiedKeys.map((key) => this.dependencies.storage.deletePrivate(key).catch(() => undefined))); throw caught; }
   }

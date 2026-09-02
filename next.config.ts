@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+const production = process.env.MYTHRA_ENV === "production";
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -16,11 +17,12 @@ const securityHeaders = [
       "img-src 'self' data:",
       "font-src 'self'",
       "object-src 'none'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      `script-src 'self' 'unsafe-inline'${production ? "" : " 'unsafe-eval'"}`,
       "style-src 'self' 'unsafe-inline'",
       "connect-src 'self'"
     ].join("; ")
-  }
+  },
+  ...(production ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }] : [])
 ];
 
 const nextConfig: NextConfig = {
@@ -30,7 +32,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["wordpos", "wordnet-db"],
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] }
+    ];
   }
 };
 

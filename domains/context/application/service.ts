@@ -1,15 +1,21 @@
 import type { SessionActor } from "@/domains/accounts/domain/identity";
 import type { Logger } from "@/lib/observability/logger";
+import { recordOperationalEvent, type OperationalEventSink } from "@/lib/observability/operations";
 import type { ContextRepository } from "./ports";
 import { DeterministicContextResolver } from "../domain/resolver";
 import { contextPreferenceMutationSchema, contextQuerySchema, contextSourceEditSchema } from "../domain/types";
 
 export class ContextService {
   private readonly resolver = new DeterministicContextResolver();
-  constructor(private readonly repository: ContextRepository, private readonly logger: Logger) {}
+  constructor(private readonly repository: ContextRepository, private readonly logger: Logger, private readonly operations?: OperationalEventSink) {}
   async get(actor: SessionActor, chapterId: string, raw: unknown, requestId: string) {
+    const startedAt = performance.now();
     const query = contextQuerySchema.parse(raw); const snapshot = await this.repository.load(actor, chapterId, query); if (!snapshot) return null;
     const result = this.resolver.resolve(snapshot, query);
+    const durationMs = Math.max(0, Math.round(performance.now() - startedAt));
+    if (this.operations) await recordOperationalEvent(this.operations, { workspaceId: actor.workspaceId, actorUserId: actor.userId, eventName: "context.resolve", durationMs, numericValue: result.page.returnedCards, dimensions: { outcome: "success" } }).catch(() => undefined);
+    // Console trace S16-OPS-003: server Context operations signal records timing/counts and stable identities without directive or card content.
+    this.logger.info("operations.context_recorded", { step: "S16-OPS-003", requestId, workspaceId: actor.workspaceId, chapterId, durationMs, returnedCards: result.page.returnedCards, outcome: "success" });
     // Console trace S7-CONTEXT-001: bounded context and directive projections resolved with identifiers, counts, and versions only.
     this.logger.info("context.resolved", { step: "S7-CONTEXT-001", requestId, workspaceId: actor.workspaceId, projectId: snapshot.projectId, chapterId, structuralVersion: result.projectStructuralVersion, chapterVersion: result.chapterVersion, returnedCards: result.page.returnedCards, eligibleCards: result.page.totalEligibleCards, stabilityHash: result.contextKey, stale: result.directive.stale });
     return result;

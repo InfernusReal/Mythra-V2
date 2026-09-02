@@ -28,6 +28,7 @@ export class HttpMalwareScanner implements MalwareScanner {
     if (!response.ok) return { status: "ERROR", reasonCode: "SCANNER_HTTP_ERROR" };
     const payload = await response.json() as { status?: unknown; reasonCode?: unknown };
     if (!(["CLEAN", "INFECTED", "ERROR"] as const).includes(payload.status as "CLEAN" | "INFECTED" | "ERROR")) return { status: "ERROR", reasonCode: "SCANNER_INVALID_RESPONSE" };
-    return { status: payload.status as "CLEAN" | "INFECTED" | "ERROR", reasonCode: typeof payload.reasonCode === "string" ? payload.reasonCode.slice(0, 160) : "SCANNER_RESULT" };
+    const reasonCode = typeof payload.reasonCode === "string" && /^[A-Z0-9_.:-]{1,80}$/u.test(payload.reasonCode) ? payload.reasonCode : "SCANNER_RESULT";
+    return { status: payload.status as "CLEAN" | "INFECTED" | "ERROR", reasonCode };
   }
 }

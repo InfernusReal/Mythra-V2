@@ -5,10 +5,11 @@ import { failure, success } from "@/lib/contracts/envelope";
 import { asAppError, errors } from "@/lib/contracts/errors";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
+import { assertApiRateLimit } from "@/lib/http/api-rate-limit";
 
 export async function contextApi<T>(request: Request, routeKey: string, operation: (actor: SessionActor, requestId: string) => Promise<T>): Promise<NextResponse> {
   const requestId = requestIdFrom(request.headers);
-  try { const actor = await optionalActor(); if (!actor) throw errors.unauthenticated(); const data = await operation(actor, requestId);
+  try { const actor = await optionalActor(); if (!actor) throw errors.unauthenticated(); await assertApiRateLimit(actor, routeKey); const data = await operation(actor, requestId);
     // Console trace S7-API-001: Context API operation completed with route, method, and status only.
     logger.info("context.api_completed", { step: "S7-API-001", requestId, workspaceId: actor.workspaceId, routeKey, method: request.method, status: 200 });
     return NextResponse.json(success(data, requestId));

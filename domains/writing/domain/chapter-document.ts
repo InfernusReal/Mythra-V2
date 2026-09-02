@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { z } from "zod";
 
 const referenceMark = z.object({
@@ -20,7 +19,7 @@ export const chapterDocumentSchema = z.object({
 export type ChapterDocument = z.infer<typeof chapterDocumentSchema>;
 
 export function emptyChapterDocument(): ChapterDocument {
-  return { schemaVersion: 1, type: "doc", content: [{ type: "paragraph", attrs: { blockId: randomUUID() } }] };
+  return { schemaVersion: 1, type: "doc", content: [{ type: "paragraph", attrs: { blockId: globalThis.crypto.randomUUID() } }] };
 }
 
 export function deriveChapterText(document: ChapterDocument): { plainText: string; wordCount: number } {

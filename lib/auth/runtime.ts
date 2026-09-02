@@ -48,7 +48,7 @@ export async function optionalActor(): Promise<SessionActor | null> {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
-  const claimed = readSessionToken(token, env.SESSION_SECRET);
+  const claimed = readSessionToken(token, { current: env.SESSION_SECRET, currentKeyId: env.SESSION_KEY_ID, previous: env.SESSION_PREVIOUS_SECRET, previousKeyId: env.SESSION_PREVIOUS_KEY_ID });
   if (!claimed) return null;
   return new PrismaIdentityRepository(getPrisma()).findActor(
     claimed.userId,

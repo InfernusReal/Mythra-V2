@@ -6,9 +6,7 @@ import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
 import { getEnv } from "@/lib/env";
 import { assertSameOrigin } from "@/lib/http/csrf";
-import { FixedWindowRateLimiter } from "@/lib/http/rate-limit";
-
-const limiter = new FixedWindowRateLimiter(process.env.NODE_ENV === "production" ? 30 : 10_000, 60_000);
+import { assertApiRateLimit } from "@/lib/http/api-rate-limit";
 
 export async function liveModelHttp(request: Request, routeKey: string, operation: (actor: SessionActor, requestId: string) => Promise<unknown>) {
   const requestId = requestIdFrom(request.headers);
@@ -17,8 +15,8 @@ export async function liveModelHttp(request: Request, routeKey: string, operatio
     if (!actor) throw errors.unauthenticated();
     if (request.method !== "GET") {
       assertSameOrigin(request, getEnv().APP_ORIGIN);
-      limiter.assertAllowed(`${actor.userId}:${routeKey}`);
     }
+    await assertApiRateLimit(actor, routeKey, 30);
     const data = await operation(actor, requestId);
     // Console trace S12-API-002: Live Model route completion contains route/identity/status metadata only.
     logger.info("live_model.api_completed", { step: "S12-API-002", requestId, workspaceId: actor.workspaceId, routeKey, method: request.method, status: 200 });

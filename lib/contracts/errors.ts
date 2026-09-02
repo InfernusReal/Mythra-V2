@@ -40,7 +40,7 @@ export const errors = {
       409,
       details
     ),
-  rateLimited: () => new AppError("RATE_LIMITED", "Too many requests. Try again shortly.", 429),
+  rateLimited: (retryAfterSeconds?: number) => new AppError("RATE_LIMITED", "Too many requests. Try again shortly.", 429, retryAfterSeconds === undefined ? undefined : { retryAfterSeconds }),
   dependencyUnavailable: () =>
     new AppError("DEPENDENCY_UNAVAILABLE", "A supporting service is temporarily unavailable.", 503),
   retryable: () => new AppError("RETRYABLE", "The operation can be retried safely.", 503),

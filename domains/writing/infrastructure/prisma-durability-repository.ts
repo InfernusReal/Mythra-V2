@@ -25,10 +25,12 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
       { kind: "saved"; acknowledgement: DraftSaveAcknowledgement } |
       { kind: "conflict"; conflictId: string; serverVersion: number }
     > => {
+      const projectCoordinate = await tx.chapter.findFirst({ where: { id: chapterId, archivedAt: null, project: { workspaceId: actor.workspaceId, status: "ACTIVE" } }, select: { projectId: true } });
+      if (!projectCoordinate) throw errors.notFound();
       const replay = await tx.chapterSaveReceipt.findUnique({ where: { chapterId_clientSaveId: { chapterId, clientSaveId: input.clientSaveId } } });
       if (replay) {
         if (replay.bodyHash.trim() !== hash || replay.baseVersion !== input.baseVersion) throw errors.integrity();
-        return { kind: "saved", acknowledgement: { status: "SAVED", chapterId, version: replay.resultingVersion, clientSaveId: input.clientSaveId, idempotentReplay: true, wordCount: derived.wordCount } };
+        return { kind: "saved", acknowledgement: { status: "SAVED", chapterId, projectId: projectCoordinate.projectId, version: replay.resultingVersion, clientSaveId: input.clientSaveId, idempotentReplay: true, wordCount: derived.wordCount } };
       }
 
       const chapter = await tx.chapter.findFirst({
@@ -60,7 +62,7 @@ export class PrismaDurabilityRepository implements DurabilityRepository {
       const version = input.baseVersion + 1;
       await tx.chapterSaveReceipt.create({ data: { chapterId, clientSaveId: input.clientSaveId, bodyHash: hash, baseVersion: input.baseVersion, resultingVersion: version } });
       await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Chapter", aggregateId: chapterId, eventType: "ChapterUpdated", payload: { projectId: chapter.projectId, objectType: "CHAPTER", objectId: chapterId, chapterId, version, structuralVersion: chapter.project.structuralVersion } } });
-      return { kind: "saved", acknowledgement: { status: "SAVED", chapterId, version, clientSaveId: input.clientSaveId, idempotentReplay: false, wordCount: derived.wordCount } };
+      return { kind: "saved", acknowledgement: { status: "SAVED", chapterId, projectId: projectCoordinate.projectId, version, clientSaveId: input.clientSaveId, idempotentReplay: false, wordCount: derived.wordCount } };
     }, { isolationLevel: "Serializable" });
     if (outcome.kind === "conflict") throw conflictError(outcome.conflictId, outcome.serverVersion);
     return outcome.acknowledgement;

@@ -21,7 +21,7 @@ describe("environment validation", () => {
   });
 
   it("requires a real provider contract in production and locks the pricing decision", () => {
-    const oidc: NodeJS.ProcessEnv = { ...base, NODE_ENV: "production", AUTH_MODE: "oidc", AUTH_ISSUER: "https://identity.example.com", AUTH_AUDIENCE: "mythra", AUTH_JWKS_URL: "https://identity.example.com/jwks" };
+    const oidc: NodeJS.ProcessEnv = { ...base, DATABASE_URL: "postgresql://example.test/mythra?sslmode=require", APP_ORIGIN: "https://mythra.example.com", NODE_ENV: "production", AUTH_MODE: "oidc", AUTH_ISSUER: "https://identity.example.com", AUTH_AUDIENCE: "mythra", AUTH_JWKS_URL: "https://identity.example.com/jwks" };
     expect(() => parseEnv(oidc)).toThrow(/Fixture billing/u);
     expect(() => parseEnv({ ...oidc, BILLING_PROVIDER: "http", BILLING_PROVIDER_API_URL: "https://billing.example.com", BILLING_PROVIDER_SECRET: "provider-secret-at-least-32-characters", BILLING_WEBHOOK_SECRET: "webhook-secret-at-least-32-characters", BILLING_CORE_AMOUNT_USD_CENTS: "1000" })).toThrow(/pricing decision/u);
     expect(parseEnv({ ...oidc, BILLING_PROVIDER: "http", BILLING_PROVIDER_API_URL: "https://billing.example.com", BILLING_PROVIDER_SECRET: "provider-secret-at-least-32-characters", BILLING_WEBHOOK_SECRET: "webhook-secret-at-least-32-characters" })).toMatchObject({ BILLING_PROVIDER: "http", BILLING_CORE_AMOUNT_USD_CENTS: 1500 });

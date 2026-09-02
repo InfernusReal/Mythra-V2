@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { SessionActor } from "@/domains/accounts/domain/identity";
 import type { Logger } from "@/lib/observability/logger";
+import { recordOperationalEvent, type OperationalEventSink } from "@/lib/observability/operations";
 import { searchQuerySchema } from "../domain/types";
 import type { SearchProviderRegistry } from "../domain/provider-registry";
 import type { CausalSearchReader, SearchRepository } from "./ports";
@@ -18,13 +19,19 @@ export class SearchService {
     private readonly providers: SearchProviderRegistry,
     private readonly causality: CausalSearchReader,
     private readonly logger: Logger,
+    private readonly operations?: OperationalEventSink,
   ) {}
 
   async query(actor: SessionActor, projectId: string, raw: unknown, requestId: string) {
+    const startedAt = performance.now();
     const input = searchQuerySchema.parse(raw);
     const synchronized = await this.repository.synchronize(actor, projectId);
     const result = await this.repository.search(actor, projectId, input);
     const complete = { ...result, providerStates: this.providers.states(), synchronized };
+    const durationMs = Math.max(0, Math.round(performance.now() - startedAt));
+    if (this.operations) await recordOperationalEvent(this.operations, { workspaceId: actor.workspaceId, actorUserId: actor.userId, eventName: "search.request", durationMs, numericValue: complete.page.returned, dimensions: { outcome: "success" } }).catch(() => undefined);
+    // Console trace S16-OPS-004: server Search operations signal records timing/counts and stable identities without query or result content.
+    this.logger.info("operations.search_recorded", { step: "S16-OPS-004", requestId, workspaceId: actor.workspaceId, projectId, durationMs, returned: complete.page.returned, outcome: "success" });
     // Console trace S10-SEARCH-001: universal search completed with query-independent counts and provider states only.
     this.logger.info("search.query_completed", {
       step: "S10-SEARCH-001",

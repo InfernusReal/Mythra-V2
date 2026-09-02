@@ -161,6 +161,21 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .sign-in-card { width: min(100%, 440px); padding: 32px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
 .primary-action { width: 100%; min-height: 44px; margin-top: 20px; border: 0; border-radius: 8px; color: white; background: var(--accent-action); font-weight: 700; }
 .settings-panel { width: min(100%, 680px); }
+.admin-panel { display: grid; gap: 1rem; max-width: 76rem; padding: 1.5rem; }
+.admin-panel dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .75rem; }
+.admin-panel dl div, .admin-panel table { border: 1px solid var(--border); border-radius: .5rem; background: var(--surface-raised); }
+.admin-panel dl div { padding: .75rem; min-width: 0; }
+.admin-panel dt { color: var(--muted); font-size: .8rem; font-weight: 700; text-transform: uppercase; }
+.admin-panel dd { margin: .25rem 0 0; overflow-wrap: anywhere; }
+.admin-panel table { width: 100%; border-collapse: collapse; overflow: hidden; }
+.admin-panel th, .admin-panel td { padding: .6rem; border-bottom: 1px solid var(--border); text-align: start; overflow-wrap: anywhere; }
+.admin-panel .table-scroll { max-width: 100%; overflow-x: auto; }
+.admin-recovery { display: grid; min-width: 15rem; gap: .5rem; }
+.admin-recovery p { margin: 0; max-width: 34rem; }
+.admin-recovery label { display: grid; gap: .25rem; font-weight: 650; }
+.admin-recovery input, .admin-recovery button { min-height: 2.5rem; padding: .45rem .65rem; color: var(--text); border: 1px solid var(--border); border-radius: .4rem; background: var(--surface-raised); }
+.admin-recovery button { justify-self: start; font-weight: 700; }
+.admin-recovery button:disabled { opacity: .55; }
 .billing-panel { width: min(100%, 900px); display: grid; gap: 20px; align-self: start; }
 .billing-panel > header { display: flex; align-items: start; justify-content: space-between; gap: 24px; }
 .billing-panel > header h1 { margin: 4px 0 8px; font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -.04em; }

@@ -8,5 +8,7 @@ Manuscripts, notes, captures, selected prose, document JSON, and derived plain t
 - Correlation IDs connect safe telemetry without revealing content.
 - Database and object storage must use encryption at rest in managed environments. Network transport requires TLS outside local development.
 - Routine administration must operate on metadata, not author content.
+- Operational schemas allow only enumerated events/dimensions; nested or arbitrary payloads, query strings, filenames, credentials, tokens, signed URLs, newline-bearing values and content-family keys are rejected before emission.
+- Restricted admin queries use explicit field selects and never retrieve canonical authored fields.
 
 The required console instrumentation is implemented only through the structured logger transport or explicitly safe bootstrap diagnostics. Each call is comment-tagged and records metadata only.
