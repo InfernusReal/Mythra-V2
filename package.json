@@ -109,6 +109,7 @@
   "overrides": {
     "esbuild": "0.28.1",
     "deepmerge-ts": "8.0.2",
-    "mysql2": "3.24.3"
+    "mysql2": "3.24.3",
+    "fast-uri": "3.1.7"
   }
 }

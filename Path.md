@@ -4071,9 +4071,18 @@ The S17 exit decision is **not yet made**. Even after local tests pass, S17 rema
 | Impossible dependency check | Pass | S17 reuses already-passing S0–S16 domains; no future canonical source or Intelligence capability is assumed. |
 | Local planning baseline | Pass | Clean baseline; `git diff --check`, `npm run lint`, and `npm run typecheck` passed before application code. |
 | Application changes at checkpoint | None | Only `Path.md` is modified; no S17 product capability is claimed. |
-| Remote planning proof | Pending | This entry must be committed, pushed and pass CI plus Security before code. |
+| Remote planning proof | Failed at initial SHA; correction pending | Planning commit `d1741392acee95563c5e74f86966b0f9a2013671` matched the remote. Security push run `33659049592`, job `100344761075`, and pull-request run `33659056618`, job `100344784615`, failed at `npm audit --audit-level=high` after a new `fast-uri` high advisory appeared; security tests were skipped. S17 code remains locked. |
 
 **Planning decision:** scope is internally coherent and matches WorkPlan 10 plus Bible phase 17. Product implementation remains **locked** pending remote proof of this planning checkpoint. The final doctrine/launch/paid-validation audit remains **locked** behind separately passing S17 evidence.
+
+### 25.9 Planning-boundary security correction
+
+The initial planning commit `d1741392acee95563c5e74f86966b0f9a2013671` was pushed and the remote branch resolved exactly to it. Remote Security then discovered a newly published high-severity advisory affecting `fast-uri` 3.1.5, brought transitively by `@prisma/dev` → `@prisma/streams-local` → `ajv`. This was an external dependency-state change after the Phase 5 closure, not an S17 product defect. Both Security runs correctly failed closed before running the repository security tests.
+
+- **Correction:** `package.json` adds the narrow same-major override `fast-uri: 3.1.7`; `npm install --package-lock-only` regenerated the lock resolution and `npm install` verified the installed graph. No application source, schema, database, author content, or product capability changed.
+- **Local dependency proof:** `npm ls fast-uri` resolves the single affected path to `fast-uri@3.1.7 overridden`. `npm audit --audit-level=high` exits successfully with zero high/critical findings; 27 moderate TipTap advisories remain below the workflow threshold and require a separately reviewed editor dependency upgrade rather than an unsafe forced change.
+- **Local regression proof:** `npm run test:security` passed 2 files/8 tests; the jsdom canvas diagnostic is expected and non-failing. `npm run lint` passed with zero warnings and `npm run typecheck` passed.
+- **Gate effect:** this correction will be committed and pushed as part of the planning boundary. S17 product code remains prohibited until the corrected SHA passes CI and both Security event paths remotely.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
