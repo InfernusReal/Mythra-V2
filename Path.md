@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — S16 corrected product passed remotely; reconciliation pending** | Entries S14–S16, sections 21–23 below | Corrected product `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; CI `33599056333`/`100148493633` and Security `33599056358`/`100148493827`, `33599052234`/`100148480421` passed |
+| 5. Commercial and Production Readiness | 14–16 | **In progress — local macro audit passed; remote audit confirmation pending** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | S16 reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; CI `33599523197`/`100149900488`, Security `33599523211`/`100149900833` and `33599518628`/`100149886746` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -60,10 +60,10 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 13 | Revisions + Snapshots + Export | 4 | **Passed** | S12 reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d`; CI `33303442391`/`99235663000` passed | Entry S13 | Plan `afcd9c205ac5f3b27d9702f576cb520523422ba7`; product `543dd6bb3b5ed8ba6adc0b2ed5ee631558752c4b`, CI `33324168066`/`99291266317`; evidence `c68d2129cb991ecfb51d6a0097d88ea15f2a2cd0`, CI `33324606334`/`99292415683` passed |
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
-| 16 | Launch Analytics + Operations | 5 | **In progress — corrected product passed remotely; reconciliation pending** | Corrected product `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; all three remote workflows passed | Entry S16, sections 23.8–23.16 | Separate evidence reconciliation commit/push/CI required before global Pass |
+| 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
 | 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14 and S15 each have separate planning, product and reconciliation commits with remote CI proof. S16 planning passed remotely at `6b9527a02659ff09403df78509ea737879edc0ee`; the implementation and local audit now pass in sections 23.8–23.14. S16 remains globally In progress until the product and separate evidence reconciliation commits both pass remotely. Sub-gate 17 and the Phase 5 macro audit remain locked.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit now passes locally in section 24 and is awaiting its own commit/push/CI/Security confirmation. Sub-gate 17 remains locked until the Phase 5 macro reconciliation passes remotely.
 
 ## 4. Entry S0 — Foundation
 
@@ -3865,6 +3865,83 @@ The immutable repository and remote evidence agree:
 | Scope order | S14 and S15 remain Passed. No S17 or Phase 6 code exists. |
 
 **Reconciliation decision before push:** S16 evidence is internally consistent and complete. This documentation-only reconciliation must be committed, pushed, resolve exactly on the remote branch, and pass CI and Security before S16 may become globally Passed or the Phase 5 macro audit may start.
+
+### 23.17 S16 reconciliation remote result
+
+The reconciliation commit `a11e56b7babec50db772894d360b4818d6c62fbd` was pushed and the remote branch resolved exactly to it. CI run `33599523197`, job `100149900488`, passed install, Prisma generation, lint, typecheck, coverage and production build in 4m13s. Security pull-request run `33599523211`, job `100149900833`, and Security push run `33599518628`, job `100149886746`, passed high-severity audit, the security suite and tracked secret-bearing-file rejection. S16 is therefore **Passed**. This result authorizes the separate Phase 5 macro audit; it does not authorize S17 before that macro audit and reconciliation pass remotely.
+
+## 24. Phase 5 Macro Audit — Commercial and Production Readiness
+
+### 24.1 Audit identity and boundary
+
+- **Date:** 2 September 2026.
+- **Controlling plan:** WorkPlan section 9, lines 599–664; mandatory sequence S14 → S15 → S16.
+- **Audit kind:** documentation-only side-by-side audit after all three original capability gates passed remotely. No product, schema, API, UI, pricing, AI, entitlement or operational behavior is changed by this audit.
+- **Authorization boundary:** Phase 5 may become globally Passed only after this macro audit and its later evidence reconciliation pass remotely. S17 remains locked throughout.
+
+### 24.2 Original-gate sequence and immutable evidence
+
+| Original gate | Capability exit | Planning proof | Product proof | Evidence reconciliation proof | Sequence decision |
+| --- | --- | --- | --- | --- | --- |
+| S14 | USD 15 Core billing, provider-neutral/replay-safe lifecycle, entitlements, cost quotas and readable/exportable downgrade | `2101fae44085557d43bd266ff6323c1a5f039cfe`; CI `33386697192`/`99470820803` | `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`; CI `33416914551`/`99569658486` | `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` | Passed before S15. |
+| S15 | Measured performance/scaling, complete mobile writing, accessibility, themes, IME/RTL/i18n and region seams | `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; CI `33418162074`/`99573717084` | `b7155527cb4cc33674bb4dc883f0128483eda3b9`; CI `33459050738`/`99705124610` | `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` | Passed after S14 and before S16. |
+| S16 | Security/privacy, launch analytics/alerts, environments/canary, content-safe admin/recovery and restore/release drills | `6b9527a02659ff09403df78509ea737879edc0ee`; CI `33459698752`/`99707084722` | `45a9b63967d1893bb023e389f90c42bf98169ee2`; CI `33598522018`/`100146877717`; correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; CI `33599056333`/`100148493633`; Security `33599056358`/`100148493827`, `33599052234`/`100148480421` | `a11e56b7babec50db772894d360b4818d6c62fbd`; CI `33599523197`/`100149900488`; Security `33599523211`/`100149900833`, `33599518628`/`100149886746` | Passed after S15; failed advisory evidence retained and corrected before closure. |
+
+The original gates are neither merged nor inferred from the macro result. Each has independent planning, implementation, local audit, push, immutable remote SHA and CI proof. The S14 → S15 → S16 ordering exactly matches WorkPlan 9.0 and the original 0–17 state machine.
+
+### 24.3 WorkPlan 9.1 scope completeness audit
+
+| Scope contract | Cross-gate evidence | Result |
+| --- | --- | --- |
+| Provider-neutral billing, idempotent webhooks, invoices/portal and USD 15 Core | S14 entry documents provider adapter, replay-safe event ledger, configurable Core catalog, checkout/status/portal/webhook APIs and UI/tests. | **Pass** |
+| USD 25 Intelligence dormant and unsellable | S14 schema reserves keys only; no checkout, activation, quota charge, enabled feature or AI claim exists. S16 measures `intelligence.interest` separately from active Core. | **Pass** |
+| Central entitlements and cost-driver quotas; no hidden deterministic feature split | Core enables every deterministic V2 feature; authoritative backend cost controls cover binary, snapshot, revision, export/row/bandwidth/future seams; frontend reads the same snapshot. | **Pass** |
+| Safe downgrade/read/export preservation and actionable quota UI/errors | S14 downgrade/grace, owned read/export and stable resource-detail tests pass; S15/S16 did not weaken them. | **Pass** |
+| Performance, bounds, background work and measured scale stages | S15 profiles and stress evidence cover network-independent typing, Capture p95, cached routes, non-shifting Peek, cancellation, virtualization, active-chapter loads, pagination/causal bounds and justified infrastructure deferral. | **Pass** |
+| Responsive writing, Context, Capture, Search, Peek and deep structure | S15 mobile/compact/wide interaction and visual suites pass; S16 nested mobile Context interruption tracking preserves UWT without changing author flow. | **Pass** |
+| Accessibility, themes, IME, RTL/long labels, i18n and region adapters | S15 semantic/keyboard/focus/contrast/reduced-motion/save-announcement/resizing/list-alternative/IME/theme/RTL/long-label evidence and provider seams pass; no unsupported China claim exists. | **Pass** |
+| Security and privacy hardening | S16 TLS/session/CSRF/durable-rate/authorization/upload/signed-access/audit/secret/dependency/destructive/isolation controls and recursive content exclusion pass. | **Pass** |
+| Technical/friction/product-health observability | S16 typed durable events, alert rules, writing-session analytics and eight executable dashboard query sets cover every WorkPlan 9.1 signal without prose. | **Pass** |
+| Environments, migration/canary/rollback/backup/worker/admin operations | S16 four isolated profiles, synthetic staging, flags, observable canary cohorts, two-phase policy, real rollback/redeploy/physical restore, worker compatibility and restricted admin/recovery pass. | **Pass** |
+| Backup/security/dependency/load/cost/alert drills | S16 physical restore, high-severity audit/security workflow, 29 stress tests, modeled unit costs and six-alert fire/recovery rehearsal pass. | **Pass** |
+
+### 24.4 WorkPlan 9.2 file and 9.3 coding-method audit
+
+| Plan requirement | Evidence | Result |
+| --- | --- | --- |
+| Pricing ADR and billing/provider/entitlement/usage UI/tests | S14 created `docs/adr/0005-pricing-and-entitlements.md` and all planned billing domain, adapter, route, UI and test layers. | **Pass** |
+| Responsive/mobile shell/editor/context/structure and complete theme/a11y/i18n | S15 inventory and evidence reconciliation enumerate all implemented components, CSS/resources, fixtures and reports. | **Pass** |
+| Security middleware/rate/upload/signed access/audit/workflow/privacy tests | S16 section 23.9 inventories each implementation and test file; section 23.13 maps it to the scope. | **Pass** |
+| Telemetry schema/instrumentation/dashboard/redaction/alerts | S16 closed schemas, 44 adjacent trace pairs, producers, recursive rejection, six alerts and executable SQL are present and tested. | **Pass** |
+| Deployment configs/flags/migration/rollback/recovery/admin/worker controls | S16 profiles, runtime flags, reversible migration, scripts, routes/components and runbooks are executable and verified. | **Pass** |
+| Performance/load/a11y/visual/IME/RTL/large-project evidence | S15 and S16 stress, accessibility, visual and E2E suites cover the required fixture classes and measured flows. | **Pass** |
+| Method order: ADR once, adapter/replay, profile before infra, primitive a11y, typed privacy telemetry, real drills, real mobile interaction | The S14/S15/S16 commit sequence and their local/remote evidence demonstrate this exact production order. No speculative Redis/search/read-replica/partition/service extraction was added. | **Pass** |
+
+### 24.5 WorkPlan 9.4 exit-gate side-by-side audit
+
+| Exit condition | Exact evidence | Result |
+| --- | --- | --- |
+| Core operates without deterministic withholding or unreadable/unexportable prose; Intelligence dormant | S14 product/reconciliation proof; pricing ADR; lifecycle/quota/downgrade tests; S16 separate-interest query. | **Pass** |
+| Large projects, causal neighborhoods, Search, Context, autosave and export meet budgets | S15 stress/profile/browser evidence and S14 export/quota integration; S16 Capture p95 31.6 ms and full regression preserve the result. | **Pass** |
+| Mobile authors write, save, Capture, Search, Peek and retain deep Structure access | S15 mobile editor/navigation/context/structure browser and visual matrix; S16 definitive 64/64 applicable E2Es. | **Pass** |
+| Accessibility, IME, theme, localization, ownership, security, privacy and cross-workspace tests pass | S15 a11y/IME/theme/i18n proof plus S16 12 a11y tests, 8 security tests, PostgreSQL outsider/member rejection, privacy and browser checks. | **Pass** |
+| Observability detects save/backup/outbox/auth/storage failures without content | S16 event catalog/producers, recursive privacy guard, alert/dashboard/admin evidence and 44 trace ledger. | **Pass** |
+| Restore, migration rollback/dry run, canary, admin recovery and alerts verified | S16 65-table/16-migration restore, bounded rollback/redeploy, canary telemetry test, HMAC recovery/replay DB proof and 6/6 alert rehearsal. | **Pass** |
+| S14, S15 and S16 each independently pass with Path/remote evidence | Section 24.2 immutable sequence table. | **Pass** |
+
+### 24.6 Cross-document contradiction, omission and doctrine audit
+
+1. **Pricing:** every executable Phase 5 surface uses USD 15 Core/full deterministic access and dormant future USD 25 Intelligence. The frozen `$10 Entry / $25 Pro` split appears only in superseded-history/erratum discussion; no old tier is implemented.
+2. **Capability order:** S14, S15 and S16 retain independent gates and remote evidence. Phase 5 consolidation did not bypass an original gate. S17 remains unstarted.
+3. **Privacy:** billing, telemetry, alerts, administration and operational evidence use metadata; authored content remains excluded. The S16 recursive validator closes the prior doctrine/runtime mismatch.
+4. **Calm writing doctrine:** billing gates cost-driving creation/high-cost writes, not owned reading/export; performance instrumentation is non-blocking; admin is separate/restricted; mobile and desktop writing flows remain usable.
+5. **Provider and infrastructure restraint:** billing, storage/scanning, messaging/analytics/region and future Intelligence remain behind seams. Later-scale infrastructure is documented as trigger-based, not falsely implemented.
+6. **Evidence completeness:** scope, produced files/code/method, console trace comment/call lines, local commands/results, DB/rollback/restore, browser/visual proof, gaps/corrections, commits, remote refs, failed security evidence and passing corrections are all recorded.
+7. **WorkPlan consistency:** sections 9.1–9.4 contain no internal contradiction after implementation. Every Phase 5 scope row maps to an owner gate, file inventory, method and exit proof. No in-scope item is omitted and no Phase 6 capability is claimed.
+
+### 24.7 Macro decision before push
+
+The Phase 5 side-by-side audit finds **zero open compliance gaps**. S14, S15 and S16 are independently Passed; all WorkPlan 9.1 scope, 9.2 file, 9.3 method and 9.4 exit rows pass. The local macro decision is **Pass**, subject to this distinct audit commit resolving exactly on GitHub and passing CI and Security. Phase 5 remains globally In progress and S17 remains locked until that remote result is reconciled in a separate evidence commit.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
