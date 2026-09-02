@@ -37,7 +37,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 2. Progressive and Causal Story Core | 4–6 | **Passed — macro audit and remote ledger proof complete** | Entries S4–S6, Phase 2 macro audit 11.12 and reconciliation 11.14 below | S6 evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d`; CI `31942667487`/`95153984486` passed |
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
-| 5. Commercial and Production Readiness | 14–16 | **In progress — macro audit passed remotely; evidence reconciliation pending** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro audit `75f14ddd8bc7670abf529bf4c3e0a8d0c9166c74`; CI `33600197783`/`100151985006`, Security `33600197764`/`100151984810` and `33600194562`/`100151975599` passed |
+| 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | Not started | — | — |
 
 ### 3.1 Mandatory capability sub-gate status
@@ -61,9 +61,9 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
 | 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
-| 17 | AI Seam — no AI required | 6 | Not started | Sub-gate 16 required | — | — |
+| 17 | AI Seam — no AI required | 6 | **Eligible; not started** | Sub-gate 16 and Phase 5 macro gate passed | — | No S17 code exists; a separate planning checkpoint is required before implementation |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit now passes locally in section 24 and is awaiting its own commit/push/CI/Security confirmation. Sub-gate 17 remains locked until the Phase 5 macro reconciliation passes remotely.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Sub-gate 17 is eligible but remains Not started and requires its own planning checkpoint before any implementation.
 
 ## 4. Entry S0 — Foundation
 
@@ -3950,6 +3950,12 @@ The Phase 5 side-by-side audit finds **zero open compliance gaps**. S14, S15 and
 - **Macro audit Security:** pull-request run `33600197764`, job `100151984810`, and push run `33600194562`, job `100151975599`, passed install, high-severity audit, the 8-test security suite and secret-bearing-file rejection.
 - **Evidence consistency:** the remote-tested tree is the same tree audited in sections 24.2–24.7. S14–S16 remain independently Passed, the macro audit retains zero open gaps, and no S17 file or behavior exists.
 - **Reconciliation decision before push:** this separate documentation-only macro reconciliation must resolve exactly on the GitHub branch and pass CI and Security. Until then, Phase 5 remains In progress and S17 remains locked.
+
+### 24.9 Macro reconciliation remote result and Phase 5 closure
+
+The macro reconciliation commit `b6e37dfc48269996e29bcd7bd6f007eed30220c3` was pushed and the remote branch resolved exactly to it. CI run `33600547097`, job `100153055024`, passed install, Prisma generation, lint, typecheck, coverage and production build in 4m08s. Security pull-request run `33600547099`, job `100153055048`, and Security push run `33600543793`, job `100153044549`, passed high-severity audit, the security suite and tracked secret-bearing-file rejection.
+
+**Final Phase 5 decision:** **Passed**. S14, S15 and S16 are independently Passed in strict order; the distinct Phase 5 macro audit and its separate evidence reconciliation are remotely verified; every WorkPlan 9 scope, file, method and exit row has evidence; the contradiction/omission audit has zero open gaps. S17 is now eligible but remains **Not started**. No Phase 6 code or claim is included in this closure.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
