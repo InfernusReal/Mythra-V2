@@ -38,7 +38,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
-| 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed locally — final audit remote proof pending** | Entry S17, section 25; final audit, section 26 below | S17 reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8` is remotely green; final-audit content checkpoint pending |
+| 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -63,7 +63,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
 | 17 | AI Seam — no AI required | 6 | **Passed — product and reconciliation remote proof complete** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`; CI `33854471888`/`100964471416`, Security PR `33854472140`/`100964472772`, unchanged-SHA push rerun `100967690564` passed |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 records S17 planning, implementation, product proof and remotely green reconciliation. Section 26 records the authorized final cross-product launch audit; it passes locally and awaits its separate remote evidence checkpoint.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 records S17 planning, implementation, product proof and remotely green reconciliation. Section 26 records the authorized final cross-product launch audit and its remotely green content checkpoint. Phase 6 is **Passed**; only this Path-only remote reconciliation remains to close the evidence-writing cycle.
 
 ## 4. Entry S0 — Foundation
 
@@ -4523,7 +4523,7 @@ Vitest's jsdom canvas “not implemented” diagnostics are environment messages
 | Future scope and founder-led posture | 10.1/10.2 | eight exclusions and founder runbook; executable boundary assertion | Verified/Bible-future |
 | Security/privacy/accessibility/performance/recovery/backup/export/migration | 10.4 and global contract | local matrices, prior gate proof, fresh DB/restore/release drills, full regressions | Verified |
 | No omission/contradiction | 12.1–12.3 | 18-gate table, 45-row source table, required scenario/doctrine/launch tables and anti-goal answers | Verified |
-| Separate S17 and final-audit Git proof | 10.4 | S17 `c0875f3...` remote green; final-audit content/evidence commits tracked below | Locally verified; remote checkpoint pending at this content snapshot |
+| Separate S17 and final-audit Git proof | 10.4 | S17 `c0875f3...` remote green; final-audit content `383a8b27...` is locally/remotely identical and green in CI plus both Security paths | Verified |
 
 Required anti-goal answers:
 
@@ -4549,18 +4549,23 @@ The audit compared optionality against integrity, milestone link against ownersh
 
 No active contradiction remains. Historical `$10 Entry / $25 Pro` text appears only in explicitly superseded planning history; the executable ADR/code/plan/audit consistently use USD 15 Core and dormant USD 25 Intelligence. Because/Consequences and the ruled outline-aware zoom order remain explicit. The paid cohort result is not mislabeled as completed.
 
-**Local Phase 6 decision:** Passed. Sub-gate 17 was separately closed first. The final audit has no open implementation, evidence, or WorkPlan gap. Formal Phase 6 closure still requires the content commit below to be pushed, locally/remotely identical, and green in CI/Security, followed by a separately pushed ledger reconciliation.
+**Final Phase 6 decision:** Passed. Sub-gate 17 was separately closed first. The final audit has no open implementation, evidence, or WorkPlan gap. Content commit `383a8b27eafb49a06d0290168725def53369616c` is locally/remotely identical and passed CI plus both Security trigger paths. The distinct final-audit Git requirement is satisfied.
 
 ### 26.17 Final-audit Git checkpoint
 
 - **Branch:** `agent/workplan-subgates-audit`.
 - **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`.
 - **Baseline:** `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`.
-- **Content commit/message:** pending immediately after this local audit entry.
-- **Push and remote SHA equality:** pending.
-- **Remote CI/Security:** pending on the exact content SHA.
-- **Final ledger reconciliation:** will be a separate commit after the content SHA is remotely green; no release tag is created because the user requested phase pushes, not a production release/tag.
-- **Rollback point:** revert the final-audit content commit; it changes measurement/audit/reporting/verifier code only and does not require schema/data rollback.
+- **Content commit/message:** `383a8b27eafb49a06d0290168725def53369616c` — `feat: complete phase 6 launch audit`.
+- **Push and remote SHA equality:** `git push origin agent/workplan-subgates-audit` succeeded; `git rev-parse HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both resolved to the full content SHA before this ledger-only update.
+- **Remote CI:** pull-request run `33889513781`, verify job `101077471989`, passed checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, all 330 coverage tests, and production build in 4m31s.
+- **Remote Security:** push run `33889508793`, job `101077454417`, and pull-request run `33889513841`, job `101077472434`, passed `npm ci`, high-severity dependency audit, 8 security tests, and committed environment/key-material rejection.
+- **Final ledger reconciliation:** this Path-only decision update is committed/pushed after the content SHA became green. Its SHA and independent remote runs are reported in the final handoff because a commit cannot contain its own identifier. No release tag is created because the user requested phase pushes, not a production deployment/tag.
+- **Rollback point:** revert content commit `383a8b27eafb49a06d0290168725def53369616c`; it changes measurement/audit/reporting/verifier code only and does not require schema/data rollback.
+
+### 26.18 Final ledger reconciliation scope
+
+This update changes only `Path.md`: the phase dashboard, final Git evidence, conformance classification, and formal decision now cite the immutable remote content results. It introduces no product, test, plan, schema, dependency, or documentation-contract change. Phase 6 is Passed on the content SHA; this reconciliation is the final evidence-only push and must itself resolve identically remotely and pass CI/Security before handoff.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
