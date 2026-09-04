@@ -38,7 +38,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
-| 6. Agent Seam and Paid Launch Validation | 17 + launch | **In progress — S17 passes locally; product checkpoint remote proof pending** | Entry S17, section 25 below | Planning correction `78d7ca552513611ee853c026f343a9e3522a7085` passed CI and both Security paths; S17 product push pending |
+| 6. Agent Seam and Paid Launch Validation | 17 + launch | **In progress — S17 product passes remotely; evidence reconciliation and final launch audit pending** | Entry S17, section 25 below | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; CI `33853282202`/`100960711555`, Security `33853277732` and `33853282242` passed |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -61,9 +61,9 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
 | 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
-| 17 | AI Seam — no AI required | 6 | **Passed locally; remote product/evidence proof pending** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product checkpoint will be pushed and remotely reconciled before the final launch audit starts |
+| 17 | AI Seam — no AI required | 6 | **Passed — product remote proof complete; reconciliation checkpoint pending** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; CI `33853282202`/`100960711555`, Security push `33853277732` and PR `33853282242` passed |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 opens Sub-gate 17 planning. No S17 product code is authorized until that planning checkpoint is committed, pushed, and passes remote CI and Security; the final cross-product launch audit remains separately locked until S17 passes.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 records S17 planning, implementation and product remote proof. The final cross-product launch audit remains separately locked until the S17 reconciliation checkpoint itself is pushed and remotely verified.
 
 ## 4. Entry S0 — Foundation
 
@@ -4218,13 +4218,22 @@ Each comment below is immediately adjacent to its call. Logger calls terminate a
 
 ### 25.18 Local S17 gate decision
 
-Sub-gate 17 passes every local WorkPlan 10.1 requirement and applicable global acceptance item. There are no open S17 implementation gaps. The final cross-product launch audit remains locked until the S17 product checkpoint is committed, pushed, passes remote CI/Security, and a separate remote evidence reconciliation is recorded.
+Sub-gate 17 passes every local WorkPlan 10.1 requirement and applicable global acceptance item. There are no open S17 implementation gaps. Product commit `8cf9d688ef803390e9a8893bef8daccf2c856fe1` is identical locally/remotely and passed CI plus both Security paths. The final cross-product launch audit remains locked until this evidence reconciliation is committed, pushed and remotely verified.
 
 ### 25.19 S17 product Git checkpoint
 
 - **Baseline:** `78d7ca552513611ee853c026f343a9e3522a7085`, already identical locally/remotely and green in CI/Security.
 - **Scoped review:** S17 application, migration, tests, documentation, README and this ledger only; generated `.next`, coverage, Playwright reports/videos/screenshots, external PDF, and local database state remain untracked/ignored.
-- **Commit/push/remote proof:** pending the immediate product checkpoint below. Until the remote SHA and workflow jobs are recorded, S17 is not finally closed and the final launch audit may not begin.
+- **Commit/push/remote proof:** product commit `8cf9d688ef803390e9a8893bef8daccf2c856fe1` (`feat: implement phase 6 agent application seam`) was pushed to `origin/agent/workplan-subgates-audit`; `git ls-remote` returned the identical SHA.
+- **Remote CI:** CI run `33853282202`, verify job `100960711555`, passed checkout, Node setup, `npm ci`, Prisma generation, lint, typecheck, complete coverage and production build for the product SHA.
+- **Remote security:** push run `33853277732` and pull-request run `33853282242` both completed successfully for the product SHA.
+- **Independent full browser proof after push:** `PLAYWRIGHT_EXTERNAL_SERVER=1 E2E_PORT=3210 npm run test:e2e` passed all 66 applicable Chromium/mobile-Chromium tests in 10.0 minutes; 62 device-routing skips were intentional and zero tests failed.
+
+### 25.20 S17 evidence reconciliation and launch-audit authorization
+
+- **Reconciliation scope:** status dashboard, S17 row, product SHA, remote CI job, both remote Security events, and the complete post-push browser matrix only. No product behavior or WorkPlan requirement changed.
+- **Zero-gap result:** the product diff contains the planned tool/suggestion/application/read-model boundaries, the complete tool and permission catalog, migration/rollback, UI decision lifecycle, deterministic evaluation seam, security/privacy/operations documentation, tests and exact requested console/comment trace ledger. No S17 requirement remains open.
+- **Formal S17 decision:** **Passed**, conditional only on this reconciliation commit itself resolving identically on GitHub and passing remote CI/Security. When that occurs, Sub-gate 17 is closed and the separately evidenced final cross-product launch audit is authorized.
 
 ## 5. Entry P0 — Planning baseline and source audit
 
