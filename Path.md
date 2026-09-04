@@ -38,7 +38,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
-| 6. Agent Seam and Paid Launch Validation | 17 + launch | **In progress — S17 product passes remotely; evidence reconciliation and final launch audit pending** | Entry S17, section 25 below | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; CI `33853282202`/`100960711555`, Security `33853277732` and `33853282242` passed |
+| 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed locally — final audit remote proof pending** | Entry S17, section 25; final audit, section 26 below | S17 reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8` is remotely green; final-audit content checkpoint pending |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -61,9 +61,9 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
 | 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
-| 17 | AI Seam — no AI required | 6 | **Passed — product remote proof complete; reconciliation checkpoint pending** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; CI `33853282202`/`100960711555`, Security push `33853277732` and PR `33853282242` passed |
+| 17 | AI Seam — no AI required | 6 | **Passed — product and reconciliation remote proof complete** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`; CI `33854471888`/`100964471416`, Security PR `33854472140`/`100964472772`, unchanged-SHA push rerun `100967690564` passed |
 
-Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 records S17 planning, implementation and product remote proof. The final cross-product launch audit remains separately locked until the S17 reconciliation checkpoint itself is pushed and remotely verified.
+Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 records S17 planning, implementation, product proof and remotely green reconciliation. Section 26 records the authorized final cross-product launch audit; it passes locally and awaits its separate remote evidence checkpoint.
 
 ## 4. Entry S0 — Foundation
 
@@ -4233,7 +4233,334 @@ Sub-gate 17 passes every local WorkPlan 10.1 requirement and applicable global a
 
 - **Reconciliation scope:** status dashboard, S17 row, product SHA, remote CI job, both remote Security events, and the complete post-push browser matrix only. No product behavior or WorkPlan requirement changed.
 - **Zero-gap result:** the product diff contains the planned tool/suggestion/application/read-model boundaries, the complete tool and permission catalog, migration/rollback, UI decision lifecycle, deterministic evaluation seam, security/privacy/operations documentation, tests and exact requested console/comment trace ledger. No S17 requirement remains open.
-- **Formal S17 decision:** **Passed**, conditional only on this reconciliation commit itself resolving identically on GitHub and passing remote CI/Security. When that occurs, Sub-gate 17 is closed and the separately evidenced final cross-product launch audit is authorized.
+- **Formal S17 decision:** **Passed**. Reconciliation commit `c0875f3a40b699c0ddb51d3e113d68efaade4ce8` resolved identically locally/remotely. CI run `33854471888`, job `100964471416`, and pull-request Security run `33854472140`, job `100964472772`, passed. Push Security run `33854467968` received npm-registry HTTP 503; the unchanged-SHA rerun job `100967690564` then passed dependency audit, security tests and committed-secret rejection. Sub-gate 17 is closed and the distinct final audit below was therefore authorized.
+
+## 26. Phase 6 final cross-product launch audit
+
+### 26.1 Run identity, authorization, and boundary
+
+- **Date/time and timezone:** 4 September 2026, Asia/Karachi.
+- **Work-plan phase:** Phase 6 — Agent Seam and Paid Launch Validation; final audit after Sub-gate 17.
+- **Mandatory predecessor:** Sub-gate 17 reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`, remotely identical and green in CI/Security as recorded in section 25.20.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`.
+- **Bible coverage:** all numbered sections 0–39 and Appendices A–E, with execution focus on section 31.2, section 31.3, section 38.1–38.3, Appendix D, and Appendix E.6.
+- **Exact authorized slice:** run the complete cross-product audit; close evidence/measurement defects in their owning code; publish the technical launch audit, first-ten-paid-author validation contract, founder-led operations runbook, and complete Pathway entry. No post-V2 product capability or AI model integration is authorized.
+- **Truth boundary:** repository implementation readiness and actual market validation are different claims. The ten-unrelated-paying-writer cohort is established but has not yet occurred; no retention result is fabricated.
+- **Writing-flow boundary:** final-audit code is an offline repository verifier. It is not imported by the editor, application routes, autosave, recovery, projections, or canonical services and therefore cannot delay or block writing.
+
+### 26.2 Files created or materially changed
+
+| File | Action | Responsibility and exact Phase 6 purpose |
+| --- | --- | --- |
+| `scripts/verify-final-launch-audit.ts` | Created | Executable evidence catalog for 14 critical E2Es, six visual dimensions, seven causal acceptance tests, 16 doctrine questions, 11 launch conditions, 40 numbered source sections, five appendices, 18 Sub-gates, paid-cohort measurement terms, three final documents, eight future exclusions, and zero-AI state. |
+| `package.json` | Modified | Adds reproducible `npm run audit:launch`. |
+| `docs/audits/final-v2-launch-audit.md` | Created | Durable final technical determination with all critical, visual, causal, doctrine, launch, contradiction, correction, and honest evidence-boundary tables. |
+| `docs/validation/paid-author-validation-plan.md` | Created | Defines exactly ten unrelated USD 15 Core payers, same-real-project day-7/day-30 retention, qualification/exclusion rules, content-safe measures, cadence, and decisions. |
+| `docs/runbooks/founder-led-launch.md` | Created | Assigns launch/rollback ownership, pre-launch checks, first-ten operations, incident thresholds, and evidence-led hiring/expansion discipline. |
+| `lib/observability/operations.ts` | Modified | Adds the missing paid-validation event names and controlled metadata dimensions while retaining the recursive content-rejection boundary. |
+| `lib/observability/product-health.ts` | Modified | Adds day-7 retention and exact voluntary-structure, Context, Capture, causality, autosave-trust, Core-value, and external-tool-escape definitions. |
+| `docs/analytics/operations-dashboard.sql` | Modified | Adds day-7 cohort query, paid-cohort coded-feedback query, Context navigation comparison, and Capture-habit query. |
+| `docs/analytics/product-health.md` | Modified | Documents every section 38.2–38.3 validation measure, same-project retention, controlled-code privacy, and the no-free-signup substitution rule. |
+| `tests/unit/operations-security.test.ts` | Modified | Proves day-7 retention and the complete added event allow-list without weakening content-key rejection tests. |
+| `scripts/verify-causality-db.ts` | Corrected | Replaces two stale lowercase outbox assertions with the four canonical causal event names and exact concurrent `StoryChangeUpdated` assertion. |
+| `scripts/drill-backup-restore.ts` | Corrected | Removes Prisma-only pool parameters before invoking native PostgreSQL tools; keeps a validated isolated restore name and unconditional cleanup. |
+| `README.md` | Modified | Links the repeatable audit, technical report, paid-validation plan, founder runbook, and Pathway ledger. |
+| `Path.md` | Modified | Reconciles S17 remote proof, updates both status tables, and records this complete final audit, trace lines, corrections, tests, source coverage, and pending remote checkpoint. |
+
+No schema, migration, canonical domain, API, route, editor document, entitlement, or author-owned record format changed in this audit. Generated `.next`, coverage, Playwright, temporary database, dump, and restore artifacts remain ignored or were removed by their owning tools.
+
+### 26.3 Code and implementation method
+
+1. The verifier uses literal repository-relative files and distinctive test-name needles. A missing/renamed critical scenario fails rather than being treated as evidence.
+2. Immutable counts are asserted before evidence resolution: 14 critical scenarios, six visual dimensions, seven causal acceptance tests, 16 doctrine questions, and 11 launch conditions.
+3. The final report must contain every visual, doctrine, and launch row. The paid plan must contain all seven coded feedback/adoption event names, day 7, day 30, and the ten-unrelated-writer condition.
+4. `WorkPlan.md` must contain each numbered source row 0–39 and Appendix A–E; both plan and Pathway must contain Sub-gates 0–17. Markdown emphasis is normalized before the gate inventory comparison without altering either document.
+5. The audit fails unless all eight post-V2 capability groups remain explicitly excluded. `aiEnabled` is hard-reported `false`; no model/provider call exists.
+6. Telemetry additions reuse the typed allow-list and controlled dimension schema. No free-form survey text, title, query, Capture, Note, Research, entity, file name, or manuscript value can pass the dimensions schema.
+7. Day-7/day-30 retention requires a meaningful writing session on the same real project after activation. The plan excludes employees, contractors, household members, gifts, refunds, test workspaces, and free signups.
+8. The causal verifier correction changes evidence queries only. It does not rename production events or alter causality semantics. The physical-drill correction changes URL adaptation only and retains its safe-name, fingerprint, and cleanup rules.
+9. Failure remains explicit. A repository evidence mismatch, missing document, missing source/gate row, missing paid metric, future-scope regression, database assertion, or restore mismatch terminates with a nonzero result.
+
+### 26.4 Exact console trace and adjacent-comment ledger
+
+Line numbers are one-based and were measured after final source edits. Declarative Markdown, event-name arrays, metric definitions, and SQL do not execute and therefore do not contain artificial console statements; each executable audit/drill stage emits a bounded structured event.
+
+| Step | File | Comment line | `console.log` line | Exact adjacent comment and emitted evidence |
+| --- | --- | ---: | ---: | --- |
+| P6-AUDIT-001 | `scripts/verify-final-launch-audit.ts` | 58 | 59 | `Console trace P6-AUDIT-001: verifies the five immutable Bible audit counts without authored content.` Emits only the five counts. |
+| P6-AUDIT-002 | same | 63 | 64 | `Console trace P6-AUDIT-002: records only evidence identifiers and counts after repository resolution.` Emits only critical/causal counts. |
+| P6-AUDIT-003 | same | 73 | 74 | `Console trace P6-AUDIT-003: records bounded document and checklist counts only.` Emits three-document, visual, doctrine, and launch counts. |
+| P6-AUDIT-004 | same | 81 | 82 | `Console trace P6-AUDIT-004: verifies the paid-validation measurement contract without cohort results or authored content.` Emits target 10, two intervals, seven coded events, and `observedCohortClaimed:false`. |
+| P6-AUDIT-005 | same | 94 | 95 | `Console trace P6-AUDIT-005: verifies the complete numbered source and capability-gate inventories.` Emits 40 sections, five appendices, and 18 gates. |
+| P6-AUDIT-006 | same | 100 | 101 | `Console trace P6-AUDIT-006: confirms the post-V2 boundary count without enabling a future capability.` Emits eight excluded groups and `aiEnabled:false`. |
+| S16-BACKUP-001 | `scripts/drill-backup-restore.ts` | 59 | 60 | `Console trace S16-BACKUP-001: backup/restore drill reports only isolated database identity and aggregate fingerprints.` Reused after URL correction; no row content is emitted. |
+| S16-BACKUP-002 | same | 62 | 63 | `Console trace S16-BACKUP-002: backup/restore drill failure reports a fixed error code without database content or command output.` Preserves failed-attempt evidence without secrets/content. |
+| S6-DB-001 | `scripts/verify-causality-db.ts` | 107 | 108 | `Console trace S6-DB-001: PostgreSQL verified S6 ownership, adapters, cycles, chronology, traversal, revision/outbox, lifecycle, concurrency and prose isolation without authored content.` Reused after canonical-event assertion correction. |
+
+The table records the final source locations. `rg -n "Console trace P6-AUDIT|console\\.log" scripts/verify-final-launch-audit.ts` is the reproduction command.
+
+### 26.5 Original roadmap phases 0–17: strict-order proof
+
+| Original gate | Macro phase and capability | Predecessor proof | Implementation/test evidence | Distinct remote checkpoint |
+| ---: | --- | --- | --- | --- |
+| 0 | Phase 1 Foundation | None | Entry S0: identity/workspace, security/logging shell, real PostgreSQL and tests | evidence `d0421ab61964aa406f6664f7e92bf156c67b463c` |
+| 1 | Phase 1 Project/Chapter/Editor | S0 evidence above | Entry S1: first-keystroke editor, ownership, UI/E2E | evidence `bee0dae6b77faa59d33f6ecf2a425afcec847243` |
+| 2 | Phase 1 Durability | S1 evidence above | Entry S2: journal/autosave/conflict/recovery DB and E2E | evidence `8e011bef6409656e5a1c443355b3ccf35dd5462d` |
+| 3 | Phase 1 Continuation | S2 evidence above | Entry S3: exact chapter/block/cursor/scroll return and macro audit | evidence `d98b27a7238d2ec72c5af4e94beef68958e19625` |
+| 4 | Phase 2 Structure Core | S3 remotely green | Entry S4: optional structure, previewed scaffold/reorder, zoom state | evidence `ab766a8663a27aaf22a151067f65cd6a52fe37a3` |
+| 5 | Phase 2 Milestones | S4 remotely green | Entry S5: cross-cutting links/ranges/dependencies/idempotency | evidence `dccf8db53808124d73f7135aa0d495716d0e6bef` |
+| 6 | Phase 2 Causal Story Fabric | S5 remotely green | Entry S6: separate causal graph, chronology, paths, impact, bounded DB/E2E | evidence `de56f246c2ccb69340ec1f712260f81f6c737d4d` |
+| 7 | Phase 3 Contextual Writing Field | Phase 2/S6 reconciliation remotely green | Entry S7: deterministic context, Peek/Return, stale suppression | evidence `761f2d904651ac00cdcee5dd9ce34ec8fa866ba5` |
+| 8 | Phase 3 Capture | S7 reconciliation remotely green | Entry S8: local-first Capture, replay, Inbox, provenance conversion | reconciliation `a6be89f59e0f3da5d6dbbfda7f0f141d0db51137` |
+| 9 | Phase 3 Universe | S8 reconciliation remotely green | Entry S9: flexible entities/states/relations/backlinks/selection create | reconciliation `f0f02f06b2fbc80420311deb16d898ec32f1dddd` |
+| 10 | Phase 3 Search + Language | S9 reconciliation remotely green | Entry S10: bounded universal search, Peek/actions, local language/undo | reconciliation `33ca9b0ce0ba6322a78a485daa69f7b896478c9c` |
+| 11 | Phase 3 Timeline + Research | S10 reconciliation remotely green | Entry S11: flexible chronology, Notes/Research/assets/providers; correction audit | reconciliation `aa7bbb42b0b99a24aa35d0ea8cae50f2981cc9e8` |
+| 12 | Phase 4 Live Story Model | Phase 3/S11 remotely green | Entry S12: outbox, projections/freshness, directive/coordinate, automation/repair | reconciliation `6e2daf7a362562fded640927f6195ddab4a63b3d` |
+| 13 | Phase 4 History/Portability | S12 remotely green | Entry S13: revisions/snapshots/safe restore/import/export/manifest | reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3` |
+| 14 | Phase 5 Billing + Quotas | Phase 4/S13 remotely green | Entry S14: USD 15 Core, dormant Intelligence, webhook/usage/downgrade | reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82` |
+| 15 | Phase 5 Performance/A11y/Mobile | S14 remotely green | Entry S15: budgets, virtualization, themes, responsive/a11y/IME/i18n | reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d` |
+| 16 | Phase 5 Launch Analytics + Operations | S15 remotely green | Entry S16: privacy/security/telemetry/admin/environments/drills | reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717` |
+| 17 | Phase 6 Agent Seam | Phase 5 remotely green | Entry S17: 20 tools, four permissions, Suggestions, approval/audit/bounds/evaluation | product `8cf9d688ef803390e9a8893bef8daccf2c856fe1`; reconciliation `c0875f3a40b699c0ddb51d3e113d68efaade4ce8` |
+
+Every row's planning checkpoint preceded its product commit; every product/evidence checkpoint was pushed and remotely verified before the next original capability's planning checkpoint. The detailed hashes, run/job IDs, tests, files, dates, failures, and corrections remain in Entries S0–S17. No macro phase absorbed or waived an original gate.
+
+### 26.6 Full Bible source coverage: sections 0–39 and Appendices A–E
+
+| Source | Actual implementation evidence | Classification |
+| --- | --- | --- |
+| 0 | S0 constitution baseline; S16/UWT and final validation evidence | Verified |
+| 1 | WorkPlan laws plus every gate's anti-goal/conformance answers | Verified |
+| 2 | S3 continuation, S7 field, S4 structure, S12 live model, S6 causality, S8 Capture, S2/S16 reliability, S17 future-intelligence seam | Verified |
+| 3 | S4 hierarchy/outlines, S5 milestones, S9 Universe, S6 truth dimensions | Verified |
+| 4 | S7 context composition/Peek, S4 zoom, S12 complete directive/coordinate | Verified |
+| 5 | S4 optional progressive structure, deterministic previews, soft constraints | Verified |
+| 6 | S8 global Capture, local queue, lifecycle, Inbox, conversions | Verified |
+| 7 | S6 causal invariants/paths/impact; S12 versioned projections and explicit Because/Consequences | Verified |
+| 8 | S1–S3 editor/schema/performance/recovery; S6/S7/S9 selection and writing-context actions | Verified |
+| 9 | S3 Project Home/Continue and S1/S10 navigation/command palette | Verified |
+| 10 | S4/S5/S6 structure workspace lenses, zoom, causal trace/impact | Verified |
+| 11 | S9 templates/fields/relations/states/backlinks and causal evidence links | Verified |
+| 12 | S10 language plus S11 timeline/Notes/Research/files/chronology | Verified |
+| 13 | S0/S1 tokens, geometry, typography and S15 visual completion | Verified |
+| 14 | S0 responsive/accessibility baseline and S15 mobile/a11y/IME completion | Verified |
+| 15 | Server/client module boundaries, descriptor registry and measured budgets across S0–S17 | Verified |
+| 16 | Modular-monolith services/read models/outbox/cache rules across S0–S13 | Verified |
+| 17 | Seventeen additive migrations cover account through agent seam; ownership/index/check DB verifiers pass | Verified |
+| 18 | Stable envelopes, validation/idempotency routes, and S17 MCP-compatible tool contracts | Verified |
+| 19 | S2 journal/conflict/recovery; S13 revisions/snapshots/backups; S14 safe quotas | Verified |
+| 20 | S12 deterministic automation and neutral suppressible warning catalog; no literary score | Verified |
+| 21 | S10 universal search/actions and S12 idempotent propagation/repair | Verified |
+| 22 | S14 pricing ADR/provider/entitlements/cost quotas/downgrade; authorized USD 15 Core erratum | Verified |
+| 23 | S0 auth adapter/ownership and S14 lifecycle/grace enforcement | Verified |
+| 24 | S0 baseline, S16 hardening/privacy, S17 tool-specific controls and audits | Verified |
+| 25 | S0 content-safe logging, S16 technical/friction/UWT metrics, this final paid-validation completion | Verified |
+| 26 | Bounded readers/jobs/storage and S15/S16 load/cost evidence | Verified |
+| 27 | S2 offline writing, S8 offline Capture, S7/S10/S11 labeled degraded capability matrix | Verified |
+| 28 | S13 previewed imports, all export scopes, versioned complete representation/causal round-trip | Verified |
+| 29 | S0/S15 i18n and region adapters exist; China-native compliance/operations remain explicitly post-V2 | Verified V2 seam; Bible-future operations excluded |
+| 30 | S17 stable bounded tools/permissions/Suggestions/evaluation without a model | Verified V2 seam; model integration Bible-future |
+| 31 | 330 coverage tests, 31 stress tests, 66 applicable final E2Es, 14-scenario and six-dimension audits | Verified |
+| 32 | S0 CI baseline and S16 environments/migrations/canary/admin/rollback/restore operations | Verified |
+| 33 | Strict S0→S17 evidence chain and acceptance-template Path entries | Verified |
+| 34 | S1–S15 named screens, loading/focus order, destructive preview/confirmation | Verified |
+| 35 | Domain services, PostgreSQL constraints, ownership/concurrency/rollback verifiers across S0–S16 | Verified |
+| 36 | Stable errors and supporting-system degradation that preserves editor/local recovery | Verified |
+| 37 | Writing-first optional model retained; V1 rigidity removed; V1 import seam does not invent facts | Verified |
+| 38 | Eleven launch rows, honest first-ten cohort contract, all watch metrics, founder runbook | Verified implementation; cohort outcome pending post-launch by definition |
+| 39 | Eight expansion categories excluded until measured paid retention/economics justify them | Bible-future; explicit boundary verified |
+| Appendix A | S7 exact context inputs, ordering, contextKey/stale-response stability | Verified |
+| Appendix B | Versioned Tiptap documents, stable IDs and S13 V1 migration/representation rules | Verified |
+| Appendix C | Naming, adjacent trace comments, content-safe logging and stable error codes across gates | Verified |
+| Appendix D | All 16 questions answered below and in the final audit report | Verified |
+| Appendix E | S6 causal doctrine/UI/anti-goals and all seven E.6 tests below | Verified |
+
+No row is `Planned-later`. The only non-implemented items are explicitly Bible-future operations/capabilities or the necessarily post-launch observation of a real paid cohort; each has a present boundary, seam, or measurement contract where required.
+
+### 26.7 Fourteen critical E2E scenarios and final browser run
+
+| # | Required scenario | Executed evidence | Result |
+| ---: | --- | --- | --- |
+| 1 | Create with no setup, write, autosave, reload | editor first-keystroke and Unicode durability reload flows | Pass |
+| 2 | Offline close/reopen/recover/reconnect | IndexedDB close-before-ack and reconnect flows | Pass |
+| 3 | Two-device conflict preserves both | two-context Keep Local conflict flow | Pass |
+| 4 | Capture while typing restores cursor/source | local-first Capture and Inbox flow | Pass |
+| 5 | Entity from selection/backlink/prose unchanged | Universe quick-create selection flow | Pass |
+| 6 | Move chapter/order projections/references survive | Structure reviewed scaffold/reorder plus stable-ID invariants | Pass |
+| 7 | Move milestone/projections once/no duplicate | Milestone reviewed allocation plus outbox idempotency | Pass |
+| 8 | Downgrade over quota stays readable/exportable | Billing E2E/service/database quota and downgrade tests | Pass |
+| 9 | Snapshot/corruption/safe-copy restore | Portability E2E, DB verifier, physical restore drill | Pass |
+| 10 | Complete full export manifest | Portability E2E plus 25,000-object/1,000-chapter stress round-trip | Pass |
+| 11 | Capture→Story Change/Because/exact return | Capture causal conversion and editor composer E2E | Pass |
+| 12 | Causal write refreshes new version; stale loses | Live Model repair/context-key/stale-candidate tests | Pass |
+| 13 | Direct/indirect impact paths; no mutation | causal trace E2E, bounded stress and before/after assertions | Pass |
+| 14 | Neutral chronology warning/correct-or-override/editor writable | chronology and Live Model warning flows | Pass |
+
+The final `PLAYWRIGHT_EXTERNAL_SERVER=1 E2E_PORT=3210 npm run test:e2e` invocation ran 128 project/test combinations: **66 applicable passed, 62 paired device-routing skips were intentional, 0 failed, 10.0 minutes**. Each critical evidence needle is independently resolved by `npm run audit:launch`.
+
+### 26.8 Separate visual-regression matrix
+
+| Required dimension | Evidence/assertion | Result |
+| --- | --- | --- |
+| Light, Dark, Cream | deterministic editor/context/billing/portability/Suggestion screenshots | Pass |
+| Wide, compact, mobile | 1440/1024/Pixel 7 projects, responsive controls, no horizontal overflow | Pass |
+| Context open/closed | persistent desktop field and mobile focus-preserving overlay states | Pass |
+| Selection tools | formatting palette and selection-to-Entity/composer states | Pass |
+| Long titles | project/structure overflow and readable control assertions | Pass |
+| RTL/international | Arabic RTL long-label visual plus Unicode/IME persistence | Pass |
+
+Visual output is generated from deterministic browser cases into ignored test artifacts. Geometry, direction, overflow, focus, theme, and serious/critical axe findings are asserted, so a failure cannot be accepted as a screenshot-only pass.
+
+### 26.9 Appendix E.6 causal acceptance
+
+| # | Required behavior | Evidence | Result |
+| ---: | --- | --- | --- |
+| 1 | Zero causal objects remains calm | zero-causality E2E and optional lens | Pass |
+| 2 | Context relation restores exact prose position | causal-composer focus/selection/scroll/prose test | Pass |
+| 3 | Relation mutation invalidates new-version projections | Live Model repair and stale/version tests | Pass |
+| 4 | Valid flashback avoids false causal error | story/discovery-time chronology unit matrix | Pass |
+| 5 | Large projects stay bounded with complete paths | causal node/edge/path stress budgets | Pass |
+| 6 | Export/import preserves causal identity/semantics | full representation round-trip | Pass |
+| 7 | Agent reads/proposes without DB/silent mutation | S17 service/E2E/real-DB/static prohibition evidence | Pass |
+
+### 26.10 Appendix D doctrine answers
+
+| ID | Evidence-backed answer | Result |
+| --- | --- | --- |
+| D-1 | A new author reaches first keystroke through one title action without structure setup. | Pass |
+| D-2 | Continue restores chapter, stable block, cursor/selection, scroll and contextual coordinate. | Pass |
+| D-3 | Peek/edit/trace returns to writing without route reconstruction. | Pass |
+| D-4 | Capture stores raw input first and never requires organization. | Pass |
+| D-5 | Zero structure and zero causality are usable first-class states. | Pass |
+| D-6 | Bounded/virtualized views and large fixtures support deep planners. | Pass |
+| D-7 | Transactional versions/outbox yield deterministic, idempotent projections. | Pass |
+| D-8 | Verified manuscript/project export remains available, including after downgrade. | Pass |
+| D-9 | Local journal, conflict preservation and recovery protect writing under network failure. | Pass |
+| D-10 | DOM/query budgets, responsive geometry, accessibility and calm degraded states contain complexity. | Pass |
+| D-11 | Twenty bounded agent tools use application/read-model ports and prohibit direct DB access. | Pass |
+| D-12 | Editor, Context, Capture, Universe, Timeline, Notes/Research, Search/Language, history and export integrate by project. | Pass |
+| D-13 | A pantser may ignore causal structure indefinitely. | Pass |
+| D-14 | Why now?/What changes? provide direct-first bounded provenance in writing context. | Pass |
+| D-15 | Hierarchy, chronology and explicit causality remain separate truth dimensions. | Pass |
+| D-16 | Impact tracing is bounded, path-explained and non-mutating. | Pass |
+
+### 26.11 Eleven launch conditions
+
+| ID | Condition and evidence | Result |
+| --- | --- | --- |
+| L-1 | Registration/auth seam, no-setup project, chapter and first keystroke | Pass |
+| L-2 | Exact Continue action and writing-context restoration | Pass |
+| L-3 | Offline journal/reload/reconnect/conflict preservation | Pass |
+| L-4 | Optional outline-aware semantic coordinate and planning views | Pass |
+| L-5 | Context surfaces/edits outlines, milestones and entities without forced navigation | Pass |
+| L-6 | Global local-first Capture and later Inbox conversion | Pass |
+| L-7 | Universe, Search, Timeline, history and verified export integrated by project | Pass |
+| L-8 | USD 15 Core adapter/webhook/quotas/downgrade under authorized erratum | Pass |
+| L-9 | snapshots, current/safe-copy restore, 66-table/17-migration local physical restore; managed PITR procedure defined | Pass for repository implementation; provider staging exercise remains a release operation |
+| L-10 | content-safe UWT, writing/friction, day-7/day-30 cohort and reliability measurement contract | Pass |
+| L-11 | optional Story Change/relation/Why now?/What changes? with exact writing return | Pass |
+
+### 26.12 Paid validation and founder-led operating posture
+
+- The cohort is exactly ten unrelated writers who each pay USD 15 for Core and repeatedly use the same authentic project. Free signup volume, staff, contractors, household, gifts, refunds, and tests do not qualify.
+- Day 7 and day 30 are measured from activation to a later meaningful writing session on the same project, not an app open. Time-to-writing, voluntary structure, Context versus route changes, Capture-active days/processing, causal timing/value code, save/conflict/recovery and autosave-trust code, Core value code, Intelligence interest, and escape reason are all defined.
+- `cohortKey`, `sentimentCode`, `reasonCode`, and `surfaceKey` accept controlled codes only. Interview prose is kept outside operational analytics and cannot be joined to manuscript content.
+- Technical health is reviewed daily; product evidence weekly; day-30 evidence controls distribution. Reliability/privacy/billing/export/restore incidents block scale.
+- The founder remains launch/rollback owner. Hiring follows a persistent measured bottleneck; growth distribution follows paid retention; ML follows separately authorized Intelligence economics.
+- **Observed result:** not yet available and not claimed. This is honest compliance with the Bible's first post-launch validation target, not a missing launchability condition.
+
+### 26.13 Validation and stress evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm run audit:launch` | Pass after Path completion | Emits P6-AUDIT-001–006: 14 critical, 6 visual, 7 causal, 16 doctrine, 11 launch, 3 docs, target 10, 40 sections, 5 appendices, 18 gates, 8 future exclusions, AI false. |
+| `npm run lint` | Pass | ESLint zero warnings. |
+| `npm run typecheck` | Pass | TypeScript emitted no errors. |
+| focused final unit/service/stress run | Pass | Four files, 18 tests covering operations/security, agent contracts, service behavior, and agent stress. |
+| `npm run test:coverage` | Pass | 96 files, 330 tests; statements 87.71%, branches 75.10%, functions 85.12%, lines 93.17%. |
+| `npm run test:stress` | Pass | 16 files, 31 tests; causal, portability, search, context, Capture, operations and agent bounds included. |
+| `npm run test:security` | Pass | 2 files, 8 tests; privacy, ownership, rate, CSRF/session, restricted-write and secret/content controls. |
+| `npm audit --audit-level=high` | Pass threshold | Exit 0; 0 high/critical. npm reports 27 moderate TipTap advisories whose automatic fix requires an out-of-range major dependency change; no forced unsafe upgrade was applied. |
+| `npm run build` | Pass | Optimized Next production build and all application/API routes generated. Build-generated `next-env.d.ts` paths were restored to the tracked development form. |
+| final Playwright command | Pass | 66 applicable passed, 62 paired routing skips, 0 failed across 128 combinations; 10.0 minutes. |
+| fresh real PostgreSQL deploy | Pass | All 17 migrations applied to uniquely named audit databases with `pg_trgm`; both audit databases removed after use. |
+| `npm run db:verify:causality` | Pass after correction | structuralVersion 16, 4 changes, 6 active relations, 14 content-free outbox events, full paths, prose unchanged, concurrent winners 1/conflicts 1. |
+| `npm run db:verify:portability` | Pass | 35 collections; verified snapshot/export/import, corruption rejection, safe copy, current checkpoint, causal identity, ownership and 15 indexes. |
+| `npm run db:verify:operations` | Pass | 3 tables, 9 indexes, 2 checks; telemetry, recovery/replay, ownership/member/rate/content rejection. |
+| `npm run db:verify:agent-seam` | Pass | 20 tools, 6 Suggestions, 5 statuses, one concurrent row, 9 audits, 8,000-char bound, 0 canonical proposal mutations, idempotent Note/Capture, restricted/outsider rejected. |
+| `npm run drill:backup-restore` | Pass after correction | Native custom dump/restore fingerprints: 66 tables, 17 migrations, 2 workspaces, 1 project, 1 chapter, 21 audits; isolated restore/source audit databases removed. |
+| `npm run drill:release` | Pass | 4 isolated environments, 6 alert rules fired/recovered, compatible worker schema, aggregate 500-writer cost model. |
+| `git diff --check` and scoped status review | Pass before commit | No whitespace errors; only final-audit/measurement/verifier/docs/ledger changes are included. |
+
+Vitest's jsdom canvas “not implemented” diagnostics are environment messages from existing visual-component tests; no test failed. The final source-only corrections do not alter the 66-test browser matrix. Remote CI will independently repeat lint, typecheck, full coverage and build on the exact content SHA; remote Security will repeat dependency/security/secret checks.
+
+### 26.14 Gaps, failures, root cause, and correction evidence
+
+| Finding/failure | Root cause and classification | Correction and final disposition |
+| --- | --- | --- |
+| Paid-validation telemetry lacked Week 1 and several section 38.3 measures | Final measurement-contract gap | Added typed events/dimensions, day-7 metric, SQL, documentation and tests; launch verifier enforces the paid plan. Closed. |
+| One analytics paragraph still described only 30/90/180-day cohorts after day 7 was implemented | Documentation contradiction found during final prose review | Corrected the paragraph to 7/30/90/180 and kept the general product-health definition distinct from the paid-cohort filter. Closed. |
+| S6 verifier found 14 correct events but queried `causality.*` | Stale verification assertion after canonical event catalog | Uses exact PascalCase event list and `StoryChangeUpdated` concurrency event; passes fresh real PostgreSQL. Closed. |
+| Detached Prisma dev databases terminated during long/native checks | PGlite/local process limitation; not PostgreSQL product behavior | Reran canonical DB evidence on a uniquely named real PostgreSQL 18 database. Closed without waiving a check. |
+| Native drill rejected Prisma `connection_limit` and related options | Real native-tool adapter defect | URL normalization strips Prisma-only parameters; real dump/restore passes. Closed. |
+| First real-DB chain called nonexistent `db:verify:agent-tools` | Operator command-name error | Database cleaned in `finally`; rerun used `db:verify:agent-seam` and passed. No product gap. |
+| First tightened launch-audit run missed bold `Sub-gate 16` | Markdown representation mismatch in verifier | Normalizes `**` only for inventory comparison; all 18 gates pass. Closed. |
+| First staged whitespace check found a blank line at EOF in two new Markdown files | Pre-push document-format defect; the shell continued to the local commit | Removed both blank lines, recorded this result, and amended the still-unpushed content checkpoint only after `git diff --cached --check` passed. Closed before remote publication. |
+| S17 reconciliation push Security received npm-registry HTTP 503 | External registry availability | Unchanged-SHA rerun `100967690564` passed. No dependency waiver. |
+| npm reports 27 moderate TipTap advisories | Upstream/editor dependency advisory; high/critical threshold remains zero | Recorded as non-blocking dependency follow-up; forced out-of-range upgrade rejected because it would bypass compatibility testing. |
+
+`WorkPlan.md` requires no correction. It already requires Week 1/month 1 retention, every watch metric, exact source/gate inventories, complete tests, gap repair, and future exclusions. All findings were implementation/evidence realizations inside that scope. No final `Gap` remains.
+
+### 26.15 Side-by-side WorkPlan and global acceptance audit
+
+| Requirement | WorkPlan owner | Actual evidence | Classification/action |
+| --- | --- | --- | --- |
+| S17 bounded application seam without DB access | 10.1/10.2 | Entry S17: 20 schemas/tools, service ports, static direct-DB prohibition, DB/E2E proof | Verified |
+| Proposal/approval/restricted-write doctrine | 10.1/10.3/10.4 | non-canonical Suggestion rows, explicit author lifecycle, restricted prose denied | Verified |
+| Zero-AI deployment retains core | 10.1/10.4 | no model/provider dependency; `aiEnabled:false`; all deterministic regressions pass | Verified |
+| 14 E2Es, visual matrix, E.6, Appendix D | 10.1 final gate | Sections 26.7–26.10 plus executable evidence resolution | Verified |
+| Eleven launch conditions | 10.1/10.4 | section 26.11 and final report | Verified |
+| Ten unrelated paying writers and watch metrics | 10.1/10.2 | plan, typed telemetry, SQL, privacy constraints; outcome honestly future | Verified implementation contract |
+| Future scope and founder-led posture | 10.1/10.2 | eight exclusions and founder runbook; executable boundary assertion | Verified/Bible-future |
+| Security/privacy/accessibility/performance/recovery/backup/export/migration | 10.4 and global contract | local matrices, prior gate proof, fresh DB/restore/release drills, full regressions | Verified |
+| No omission/contradiction | 12.1–12.3 | 18-gate table, 45-row source table, required scenario/doctrine/launch tables and anti-goal answers | Verified |
+| Separate S17 and final-audit Git proof | 10.4 | S17 `c0875f3...` remote green; final-audit content/evidence commits tracked below | Locally verified; remote checkpoint pending at this content snapshot |
+
+Required anti-goal answers:
+
+- Structure, scenes, Universe data, Capture filing, and causality remain optional; none is a prerequisite for writing.
+- Milestones remain cross-cutting links and never own chapters.
+- Hierarchy, chronology, reference, and causality remain distinct; no fact is implicitly converted between them.
+- No causal, structural, tool, audit, or validation write edits prose.
+- Canonical server state remains separate from projections, client caches, Suggestions, audit reports, and cohort analytics.
+- Structural versions, source versions and stale suppression prevent stale derived data from presenting as current truth.
+- Core downgrade/quota logic preserves read and export of owned work.
+- Context, Search, Capture replay, projections, billing, portability, tool seam, telemetry, and audit failures cannot block the editor/local journal.
+- Content-safe schemas and tests reject manuscript/Capture/Note/Research/query/title/free-text content in logs, analytics, routine admin, and audit events.
+- Tools, graphs, lists, search, timeline, text windows, exports and stress fixtures have explicit bounds/jobs; no unbounded project/graph load was introduced.
+- No proposal becomes canonical without an explicit author action in the owning deterministic domain.
+- No future endpoint, context provider, conversion target, billing product, AI model, collaboration, publisher, regional, community, fine-tuning, or specialized-model path was activated.
+- Directive projections still preserve explicit `becauseItems[]` and `consequenceItems[]`.
+- Semantic Zoom still preserves Project → Plot → Plot Outline → Volume → Volume Outline → cross-cutting Milestone/Thread → Chapter Outline → Chapter → Scene → Prose with optional levels.
+- Billing remains USD 15 Core/full deterministic V2; USD 25 Intelligence remains dormant and unsellable.
+
+### 26.16 Contradiction result and local phase decision
+
+The audit compared optionality against integrity, milestone link against ownership, hierarchy/chronology/reference against causality, canonical data against projection/cache/audit state, synchronous truth against freshness, soft creative guidance against hard integrity, quota against read/export, Peek against Open/focus restoration, zero-AI Core against the agent proposal seam, privacy against operations/support visibility, scale claims against hard bounds, and V2 against future expansion.
+
+No active contradiction remains. Historical `$10 Entry / $25 Pro` text appears only in explicitly superseded planning history; the executable ADR/code/plan/audit consistently use USD 15 Core and dormant USD 25 Intelligence. Because/Consequences and the ruled outline-aware zoom order remain explicit. The paid cohort result is not mislabeled as completed.
+
+**Local Phase 6 decision:** Passed. Sub-gate 17 was separately closed first. The final audit has no open implementation, evidence, or WorkPlan gap. Formal Phase 6 closure still requires the content commit below to be pushed, locally/remotely identical, and green in CI/Security, followed by a separately pushed ledger reconciliation.
+
+### 26.17 Final-audit Git checkpoint
+
+- **Branch:** `agent/workplan-subgates-audit`.
+- **Remote:** `https://github.com/InfernusReal/Mythra-V2.git`.
+- **Baseline:** `c0875f3a40b699c0ddb51d3e113d68efaade4ce8`.
+- **Content commit/message:** pending immediately after this local audit entry.
+- **Push and remote SHA equality:** pending.
+- **Remote CI/Security:** pending on the exact content SHA.
+- **Final ledger reconciliation:** will be a separate commit after the content SHA is remotely green; no release tag is created because the user requested phase pushes, not a production release/tag.
+- **Rollback point:** revert the final-audit content commit; it changes measurement/audit/reporting/verifier code only and does not require schema/data rollback.
 
 ## 5. Entry P0 — Planning baseline and source audit
 

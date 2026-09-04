@@ -42,7 +42,7 @@ WITH activation AS (
   FROM "OperationalEvent"
   WHERE "eventName" = 'writing.save' AND "projectId" IS NOT NULL
   GROUP BY "projectId"
-), intervals(days) AS (VALUES (30), (90), (180))
+), intervals(days) AS (VALUES (7), (30), (90), (180))
 SELECT
   intervals.days AS interval_days,
   COUNT(DISTINCT activation."projectId") FILTER (
@@ -105,3 +105,34 @@ WHERE "eventName" IN ('recovery.incident', 'backup.status', 'export.status', 'jo
   AND "occurredAt" >= CURRENT_TIMESTAMP - INTERVAL '24 hours'
 GROUP BY 1, 2
 ORDER BY 1, 2;
+
+-- Paid-validation behavior and coded feedback. `cohortKey` must identify the
+-- ten-author paid cohort; feedback values are controlled codes, never prose.
+SELECT
+  "eventName",
+  "safeDimensions"->>'sentimentCode' AS sentiment_code,
+  "safeDimensions"->>'reasonCode' AS reason_code,
+  COUNT(*) AS events,
+  COUNT(DISTINCT "workspaceId") AS paid_writers,
+  COUNT(DISTINCT "projectId") FILTER (WHERE "projectId" IS NOT NULL) AS projects
+FROM "OperationalEvent"
+WHERE "eventName" IN (
+  'structure.adopted', 'capture.processed', 'causality.feedback',
+  'autosave.trust_feedback', 'core.value_feedback',
+  'external_tool.escape', 'intelligence.interest'
+)
+  AND "safeDimensions"->>'cohortKey' = 'first-paid-ten'
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3;
+
+-- Context-navigation reduction and Capture habit are computed from behavior,
+-- not survey prose. Distinct active dates prevent repeated clicks inflating habit.
+SELECT
+  "workspaceId",
+  COUNT(*) FILTER (WHERE "eventName" IN ('context.peeked', 'context.opened')) AS context_in_place,
+  COUNT(*) FILTER (WHERE "eventName" = 'navigation.route_changed') AS full_navigations,
+  COUNT(DISTINCT date_trunc('day', "occurredAt")) FILTER (WHERE "eventName" = 'capture.opened') AS capture_active_days,
+  COUNT(*) FILTER (WHERE "eventName" = 'capture.processed') AS captures_processed
+FROM "OperationalEvent"
+WHERE "occurredAt" >= CURRENT_TIMESTAMP - INTERVAL '30 days'
+GROUP BY "workspaceId";

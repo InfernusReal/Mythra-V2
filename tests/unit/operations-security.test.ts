@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createSessionToken, readSessionToken } from "@/lib/auth/session";
 import { parseEnv } from "@/lib/env";
 import { evaluateAlert, alertRules } from "@/lib/observability/alerts";
-import { InMemoryOperationalEventSink, recordOperationalEvent } from "@/lib/observability/operations";
+import { InMemoryOperationalEventSink, operationalEventNames, recordOperationalEvent } from "@/lib/observability/operations";
 import { retainedAtDays, uninterruptedWritingTime } from "@/lib/observability/product-health";
 import { assertWorkerCompatibility, environmentProfiles } from "@/lib/operations/environments";
 import { featureFlags } from "@/lib/operations/feature-flags";
@@ -68,6 +68,8 @@ describe("S16 security and operations contracts", () => {
     expect(evaluateAlert(rule, 1, "FIRING").state).toBe("OK");
     expect(uninterruptedWritingTime([{ startedAt: 0, endedAt: 1_000, interrupted: false }, { startedAt: 1_000, endedAt: 2_000, interrupted: true }])).toBe(1_000);
     expect(retainedAtDays(new Date("2026-01-01T00:00:00Z"), [new Date("2026-04-02T00:00:00Z")], 90)).toBe(true);
+    expect(retainedAtDays(new Date("2026-01-01T00:00:00Z"), [new Date("2026-01-08T00:00:00Z")], 7)).toBe(true);
+    expect(operationalEventNames).toEqual(expect.arrayContaining(["structure.adopted", "capture.processed", "causality.feedback", "autosave.trust_feedback", "core.value_feedback", "external_tool.escape"]));
   });
 
   it("locks environment separation, independent secrets, worker compatibility, and canary kill switches", () => {

@@ -6,11 +6,13 @@ export const operationalEventNames = [
   "context.peeked", "context.opened", "capture.opened", "search.returned", "recovery.incident",
   "session.writing", "session.editor_only", "causality.trace", "project.retained", "writing.save", "context.resolve",
   "search.request", "system.error", "conflict.detected", "job.completed", "outbox.lag", "backup.status",
-  "database.saturation", "auth.failure", "storage.failure", "export.status", "intelligence.interest"
+  "database.saturation", "auth.failure", "storage.failure", "export.status", "intelligence.interest",
+  "structure.adopted", "capture.processed", "causality.feedback", "autosave.trust_feedback",
+  "core.value_feedback", "external_tool.escape"
 ] as const;
 export type OperationalEventName = typeof operationalEventNames[number];
 
-const dimensionKeys = ["outcome", "status", "source", "action", "planKey", "intervalDays", "depthBand", "errorCode", "resource", "jobType", "stage", "regionKey", "featureFlag", "releaseVersion"] as const;
+const dimensionKeys = ["outcome", "status", "source", "action", "planKey", "intervalDays", "depthBand", "errorCode", "resource", "jobType", "stage", "regionKey", "featureFlag", "releaseVersion", "sentimentCode", "reasonCode", "surfaceKey", "cohortKey"] as const;
 const dimensionValue = z.union([z.string().regex(/^[a-zA-Z0-9._:-]{1,80}$/), z.number().finite(), z.boolean(), z.null()]);
 const dimensionsSchema = z.partialRecord(z.enum(dimensionKeys), dimensionValue);
 export const operationalEventSchema = z.object({

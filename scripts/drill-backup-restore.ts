@@ -9,12 +9,18 @@ import { Client } from "pg";
 
 const source = process.env.DATABASE_URL;
 if (!source) throw new Error("DATABASE_URL is required.");
-const sourceDatabaseUrl = new URL(source);
-sourceDatabaseUrl.searchParams.delete("schema");
-const restoreAdminUrl = new URL(process.env.RESTORE_ADMIN_URL ?? source);
+const prismaOnlyQueryParameters = ["schema", "connection_limit", "max_idle_connection_lifetime", "pool_timeout", "socket_timeout"] as const;
+
+function nativePostgresUrl(value: string): URL {
+  const url = new URL(value);
+  for (const parameter of prismaOnlyQueryParameters) url.searchParams.delete(parameter);
+  return url;
+}
+
+const sourceDatabaseUrl = nativePostgresUrl(source);
+const restoreAdminUrl = nativePostgresUrl(process.env.RESTORE_ADMIN_URL ?? source);
 const restoreDatabase = `mythra_s16_restore_${randomUUID().replaceAll("-", "")}`;
 if (!/^mythra_s16_restore_[a-f0-9]{32}$/u.test(restoreDatabase)) throw new Error("Unsafe restore database identifier.");
-restoreAdminUrl.searchParams.delete("schema");
 const restoreUrl = new URL(restoreAdminUrl); restoreUrl.pathname = `/${restoreDatabase}`;
 const temporary = await mkdtemp(path.join(tmpdir(), "mythra-s16-backup-"));
 const archive = path.join(temporary, "database.dump");
