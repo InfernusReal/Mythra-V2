@@ -27,4 +27,8 @@ Development authentication is isolated behind the external-auth adapter and is r
 - `npm run build`
 - `npm run test:e2e`
 
+## Agent application seam
+
+The zero-AI V2 build exposes a project-scoped, MCP-compatible application-tool seam for bounded reads, non-canonical proposals, and explicitly confirmed Note/Capture writes. Prose replacement is disabled. See `docs/api/agent-tools.md`, `docs/architecture/agent-tool-boundaries.md`, `docs/security/agent-tool-content-policy.md`, `docs/evaluations/future-agent-harness.md`, and `docs/runbooks/agent-tool-operations.md`.
+
 Implementation evidence, gate status, deviations, and remote Git verification are recorded in `Path.md`.

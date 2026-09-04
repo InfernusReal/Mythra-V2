@@ -51,7 +51,7 @@
   --surface: #fbf6eb;
   --surface-raised: #fff9ef;
   --text: #27231d;
-  --text-muted: #766e62;
+  --text-muted: #6f675c;
   --border: #ded3c2;
   --accent: #6358d9;
   --accent-action: #6358d9;
@@ -497,3 +497,20 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .import-preview li { display: grid; gap: .35rem; }
 .import-preview li p { overflow-wrap: anywhere; color: var(--text-muted); }
 @media (max-width: 640px) { .portability-panel > header, .portability-panel li { align-items: stretch; flex-direction: column; } .portability-panel li > div { justify-content: flex-start; } }
+
+.suggestion-inbox { width: min(72rem, 100%); margin: 0 auto; }
+.suggestion-inbox > header, .suggestion-inbox li > header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+.suggestion-inbox h1 { margin: .25rem 0 0; }
+.suggestion-inbox > ol { display: grid; gap: 1rem; margin: 1.25rem 0; padding: 0; list-style: none; }
+.suggestion-inbox li { display: grid; gap: .8rem; padding: 1rem; border: 1px solid var(--border); border-radius: .75rem; background: var(--surface); }
+.suggestion-inbox li > header div { display: grid; gap: .2rem; text-transform: capitalize; }
+.suggestion-inbox small, .suggestion-cursor { color: var(--text-muted); }
+.suggestion-inbox dl { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; }
+.suggestion-inbox dl > div { display: flex; gap: .35rem; }
+.suggestion-inbox dt { color: var(--text-muted); }
+.suggestion-inbox form, .suggestion-inbox label { display: grid; gap: .5rem; }
+.suggestion-inbox textarea { min-height: 5rem; padding: .6rem; color: var(--text); border: 1px solid var(--border); border-radius: .45rem; background: var(--bg); }
+.suggestion-inbox form > div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.suggestion-inbox button { min-height: 2.5rem; padding: .5rem .75rem; color: var(--text); border: 1px solid var(--border); border-radius: .45rem; background: var(--surface-raised); font-weight: 700; }
+.suggestion-inbox button:disabled { opacity: .55; }
+@media (max-width: 640px) { .suggestion-inbox > header { flex-direction: column; } .suggestion-inbox form > div { display: grid; } }

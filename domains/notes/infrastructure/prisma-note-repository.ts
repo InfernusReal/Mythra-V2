@@ -15,8 +15,41 @@ const view = (row: { id: string; title: string; body: string; normalizedTags: un
 export class PrismaNoteRepository implements NoteRepository {
   constructor(private readonly prisma: PrismaClient) {}
   async list(actor: SessionActor, projectId: string, query: { tag?: string; cursor?: string; limit: number }) { return this.prisma.$transaction(async (tx) => { const owned = await project(tx, actor, projectId); const normalizedTag = query.tag ? normalizeNoteTags([query.tag])[0] : undefined; const rows = await tx.note.findMany({ where: { projectId, archivedAt: null, ...(query.cursor ? { updatedAt: { lt: new Date(query.cursor) } } : {}), ...(normalizedTag ? { normalizedTags: { array_contains: normalizedTag } } : {}) }, orderBy: [{ updatedAt: "desc" }, { id: "desc" }], take: query.limit + 1, select: noteSelect }); const page = rows.slice(0, query.limit); const counts = page.length ? await tx.storyReference.groupBy({ by: ["targetId"], where: { projectId, targetType: "NOTE", targetId: { in: page.map((row) => row.id) }, archivedAt: null }, _count: true }) : []; const countMap = new Map(counts.map((row) => [row.targetId, row._count])); return { notes: page.map((row) => view(row, countMap.get(row.id) ?? 0)), nextCursor: rows.length > query.limit ? page.at(-1)!.updatedAt.toISOString() : null, projectStructuralVersion: owned.structuralVersion }; }); }
-  async write(actor: SessionActor, projectId: string, input: Record<string, unknown>) { const typed = input as { noteId?: string; expectedVersion?: number; title: string; body: string; tags: string[]; sourceCaptureId?: string }; return this.prisma.$transaction(async (tx) => { const owned = await project(tx, actor, projectId); if (typed.sourceCaptureId && !await tx.capture.findFirst({ where: { id: typed.sourceCaptureId, projectId, userId: actor.userId }, select: { id: true } })) throw errors.notFound(); const data = { title: typed.title, body: typed.body, normalizedTags: json(normalizeNoteTags(typed.tags)), sourceCaptureId: typed.sourceCaptureId ?? null }; let row; if (typed.noteId) { if (!typed.expectedVersion) throw errors.validation("Note updates require expectedVersion."); const updated = await tx.note.updateMany({ where: { id: typed.noteId, projectId, version: typed.expectedVersion, archivedAt: null }, data: { ...data, version: { increment: 1 } } }); if (updated.count !== 1) throw errors.conflict(); row = await tx.note.findUnique({ where: { id: typed.noteId }, select: noteSelect }); }
-      else row = await tx.note.create({ data: { projectId, createdById: actor.userId, ...data }, select: noteSelect }); if (!row) throw errors.notFound(); await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Note", aggregateId: row.id, eventType: "note.updated", payload: { projectId, noteId: row.id, version: row.version } } }); return { note: view(row), projectStructuralVersion: owned.structuralVersion }; }); }
+  async write(actor: SessionActor, projectId: string, input: Record<string, unknown>) {
+    const typed = input as { noteId?: string; expectedVersion?: number; title: string; body: string; tags: string[]; sourceCaptureId?: string; toolIdempotencyKey?: string };
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const owned = await project(tx, actor, projectId);
+        if (typed.sourceCaptureId && !await tx.capture.findFirst({ where: { id: typed.sourceCaptureId, projectId, userId: actor.userId }, select: { id: true } })) throw errors.notFound();
+        if (!typed.noteId && typed.toolIdempotencyKey) {
+          const replay = await tx.note.findUnique({ where: { projectId_createdById_toolIdempotencyKey: { projectId, createdById: actor.userId, toolIdempotencyKey: typed.toolIdempotencyKey } }, select: noteSelect });
+          if (replay) return { note: view(replay), projectStructuralVersion: owned.structuralVersion, replayed: true };
+        }
+        const data = { title: typed.title, body: typed.body, normalizedTags: json(normalizeNoteTags(typed.tags)), sourceCaptureId: typed.sourceCaptureId ?? null };
+        let row;
+        if (typed.noteId) {
+          if (!typed.expectedVersion) throw errors.validation("Note updates require expectedVersion.");
+          const updated = await tx.note.updateMany({ where: { id: typed.noteId, projectId, version: typed.expectedVersion, archivedAt: null }, data: { ...data, version: { increment: 1 } } });
+          if (updated.count !== 1) throw errors.conflict();
+          row = await tx.note.findUnique({ where: { id: typed.noteId }, select: noteSelect });
+        } else {
+          row = await tx.note.create({ data: { projectId, createdById: actor.userId, toolIdempotencyKey: typed.toolIdempotencyKey, ...data }, select: noteSelect });
+        }
+        if (!row) throw errors.notFound();
+        await tx.outboxEvent.create({ data: { workspaceId: actor.workspaceId, aggregateType: "Note", aggregateId: row.id, eventType: "note.updated", payload: { projectId, noteId: row.id, version: row.version } } });
+        return { note: view(row), projectStructuralVersion: owned.structuralVersion, replayed: false };
+      });
+    } catch (caught) {
+      if (!typed.noteId && typed.toolIdempotencyKey && caught instanceof Prisma.PrismaClientKnownRequestError && caught.code === "P2002") {
+        const concurrentWinner = await this.prisma.note.findFirst({
+          where: { projectId, createdById: actor.userId, toolIdempotencyKey: typed.toolIdempotencyKey, archivedAt: null, project: { workspaceId: actor.workspaceId, status: "ACTIVE" } },
+          select: { ...noteSelect, project: { select: { structuralVersion: true } } },
+        });
+        if (concurrentWinner) return { note: view(concurrentWinner), projectStructuralVersion: concurrentWinner.project.structuralVersion, replayed: true };
+      }
+      throw caught;
+    }
+  }
   async promote(actor: SessionActor, projectId: string, input: { noteId: string; targetType: string; idempotencyKey: string; expectedStructuralVersion: number; title?: string }) { return this.prisma.$transaction(async (tx) => { const note = await tx.note.findFirst({ where: { id: input.noteId, projectId, archivedAt: null, project: { workspaceId: actor.workspaceId, status: "ACTIVE" } }, select: { id: true, title: true, body: true } }); if (!note) throw errors.notFound(); const replay = await tx.notePromotion.findUnique({ where: { noteId_targetType_idempotencyKey: { noteId: input.noteId, targetType: input.targetType, idempotencyKey: input.idempotencyKey } }, select: { id: true, targetType: true, targetId: true, projectStructuralVersion: true } }); if (replay) return { promotionId: replay.id, targetType: replay.targetType, targetId: replay.targetId, projectStructuralVersion: replay.projectStructuralVersion, replayed: true }; await project(tx, actor, projectId, input.expectedStructuralVersion); const targetId = randomUUID(); const title = input.title ?? note.title;
       if (input.targetType === "MILESTONE") { const last = await tx.milestone.aggregate({ where: { projectId }, _max: { sequenceIndex: true } }); await tx.milestone.create({ data: { id: targetId, projectId, sequenceIndex: (last._max.sequenceIndex ?? -1) + 1, title, description: note.body, status: "PLANNED" } }); }
       else if (input.targetType === "STORY_CHANGE") await tx.storyChange.create({ data: { id: targetId, projectId, kind: "CUSTOM", title, description: note.body } });

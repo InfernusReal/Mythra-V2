@@ -38,7 +38,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 3. In-Flow Author Environment | 7–11 | **Passed — S7–S11 and distinct macro audit remotely verified** | Entries S7–S11 and Phase 3 macro audit 17 below | Macro evidence `3ea20c9b26144f69234cd6369baa4ce4f3324baa`; CI `33242554374`/`99074252309` passed |
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
-| 6. Agent Seam and Paid Launch Validation | 17 + launch | **In progress — S17 planning checkpoint; product code locked pending remote proof** | Entry S17, section 25 below | Baseline `9a36ce51608ebd2c76593926c79464c9fa171717` matches remote; planning commit/CI/Security pending |
+| 6. Agent Seam and Paid Launch Validation | 17 + launch | **In progress — S17 passes locally; product checkpoint remote proof pending** | Entry S17, section 25 below | Planning correction `78d7ca552513611ee853c026f343a9e3522a7085` passed CI and both Security paths; S17 product push pending |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -61,7 +61,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 14 | Billing + Quotas | 5 | **Passed** | S13 reconciliation `7fb339d42555c632d07886d4fdb73c431b9c6ff3`; CI `33325149994`/`99293849027` passed | Entry S14, section 21 | Plan `2101fae44085557d43bd266ff6323c1a5f039cfe`, CI `33386697192`/`99470820803`; product `3fd7bcbaa12cfadad8ad3d17bbafed15d984479b`, CI `33416914551`/`99569658486` passed |
 | 15 | Performance + Accessibility + Mobile | 5 | **Passed** | S14 reconciliation `87a1a7b2106d08d1fd85a4d58fd90877b05e3a82`; CI `33417386063`/`99571202892` passed | Entry S15, section 22 | Plan `05f1a7abad9c72a96a5dbb1c8ca74e57ef915243`; product `b7155527cb4cc33674bb4dc883f0128483eda3b9`; reconciliation `76c5b087c7a614e35a018c81be206cf516cb415d`; CI `33459346401`/`99706020705` passed |
 | 16 | Launch Analytics + Operations | 5 | **Passed** | Plan `6b9527a02659ff09403df78509ea737879edc0ee`; product `45a9b63967d1893bb023e389f90c42bf98169ee2`; security correction `95d09b43a0df6efe881a5f4d1c10488f2c2d4dc9`; reconciliation `a11e56b7babec50db772894d360b4818d6c62fbd`; all recorded CI/Security runs passed after correction | Entry S16, sections 23.8–23.17 | Verified strict successor to S15; Phase 5 macro audit is now eligible |
-| 17 | AI Seam — no AI required | 6 | **Planning; code locked pending remote proof** | Phase 5 final closure `9a36ce51608ebd2c76593926c79464c9fa171717` verified locally and on `origin/agent/workplan-subgates-audit` | Entry S17, section 25 | Planning checkpoint must be committed, pushed, and pass CI/Security before product implementation |
+| 17 | AI Seam — no AI required | 6 | **Passed locally; remote product/evidence proof pending** | Phase 5 closure `9a36ce51608ebd2c76593926c79464c9fa171717`; corrected S17 plan `78d7ca552513611ee853c026f343a9e3522a7085`, CI `33659579755` and Security `33659579839`/`33659573226` passed | Entry S17, section 25 | Product checkpoint will be pushed and remotely reconciled before the final launch audit starts |
 
 Sub-gates 0–11 and delivery Phases 1–3 are closed after separate local, database, browser, product, evidence, push and remote-CI proof. Section 18.15 closes S12; section 19.15 closes S13; section 20.9 closes Phase 4 after its distinct macro audit passed remotely. S14, S15 and S16 each have separate planning, product and reconciliation commits with remote CI proof; S16 additionally has branch-wide Security proof. The distinct Phase 5 macro audit and macro reconciliation passed remotely in section 24. Phase 5 is **Passed**. Section 25 opens Sub-gate 17 planning. No S17 product code is authorized until that planning checkpoint is committed, pushed, and passes remote CI and Security; the final cross-product launch audit remains separately locked until S17 passes.
 
@@ -4083,6 +4083,148 @@ The initial planning commit `d1741392acee95563c5e74f86966b0f9a2013671` was pushe
 - **Local dependency proof:** `npm ls fast-uri` resolves the single affected path to `fast-uri@3.1.7 overridden`. `npm audit --audit-level=high` exits successfully with zero high/critical findings; 27 moderate TipTap advisories remain below the workflow threshold and require a separately reviewed editor dependency upgrade rather than an unsafe forced change.
 - **Local regression proof:** `npm run test:security` passed 2 files/8 tests; the jsdom canvas diagnostic is expected and non-failing. `npm run lint` passed with zero warnings and `npm run typecheck` passed.
 - **Gate effect:** this correction will be committed and pushed as part of the planning boundary. S17 product code remains prohibited until the corrected SHA passes CI and both Security event paths remotely.
+
+### 25.10 Planning-boundary remote proof and implementation authorization
+
+The correction commit `78d7ca552513611ee853c026f343a9e3522a7085` matched `origin/agent/workplan-subgates-audit`. CI run `33659579755`, job `100346533803`, passed install, Prisma generation, lint, typecheck, full coverage, and production build. Security pull-request run `33659579839`, job `100346533765`, and push run `33659573226`, job `100346511661`, passed the high-severity dependency gate, security tests, and tracked-secret rejection. Only after these results were verified did S17 product implementation begin.
+
+### 25.11 Actual files and responsibility reconciliation
+
+| Files | Action and implemented responsibility | WorkPlan owner |
+| --- | --- | --- |
+| `prisma/schema.prisma`; `prisma/migrations/20260902173000_agent_tool_seam/{migration.sql,rollback.sql}` | Added five-state `SuggestionStatus`, `Suggestion`, user/workspace/project relations, safe audit kinds, Note tool retry identity, seven database checks, five Suggestion indexes, foreign keys, and boundary-preserving rollback. | 10.1 Suggestion/audit; 10.2 migration |
+| `domains/suggestions/domain/types.ts`, `application/{ports,service}.ts`, `infrastructure/prisma-suggestion-repository.ts` | Strict evidence/action/status schemas, bounded cursor pagination, ownership masking, idempotent and concurrent-safe creation, optimistic single-resolution lifecycle, and atomic content-safe Suggestion audits. | 10.1 proposal/approval seam |
+| `domains/tools/domain/{contracts,permissions}.ts` | Exact twenty-tool registry, four permissions, draft-7 input and output schemas, annotations, explicit confirmation, list/text/timeline/backlink/graph bounds, and unconditional restricted-write policy. | 10.1 tool seam and permissions |
+| `domains/tools/application/{ports,service}.ts`, `infrastructure/{prisma-tool-read-model,prisma-tool-audit-repository}.ts` | Port-driven dispatch to existing domain services, project-scoped bounded readers, PostgreSQL text-window queries, non-canonical proposal translation, confirmed metadata adapters, safe per-call audits, and MCP structured results. | 10.1 bounded services/read models; 10.3 production rules |
+| `lib/tools/{runtime,http}.ts`; `app/api/v2/projects/[id]/tools/route.ts` | Authenticated, same-origin, per-actor/workspace/project rate-limited JSON-RPC `tools/list`/`tools/call` transport with stable MCP result/error behavior. | 10.2 transport/API |
+| `lib/suggestions/{runtime,http}.ts`; `app/api/v2/projects/[id]/suggestions/route.ts`; `app/api/v2/projects/[id]/suggestions/[suggestionId]/route.ts` | Bounded list/create/read/resolve HTTP surface with session, origin, per-project rate limit, validation, safe envelope, and ownership enforcement. | 10.1 Suggestion approval |
+| `components/suggestions/SuggestionInbox.tsx`; `app/app/projects/[id]/suggestions/page.tsx`; `app/app/projects/[id]/page.tsx`; `app/globals.css` | Supporting author inbox with open/accepted/modified/rejected/intentional states, required note for modification, explicit canonical-nonmutation copy, status announcement, responsive controls, and Light/Dark/Cream styling. Cream muted text was corrected to meet WCAG AA. | 10.2 author approval UI; global accessibility/theme contract |
+| `domains/notes/{domain/types,application/ports,application/service,infrastructure/prisma-note-repository}.ts` | Extended the existing Note path with optional tool retry identity, replay reporting, and concurrent convergence without creating an agent-only canonical write path. | 10.1 confirmed Note seam |
+| `domains/tools/evaluation/harness.ts`; `tests/fixtures/agent-evaluation.ts` | Deterministic labeled evaluation contract for all ten specified categories; no model, network, or external provider. | 10.1 evaluation harness |
+| `docs/api/agent-tools.md`; `docs/architecture/agent-tool-boundaries.md`; `docs/security/agent-tool-content-policy.md`; `docs/evaluations/future-agent-harness.md`; `docs/runbooks/agent-tool-operations.md`; `README.md` | Tool/API examples, dependency boundaries, permissions/privacy doctrine, deterministic evaluation meaning, operational response, rollback boundary, and discoverability. | 10.2 documentation/runbook/README |
+| `tests/unit/{agent-tool-contracts,agent-evaluation}.test.ts`; `tests/service/agent-tool-service.test.ts`; `tests/component/suggestion-inbox.test.tsx`; `tests/accessibility/suggestion-inbox-accessibility.test.tsx`; `tests/stress/agent-tool-seam.stress.test.ts`; `tests/e2e/agent-tool-seam.spec.ts` | Registry/schema/permission/static-boundary, every dispatcher, non-canonical proposals, deterministic evaluation, author decisions, accessibility, 75,000 bound parses, 10,000 evaluations, desktop/mobile/theme/privacy browser proof. | 10.3–10.4 validation |
+| `scripts/verify-agent-tool-seam-db.ts`; `package.json` | Real PostgreSQL schema, bounds, ownership, all lifecycle states, idempotency/concurrency, audit, canonical nonmutation, rollback/redeploy verification and runnable commands. | Global migration/repository acceptance |
+| `Path.md` | This exact implementation, trace, failure, test, conformance, and remote-state ledger. | 10.2 final Path entry |
+
+The planned file names that were implementation sketches were normalized without dropping responsibility: `tests/fixtures/agent-tools.ts` became the more precise `tests/fixtures/agent-evaluation.ts`; `tests/e2e/agent-tools.spec.ts` and `tests/stress/agent-tools.stress.test.ts` became `agent-tool-seam` files; and the verifier became `verify-agent-tool-seam-db.ts`. The five planned documentation paths were created exactly.
+
+### 25.12 Code and behavior implemented
+
+- **Contract and transport:** the closed registry contains fourteen Read tools, three Propose tools, two Write-metadata tools, and one Restricted-write tool. `tools/list` emits names, draft-7 input/output schemas, permissions, and annotations. `tools/call` returns MCP text content and matching `structuredContent` inside JSON-RPC 2.0. Unknown methods, tools, properties, invalid limits, missing confirmations, and malformed protocol identities fail validation.
+- **Bounded reads:** project-map branches cap at 100; plot/volume/chapter outline and chapter prose windows cap at 8,000 UTF-16 units and report total/returned/truncated values; milestone link/dependency branches cap at 100; timeline caps at 101 events and 500 links; backlinks cap at 100; Search caps at 100; Universe and Causality reuse their already-verified bounded services. Raw SQL text extraction performs substring selection in PostgreSQL rather than loading the complete long-form field into application memory.
+- **Authorization and rate limiting:** every supplied project/child ID is resolved under the signed actor, active workspace membership, workspace ID, active project, and project ID. Cross-workspace absence is masked as not found. Tool and Suggestion HTTP keys include actor/workspace plus project-specific route identity.
+- **Proposal lifecycle:** direct, structure-patch, and causal-relation proposal tools create only Suggestions. Evidence references and proposed actions have cardinality/payload bounds. `(projectId, sourceAgent, idempotencyKey)` is stable under retries and concurrent uniqueness races. Only an open expected version resolves; modified requires an author note. Accepted, modified, rejected, and intentional resolutions update only the Suggestion and its audit.
+- **Author-controlled metadata:** confirmed Note and Capture calls pass through the existing application services. `authorConfirmed: true` is a literal schema requirement. Retry identities make Note/Capture replay safe. Neither path converts metadata into structure, causality, or prose.
+- **Restricted prose:** `replace_prose_range` remains discoverable but the author grant set excludes Restricted write and the service independently denies the call even when a forged restricted grant is injected. There is no flag, entitlement, role, or handler that can execute it.
+- **Audit and privacy:** successful and denied/failed tool calls create `AGENT_TOOL_ACCESS` rows with identifiers, permission, outcome, duration, error code, bounded count, and truncation only. Suggestion creation/resolution writes atomic `SUGGESTION_CHANGE` events. Tool arguments/results, findings, evidence, actions, prose, Notes, Captures, author notes, and search terms are absent from runtime logs and audit metadata. Failure logs add only runtime class and stable error code to support content-free diagnosis.
+- **Evaluation:** ten deterministic fixtures cover continuity, POV knowledge, chronology, intent alignment, character state, usefulness, false-positive cost, causal path correctness, attribution correctness, and authorship preservation. False evidence, missed evidence, wrong findings, and any canonical mutation fail the harness.
+- **Writing-flow isolation:** the tool and Suggestion routes are supporting surfaces linked from Project Home. They do not participate in chapter loading, editor state, local journal, autosave, conflict recovery, snapshots, export, or billing. No AI/model package, credential, call, or entitlement exists.
+
+### 25.13 Exact console instrumentation ledger
+
+Each comment below is immediately adjacent to its call. Logger calls terminate at the guarded `console.log` transport documented in S0. Existing Note/Capture calls are included because S17 deliberately reuses them.
+
+| Step | Exact comment line | Exact call line | Content-safe evidence |
+| --- | --- | --- | --- |
+| `S17-TOOLS-001` | `domains/tools/application/service.ts:62` | logger line 63 | Tool discovery request/workspace/project IDs and definition count. |
+| `S17-TOOLS-002` | `domains/tools/application/service.ts:137` | logger line 138 | Tool name, permission, duration, result count/truncation; no arguments/output. |
+| `S17-TOOLS-003` | `domains/tools/application/service.ts:144` | logger line 145 | Failed/denied tool identity, duration, stable application/runtime codes. |
+| `S17-API-001` | `lib/tools/http.ts:27` | logger line 28 | Protocol method, IDs, project/workspace and HTTP status. |
+| `S17-API-002` | `lib/tools/http.ts:32` | logger line 33 | Protocol failure route/status/error class only. |
+| `S17-SUGGESTION-001` | `domains/suggestions/application/service.ts:13` | logger line 14 | Suggestion identity/category, evidence/action counts, confidence presence, replay flag. |
+| `S17-SUGGESTION-002` | `domains/suggestions/application/service.ts:20` | logger line 21 | Authorized Suggestion identity/status/version. |
+| `S17-SUGGESTION-003` | `domains/suggestions/application/service.ts:33` | logger line 34 | Bounded page filter presence, count and continuation presence. |
+| `S17-SUGGESTION-004` | `domains/suggestions/application/service.ts:41` | logger line 42 | Explicit decision status/identity/version and note-presence flag. |
+| `S17-SUGGESTION-API-001` | `lib/suggestions/http.ts:18` | logger line 19 | Route identity, request/workspace and success status. |
+| `S17-SUGGESTION-API-002` | `lib/suggestions/http.ts:23` | logger line 24 | Route/method/status/stable error class without request body. |
+| `S17-SUGGESTION-UI-001` | `components/suggestions/SuggestionInbox.tsx:27` | `clientTrace` line 28 | Project/Suggestion IDs, chosen status and resulting version. |
+| `S17-SUGGESTION-UI-002` | `app/app/projects/[id]/suggestions/page.tsx:14` | logger line 15 | Project/workspace identity and bounded inbox count/cursor presence. |
+| `S17-EVAL-001` | `domains/tools/evaluation/harness.ts:56` | logger line 57 | Fixture/category/pass counts only; no fixture finding/evidence. |
+| `S17-DB-001` | `scripts/verify-agent-tool-seam-db.ts:67` | literal `console.log` line 68 | Schema/count/bound/idempotency/status/security outcomes without authored content. |
+| `S17-DB-002` | `scripts/verify-agent-tool-seam-db.ts:81` | literal `console.log` line 82 | Removed S17 schema counts and preserved predecessor row counts. |
+| `S11-NOTE-002` reused | `domains/notes/application/service.ts:11` | logger line 12 | Note ID/version/tag/provenance/replay only. |
+| `S8-CAPTURE-001` reused | `domains/capture/application/service.ts:11` | logger line 12 | Capture operation/anchor IDs, selected length and replay only. |
+
+### 25.14 Validation, stress, migration, and browser evidence
+
+| Command/check | Result | Exact evidence |
+| --- | --- | --- |
+| `npm run db:validate`; `npm run db:generate`; `npm run typecheck`; `npm run lint` | Pass | Prisma schema/generated client, strict TypeScript, and ESLint passed with zero warnings. |
+| S17 focused Vitest command | Pass | 6 files, 16 tests: contract/static boundary, all dispatch paths, permission/confirmation, evaluator, component, accessibility, and stress. The jsdom canvas diagnostic is environmental and non-failing. |
+| `npm run test:coverage` | Pass | 96 files, 330 tests; 87.71% statements, 75.10% branches, 85.12% functions, 93.17% lines. |
+| `npm run test:stress` | Pass | 16 files, 31 tests. S17 executes 75,000 maximum-bound schema parses and 10,000 complete ten-category evaluations; full stress regression passes serially. |
+| Fresh PostgreSQL migration chain | Pass | `CREATE EXTENSION pg_trgm` followed by all 17 migrations on disposable Prisma Postgres. S17 migration applied without predecessor rewrite. |
+| `npm run db:verify:agent-seam` | Pass | 20 tools; 6 Suggestions spanning all 5 states; three-way concurrent Suggestion and Note retries each converge to one row; 9 tool audits; 8,000-character range; canonical mutation count 0; Note rows 2; Capture rows 1; restricted and outsider rejection true; table 1/indexes 5/checks 7. |
+| `npm run db:rollback:agent-seam` | Pass | S17 table/enum/Note column removed; 20 Workspace, 19 Project, 19 Chapter and 10 Note predecessor rows preserved. Shared audit enum labels deliberately retained. |
+| `npm run db:deploy` then S17 DB verify | Pass | Migration reapplied and the complete database proof passed again. |
+| S17 Playwright with explicit local auth/database environment | Pass | 2 applicable passes, 2 intentional cross-project skips: desktop protocol/approval/privacy/accessibility and mobile Cream responsive flow. Screenshots: `test-results/agent-suggestions-desktop-light.png`, `agent-suggestions-desktop-dark.png`, `agent-suggestions-mobile-cream.png`. |
+| axe in S17 browser flow and component suite | Pass after repair | Zero serious/critical violations. Cream muted text changed from `#766e62` (observed 4.39:1) to `#6f675c`, then passed. |
+| `npm run build` | Pass | Next 16.3 production build compiled and typechecked; `/tools`, Suggestion API, and Suggestion page routes are present. |
+| `npm audit --audit-level=high` | Pass at configured gate | Exit 0; no high/critical advisory. Twenty-seven moderate TipTap advisories require an out-of-range editor upgrade and remain explicitly below the workflow threshold. |
+| tracked secret-bearing filename scan | Pass | Zero tracked `.env`, private-key, certificate-bundle, or keystore findings; `.env.example` is the sole allowed environment template. |
+| `git diff --check` | Pass | No whitespace errors. CRLF conversion notices are repository/platform normalization warnings, not diff defects. |
+
+### 25.15 Failure, correction, and deviation ledger
+
+| Observation | Classification/root cause | Correction and rerun evidence |
+| --- | --- | --- |
+| Fresh migration initially could not create a trigram index | Environment prerequisite: disposable PostgreSQL lacked `pg_trgm`; a retry after the partially applied enum correctly failed dirty-state detection. | Recreated the disposable server, provisioned `pg_trgm` before migration, and passed all 17 migrations. No production migration was weakened. |
+| Raw outline/timeline SQL initially failed PostgreSQL overload/escape resolution | Implementation defect in numeric substring arguments and a timeline anchor query. | Added explicit integer casts and corrected the anchor CTE join; DB verify passed. |
+| Repeated E2E sign-in returned internal error | Test environment: the detached database server was not running, so auth provisioning received `ECONNREFUSED`; no S17 behavior had executed. | Restarted the exact disposable database, manually proved HTTP 303 sign-in, and reran against the explicit server. |
+| First meaningful desktop E2E expected server-only tool logs in browser console | Test assertion defect; client console cannot receive server structured logs. | Limited browser-log assertion to the client UI trace; service/logger tests and captured server output retain S17 tool trace proof. |
+| axe reported Cream contrast 4.39:1 | Product accessibility gap in the inherited muted token. | Darkened Cream muted text to `#6f675c`; desktop and mobile reruns passed serious/critical axe checks. |
+| Initial Capture E2E retry collided with a fixed prior client ID | Test fixture identity was not run-unique. | Replaced it with `crypto.randomUUID()`; E2E passed repeatedly. |
+| Side-by-side contract audit found input schemas but no declared output schemas and a JSON-only content block | S17 contract exactness gap against the planned input/output and MCP-compatible contract. | Added per-tool top-level output schemas and MCP text plus `structuredContent`; unit/E2E/build reruns passed. |
+| Concurrent repository proof exposed read-before-create uniqueness races | Production idempotency gap for simultaneous Suggestion/Note retries. | Added ownership-scoped P2002 winner recovery in both repositories; three concurrent callers converge to one row in the real database proof. |
+| Six fully audited concurrent calls exceeded the small disposable proxy's connection behavior with P2039 | Verification-environment capacity, not row convergence: Suggestion creation had succeeded, but parallel audit inserts exceeded the local proxy behavior. | Repository contention is tested directly with three simultaneous callers; audited service paths are independently proven. No production promise about arbitrary parallelism is inferred. |
+| Planned file spellings differed from final focused names | Permitted naming refinement; no responsibility changed. | Section 25.11 maps every planned responsibility. The five specifically promised documentation paths exist exactly. |
+
+`WorkPlan.md` required no correction: every found issue was an implementation, test, environment, or naming realization issue within its existing scope. No source contradiction or missing Phase 6 planning requirement was found.
+
+### 25.16 Side-by-side S17 conformance audit
+
+| Requirement | Actual evidence | Classification/action |
+| --- | --- | --- |
+| Stable bounded tools over services/read models; no agent direct DB path | Twenty definitions with input/output schemas; application/transport static prohibition test; infrastructure-only Prisma adapter. | Verified |
+| All required hierarchy, chronology, prose, search, entity, backlink, causal and Story Change reads | Fourteen Read definitions and all dispatcher branches tested; DB/E2E exercises real bounded prose and existing services remain wired. | Verified |
+| Suggestion/structure/causal proposals remain non-canonical | DB proof records 6 Suggestions and canonical milestone/relation mutation count 0; no proposal interpreter exists. | Verified |
+| Confirmed Note/Capture only; restricted prose disabled | Literal confirmation schemas, existing services, retry keys; forged Restricted-write grant still returns forbidden. | Verified |
+| Four permission levels, authorization, audit, stable IDs, rate limits, privacy | Permission tests; actor/workspace/project predicates; per-project route keys; 9 durable tool audits; privacy-safe trace assertions. | Verified |
+| Complete Suggestion fields and lifecycle | Schema/table/UI contain evidence, actions, optional confidence, five statuses, author note, versions, and resolution identities/times; all states pass PostgreSQL proof. | Verified |
+| Diagnose → explain → suggest → author decides → reevaluate | Evidence-linked finding/action contract and explicit four-way author decision; reevaluation is a later idempotent/new Suggestion, never an automatic mutation. | Verified |
+| Author-approved causality privileged; inferred missing links proposed | Existing active causal readers provide provenance/path evidence; proposal tool writes only a tentative proposed action in Suggestion. | Verified |
+| Ten evaluation categories; no model required | Deterministic harness/fixtures cover all ten and fail false/missed evidence or authorship mutation. No model dependency exists. | Verified |
+| Supporting system cannot block writing | Routes/UI are project-adjacent; no import into editor/autosave/recovery/export paths; full 330-test and production-build regression pass. | Verified |
+| Light/Dark/Cream, responsive, accessibility, privacy | Desktop Light/Dark and mobile Cream screenshots, no horizontal overflow, axe pass, content absent from console. | Verified |
+| Migration, rollback, ownership, concurrency, scale bounds | Fresh deploy, DB verifier, rollback/redeploy, outsider denial, retry convergence, 75,000 bound parses and full stress pass. | Verified |
+| Zero-AI Core and Core pricing boundary | No model/provider/AI entitlement; deterministic S0–S17 capabilities remain Core; Intelligence stays dormant. | Verified |
+
+### 25.17 Required anti-goal answers
+
+- Structure, scenes, world data, Capture filing, and causality remain optional; the seam is never on the writing-entry path.
+- Milestones remain cross-cutting references and never own chapters.
+- Hierarchy, chronology, reference, and causal facts remain separate; no relation is inferred as causality.
+- Suggestion decisions and causal/structure proposals do not edit prose or canonical story objects.
+- No tool result, cache, evaluation, or Suggestion becomes canonical truth for another domain.
+- Existing projection freshness rules remain unchanged; S17 reads canonical/application sources and exposes no stale result as authoritative mutation state.
+- Core quota/downgrade behavior is unchanged and cannot block reading or export.
+- Tool/audit/support failure is isolated from editor and local recovery paths.
+- Logs/audits/tests use content-free metadata; E2E explicitly checks private Note/Capture text is absent from browser traces.
+- Every list, text, graph, search, timeline, entity and backlink path has a hard cap; no tool exposes an unbounded whole-project prose load.
+- No AI/tool proposal becomes canonical without the author separately using its owning deterministic domain surface.
+- No later endpoint or capability exists beyond S17; no collaboration, publisher, regional, community, Story Intelligence, fine-tuning, or specialized-model feature was added.
+- `becauseItems[]`, `consequenceItems[]`, and the outline-aware Semantic Zoom coordinate remain untouched and covered by the full regression suite.
+- USD 15 Core/full deterministic V2 and dormant future USD 25 Intelligence remain unchanged.
+
+### 25.18 Local S17 gate decision
+
+Sub-gate 17 passes every local WorkPlan 10.1 requirement and applicable global acceptance item. There are no open S17 implementation gaps. The final cross-product launch audit remains locked until the S17 product checkpoint is committed, pushed, passes remote CI/Security, and a separate remote evidence reconciliation is recorded.
+
+### 25.19 S17 product Git checkpoint
+
+- **Baseline:** `78d7ca552513611ee853c026f343a9e3522a7085`, already identical locally/remotely and green in CI/Security.
+- **Scoped review:** S17 application, migration, tests, documentation, README and this ledger only; generated `.next`, coverage, Playwright reports/videos/screenshots, external PDF, and local database state remain untracked/ignored.
+- **Commit/push/remote proof:** pending the immediate product checkpoint below. Until the remote SHA and workflow jobs are recorded, S17 is not finally closed and the final launch audit may not begin.
 
 ## 5. Entry P0 — Planning baseline and source audit
 

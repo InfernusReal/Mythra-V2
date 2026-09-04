@@ -30,6 +30,8 @@ enum AuditEventKind {
   QUOTA_EVENT
   SECURITY_EVENT
   ADMIN_RECOVERY
+  AGENT_TOOL_ACCESS
+  SUGGESTION_CHANGE
 }
 
 enum BillingProvider {
@@ -427,6 +429,14 @@ enum AssetScanStatus {
   ERROR
 }
 
+enum SuggestionStatus {
+  OPEN
+  ACCEPTED
+  MODIFIED
+  REJECTED
+  INTENTIONAL
+}
+
 model User {
   id                  String                @id @default(uuid()) @db.Uuid
   email               String                @unique @db.VarChar(320)
@@ -457,50 +467,53 @@ model User {
   storedAssets        StoredAsset[]         @relation("StoredAssetCreator")
   operationalEvents   OperationalEvent[]    @relation("OperationalEventActor")
   recoveryActions     RecoveryAction[]      @relation("RecoveryActionActor")
+  suggestionsCreated  Suggestion[]          @relation("SuggestionCreator")
+  suggestionsResolved Suggestion[]          @relation("SuggestionResolver")
 
   @@index([deletionRequestedAt, purgeAfter])
 }
 
 model ExternalIdentity {
-  id              String   @id @default(uuid()) @db.Uuid
-  provider        String   @db.VarChar(64)
-  providerSubject String   @db.VarChar(255)
-  userId          String   @db.Uuid
-  createdAt       DateTime @default(now()) @db.Timestamptz(3)
-  lastSeenAt      DateTime @default(now()) @db.Timestamptz(3)
+  id              String    @id @default(uuid()) @db.Uuid
+  provider        String    @db.VarChar(64)
+  providerSubject String    @db.VarChar(255)
+  userId          String    @db.Uuid
+  createdAt       DateTime  @default(now()) @db.Timestamptz(3)
+  lastSeenAt      DateTime  @default(now()) @db.Timestamptz(3)
   emailVerifiedAt DateTime? @db.Timestamptz(3)
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerSubject])
   @@index([userId])
 }
 
 model Workspace {
-  id              String                @id @default(uuid()) @db.Uuid
-  ownerUserId     String                @db.Uuid
-  name            String                @db.VarChar(160)
-  planKey         String                @default("core") @db.VarChar(64)
-  regionKey       String?               @db.VarChar(64)
-  createdAt       DateTime              @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime              @updatedAt @db.Timestamptz(3)
-  archivedAt      DateTime?             @db.Timestamptz(3)
-  purgeAfter      DateTime?             @db.Timestamptz(3)
-  members         WorkspaceMember[]
-  preferences     UserPreference[]
-  auditEvents     AuditEvent[]
-  outboxEvents    OutboxEvent[]
-  projects        Project[]
-  writingSessions WritingSessionState[]
-  searchDocuments SearchDocument[]
-  savedVocabulary SavedVocabularyTerm[]
-  storedAssets    StoredAsset[]
-  billingCustomer BillingCustomer?
-  subscription    BillingSubscription?
-  billingWebhooks BillingWebhookEvent[]
-  usageEvents     UsageEvent[]
+  id                String                @id @default(uuid()) @db.Uuid
+  ownerUserId       String                @db.Uuid
+  name              String                @db.VarChar(160)
+  planKey           String                @default("core") @db.VarChar(64)
+  regionKey         String?               @db.VarChar(64)
+  createdAt         DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime              @updatedAt @db.Timestamptz(3)
+  archivedAt        DateTime?             @db.Timestamptz(3)
+  purgeAfter        DateTime?             @db.Timestamptz(3)
+  members           WorkspaceMember[]
+  preferences       UserPreference[]
+  auditEvents       AuditEvent[]
+  outboxEvents      OutboxEvent[]
+  projects          Project[]
+  writingSessions   WritingSessionState[]
+  searchDocuments   SearchDocument[]
+  savedVocabulary   SavedVocabularyTerm[]
+  storedAssets      StoredAsset[]
+  billingCustomer   BillingCustomer?
+  subscription      BillingSubscription?
+  billingWebhooks   BillingWebhookEvent[]
+  usageEvents       UsageEvent[]
   operationalEvents OperationalEvent[]
-  recoveryActions RecoveryAction[]
-  owner           User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  recoveryActions   RecoveryAction[]
+  suggestions       Suggestion[]
+  owner             User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([archivedAt, purgeAfter])
   @@index([ownerUserId])
@@ -565,6 +578,7 @@ model Project {
   portabilityArtifacts  PortabilityArtifact[]
   importSessions        ImportSession[]
   operationalEvents     OperationalEvent[]
+  suggestions           Suggestion[]
 
   @@index([workspaceId, status, updatedAt(sort: Desc)])
 }
@@ -1482,21 +1496,23 @@ model TimelineEventLink {
 }
 
 model Note {
-  id              String          @id @default(uuid()) @db.Uuid
-  projectId       String          @db.Uuid
-  createdById     String          @db.Uuid
-  title           String          @db.VarChar(200)
-  body            String
-  normalizedTags  Json            @default("[]")
-  sourceCaptureId String?         @db.Uuid
-  version         Int             @default(1)
-  createdAt       DateTime        @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime        @updatedAt @db.Timestamptz(3)
-  archivedAt      DateTime?       @db.Timestamptz(3)
-  project         Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
-  createdBy       User            @relation("NoteCreator", fields: [createdById], references: [id], onDelete: Restrict)
-  promotions      NotePromotion[]
+  id                 String          @id @default(uuid()) @db.Uuid
+  projectId          String          @db.Uuid
+  createdById        String          @db.Uuid
+  title              String          @db.VarChar(200)
+  body               String
+  normalizedTags     Json            @default("[]")
+  sourceCaptureId    String?         @db.Uuid
+  toolIdempotencyKey String?         @db.VarChar(80)
+  version            Int             @default(1)
+  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime        @updatedAt @db.Timestamptz(3)
+  archivedAt         DateTime?       @db.Timestamptz(3)
+  project            Project         @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy          User            @relation("NoteCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  promotions         NotePromotion[]
 
+  @@unique([projectId, createdById, toolIdempotencyKey])
   @@index([projectId, archivedAt, updatedAt(sort: Desc)])
   @@index([projectId, createdById, archivedAt])
   @@index([sourceCaptureId])
@@ -1631,17 +1647,50 @@ model AuditEvent {
   @@index([correlationId])
 }
 
+model Suggestion {
+  id                 String           @id @default(uuid()) @db.Uuid
+  workspaceId        String           @db.Uuid
+  projectId          String           @db.Uuid
+  createdByUserId    String           @db.Uuid
+  resolvedByUserId   String?          @db.Uuid
+  sourceAgent        String           @db.VarChar(120)
+  idempotencyKey     String           @db.VarChar(80)
+  category           String           @db.VarChar(80)
+  targetType         String?          @db.VarChar(80)
+  targetId           String?          @db.VarChar(128)
+  sourceBlockId      String?          @db.VarChar(128)
+  finding            String
+  evidenceReferences Json             @default("[]")
+  proposedActions    Json             @default("[]")
+  confidence         Float?
+  status             SuggestionStatus @default(OPEN)
+  authorNote         String?
+  version            Int              @default(1)
+  createdAt          DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime         @updatedAt @db.Timestamptz(3)
+  resolvedAt         DateTime?        @db.Timestamptz(3)
+  workspace          Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  project            Project          @relation(fields: [projectId], references: [id], onDelete: Restrict)
+  createdBy          User             @relation("SuggestionCreator", fields: [createdByUserId], references: [id], onDelete: Restrict)
+  resolvedBy         User?            @relation("SuggestionResolver", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, sourceAgent, idempotencyKey])
+  @@index([workspaceId, projectId, status, createdAt(sort: Desc)])
+  @@index([projectId, targetType, targetId, status])
+  @@index([projectId, sourceAgent, createdAt(sort: Desc)])
+}
+
 model OperationalEvent {
-  id             String   @id @default(uuid()) @db.Uuid
-  workspaceId    String   @db.Uuid
-  actorUserId    String?  @db.Uuid
-  projectId      String?  @db.Uuid
-  eventName      String   @db.VarChar(120)
-  routeKey       String?  @db.VarChar(120)
+  id             String    @id @default(uuid()) @db.Uuid
+  workspaceId    String    @db.Uuid
+  actorUserId    String?   @db.Uuid
+  projectId      String?   @db.Uuid
+  eventName      String    @db.VarChar(120)
+  routeKey       String?   @db.VarChar(120)
   durationMs     Int?
   numericValue   BigInt?
-  safeDimensions Json     @default("{}")
-  occurredAt     DateTime @default(now()) @db.Timestamptz(3)
+  safeDimensions Json      @default("{}")
+  occurredAt     DateTime  @default(now()) @db.Timestamptz(3)
   workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
   actor          User?     @relation("OperationalEventActor", fields: [actorUserId], references: [id], onDelete: SetNull)
   project        Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
@@ -1701,13 +1750,13 @@ model BillingSubscription {
   providerSubscriptionId String             @db.VarChar(160)
   planKey                BillingPlanKey
   status                 SubscriptionStatus @default(INCOMPLETE)
-  currentPeriodStart     DateTime?           @db.Timestamptz(3)
-  currentPeriodEnd       DateTime?           @db.Timestamptz(3)
+  currentPeriodStart     DateTime?          @db.Timestamptz(3)
+  currentPeriodEnd       DateTime?          @db.Timestamptz(3)
   cancelAtPeriodEnd      Boolean            @default(false)
-  graceEndsAt            DateTime?           @db.Timestamptz(3)
-  providerVersion        BigInt              @default(0)
-  createdAt              DateTime            @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime            @updatedAt @db.Timestamptz(3)
+  graceEndsAt            DateTime?          @db.Timestamptz(3)
+  providerVersion        BigInt             @default(0)
+  createdAt              DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime           @updatedAt @db.Timestamptz(3)
   workspace              Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
 
   @@unique([provider, providerSubscriptionId])

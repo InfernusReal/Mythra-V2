@@ -61,6 +61,8 @@
     "test:stress:billing-db": "tsx scripts/stress-billing-db.ts",
     "db:verify:operations": "tsx scripts/verify-launch-operations-db.ts verify",
     "db:rollback:operations": "tsx scripts/verify-launch-operations-db.ts rollback",
+    "db:verify:agent-seam": "tsx scripts/verify-agent-tool-seam-db.ts verify",
+    "db:rollback:agent-seam": "tsx scripts/verify-agent-tool-seam-db.ts rollback",
     "drill:backup-restore": "tsx scripts/drill-backup-restore.ts",
     "drill:release": "tsx scripts/verify-release-readiness.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
