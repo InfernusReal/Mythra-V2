@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { listCursorSchema } from "@/lib/contracts/list-cursor";
 import { activeStoryReferenceEndpointTypes } from "@/domains/references/domain/story-reference";
 
 export const researchKinds = ["NOTE", "URL", "EXCERPT", "CITATION", "FILE"] as const;
@@ -11,7 +12,7 @@ export const researchCreateSchema = z.discriminatedUnion("kind", [
   base.extend({ kind: z.literal("CITATION"), citation: z.string().min(1).max(10_000), body: z.string().max(100_000).optional() }).strict(),
   base.extend({ kind: z.literal("FILE"), assetId: z.string().uuid() }).strict(),
 ]);
-export const researchListSchema = z.object({ kind: z.enum(researchKinds).optional(), cursor: z.string().datetime().optional(), limit: z.coerce.number().int().min(1).max(100).default(50) }).strict();
+export const researchListSchema = z.object({ kind: z.enum(researchKinds).optional(), cursor: listCursorSchema.optional(), limit: z.coerce.number().int().min(1).max(100).default(50) }).strict();
 export const researchLinkSchema = z.object({ researchItemId: z.string().uuid(), targetType: z.enum(activeStoryReferenceEndpointTypes), targetId: z.string().uuid(), label: z.string().trim().max(160).optional() }).strict();
 
 export const allowedResearchMimeTypes = ["application/pdf", "text/plain", "text/markdown", "image/jpeg", "image/png"] as const;

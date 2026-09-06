@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 
 interface MutationEnvelope<T> {
   data?: T;
@@ -13,6 +14,8 @@ export function ProjectCreator() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const titleRef = useRef<HTMLInputElement>(null);
+  useCommandHandlers([{ id: "project.create", available: () => !busy, execute: () => { titleRef.current?.focus(); } }]);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -49,7 +52,7 @@ export function ProjectCreator() {
     <form className="project-create" onSubmit={submit}>
       <label>
         Project title
-        <input required maxLength={240} value={title} onChange={(event) => setTitle(event.target.value)} autoFocus />
+        <input ref={titleRef} required maxLength={240} value={title} onChange={(event) => setTitle(event.target.value)} autoFocus />
       </label>
       {error ? <p className="form-error" role="alert">{error}</p> : null}
       <button className="primary-action" disabled={busy}>{busy ? "Creating..." : "Write first chapter"}</button>

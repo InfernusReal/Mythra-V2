@@ -14,6 +14,7 @@ export interface SearchEditorResultDetail {
   ok: boolean;
   message: string;
   projectStructuralVersion?: number;
+  sourceKey?: string;
 }
 
 export function dispatchSearchEditorAction(detail: SearchEditorActionDetail): void {

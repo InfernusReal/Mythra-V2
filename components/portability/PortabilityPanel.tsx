@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useNetworkStatus } from "@/lib/offline/use-network-status";
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 
 interface StatusModel { snapshots: Array<{ id: string; status: string; structuralVersion: number; sizeBytes: string | null; requestedAt: string; verifiedAt: string | null; retentionUntil: string }>; artifacts: Array<{ id: string; scope: string; format: string; status: string; sizeBytes: string | null; expiresAt: string | null }>; imports: Array<{ id: string; format: string; status: string; chapterCount: number }> }
 interface PreviewModel { importId: string; preview: { chapters: Array<{ title: string; bodyText: string; wordCount: number }>; warningCodes: string[] } }
@@ -33,6 +34,11 @@ export function PortabilityPanel({ projectId, online = true }: { projectId: stri
   const confirmImport = async () => { if (!preview) return; const result = await mutate("import-confirm", `/api/v2/projects/${projectId}/portability/imports/${preview.importId}/confirm`); if (result) setPreview(null); };
 
   const disabled = !isOnline || busy !== null;
+  useCommandHandlers([
+    { id: "portability.snapshot", projectId, available: () => !disabled, execute: async () => Boolean(await createSnapshot()) },
+    { id: "portability.manuscript", projectId, available: () => !disabled, execute: async () => Boolean(await createExport("MANUSCRIPT", "MARKDOWN")) },
+    { id: "portability.archive", projectId, available: () => !disabled, execute: async () => Boolean(await createExport("FULL_PROJECT", "MYTHRA_JSON")) },
+  ]);
   return <section className="portability-panel" aria-labelledby="portability-title">
     <header><div><p className="eyebrow">History and portability</p><h2 id="portability-title">Snapshots, restore, import, and export</h2></div><span role="status" aria-live="polite">{!isOnline ? "Unavailable offline" : unavailable ? "Unavailable; writing unaffected" : busy ? "Working" : "Ready"}</span></header>
     <div className="portability-actions"><button type="button" disabled={disabled} onClick={() => void createSnapshot()}>Create verified snapshot</button><button type="button" disabled={disabled} onClick={() => void createExport("MANUSCRIPT", "MARKDOWN")}>Export manuscript</button><button type="button" disabled={disabled} onClick={() => void createExport("FULL_PROJECT", "MYTHRA_JSON")}>Export full project archive</button><label>Preview import<input type="file" disabled={disabled} accept=".txt,.md,.markdown,.docx,text/plain,text/markdown,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(event) => { const file = event.currentTarget.files?.[0]; if (!file) return; const extension = file.name.toLowerCase().split(".").pop(); void upload(file, extension === "docx" ? "DOCX" : extension === "md" || extension === "markdown" ? "MARKDOWN" : "TEXT"); }} /></label></div>

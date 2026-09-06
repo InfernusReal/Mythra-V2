@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { listCursorSchema } from "@/lib/contracts/list-cursor";
 import { causalEndpointTypes, causalRelationTypes } from "@/domains/causality/domain/types";
 
 export const captureLifecycles = ["UNPROCESSED", "FILED", "CONVERTED", "DEFERRED", "DISMISSED"] as const;
@@ -14,7 +15,7 @@ export const captureCreateSchema = z.object({
   entityContext: z.array(z.string().uuid()).max(50).default([]), capturedAt: z.string().datetime()
 }).strict().superRefine((value, context) => { if ((value.selectionAnchor === undefined) !== (value.selectionHead === undefined) || (value.selectionAnchor !== undefined && value.selectionHead! < value.selectionAnchor)) context.addIssue({ code: "custom", message: "Capture selection coordinates must form a complete non-negative range." }); });
 
-export const captureListSchema = z.object({ lifecycle: z.enum(captureLifecycles).optional(), cursor: z.string().datetime().optional(), limit: z.coerce.number().int().min(1).max(100).default(50), dueOnly: z.coerce.boolean().default(false) }).strict();
+export const captureListSchema = z.object({ lifecycle: z.enum(captureLifecycles).optional(), cursor: listCursorSchema.optional(), limit: z.coerce.number().int().min(1).max(100).default(50), dueOnly: z.coerce.boolean().default(false) }).strict();
 export const captureLifecycleSchema = z.object({ captureIds: z.array(z.string().uuid()).min(1).max(100), action: z.enum(["FILE", "DEFER", "DISMISS", "RESTORE"]), deferredUntil: z.string().datetime().optional() }).strict().superRefine((value, context) => { if (value.action === "DEFER" && !value.deferredUntil) context.addIssue({ code: "custom", message: "Deferral requires a due time." }); });
 export const captureAttachmentSchema = z.object({ targetType: z.enum(["CHAPTER", "CHAPTER_OUTLINE"]), targetId: z.string().uuid(), targetBlockId: z.string().max(128).default("") }).strict();
 

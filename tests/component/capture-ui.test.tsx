@@ -18,6 +18,39 @@ beforeEach(async () => {
 });
 
 describe("Capture UI", () => {
+  it("keeps private URL query values out of shortcut telemetry without changing the route", () => {
+    const original = window.location.href;
+    const privateQuery = "s18-private-url-query-canary";
+    const url = new URL(original); url.searchParams.set("query", privateQuery);
+    window.history.replaceState(null, "", url);
+    vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    try {
+      render(<QuickCaptureOverlay editor={null} projectId={id(1)} />);
+      fireEvent.keyDown(window, { code: "Space", ctrlKey: true, shiftKey: true });
+      expect(screen.getByRole("dialog", { name: "Capture" })).toBeVisible();
+      expect(console.log).toHaveBeenCalledWith(expect.stringContaining('"step":"S8-UI-001"'));
+      expect(JSON.stringify(vi.mocked(console.log).mock.calls)).not.toContain(privateQuery);
+      expect(window.location.href).toBe(url.href);
+      fireEvent.keyDown(window, { key: "Escape" });
+    } finally { window.history.replaceState(null, "", original); }
+  });
+  it("does not triage while typing, composing, or using modified shortcuts", async () => {
+    const fetcher = vi.spyOn(globalThis, "fetch").mockImplementation(async () => response({ updated: 1 }));
+    const { container } = render(<CaptureInbox projectId={id(1)} initialCaptures={[item()]} initialStructuralVersion={1} />);
+    fireEvent.click(screen.getByRole("checkbox"));
+    const input = screen.getByRole("textbox", { name: "Attach to chapter ID" });
+    for (const key of ["f", "d", "x", "r"]) fireEvent.keyDown(input, { key });
+    const inbox = container.querySelector(".capture-inbox")!;
+    fireEvent.keyDown(inbox, { key: "x", isComposing: true });
+    fireEvent.keyDown(inbox, { key: "x", keyCode: 229 });
+    for (const modifier of ["ctrlKey", "metaKey", "altKey", "shiftKey"]) fireEvent.keyDown(inbox, { key: "x", [modifier]: true });
+    await Promise.resolve();
+    expect(fetcher).not.toHaveBeenCalled();
+    expect(screen.getByText(/UNPROCESSED/)).toBeVisible();
+    fireEvent.keyDown(screen.getByRole("checkbox"), { key: "f" });
+    expect(await screen.findByText(/FILED/)).toBeVisible();
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
   it("opens globally, saves raw-first, and restores focus before optional conversion", async () => {
     const focus = vi.fn(); vi.spyOn(window, "scrollTo").mockImplementation(() => undefined); vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(response({ capture: { id: id(4) }, projectStructuralVersion: 1 })).mockResolvedValueOnce(response({ id: id(5) }));
     render(<QuickCaptureOverlay editor={editor(focus)} projectId={id(1)} chapterId={id(2)} />); fireEvent.keyDown(window, { code: "Space", ctrlKey: true, shiftKey: true }); fireEvent.change(screen.getByRole("textbox", { name: "Thought" }), { target: { value: "Raw private thought" } }); fireEvent.change(screen.getByRole("combobox", { name: "Optional quick target" }), { target: { value: "MILESTONE" } }); fireEvent.click(screen.getByRole("button", { name: "Save Capture" }));

@@ -17,7 +17,16 @@ export class OidcAuthAdapter implements ExternalAuthAdapter {
 
   async verifyCredential(credential: string): Promise<ExternalPrincipal> {
     try {
-      const { payload } = await jwtVerify(credential, this.keys, { issuer: this.issuer, audience: this.audience });
+      const { payload } = await jwtVerify(credential, this.keys, {
+        issuer: this.issuer,
+        audience: this.audience,
+        requiredClaims: ["iss", "aud", "sub", "exp", "iat"]
+      });
+      const audiences = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
+      if (audiences.some((audience) => audience !== this.audience)
+        || (payload.azp !== undefined && payload.azp !== this.audience)
+        || payload.iat! > Math.floor(Date.now() / 1000)
+        || payload.exp! <= payload.iat!) throw errors.unauthenticated();
       return externalPrincipalSchema.parse({
         provider: this.provider,
         subject: payload.sub,

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
 import type { UniverseEntitySummary } from "@/domains/universe/domain/types";
 import { VirtualList } from "@/components/performance/VirtualList";
@@ -44,6 +45,8 @@ export function UniverseWorkspace({
   );
   const [typeId, setTypeId] = useState(initialCatalog.entityTypes[0]?.id ?? "");
   const [name, setName] = useState("");
+  const nameRef = useRef<HTMLInputElement>(null);
+  useCommandHandlers([{ id: "entity.create", projectId, execute: () => { nameRef.current?.focus(); } }]);
   const [summary, setSummary] = useState("");
   const [status, setStatus] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
@@ -181,6 +184,7 @@ export function UniverseWorkspace({
         <label>
           Name
           <input
+            ref={nameRef}
             required
             maxLength={240}
             value={name}

@@ -21,7 +21,7 @@ export interface DurabilityController {
   setCompareOpen(value: boolean): void;
   dismissRecovery(): void;
   onDocumentChange(document: ChapterDocument): void;
-  checkpoint(label?: string): Promise<void>;
+  checkpoint(label?: string): Promise<boolean | void>;
   resolveConflict(resolution: ConflictResolution): Promise<void>;
 }
 
@@ -53,7 +53,7 @@ export function useDurableChapter(input: {
   const journalRef = useRef(new DebouncedDraftJournal());
   const applyDocumentRef = useRef(input.applyDocument);
   const conflictRef = useRef<DraftConflictReadModel | null>(null);
-  const performSaveRef = useRef<(label?: string) => Promise<void>>(async () => undefined);
+  const performSaveRef = useRef<(label?: string) => Promise<boolean | void>>(async () => undefined);
   useEffect(() => {
     applyDocumentRef.current = input.applyDocument;
   }, [input.applyDocument]);
@@ -129,6 +129,7 @@ export function useDurableChapter(input: {
       // Console trace S2-CLIENT-002: server acknowledgement applied; no manuscript content is emitted.
       console.log(JSON.stringify({ level: "info", step: "S2-CLIENT-002", event: checkpointLabel === undefined ? "autosave.acknowledged" : "checkpoint.acknowledged", chapterId, version: envelope.data.version, changedDuringSave }));
       if (checkpointLabel !== undefined) dirtySinceCheckpointRef.current = false;
+      return true;
     } catch {
       setState((current) => reduceSaveState(current, { type: "NETWORK_FAILED" }));
       journalRef.current.schedule(journalRecord("OFFLINE_DIRTY", generationRef.current === generation ? clientSaveId : null));
@@ -212,7 +213,7 @@ export function useDurableChapter(input: {
   }, [journalRecord]);
 
   const checkpoint = useCallback(async (label = "Manual checkpoint") => {
-    await performSave(label);
+    return performSave(label);
   }, [performSave]);
 
   const resolveConflict = useCallback(async (resolution: ConflictResolution) => {

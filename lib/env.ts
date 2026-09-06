@@ -59,6 +59,9 @@ export function parseEnv(source: NodeJS.ProcessEnv): AppEnv {
   if (env.AUTH_MODE === "oidc" && (!env.AUTH_ISSUER || !env.AUTH_AUDIENCE || !env.AUTH_JWKS_URL)) {
     throw new Error("OIDC authentication requires issuer, audience, and JWKS URL.");
   }
+  if (deployed && env.AUTH_MODE === "oidc" && [env.AUTH_ISSUER!, env.AUTH_JWKS_URL!].some((value) => new URL(value).protocol !== "https:")) {
+    throw new Error("Deployed OIDC issuer and JWKS URL must use HTTPS.");
+  }
   if (env.BILLING_CORE_AMOUNT_USD_CENTS !== 1500 || env.BILLING_INTELLIGENCE_AMOUNT_USD_CENTS !== 2500) {
     throw new Error("The active pricing decision requires Core USD 15 and dormant Intelligence USD 25.");
   }

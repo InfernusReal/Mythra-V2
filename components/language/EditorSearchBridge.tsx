@@ -77,26 +77,27 @@ export function EditorSearchBridge({ editor, projectId, chapterId, hardStop }: {
       const detail = (event as CustomEvent<SearchEditorActionDetail>).detail;
       const result = detail.result;
       if (!result) return;
+      const notifyResult = (outcome: SearchEditorResultDetail) => notify({ ...outcome, sourceKey: result.sourceKey });
       if (detail.action === "JUMP_TO_BLOCK" && result.blockId) {
         originRef.current = { from: editor.state.selection.from, to: editor.state.selection.to, scrollY: window.scrollY };
         const position = blockPosition(editor, result.blockId);
-        if (position === null) { notify({ action: detail.action, ok: false, message: "The matching block is no longer available." }); return; }
+        if (position === null) { notifyResult({ action: detail.action, ok: false, message: "The matching block is no longer available." }); return; }
         editor.commands.setTextSelection(position); editor.commands.focus();
         document.querySelector<HTMLElement>(`[data-block-id="${result.blockId}"]`)?.scrollIntoView({ block: "center" });
         setReturnAvailable(true);
         // Console trace S10-UI-003: block jump stores/restores coordinates without logging block text.
         console.log(JSON.stringify({ level: "info", step: "S10-UI-003", event: "search.block_jumped", projectId, chapterId, blockId: result.blockId, sourceKey: result.sourceKey }));
-        notify({ action: detail.action, ok: true, message: "Moved to the matching block. Return to origin is available." });
+        notifyResult({ action: detail.action, ok: true, message: "Moved to the matching block. Return to origin is available." });
         return;
       }
       if (detail.action !== "INSERT_REFERENCE" && detail.action !== "ATTACH_REFERENCE") return;
       const targetType = typeof result.metadata.referenceTargetType === "string" ? result.metadata.referenceTargetType : null;
       const targetId = typeof result.metadata.referenceTargetId === "string" ? result.metadata.referenceTargetId : null;
-      if (!targetType || !targetId) { notify({ action: detail.action, ok: false, message: "This result cannot be referenced." }); return; }
+      if (!targetType || !targetId) { notifyResult({ action: detail.action, ok: false, message: "This result cannot be referenced." }); return; }
       const selected = editorSelection(editor);
       const sourceBlockId = selected?.blockId ?? (() => { const resolved = editor.state.selection.$from; for (let depth = resolved.depth; depth >= 0; depth -= 1) { const value = resolved.node(depth).attrs.blockId; if (typeof value === "string" && value) return value; } return null; })();
       const insert = detail.action === "INSERT_REFERENCE";
-      if (insert && !sourceBlockId) { notify({ action: detail.action, ok: false, message: "Place the cursor in a manuscript block first." }); return; }
+      if (insert && !sourceBlockId) { notifyResult({ action: detail.action, ok: false, message: "Place the cursor in a manuscript block first." }); return; }
       void (async () => {
         const response = await fetch(`/api/v2/projects/${projectId}/structure/references`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ expectedStructuralVersion: detail.projectStructuralVersion, sourceType: insert ? "MANUSCRIPT_BLOCK" : "CHAPTER", sourceId: chapterId, ...(insert && sourceBlockId ? { sourceBlockId } : {}), targetType, targetId, ...(typeof result.metadata.referenceTargetBlockId === "string" ? { targetBlockId: result.metadata.referenceTargetBlockId } : {}), relationshipKey: insert ? "mentions" : "chapter_context", provenanceType: insert ? "CHAPTER_PROSE" : "DIRECT" }) });
         const envelope = await response.json() as Envelope<{ object: { id: string }; projectStructuralVersion: number }>;
@@ -107,8 +108,8 @@ export function EditorSearchBridge({ editor, projectId, chapterId, hardStop }: {
         }
         // Console trace S10-UI-002: explicit reference action records identities/versions/coordinate presence only and excludes prose/result text.
         console.log(JSON.stringify({ level: "info", step: "S10-UI-002", event: "search.reference_created", projectId, chapterId, action: detail.action, referenceId: envelope.data.object.id, targetType, targetId, hasBlock: Boolean(sourceBlockId), structuralVersion: envelope.data.projectStructuralVersion }));
-        notify({ action: detail.action, ok: true, message: insert ? "Reference inserted without changing visible selected text." : "Result attached to chapter context.", projectStructuralVersion: envelope.data.projectStructuralVersion });
-      })().catch((caught) => notify({ action: detail.action, ok: false, message: caught instanceof Error ? caught.message : "Reference could not be created." }));
+        notifyResult({ action: detail.action, ok: true, message: insert ? "Reference inserted without changing visible selected text." : "Result attached to chapter context.", projectStructuralVersion: envelope.data.projectStructuralVersion });
+      })().catch((caught) => notifyResult({ action: detail.action, ok: false, message: caught instanceof Error ? caught.message : "Reference could not be created." }));
     };
     window.addEventListener(SEARCH_EDITOR_ACTION, onAction);
     return () => window.removeEventListener(SEARCH_EDITOR_ACTION, onAction);

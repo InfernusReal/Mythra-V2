@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 
 export function StartFirstChapter({ projectId }: { projectId: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const createRef = useRef<HTMLButtonElement>(null);
+  useCommandHandlers([{ id: "chapter.create", projectId, available: () => !busy, execute: () => { createRef.current?.focus(); } }]);
   const start = async () => {
     setBusy(true);
     setError(null);
@@ -22,5 +25,5 @@ export function StartFirstChapter({ projectId }: { projectId: string }) {
       setBusy(false);
     }
   };
-  return <div>{error ? <p className="form-error" role="alert">{error}</p> : null}<button className="primary-action" disabled={busy} onClick={() => void start()}>{busy ? "Opening..." : "Write first chapter"}</button></div>;
+  return <div>{error ? <p className="form-error" role="alert">{error}</p> : null}<button ref={createRef} className="primary-action" disabled={busy} onClick={() => void start()}>{busy ? "Opening..." : "Write first chapter"}</button></div>;
 }

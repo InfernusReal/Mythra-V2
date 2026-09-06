@@ -1,5 +1,9 @@
 "use client";
 
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
+import { useRef } from "react";
+import { useModalKeyboard } from "@/lib/editor/use-modal-keyboard";
+
 import type { Editor } from "@tiptap/core";
 import { useCallback, useEffect, useState } from "react";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
@@ -79,6 +83,7 @@ export function EntityQuickCreate({
     setSelection(selected);
     setOpen(true);
   }, [capture, editor]);
+  useCommandHandlers([{ id: "entity.selection", projectId, chapterId, available: () => Boolean(editor && !editor.isDestroyed && selectionOf(editor) && !open), execute: begin }]);
   useEffect(() => {
     const action = (event: Event) => {
       if ((event as CustomEvent<MobileWritingAction>).detail !== "entity") return;
@@ -95,6 +100,8 @@ export function EntityQuickCreate({
     setNote("");
     requestAnimationFrame(() => restore());
   };
+  const dialogRef = useRef<HTMLElement>(null);
+  useModalKeyboard(dialogRef, open, close);
   const create = async () => {
     if (!editor || !selection || !typeId || !catalog) return;
     try {
@@ -173,6 +180,7 @@ export function EntityQuickCreate({
       {open ? (
         <div className="peek-backdrop" role="presentation">
           <section
+            ref={dialogRef}
             className="peek-overlay"
             role="dialog"
             aria-modal="true"

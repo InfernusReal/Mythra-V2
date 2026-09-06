@@ -154,6 +154,7 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .empty-shell p:not(.eyebrow), .sign-in-card p { color: var(--text-muted); line-height: 1.65; }
 .eyebrow { margin: 0; color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
 .dialog-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: start center; padding-top: 12vh; background: rgb(0 0 0 / 0.38); }
+.command-palette-backdrop { z-index: 110; }
 .command-dialog { width: min(92vw, 560px); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-raised); box-shadow: 0 18px 60px rgb(0 0 0 / 0.22); }
 .command-dialog header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
 .command-dialog h2 { margin: 0; font-size: 1rem; }

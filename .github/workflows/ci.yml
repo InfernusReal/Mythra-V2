@@ -9,6 +9,54 @@ permissions:
   contents: read
 
 jobs:
+  s18-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: mythra_test
+          POSTGRES_PASSWORD: ci-only-database-password
+          POSTGRES_DB: mythra_s18
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mythra_test -d mythra_s18"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://mythra_test:ci-only-database-password@127.0.0.1:5432/mythra_s18?sslmode=disable
+      AUTH_MODE: development
+      SESSION_SECRET: ci-only-s18-session-secret-at-least-32-characters
+      APP_ORIGIN: http://127.0.0.1:3210
+      MYTHRA_ENV: local
+      DEV_AUTH_SUBJECT: s18-ci-author
+      DEV_AUTH_EMAIL: s18-ci@example.test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.15.0
+          cache: npm
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run db:deploy
+      - run: npx tsx scripts/verify-s18-archive-db.ts
+      - run: npx tsx scripts/verify-s18-pagination-db.ts
+      - run: npx tsx scripts/verify-s18-oidc-db.ts
+      - run: npm run db:verify:portability
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/e2e/command-palette.spec.ts tests/e2e/capture.spec.ts tests/e2e/search-language.spec.ts tests/e2e/continuation.spec.ts tests/e2e/context-field.spec.ts tests/e2e/structure-core.spec.ts tests/e2e/universe.spec.ts tests/e2e/timeline-research.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s18-browser-evidence
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20

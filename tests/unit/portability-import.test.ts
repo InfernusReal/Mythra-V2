@@ -25,4 +25,17 @@ describe("portability import", () => {
   it("maps V1 facts without inventing outlines, scenes, or causal facts", () => {
     const mapped = mapV1Seam({ chapters: [{ id: "chapter" }], worldNodes: [{ id: "node" }] }); expect(mapped.storyEntities[0]).toMatchObject({ id: "node", legacySourceType: "WORLD_NODE" }); expect(mapped.optionalScenes).toEqual([]); expect(mapped.causalRelations).toEqual([]); expect(mapped.inventedOutlineCount).toBe(0); expect(mapped.inventedCausalCount).toBe(0);
   });
+
+  it("converts only explicit legacy chapter ownership into deduplicated relevance links without mutating facts", () => {
+    const chapter = Object.freeze({ id: "chapter", milestoneId: "milestone", bodyText: "Private legacy prose", volumeId: "volume" });
+    const scene = { id: "optional-scene", chapterId: chapter.id };
+    const relation = { id: "explicit-cause" };
+    const mapped = mapV1Seam({ chapters: [chapter, chapter, { id: "free", milestoneId: null }], scenes: [scene], causalRelations: [relation] });
+    expect(mapped.chapters[0]).toEqual({ id: "chapter", bodyText: chapter.bodyText, volumeId: "volume" });
+    expect(mapped.chapters[2]).toEqual({ id: "free" });
+    expect(mapped.chapterMilestoneLinks).toEqual([{ chapterId: "chapter", milestoneId: "milestone", role: "CUSTOM", customRole: "Legacy ownership", weight: 0 }]);
+    expect(chapter.milestoneId).toBe("milestone"); expect(mapped.optionalScenes).toEqual([scene]); expect(mapped.causalRelations).toEqual([relation]);
+    expect(() => mapV1Seam({ chapters: [{ milestoneId: "orphan" }] })).toThrow("V1_CHAPTER_MILESTONE_IDENTITY_INVALID");
+    expect(mapV1Seam({}).chapterMilestoneLinks).toEqual([]);
+  });
 });

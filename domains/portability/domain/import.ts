@@ -45,6 +45,16 @@ export function importedChapterDocument(bodyText: string): ChapterDocument {
 export interface V1Archive { chapters?: JsonRecord[]; worldNodes?: JsonRecord[]; scenes?: JsonRecord[]; causalRelations?: JsonRecord[] }
 type JsonRecord = Record<string, unknown>;
 
-export function mapV1Seam(input: V1Archive): { chapters: JsonRecord[]; storyEntities: JsonRecord[]; optionalScenes: JsonRecord[]; causalRelations: JsonRecord[]; inventedOutlineCount: 0; inventedCausalCount: 0 } {
-  return { chapters: input.chapters ?? [], storyEntities: (input.worldNodes ?? []).map((node) => ({ ...node, legacySourceType: "WORLD_NODE" })), optionalScenes: input.scenes ?? [], causalRelations: input.causalRelations ?? [], inventedOutlineCount: 0, inventedCausalCount: 0 };
+export function mapV1Seam(input: V1Archive): { chapters: JsonRecord[]; chapterMilestoneLinks: JsonRecord[]; storyEntities: JsonRecord[]; optionalScenes: JsonRecord[]; causalRelations: JsonRecord[]; inventedOutlineCount: 0; inventedCausalCount: 0 } {
+  const links = new Map<string, JsonRecord>();
+  const chapters = (input.chapters ?? []).map((source) => {
+    const { milestoneId, ...chapter } = source;
+    if (milestoneId !== undefined && milestoneId !== null) {
+      if (typeof milestoneId !== "string" || !milestoneId || typeof chapter.id !== "string" || !chapter.id) throw new Error("V1_CHAPTER_MILESTONE_IDENTITY_INVALID");
+      // Preserve the explicit legacy association without inferring a narrative role or progress.
+      links.set(JSON.stringify([chapter.id, milestoneId]), { chapterId: chapter.id, milestoneId, role: "CUSTOM", customRole: "Legacy ownership", weight: 0 });
+    }
+    return chapter;
+  });
+  return { chapters, chapterMilestoneLinks: [...links.values()], storyEntities: (input.worldNodes ?? []).map((node) => ({ ...node, legacySourceType: "WORLD_NODE" })), optionalScenes: input.scenes ?? [], causalRelations: input.causalRelations ?? [], inventedOutlineCount: 0, inventedCausalCount: 0 };
 }

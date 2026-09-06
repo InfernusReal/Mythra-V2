@@ -205,6 +205,8 @@ export function CaptureInbox({
       className="capture-inbox"
       aria-labelledby="capture-inbox-title"
       onKeyDown={(event) => {
+        if (event.nativeEvent.isComposing || event.keyCode === 229 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+        if (event.target instanceof Element && event.target.closest('input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
         if (event.key === "f") void lifecycle("FILE");
         if (event.key === "d") void lifecycle("DEFER");
         if (event.key === "x") void lifecycle("DISMISS");

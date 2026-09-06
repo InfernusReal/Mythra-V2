@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useEditor } from "@tiptap/react";
 import { Extension, Mark, mergeAttributes } from "@tiptap/core";
-import { Plugin } from "@tiptap/pm/state";
+import { Plugin, TextSelection } from "@tiptap/pm/state";
 import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import StarterKit from "@tiptap/starter-kit";
@@ -29,6 +29,9 @@ import { LiveModelFreshness } from "@/components/live-model/LiveModelFreshness";
 import { MobileWritingActions } from "./MobileWritingActions";
 import { recordClientOperationalEvent } from "@/lib/observability/client-operations";
 import { useWritingSessionAnalytics } from "@/lib/observability/writing-session";
+import { matchesCommandShortcut } from "@/lib/commands/registry";
+import { notifyCommandContextChanged, registerWritingFocus } from "@/lib/commands/runtime";
+import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 
 const BlockParagraph = Paragraph.extend({
   addAttributes() {
@@ -185,8 +188,24 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
   useWritingContinuation({ editor, durableReady: durability.ready, projectId: model.project.id, chapterId: model.chapter.id, initialSession });
 
   useEffect(() => {
+    if (!editor) return;
+    const unregister = registerWritingFocus({ projectId: model.project.id, chapterId: model.chapter.id, capture: () => {
+      const { anchor, head } = editor.state.selection;
+      return () => {
+        if (editor.isDestroyed) return;
+        const size = editor.state.doc.content.size;
+        editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, Math.min(anchor, size), Math.min(head, size))));
+        editor.view.focus();
+      };
+    } });
+    editor.on("selectionUpdate", notifyCommandContextChanged);
+    return () => { unregister(); editor.off("selectionUpdate", notifyCommandContextChanged); };
+  }, [editor, model.chapter.id, model.project.id]);
+
+  useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "f") {
+      if (event.isComposing || event.keyCode === 229 || document.querySelector('[aria-modal="true"]')) return;
+      if (matchesCommandShortcut(event, "editor.focus")) {
         event.preventDefault();
         setFocusMode((value) => {
           const next = !value;
@@ -195,7 +214,7 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
           return next;
         });
       }
-      if ((event.metaKey || event.ctrlKey) && !event.shiftKey && event.key.toLowerCase() === "s") {
+      if (matchesCommandShortcut(event, "editor.checkpoint")) {
         event.preventDefault();
         void durabilityRef.current?.checkpoint();
       }
@@ -218,6 +237,11 @@ export function ChapterEditor({ model, initialSession }: { model: ChapterEditorR
       return next;
     });
   };
+  useCommandHandlers([
+    { id: "editor.focus", projectId: model.project.id, chapterId: model.chapter.id, available: () => Boolean(editor && !editor.isDestroyed), execute: changeFocusMode },
+    { id: "editor.checkpoint", projectId: model.project.id, chapterId: model.chapter.id, available: () => Boolean(editor && durability.ready && !durability.conflict && navigator.onLine), execute: async () => await durabilityRef.current?.checkpoint() === true },
+    { id: "writing.continue", projectId: model.project.id, chapterId: model.chapter.id, available: () => Boolean(editor && !editor.isDestroyed), execute: () => { editor?.view.focus(); } },
+  ]);
   const delta = wordTargetDelta(wordCount, model.chapter.targetWords);
 
   return (
