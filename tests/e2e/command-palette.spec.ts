@@ -36,6 +36,9 @@ test.describe("S18 command compliance", () => {
     const before = await writingPosition(page);
     await page.keyboard.press("Control+K");
     const palette = page.getByRole("dialog", { name: "Command palette" });
+    const theme = palette.getByRole("combobox", { name: "Theme" });
+    await theme.focus(); await page.keyboard.press("ArrowDown"); await expect(theme).toBeFocused();
+    await theme.selectOption("dark");
     await expect(palette.getByRole("button", { name: /Save checkpoint/ })).toBeVisible();
     await expect(palette.getByRole("button", { name: "Create Entity from Selection" })).toBeVisible();
     await expect(palette.getByRole("button", { name: /Peek chapter outline/ })).toHaveCount(0);
@@ -80,6 +83,12 @@ test.describe("S18 command compliance", () => {
     await expect(palette.getByRole("button", { name: /Toggle Focus/ })).toHaveCount(0);
     await palette.getByRole("button", { name: "Continue Writing", exact: true }).click();
     await expect(page).toHaveURL(chapterUrl); await expect(editor).toHaveText("Synthetic checkpoint content");
+    await page.keyboard.press("Control+K"); await palette.getByRole("link", { name: "Open Structure", exact: true }).click();
+    await page.waitForURL(/\/structure\?returnChapterId=/u); await page.keyboard.press("Control+K");
+    const chapterReturn = palette.getByRole("link", { name: "Continue Writing", exact: true });
+    await expect(chapterReturn).toHaveAttribute("href", new URL(chapterUrl).pathname);
+    await chapterReturn.click(); await expect(page).toHaveURL(chapterUrl);
+    await expect(editor).toHaveText("Synthetic checkpoint content");
     await page.screenshot({ path: `test-results/s18-command-execution-${testInfo.project.name}.png`, fullPage: true });
   });
 });

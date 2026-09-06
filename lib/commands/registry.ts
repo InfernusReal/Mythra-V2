@@ -58,7 +58,9 @@ export function commandInContext(command: MythraCommand, context: CommandContext
 }
 
 export function commandHref(command: MythraCommand, context: CommandContext): string | null {
-  if (!command.route || !context.projectId || !commandInContext(command, context)) return null;
+  if (!context.projectId || !commandInContext(command, context)) return null;
+  if (command.id === "writing.continue" && context.chapterId && context.pathname.startsWith(`/app/projects/${context.projectId}`)) return `/app/chapters/${encodeURIComponent(context.chapterId)}`;
+  if (!command.route) return null;
   const route = `/app/projects/${encodeURIComponent(context.projectId)}/${command.route}`;
   return context.chapterId ? `${route}?returnChapterId=${encodeURIComponent(context.chapterId)}` : route;
 }

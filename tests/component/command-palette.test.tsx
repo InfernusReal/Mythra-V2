@@ -185,4 +185,26 @@ describe("S18 authoritative palette integration", () => {
     const report = await axe.run(container);
     expect(report.violations.filter((item) => item.impact === "serious" || item.impact === "critical")).toEqual([]);
   });
+
+  it("retains chapter return on a secondary surface with no mounted editor", () => {
+    route.pathname = `/app/projects/${projectId}/structure`;
+    render(<Palette />); openPalette();
+    expect(screen.getByRole("link", { name: "Continue Writing" })).toHaveAttribute("href", `/app/chapters/${chapterId}`);
+    expect(screen.queryByRole("button", { name: /Toggle Focus/ })).not.toBeInTheDocument();
+  });
+
+  it("preserves native Theme arrows and modified search caret keys", () => {
+    render(<Palette />); openPalette();
+    const theme = screen.getByRole("combobox", { name: "Theme" }); theme.focus();
+    expect(fireEvent.keyDown(theme, { key: "ArrowDown" })).toBe(true);
+    expect(theme).toHaveFocus();
+    input().focus();
+    for (const modifier of ["ctrlKey", "metaKey", "altKey", "shiftKey"]) {
+      expect(fireEvent.keyDown(input(), { key: "ArrowLeft", [modifier]: true })).toBe(true);
+      expect(fireEvent.keyDown(input(), { key: "ArrowDown", [modifier]: true })).toBe(true);
+      expect(input()).toHaveFocus();
+    }
+    expect(fireEvent.keyDown(input(), { key: "ArrowDown" })).toBe(false);
+    expect(document.activeElement).toHaveAttribute("data-palette-option", "true");
+  });
 });

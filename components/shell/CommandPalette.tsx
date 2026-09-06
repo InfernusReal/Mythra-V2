@@ -182,7 +182,8 @@ export function CommandPalette() {
     {!open && message ? <span role="status" className="command-outcome">{message}</span> : null}
     {open ? <div className="dialog-backdrop command-palette-backdrop" role="presentation" onMouseDown={() => closePalette()}>
       <section ref={dialogRef} className="command-dialog command-dialog-search" role="dialog" aria-modal="true" aria-labelledby="command-title" onMouseDown={(event) => event.stopPropagation()} onKeyDown={(event) => {
-        if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+        if (event.nativeEvent.isComposing || event.keyCode === 229 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+        if (event.target !== inputRef.current && event.target instanceof Element && event.target.closest('select,textarea,input,[contenteditable]:not([contenteditable="false"])')) return;
         if (event.key === "ArrowDown" || event.key === "ArrowUp") { event.preventDefault(); moveToResult(event.key === "ArrowDown" ? 1 : -1); }
         if (event.key === "Enter" && event.target === inputRef.current) { event.preventDefault(); dialogRef.current?.querySelector<HTMLElement>("[data-palette-option],button[data-search-option]")?.click(); }
       }}>

@@ -72,4 +72,25 @@ describe("command registry capability gating", () => {
     expect(log).toHaveBeenCalledWith(expect.stringContaining('"outcome":"failure"'));
     dispose();
   });
+
+  it("retains the existing chapter return on secondary routes without navigating a mounted editor", async () => {
+    vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const command = commandRegistry.find((entry) => entry.id === "writing.continue")!;
+    const secondary = { ...context, pathname: `/app/projects/${context.projectId}/structure` };
+    const chapterHref = `/app/chapters/${context.chapterId}`;
+    expect(commandHref(command, secondary)).toBe(chapterHref);
+    expect(commandHref(command, { ...secondary, chapterId: null })).toBeNull();
+    expect(commandHref(command, { ...secondary, projectId: null })).toBeNull();
+    expect(commandHref(command, { ...context, pathname: chapterHref })).toBeNull();
+    const navigate = vi.fn();
+    expect(await executeCommand("writing.continue", secondary, navigate)).toBe(true);
+    expect(navigate).toHaveBeenCalledWith(chapterHref);
+    const focus = vi.fn();
+    const dispose = registerCommandHandlers([{ id: "writing.continue", projectId: context.projectId!, chapterId: context.chapterId!, execute: focus }]);
+    try {
+      navigate.mockClear();
+      expect(await executeCommand("writing.continue", { ...context, pathname: chapterHref }, navigate)).toBe(true);
+      expect(focus).toHaveBeenCalledOnce(); expect(navigate).not.toHaveBeenCalled();
+    } finally { dispose(); }
+  });
 });
