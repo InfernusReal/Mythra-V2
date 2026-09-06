@@ -13,6 +13,27 @@ export const semanticLadder = [
 
 export type SemanticLevel = (typeof semanticLadder)[number];
 export type SemanticRelationship = "OWNERSHIP" | "ABSTRACTION" | "RELEVANCE" | "CONTENT";
+export type SemanticZoomDirection = "OUT" | "IN";
+
+export function orderedAvailableSemanticLevels(levels: readonly SemanticLevel[]): SemanticLevel[] {
+  const available = new Set(levels);
+  return semanticLadder.filter((level) => available.has(level));
+}
+
+export function resolveSemanticZoomLevel(levels: readonly SemanticLevel[], requested: SemanticLevel): SemanticLevel {
+  if (!levels.length || levels.includes(requested)) return requested;
+  const requestedIndex = semanticLadder.indexOf(requested);
+  const outward = [...levels].reverse().find((level) => semanticLadder.indexOf(level) < requestedIndex);
+  return outward ?? levels[0]!;
+}
+
+export function moveSemanticZoom(levels: readonly SemanticLevel[], current: SemanticLevel, direction: SemanticZoomDirection): SemanticLevel {
+  if (!levels.length) return current;
+  const currentIndex = levels.indexOf(current);
+  const index = currentIndex < 0 ? 0 : currentIndex;
+  const nextIndex = Math.min(levels.length - 1, Math.max(0, index + (direction === "IN" ? 1 : -1)));
+  return levels[nextIndex]!;
+}
 
 export interface SemanticCoordinateInput {
   projectId: string;
@@ -68,4 +89,3 @@ export function buildSemanticCoordinate(input: SemanticCoordinateInput): Semanti
     proseAnchor: input.proseAnchor ?? null
   };
 }
-

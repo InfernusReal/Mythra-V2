@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildSemanticCoordinate, semanticLadder } from "@/domains/structure/domain/semantic-coordinate";
+import { buildSemanticCoordinate, moveSemanticZoom, orderedAvailableSemanticLevels, resolveSemanticZoomLevel, semanticLadder } from "@/domains/structure/domain/semantic-coordinate";
 
 describe("ruled Semantic Coordinate", () => {
   it("preserves the exact outline-aware ladder and cross-cutting milestone relevance", () => {
@@ -34,5 +34,14 @@ describe("ruled Semantic Coordinate", () => {
     expect(buildSemanticCoordinate({ projectId: "p", plotId: "plot", volumeId: "v", chapterId: "c" }).orderedPath.map((step) => step.level))
       .toEqual(["SERIES_PROJECT", "PLOT", "VOLUME", "CHAPTER"]);
   });
-});
 
+  it("moves reversibly through only available levels in canonical order", () => {
+    const levels = orderedAvailableSemanticLevels(["PROSE", "PLOT", "CHAPTER", "SERIES_PROJECT", "PLOT", "SCENE"]);
+    expect(levels).toEqual(["SERIES_PROJECT", "PLOT", "CHAPTER", "SCENE", "PROSE"]);
+    expect(moveSemanticZoom(levels, "CHAPTER", "OUT")).toBe("PLOT");
+    expect(moveSemanticZoom(levels, "PLOT", "IN")).toBe("CHAPTER");
+    expect(moveSemanticZoom(levels, "SERIES_PROJECT", "OUT")).toBe("SERIES_PROJECT");
+    expect(moveSemanticZoom(levels, "PROSE", "IN")).toBe("PROSE");
+    expect(resolveSemanticZoomLevel(["SERIES_PROJECT", "VOLUME", "CHAPTER"], "VOLUME_OUTLINE")).toBe("VOLUME");
+  });
+});

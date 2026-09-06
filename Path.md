@@ -5401,3 +5401,85 @@ These six rows supersede prior line locations/purpose text only for the three mo
 | S13-DB-002 | `scripts/verify-portability-db.ts` | 45 / 46 | rollback proof records only S13 schema removal and preserved prior row counts. |
 
 Current active register: R12c is **LOCALLY REPAIRED, REMOTE VERIFICATION PENDING**. R08 complete resource extraction, R10 live alert evaluation/delivery, and R11 real reversible Semantic Zoom remain **OPEN**. Consequently **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE**. This checkpoint is not complete until committed, pushed, exact remote refs match and CI/Security pass; no release seal is restored.
+
+### 27.18 R11 first-class reversible Semantic Zoom — pre-code boundary
+
+Exact gap: `SemanticZoomViewport` currently renders the ordered Semantic Coordinate as a static breadcrumb-like list and one chapter selector. It has no independent abstraction level, inward/outward controls, explicit “You Are Here” anchor, level-specific bounded neighborhood, or scene/prose descent action. The underlying coordinate ladder is correct, and the current `StructureViewState`/Structure workspace already preserve existing cursor, selection, scroll and pin fields when saving a partial lens/anchor update. The editor continuation path already provides the canonical exact writing-position restoration. R11 must activate those existing contracts without inventing another hierarchy or persistence model.
+
+Implementation ruling: keep one selected semantic anchor and one separate local zoom level. Changing zoom level must never call the anchor mutation callback; selecting a visible canonical object changes the anchor explicitly. Available zoom levels are the exact ruled ladder `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`, with absent optional levels skipped and Milestone/Thread derived only as cross-cutting relevance. `Zoom out` and `Zoom in`, plus direct level buttons, must be accessible and reversible. “You Are Here” always names the selected object independently of the current abstraction. A bounded level-specific list uses only the already bounded server read models. Scene and Prose entries link into the existing chapter editor; no new scene editor, content inference, ownership edge or manuscript copy is authorized.
+
+Expected production files: `domains/structure/domain/semantic-coordinate.ts` adds pure navigation over an explicitly available ordered level list; `components/structure/SemanticZoomViewport.tsx` adds separate anchor/zoom state, accessible controls, the bounded neighborhood and editor descent. `StructureWorkspace` needs no contract/schema change because its existing partial `saveView` merge is the preservation mechanism. No Prisma schema/migration, API route, repository query, global CSS/theme, editor document, continuation format, milestone ownership or S19 visual-polish change is expected.
+
+Expected proof files: `tests/unit/semantic-coordinate.test.ts` first proves reversible movement and optional-level skipping; `tests/component/structure-interactions.test.tsx` proves zoom leaves the anchor unchanged, object selection changes it, “You Are Here” persists and prose descent targets the existing editor; `tests/component/structure-workspace.test.tsx` proves an anchor save retains cursor/selection/scroll/pins; `tests/e2e/structure-core.spec.ts` proves actual browser inward/outward/direct controls and editor round-trip restoration on desktop, with existing mobile Semantic Zoom visibility retained. New traces are limited to `S18-ZOOM-001` for content-free abstraction changes and `S18-ZOOM-002` for editor descent; existing `S4-UI-010` becomes generic to all canonical anchor types while continuing to log identities only.
+
+Test order: add unit/component expectations and capture red failures; implement the pure/domain and UI changes; run focused unit/component tests; run the real desktop/mobile Structure browser suite; then rerun lint, typecheck, full coverage and production build. Positive proof must cover both directions, direct jumps, optional skips, anchor independence and real editor descent. Negative proof must cover boundary-disabled controls, no zoom-triggered anchor persistence, no content in traces, retained view coordinates/pins, no all-graph rendering and unchanged writing restoration. Commit/push and exact remote CI/Security evidence remain mandatory.
+
+Status: **R11 IN PROGRESS; R12c REMOTE VERIFICATION PENDING; S18 IN PROGRESS; S19/S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 27.19 R12c remote closure and R11 Semantic Zoom implementation evidence
+
+R12c remote closure: commit `249a3b87019b0d6479c58c1eff1ba04d7be7275d` was pushed and the local branch, `origin/agent/workplan-subgates-audit`, PR CI and Security workflows all resolved to that exact hash. PR CI run `34043946809` passed both `verify` job `101515531074` and `s18-regression` job `101515531284`. The regression job deployed all migrations, ran the native Structure, archive, pagination, OIDC and corrected portability verifiers, then passed the eight-suite Chromium matrix and uploaded evidence. PR Security run `34043946812`, job `101515531120`, and push Security run `34043945140`, job `101515526381`, passed clean install, high-severity dependency audit, security tests and committed-secret rejection. This remote evidence supersedes the pending qualifier in 27.17 and closes R12c. It does not close S18 because R08 and R10 remain open.
+
+R11 test-first evidence: before production code, the focused Semantic Coordinate/Structure run passed 20 existing assertions and failed exactly three new capability assertions: pure reversible navigation exports were absent, and both direct component contexts lacked the Semantic Zoom controls and “You Are Here” output. The red run established missing behavior; no pass was inferred from it.
+
+Implemented contract: Semantic Zoom now maintains an explicit selected canonical anchor separately from a local abstraction level. Direct level selection and `Zoom out`/`Zoom in` move only among coordinates present in the exact ruled ladder. Duplicate inputs are removed in canonical order, absent optional levels are skipped, boundary buttons disable, and an anchor-context change that removes the current optional level resolves deterministically to the nearest available outward level. Selecting a level never calls or persists the anchor callback. Selecting a visible object or active chapter changes the canonical anchor and uses the existing view-state save, whose partial merge retains cursor offset, selection anchor/head, scroll and pins. Series/Project is an abstraction level, not a false endpoint mutation.
+
+The viewport continuously renders `You are here: <object> (<level>)` independently of `Viewing at <level>`. Its neighborhood is derived only from the already bounded Structure and Milestone read models. Milestone/Thread remains a relevance coordinate built from existing links, never ownership. Scene and Prose provide content-free traced links to the existing chapter editor. They do not create another editor or copy manuscript content. Zero-structure and prose-first projects remain valid; a project without chapters disables only the active-chapter selector and still exposes Series/Project.
+
+#### Exact per-file accountability
+
+| File | Exact reason / non-change boundary |
+| --- | --- |
+| `domains/structure/domain/semantic-coordinate.ts` | Add pure canonical ordering, reversible bounded movement and missing-optional-level resolution over the already ruled ladder; no hierarchy, endpoint, persistence or content change. |
+| `components/structure/SemanticZoomViewport.tsx` | Replace the static path with separate anchor/zoom state, accessible direct/inward/outward controls, continuous location, bounded level neighborhood and existing-editor descent; retain Narrative Intent behavior and content-safe submission. |
+| `tests/unit/semantic-coordinate.test.ts` | Prove order/deduplication, both directions, disabled-boundary semantics and outward resolution when an optional coordinate disappears. |
+| `tests/component/structure-interactions.test.tsx` | Prove direct zoom does not mutate anchor, canonical object selection does, location remains explicit, project-only selector state is safe, editor descent is correct and traces omit authored labels/content. |
+| `tests/component/structure-workspace.test.tsx` | Replace obsolete uppercase static-path assertions with accessible control assertions and prove zoom causes no additional view-state write while the existing lens write retains cursor, selection and pins. |
+| `tests/e2e/structure-core.spec.ts` | Extend the existing exact writing-position browser flow through direct Series/Project, inward/outward movement and Prose descent; require both new trace IDs and unchanged block/offset/scroll restoration. |
+| `Path.md` | Preserve the pre-code ruling, red proof, implementation, corrections, complete evidence, trace lines and superseding active status. |
+
+No Prisma schema/migration, API route, repository query, global CSS/theme, editor document/format, continuation payload, milestone ownership, dependency, price or WorkPlan change was made. The production build temporarily regenerated `next-env.d.ts` from development type paths to production type paths; that generated path churn was removed from the delta after the successful build.
+
+#### Verification matrix, stress proof and corrections
+
+| Check | Result | Exact evidence / correction |
+| --- | --- | --- |
+| Test-first focused run | 20 pass / 3 fail, expected | New pure navigation and both UI capability contexts failed before implementation. |
+| First post-change focused run | 22 pass / 1 stale assertion failure | Production behavior rendered accessible title-case level buttons; one old test still required uppercase static breadcrumb text. The assertion was changed to verify the named buttons. |
+| Typecheck correction | Initial check found 4 test-only errors | This Testing Library version does not accept `exact` in role options. Four queries now use anchored accessible-name patterns; no production type or behavior was changed. |
+| Final focused run | 3 files / 23 tests passed | Pure coordinate rules plus Structure interaction/workspace positive and negative proofs. |
+| Lint / typecheck | Passed | ESLint zero warnings; TypeScript zero errors after final code. |
+| Initial browser attempt | Failed before feature execution | Development sign-in returned a content-safe INTERNAL envelope because a reused local identity conflicted during provisioning; the test never reached Structure. A fresh subject/email pair was verified by a manual 200 sign-in + 303 `/app` redirect. No test or product assertion was weakened. |
+| Exact browser round trip | Passed twice after environment correction | Final post-review run passed in 17.8 s: editor → Structure → direct zoom → inward/outward → Prose → editor, with exact block, cursor offset and scroll restoration and both trace IDs. |
+| Full Structure browser suite | 4 passed / 1 intentionally skipped | Zero-structure, scaffold/reorder, exact writing restoration and sequential lens accessibility passed. The fifth test is explicitly mobile-only and therefore skipped by its existing desktop project guard. |
+| Mobile Dark-mode Structure | 1 passed in the Pixel 7 project | The mobile-only test executed in `mobile-chromium`, applied Dark mode, opened the Semantic Zoom lens and retained usable lens navigation. |
+| Full Vitest coverage | 104 files / 389 tests passed, zero failures | Statements 87.93%, branches 76.45%, functions 85.37%, lines 93.44%; unchanged thresholds remain 80/75/80/80. Existing jsdom scroll/navigation/canvas notices are non-failing environment notices. |
+| Stress suite | 17 files / 32 tests passed | Existing performance, ordering, durability, concurrency, graph-budget and command-ranking stress coverage remained green. |
+| Production build | Passed | Next 16.3.0 compiled in 3.5 s, TypeScript finished in 7.9 s and 22/22 static pages generated under production-shaped OIDC/billing configuration. |
+| Diff/scope audit | Passed locally | Seven changed files are individually justified; `git diff --check` passes; `WorkPlan.md` is byte-unchanged at SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. |
+
+#### WorkPlan and Bible side-by-side R11 compliance
+
+| Required contract | Implementation evidence | Positive and negative proof | Decision |
+| --- | --- | --- | --- |
+| Exact outline-aware ladder; optional coordinates skipped | `semanticLadder`, `orderedAvailableSemanticLevels`, `resolveSemanticZoomLevel` | Unit order/dedup/skip/nearest-outward assertions; zero-structure browser flow skips directly from Series/Project to Chapter | PASS |
+| Milestone/Thread is relevance, never ownership | Coordinate builder retains `RELEVANCE`; viewport derives it from bounded milestone links only | Existing semantic-coordinate relationship test plus no schema/repository/ownership delta | PASS |
+| Reversible zoom with accessible non-gesture controls | Direct level buttons and boundary-aware `Zoom out`/`Zoom in` | Component both-direction/direct/boundary assertions and browser direct/inward/outward flow | PASS |
+| Preserve active anchor across zoom | `anchorKey` and resolved zoom state are independent; zoom never invokes `onAnchor` | Component asserts no anchor call during level moves; object selection explicitly calls `onAnchor` | PASS |
+| Preserve cursor, scroll, selection and pins | Existing `StructureWorkspace.saveView` partial merge is reused unchanged; Prose returns to canonical editor | Component proves no zoom write and retained cursor/selection/pins; Playwright proves exact block/offset/scroll restoration | PASS |
+| First-class current location and bounded neighborhood | Continuous “You are here” plus separate “Viewing at”; list uses only server-bounded models | Component persists location through zoom/anchor operations; no graph/repository query added | PASS |
+| Scene/Prose descent enters existing editor | Stable chapter links with `S18-ZOOM-002` | Component href assertion and real browser editor descent/restoration | PASS |
+| Logging is meaningful and content-safe | Two new boundary traces plus generalized existing anchor trace | Component canary proves trace output excludes the authored object label; payloads contain IDs/levels only | PASS |
+
+#### Superseding trace positions for R11
+
+These rows supersede the prior line positions for the modified viewport. Pure calculation, render-only output and tests receive no artificial `console.log` calls.
+
+| Trace | File | Comment / call line | Exact adjacent comment and safe-field boundary |
+| --- | --- | --- | --- |
+| S4-UI-010 | `components/structure/SemanticZoomViewport.tsx` | 86 / 87 | “Semantic Zoom anchor changed using canonical type and stable identity only.” Fields: level, step, event, project ID, canonical endpoint type and endpoint ID. |
+| S18-ZOOM-001 | `components/structure/SemanticZoomViewport.tsx` | 98 / 99 | “reversible abstraction change records levels and stable anchor identity without story content.” Fields: level, step, event, project ID, from/to levels, anchor type/ID. |
+| S18-ZOOM-002 | `components/structure/SemanticZoomViewport.tsx` | 106 / 107 | “semantic editor descent records level and stable identities without manuscript or structure text.” Fields: level, step, event, project ID, entry level, chapter ID, anchor type/ID. |
+| S4-UI-013 | `components/structure/SemanticZoomViewport.tsx` | 119 / 120 | Existing Narrative Intent submission comment/call retained; target type and category only, never intent or selection content. |
+
+Current active register: R11 is **LOCALLY REPAIRED, COMMIT/PUSH/REMOTE VERIFICATION PENDING**. R12c is **REMOTE VERIFIED**. R08 complete resource extraction and R10 live alert evaluation/delivery remain **OPEN**. Consequently **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE**. The Phase 7 completion phrase is not authorized at this checkpoint.

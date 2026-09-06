@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { StructureOverview } from "@/domains/structure/application/ports";
 import { StructureWorkspace } from "@/components/structure/StructureWorkspace";
@@ -39,8 +39,8 @@ describe("StructureWorkspace", () => {
     fireEvent.change(screen.getByLabelText("Presentation mode"), { target: { value: "ARCHITECT" } });
     fireEvent.click(screen.getByRole("button", { name: "Semantic Zoom" }));
     expect(screen.getByTestId("semantic-zoom-lens")).toBeVisible();
-    expect(screen.getByText("PLOT OUTLINE")).toBeVisible();
-    expect(screen.getByText("CHAPTER OUTLINE")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Plot Outline" })).toBeVisible();
+    expect(screen.getByRole("button", { name: "Chapter Outline" })).toBeVisible();
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     expect(consoleSpy.mock.calls.flat().join("\n")).toContain("S4-UI-001");
     expect(consoleSpy.mock.calls.flat().join("\n")).toContain("S4-UI-002");
@@ -53,5 +53,20 @@ describe("StructureWorkspace", () => {
     fireEvent.click(screen.getByRole("button", { name: "Expand" }));
     expect(screen.getByText(/Order 1/)).toBeVisible();
     expect(fetchSpy).toHaveBeenCalledWith(expect.stringContaining("/view-state"), expect.objectContaining({ method: "PUT" }));
+  });
+
+  it("does not persist or overwrite writing coordinates when only the semantic zoom level changes", () => {
+    const preserved = { ...model, viewState: { ...model.viewState, cursorOffset: 17, selectionAnchor: 17, selectionHead: 23, scrollTop: 640, pinIds: [id("11")] } };
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ data: {} }), { status: 200 }));
+    vi.spyOn(console, "log").mockImplementation(() => undefined);
+    render(<StructureWorkspace initialModel={preserved} initialMilestones={emptyMilestones} />);
+    fireEvent.click(screen.getByRole("button", { name: "Semantic Zoom" }));
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const lensWrite = JSON.parse(String(fetchSpy.mock.calls[0]?.[1]?.body)) as Record<string, unknown>;
+    expect(lensWrite).toMatchObject({ cursorOffset: 17, selectionAnchor: 17, selectionHead: 23, pinIds: [id("11")] });
+    fireEvent.click(within(screen.getByRole("navigation", { name: "Semantic zoom levels" })).getByRole("button", { name: /^Plot$/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom out" }));
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 });

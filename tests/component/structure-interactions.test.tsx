@@ -225,6 +225,7 @@ describe("Structure interaction surfaces", () => {
     const empty = { ...model, plot: null, volumes: [], chapterOutlines: [], chapters: [], scenes: [], intents: [] };
     const { rerender } = render(<SemanticZoomViewport model={empty} milestones={emptyMilestones} onAnchor={vi.fn()} onChanged={vi.fn()} />);
     expect(screen.getByRole("button", { name: "Save intent" })).toBeDisabled();
+    expect(screen.getByLabelText("Active chapter")).toBeDisabled();
     rerender(<SemanticZoomViewport model={model} milestones={emptyMilestones} onAnchor={vi.fn()} onChanged={vi.fn()} />);
     fireEvent.change(screen.getByLabelText("Target type"), { target: { value: "SCENE" } });
     fireEvent.change(screen.getByLabelText("Intent"), { target: { value: "Private" } });
@@ -245,5 +246,31 @@ describe("Structure interaction surfaces", () => {
     await waitFor(() => expect(changed).toHaveBeenCalledOnce());
     expect(fetchSpy.mock.calls[0]?.[1]?.body).toContain(`"targetType":"ENTITY_ARC","targetId":"${id("12")}"`);
     expect(consoleSpy.mock.calls.flat().join("\n")).not.toContain("Private entity arc intent");
+  });
+
+  it("zooms independently of the selected anchor and descends through the existing editor", () => {
+    const anchored = vi.fn();
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    render(<SemanticZoomViewport model={model} milestones={emptyMilestones} onAnchor={anchored} onChanged={vi.fn()} />);
+    expect(screen.getByText(/You are here: Chapter \(Chapter\)/)).toBeVisible();
+    const levels = screen.getByRole("navigation", { name: "Semantic zoom levels" });
+    fireEvent.click(within(levels).getByRole("button", { name: /^Plot$/ }));
+    expect(screen.getByText("Viewing at Plot")).toBeVisible();
+    expect(anchored).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    expect(screen.getByText("Viewing at Plot Outline")).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Zoom out" }));
+    expect(screen.getByText("Viewing at Plot")).toBeVisible();
+    fireEvent.click(within(levels).getByRole("button", { name: /^Volume$/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Set anchor to Volume one" }));
+    expect(anchored).toHaveBeenCalledWith("VOLUME", id("4"));
+    expect(screen.getByText(/You are here: Volume one \(Volume\)/)).toBeVisible();
+    fireEvent.click(within(levels).getByRole("button", { name: /^Prose$/ }));
+    expect(screen.getByRole("link", { name: "Open Chapter in editor" })).toHaveAttribute("href", `/app/chapters/${id("5")}`);
+    fireEvent.click(screen.getByRole("link", { name: "Open Chapter in editor" }));
+    const traces = consoleSpy.mock.calls.flat().join("\n");
+    expect(traces).toContain("S18-ZOOM-001");
+    expect(traces).toContain("S18-ZOOM-002");
+    expect(traces).not.toContain("Volume one");
   });
 });

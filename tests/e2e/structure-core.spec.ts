@@ -114,7 +114,17 @@ test.describe("Sub-gate 4 Structure Core", () => {
     const before = await selectionFacts(page);
     await page.getByRole("link", { name: "Structure" }).click();
     await expect(page).toHaveURL(/\/structure$/);
-    await page.getByRole("link", { name: "Return to writing" }).click();
+    await page.getByRole("button", { name: "Semantic Zoom", exact: true }).click();
+    await expect(page.getByText(/You are here: Chapter 1 \(Chapter\)/)).toBeVisible();
+    const levels = page.getByRole("navigation", { name: "Semantic zoom levels" });
+    await levels.getByRole("button", { name: "Series\/Project", exact: true }).click();
+    await expect(page.getByText("Viewing at Series/Project")).toBeVisible();
+    await page.getByRole("button", { name: "Zoom in" }).click();
+    await expect(page.getByText("Viewing at Chapter")).toBeVisible();
+    await page.getByRole("button", { name: "Zoom out" }).click();
+    await expect(page.getByText("Viewing at Series/Project")).toBeVisible();
+    await levels.getByRole("button", { name: "Prose", exact: true }).click();
+    await page.getByRole("link", { name: "Open Chapter 1 in editor" }).click();
     await expect(page).toHaveURL(chapterUrl);
     await expect.poll(() => emitted.filter((entry) => entry.includes("S3-CLIENT-002")).length, { timeout: 10_000 }).toBeGreaterThan(0);
     await expect.poll(async () => (await selectionFacts(page)).blockId, { timeout: 10_000 }).toBe(before.blockId);
@@ -122,6 +132,8 @@ test.describe("Sub-gate 4 Structure Core", () => {
     expect(after.blockId).toBe(before.blockId);
     expect(after.offset).toBe(before.offset);
     expect(Math.abs(after.scrollTop - before.scrollTop)).toBeLessThanOrEqual(2);
+    expect(emitted.join("\n")).toContain("S18-ZOOM-001");
+    expect(emitted.join("\n")).toContain("S18-ZOOM-002");
   });
 
   test("renders the active-lens shell accessibly after sequential Milestones and Causal activation", async ({ page }) => {
