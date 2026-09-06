@@ -7,7 +7,7 @@ import type { StructureOverview } from "@/domains/structure/application/ports";
 const id = (value: number) => `00000000-0000-4000-8000-${value.toString().padStart(12, "0")}`;
 const structure = {
   project: { id: id(1), title: "Project", structuralVersion: 7, activeChapterId: id(4) }, plot: null, volumes: [], chapterOutlines: [],
-  chapters: [{ id: id(4), volumeId: null, volumeSequenceIndex: null, sequenceIndex: 0, displayNumber: "1", title: "Chapter one", outlineId: null, sceneCount: 0 }], scenes: [], references: [], intents: [],
+  chapters: [{ id: id(4), volumeId: null, volumeSequenceIndex: null, sequenceIndex: 0, displayNumber: "1", title: "Chapter one", outlineId: null, sceneCount: 0 }], scenes: [], entityArcs: [], references: [], intents: [],
   viewState: { mode: "DISCOVERY", activeLens: "MILESTONES", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
   lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
   page: { pageSize: 100, nodeBudget: 200, edgeBudget: 300, rangeStart: 0, nextRangeStart: null, returnedNodes: 1, returnedEdges: 0, hasMoreNodes: false, hasMoreEdges: false }

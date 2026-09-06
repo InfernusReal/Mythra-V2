@@ -119,7 +119,8 @@ async function assertEndpoint(tx: Transaction, projectId: string, type: string, 
 }
 
 async function assertIntentTarget(tx: Transaction, projectId: string, type: NarrativeIntentTargetType, id: string): Promise<void> {
-  await assertEndpoint(tx, projectId, type === "PARAGRAPH_SELECTION" ? "CHAPTER" : type, id);
+  const endpointType = type === "PARAGRAPH_SELECTION" ? "CHAPTER" : type === "ENTITY_ARC" ? "ENTITY" : type;
+  await assertEndpoint(tx, projectId, endpointType, id);
 }
 
 export class PrismaStructureRepository implements StructureRepository {
@@ -139,6 +140,7 @@ export class PrismaStructureRepository implements StructureRepository {
     const outlinesRaw = await this.prisma.chapterOutline.findMany({ where: { projectId, archivedAt: null }, orderBy: { sequenceIndex: "asc" }, skip: budget.rangeStart, take, select: { id: true, chapterId: true, volumeId: true, sequenceIndex: true, title: true, plainText: true, purpose: true, emotionalMovement: true, targetWords: true, hardTargetWordsEnabled: true, isPlaceholder: true, version: true, _count: { select: { scenes: { where: { archivedAt: null } } } } } });
     const chaptersRaw = await this.prisma.chapter.findMany({ where: { projectId, archivedAt: null }, orderBy: { sequenceIndex: "asc" }, skip: budget.rangeStart, take, select: { id: true, volumeId: true, volumeSequenceIndex: true, sequenceIndex: true, displayNumber: true, title: true, outline: { where: { archivedAt: null }, select: { id: true } }, _count: { select: { scenes: { where: { archivedAt: null } } } } } });
     const scenesRaw = await this.prisma.scene.findMany({ where: { projectId, archivedAt: null }, orderBy: { sequenceIndex: "asc" }, skip: budget.rangeStart, take, select: { id: true, chapterId: true, chapterOutlineId: true, sequenceIndex: true, title: true, purpose: true, provenanceType: true, provenanceSourceId: true, provenanceBlockId: true, version: true } });
+    const entityArcsRaw = await this.prisma.storyEntity.findMany({ where: { projectId, archivedAt: null, status: "ACTIVE" }, orderBy: [{ name: "asc" }, { id: "asc" }], skip: budget.rangeStart, take, select: { id: true, name: true, version: true } });
     const referencesRaw = await this.prisma.storyReference.findMany({ where: { projectId, archivedAt: null }, orderBy: { createdAt: "desc" }, skip: budget.rangeStart, take: budget.edgeBudget + 1, select: { id: true, sourceType: true, sourceId: true, sourceBlockId: true, targetType: true, targetId: true, targetBlockId: true, relationshipKey: true, provenanceType: true, version: true } });
     const intentsRaw = await this.prisma.narrativeIntent.findMany({ where: { projectId, archivedAt: null }, orderBy: { updatedAt: "desc" }, skip: budget.rangeStart, take, select: { id: true, targetType: true, targetId: true, blockId: true, category: true, customCategory: true, version: true } });
     const storedView = await this.prisma.structureViewState.findUnique({ where: { userId_projectId: { userId: actor.userId, projectId } }, select: { mode: true, activeLens: true, expandedIds: true, activeAnchorType: true, activeAnchorId: true, cursorOffset: true, selectionAnchor: true, selectionHead: true, scrollTop: true, pinIds: true } });
@@ -148,6 +150,7 @@ export class PrismaStructureRepository implements StructureRepository {
     const chapterOutlines = consume(outlinesRaw).map(chapterOutlineSummary);
     const chapters = consume(chaptersRaw).map((chapter) => ({ id: chapter.id, volumeId: chapter.volumeId, volumeSequenceIndex: chapter.volumeSequenceIndex, sequenceIndex: chapter.sequenceIndex, displayNumber: chapter.displayNumber, title: chapter.title, outlineId: chapter.outline?.id ?? null, sceneCount: chapter._count.scenes }));
     const scenes = consume(scenesRaw).map(sceneSummary);
+    const entityArcs = consume(entityArcsRaw);
     const intents = consume(intentsRaw).map<NarrativeIntentSummary>((intent) => ({ ...intent, targetType: intent.targetType as NarrativeIntentSummary["targetType"], category: intent.category as NarrativeIntentSummary["category"] }));
     const references = referencesRaw.slice(0, budget.edgeBudget).map(referenceSummary);
     const viewState: StructureViewStateModel = storedView ? {
@@ -162,8 +165,8 @@ export class PrismaStructureRepository implements StructureRepository {
       scrollTop: storedView.scrollTop,
       pinIds: stringArray(storedView.pinIds, 100)
     } : { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] };
-    const rawNodeCount = (plot ? 1 : 0) + volumesRaw.length + outlinesRaw.length + chaptersRaw.length + scenesRaw.length + intentsRaw.length;
-    const hasMoreNodes = rawNodeCount > budget.nodeBudget || [volumesRaw, outlinesRaw, chaptersRaw, scenesRaw, intentsRaw].some((items) => items.length === take);
+    const rawNodeCount = (plot ? 1 : 0) + volumesRaw.length + outlinesRaw.length + chaptersRaw.length + scenesRaw.length + entityArcsRaw.length + intentsRaw.length;
+    const hasMoreNodes = rawNodeCount > budget.nodeBudget || [volumesRaw, outlinesRaw, chaptersRaw, scenesRaw, entityArcsRaw, intentsRaw].some((items) => items.length === take);
     const hasMoreEdges = referencesRaw.length > budget.edgeBudget;
     return {
       project,
@@ -172,6 +175,7 @@ export class PrismaStructureRepository implements StructureRepository {
       chapterOutlines,
       chapters,
       scenes,
+      entityArcs,
       references,
       intents,
       viewState,

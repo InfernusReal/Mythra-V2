@@ -20,6 +20,7 @@ const model: StructureOverview = {
   chapterOutlines: [{ id: id("6"), chapterId: id("5"), volumeId: id("4"), sequenceIndex: 0, title: "Outline", plainText: "Outline body", purpose: null, emotionalMovement: null, targetWords: null, hardTargetWordsEnabled: false, isPlaceholder: false, version: 1, sceneCount: 1 }],
   chapters: [{ id: id("5"), volumeId: id("4"), volumeSequenceIndex: 0, sequenceIndex: 0, displayNumber: "1", title: "Chapter", outlineId: id("6"), sceneCount: 1 }],
   scenes: [{ id: id("9"), chapterId: id("5"), chapterOutlineId: id("6"), sequenceIndex: 0, title: "Scene", purpose: null, provenanceType: "OUTLINE_BLOCK", provenanceSourceId: id("6"), provenanceBlockId: "block-1", version: 1 }],
+  entityArcs: [{ id: id("12"), name: "Mara", version: 3 }],
   references: [{ id: id("10"), sourceType: "CHAPTER", sourceId: id("5"), sourceBlockId: null, targetType: "CHAPTER_OUTLINE", targetId: id("6"), targetBlockId: null, relationshipKey: "references", provenanceType: "DIRECT", version: 1 }],
   intents: [{ id: id("11"), targetType: "PLOT", targetId: id("2"), blockId: null, category: "TENSION", customCategory: null, version: 1 }],
   viewState: { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
@@ -230,5 +231,19 @@ describe("Structure interaction surfaces", () => {
     fireEvent.click(screen.getByRole("button", { name: "Save intent" }));
     expect(await screen.findByRole("alert")).toHaveTextContent("Intent rejected");
     expect(screen.getByText(/1 intent targets/)).toBeVisible();
+  });
+
+  it("submits Narrative Intent against an eligible entity arc without emitting authored content", async () => {
+    const changed = vi.fn();
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation(() => success());
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    render(<SemanticZoomViewport model={model} milestones={emptyMilestones} onAnchor={vi.fn()} onChanged={changed} />);
+    fireEvent.change(screen.getByLabelText("Target type"), { target: { value: "ENTITY_ARC" } });
+    expect(screen.getByRole("option", { name: "Mara" })).toHaveValue(id("12"));
+    fireEvent.change(screen.getByLabelText("Intent"), { target: { value: "Private entity arc intent" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save intent" }));
+    await waitFor(() => expect(changed).toHaveBeenCalledOnce());
+    expect(fetchSpy.mock.calls[0]?.[1]?.body).toContain(`"targetType":"ENTITY_ARC","targetId":"${id("12")}"`);
+    expect(consoleSpy.mock.calls.flat().join("\n")).not.toContain("Private entity arc intent");
   });
 });

@@ -5319,3 +5319,85 @@ The subsequent ordinary full coverage run finished at 12:44 PKT: **104 files / 3
 - PR Security run `34019970386`, job `101450619198`, and push Security run `34019968363`, job `101450613910`, both checked out the same exact hash and passed clean install, high-severity dependency audit, security tests and committed-secret rejection.
 - Earlier CI run `34019627557` and Security runs `34019627552`/`34019625457` also passed exact base-repair hash `a4a77126d1a3be28ca2560f3dccb4de4c98940d6`; the follow-up hash supersedes it as current evidence.
 - Remote verification closes the pending qualifier only for locally repaired R01-R07, R09, R12a/R12b and R14 at this checkpoint. It does **not** pass S18: R08, R10, R11 and R12c remain open, so S19/S20 remain locked and Phase 7 remains incomplete.
+
+### 27.15 R12c entity-arc Narrative Intent adapter — pre-code boundary
+
+Bible V2.2 rendered page 11, section 3.7, explicitly permits optional Narrative Intent on an `entity arc`. The immediately preceding entity rule on the same rendered page establishes stable entities plus volume-specific state snapshots/scoped notes; it does not define a separate Entity Arc aggregate. WorkPlan S5/S9 requires the missing entity-arc target adapter. The implementation ruling is therefore exact and minimal: `ENTITY_ARC` is a Narrative Intent target type whose target identity is an existing active `StoryEntity` in the same project. It does not create an EntityArc table/domain, infer arc stages or progression, duplicate entities, mutate snapshots, or make Narrative Intent mandatory.
+
+Expected production files: `prisma/schema.prisma` adds the enum member; a new forward/rollback migration adds and can remove it without touching other enum values; `domains/structure/domain/types.ts` exposes the validated target while retaining paragraph-only selection anchors; `domains/structure/application/ports.ts` adds a bounded, content-minimal eligible entity target summary; `domains/structure/infrastructure/prisma-structure-repository.ts` maps `ENTITY_ARC` to the existing active-entity endpoint check and includes eligible entities within the existing node budget; `components/structure/SemanticZoomViewport.tsx` presents those existing entities in the current Narrative Intent target controls and reuses the content-safe submission boundary. Generated Prisma client files may change only through `prisma generate` and are not hand-edited.
+
+Expected proof files: `tests/service/structure-service.test.ts` proves schema acceptance and rejection of selection anchors on an entity arc; `tests/component/structure-interactions.test.tsx` proves an eligible entity can be selected and the exact `ENTITY_ARC` request is sent without logging intent text; `scripts/verify-structure-core-db.ts` creates only synthetic Universe records, proves native same-project active resolution and rejects archived/foreign entities, and extends its existing content-free database trace rather than adding a redundant operational boundary; `.github/workflows/ci.yml` invokes that existing Structure verifier after deploying every migration so the native proof is repeated remotely. Fixture-only `StructureOverview` files will add empty entity-target arrays as required by the stronger read contract.
+
+Planned tests, in order: first add the service/component assertions and run them red against the missing enum/UI; implement the schema/repository/UI/migration; regenerate Prisma; rerun affected unit/service/component tests; deploy all migrations to native PostgreSQL 18 and run the extended Structure verifier; exercise the rollback SQL against an isolated disposable database or transaction-safe equivalent; then run lint, typecheck, full coverage and production build before claiming this defect closed. Positive proof must show the adapter works end to end. Negative proof must show paragraph coordinates remain forbidden, inactive or cross-project entities fail closed, bounded reads stay bounded, authored intent/entity content is absent from traces, and no existing target or writing-flow behavior regresses.
+
+Status at this boundary: **R12c IN PROGRESS; S18 IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.** No code change or pass is claimed by this pre-code record.
+
+### 27.16 S13 verifier-clock evidence repair — pre-code boundary
+
+Post-review remote evidence exposed a deterministic verifier defect on documentation-only hash `bc9100155934a38737f46478c977d2e98d1e9deb`: standard CI and both Security workflows passed, while S18 regression run `34042861992`, job `101512627996`, failed at the existing portability verifier before browser installation. Its emitted preview was created during the run, but `scripts/verify-portability-db.ts` supplied the frozen service clock `2026-08-30T12:00:00.000Z`; the repository correctly compared the resulting already-expired timestamp to the real 2026-09-06 clock and rejected confirmation. A current local reproduction fails at the same boundary. Earlier hash `c2856e7` passed the same job, but that historical observation does not make the frozen-date harness valid or repeatable.
+
+Expected change: only `scripts/verify-portability-db.ts` captures one current instant at verifier start and supplies a defensive copy through its existing injected clock. Product TTLs, repository expiry enforcement, schemas, application services, storage, imports, tests, logs and WorkPlan remain unchanged. No new console trace is appropriate because this is verifier setup, not a material product boundary; existing S13 traces continue to prove actions without content. Positive proof requires two fresh native verifier passes and a remote S18 job pass. Negative proof requires the existing expired-preview product tests to remain green and confirms that no production file changed for this repair.
+
+Status: **verifier evidence repair IN PROGRESS; R12c IN PROGRESS; S18 IN PROGRESS; S19/S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 27.17 R12c implementation, stress proof and local compliance decision
+
+Observed test-first proof: before production edits, the focused service/component run passed 22 existing assertions and failed exactly the two new requirements. The service rejected `ENTITY_ARC` because it was absent from the Zod enum; the UI had no target collection and failed while changing to that target. No implementation pass is inferred from those failures.
+
+Implemented contract: `ENTITY_ARC` is now a durable `NarrativeIntentTargetType`. Its UUID resolves through the existing `ENTITY` endpoint adapter, which requires the `StoryEntity` to belong to the current project, have no archive timestamp and have `ACTIVE` status. The Structure overview exposes only bounded eligible `{ id, name, version }` summaries, charges them to the existing node budget, and orders them deterministically by name then UUID. The existing Narrative Intent form exposes `ENTITY ARC`, resets the target to the first eligible entity and submits through the unchanged service/API boundary. Paragraph selection anchors remain valid only for `PARAGRAPH_SELECTION`. No entity, snapshot, arc progression or authored text is inferred or duplicated.
+
+Schema safety: migration `20260906135000_s18_entity_arc_intent` appends one PostgreSQL enum value. Its rollback deletes only rows that cannot exist under the prior enum, rebuilds the exact prior six-value enum and recreates `NarrativeIntent_selection_valid`. On a disposable clone of the synthetic database, rollback deleted one `ENTITY_ARC` row, restored `{PLOT,VOLUME,CHAPTER,SCENE,PARAGRAPH_SELECTION,MILESTONE}`, retained nine other Narrative Intent rows and retained the exact selection constraint. The disposable database `mythra_s18_r12c_rollback` was removed after verification and is intentionally not recoverable; the primary synthetic database was not rolled back.
+
+Verifier evidence repair: remote run `34042861992` and a fresh local reproduction proved the frozen 2026-08-30 verifier clock made a newly created import preview expired on 2026-09-06. `scripts/verify-portability-db.ts` now captures one current instant per run and returns defensive `Date` copies through the already-injected clock. Two consecutive native verifier runs passed on distinct synthetic projects; the 13 portability service/import/representation tests also passed, preserving expiry rejection. No portability production file, TTL or assertion changed. This supersedes any inference that the failing documentation-only S18 job was green; its standard verify job and both Security jobs did pass, but its S18 job did not.
+
+#### Exact per-file accountability
+
+| File | Exact reason / non-change boundary |
+| --- | --- |
+| `.github/workflows/ci.yml` | Run the already-existing native Structure verifier after migration deployment; no service, secret or browser matrix change. |
+| `components/structure/SemanticZoomViewport.tsx` | Add existing active entities to the current intent target controls; reuse the current API, error, privacy and submission trace behavior. |
+| `domains/structure/application/ports.ts` | Add the minimal bounded eligible-entity summary and overview collection; no entity domain duplication. |
+| `domains/structure/domain/types.ts` | Add the one Bible-authorized target enum member; all selection/custom-category refinements remain unchanged. |
+| `domains/structure/infrastructure/prisma-structure-repository.ts` | Adapt entity-arc identity to the active same-project entity resolver and charge candidates to existing read bounds. |
+| `prisma/schema.prisma` | Keep generated and database contract aligned with the added enum value only. |
+| `prisma/migrations/20260906135000_s18_entity_arc_intent/migration.sql` | Forward-add `ENTITY_ARC` without table or data rewrites. |
+| `prisma/migrations/20260906135000_s18_entity_arc_intent/rollback.sql` | Remove incompatible rows, reconstruct only the prior enum and restore its selection invariant. |
+| `scripts/verify-structure-core-db.ts` | Prove active success, archived/foreign rejection, bounded visibility, revision/outbox/concurrency behavior in native PostgreSQL. |
+| `scripts/verify-portability-db.ts` | Remove the stale frozen-clock condition from the verifier only; production expiry logic is unchanged. |
+| `tests/service/structure-service.test.ts` | Prove valid entity-arc delegation and paragraph-only anchor rejection. |
+| `tests/component/structure-interactions.test.tsx` | Prove target rendering, exact request identity/type and intent-text exclusion from console output. |
+| `tests/component/structure-workspace.test.tsx` | Satisfy the stronger read-model fixture with an explicitly empty target collection; no expectation changed. |
+| `tests/component/milestone-lens.test.tsx` | Satisfy the stronger read-model fixture with an explicitly empty target collection; no milestone expectation changed. |
+| `Path.md` | Preserve pre-code decisions, failures, exact corrections, evidence, trace locations and the superseding active register. `WorkPlan.md` is byte-unchanged. |
+
+#### Verification matrix and corrections
+
+| Check | Result | Scope / correction |
+| --- | --- | --- |
+| Test-first focused run | 22 pass / 2 fail, expected | Exact missing service enum and UI resolver failures before production code. |
+| Post-change focused Structure run | 4 files / 31 tests passed | Service, interactions, workspace and milestone fixture/non-interference coverage. |
+| Prisma generation | Passed with Prisma 7.9.1 | Initial invocation correctly failed without required `DATABASE_URL`; rerun used only the synthetic loopback value. |
+| Typecheck / lint | Passed after final edits | TypeScript zero errors; ESLint zero warnings. |
+| Native PostgreSQL 18 forward migration | 18 migrations found and applied | Prior cluster was stopped and first credentials named the wrong test role; after restarting the existing isolated cluster and using its documented `s18_test` role, migration deployment passed. No deployment data was accessed. |
+| Native Structure verifier | Passed | Structural version 12; 2 volumes, 3 chapters, 1 outline, 1 scene, 1 eligible entity arc, 2 references, 11 outbox events and 13 revisions. Active target created; archived and foreign targets rejected; bounded read returned 3 nodes; concurrent result was 1 winner/1 conflict. |
+| New migration rollback | Passed in disposable database | One entity-arc intent removed, six old enum values restored, nine other intents retained, selection constraint restored. The first read-only verification query had invalid PowerShell quoting; literal reruns produced the stated evidence. |
+| Portability verifier correction | Two consecutive native passes | Distinct synthetic projects; snapshot/export/import/safe-copy/current restore/corruption and ownership checks retained. |
+| Portability negative tests | 3 files / 13 tests passed | Application expiry and import/representation behavior unchanged. |
+| Full Vitest coverage | 104 files / 386 tests passed, zero failures | Statements 88.00% (4789/5442), branches 76.35% (2806/3675), functions 85.63% (1186/1385), lines 93.48% (3475/3717); thresholds remain 80/75/80/80. Existing jsdom scroll/canvas notices are not failures. |
+| Production build | Passed | Next 16.3.0 compiled in 12.1 s, type phase 13.6 s, 22/22 static pages; production-shaped OIDC/billing values only, no live provider/database connection. Generated `next-env.d.ts` path churn was removed from the delta. |
+| Scope/diff audit | Passed locally | 15/15 changed files justified; `git diff --check` passes; `WorkPlan.md` unchanged; no dependency, pricing, route, editor, entity-history, causal, chronology, CSS/theme or manuscript-format change. |
+
+#### Superseding trace positions for modified files
+
+These six rows supersede prior line locations/purpose text only for the three modified trace-bearing files. There is no new trace ID. The verifier clock, enum/migration, read adapter, budget accounting and fixture code are not material runtime action boundaries and therefore do not receive meaningless `console.log` calls.
+
+| Trace | File | Comment / call line | Exact comment purpose / allowed metadata boundary |
+| --- | --- | --- | --- |
+| S4-UI-010 | `components/structure/SemanticZoomViewport.tsx` | 39 / 40 | Semantic Zoom anchor changed using stable identity only. |
+| S4-UI-013 | `components/structure/SemanticZoomViewport.tsx` | 50 / 51 | Narrative Intent submitted without logging the intent text or selection content. |
+| S4-DB-001 | `scripts/verify-structure-core-db.ts` | 91 / 92 | real PostgreSQL verified Structure and entity-arc target boundaries without emitting authored content or connection data. |
+| S4-DB-002 | `scripts/verify-structure-core-db.ts` | 109 / 110 | Structure-only rollback preserved all Phase 1 tables and byte-equivalent chapter prose. |
+| S13-DB-001 | `scripts/verify-portability-db.ts` | 38 / 39 | database proof records IDs, counts, bytes, integrity, ownership and restore outcomes only. |
+| S13-DB-002 | `scripts/verify-portability-db.ts` | 45 / 46 | rollback proof records only S13 schema removal and preserved prior row counts. |
+
+Current active register: R12c is **LOCALLY REPAIRED, REMOTE VERIFICATION PENDING**. R08 complete resource extraction, R10 live alert evaluation/delivery, and R11 real reversible Semantic Zoom remain **OPEN**. Consequently **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE**. This checkpoint is not complete until committed, pushed, exact remote refs match and CI/Security pass; no release seal is restored.

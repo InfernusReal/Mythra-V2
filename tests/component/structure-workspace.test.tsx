@@ -14,7 +14,7 @@ const model: StructureOverview = {
   volumes: [{ id: id("4"), plotId: id("2"), sequenceIndex: 0, displayNumber: "1", title: "Volume", targetWords: null, hardTargetWordsEnabled: false, version: 1, outlineId: null, chapterCount: 1 }],
   chapterOutlines: [{ id: id("6"), chapterId: id("5"), volumeId: id("4"), sequenceIndex: 0, title: "Outline", plainText: "", purpose: null, emotionalMovement: null, targetWords: null, hardTargetWordsEnabled: false, isPlaceholder: false, version: 1, sceneCount: 0 }],
   chapters: [{ id: id("5"), volumeId: id("4"), volumeSequenceIndex: 0, sequenceIndex: 0, displayNumber: "1", title: "Chapter", outlineId: id("6"), sceneCount: 0 }],
-  scenes: [], references: [], intents: [],
+  scenes: [], entityArcs: [], references: [], intents: [],
   viewState: { mode: "DISCOVERY", activeLens: "OUTLINE", expandedIds: [], activeAnchorType: null, activeAnchorId: null, cursorOffset: null, selectionAnchor: null, selectionHead: null, scrollTop: null, pinIds: [] },
   lenses: ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"],
   page: { pageSize: 100, nodeBudget: 200, edgeBudget: 300, rangeStart: 0, nextRangeStart: null, returnedNodes: 4, returnedEdges: 0, hasMoreNodes: false, hasMoreEdges: false }

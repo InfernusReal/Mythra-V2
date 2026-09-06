@@ -8,6 +8,7 @@ export interface VolumeSummary { id: string; plotId: string; sequenceIndex: numb
 export interface ChapterOutlineSummary { id: string; chapterId: string | null; volumeId: string | null; sequenceIndex: number; title: string; plainText: string; purpose: string | null; emotionalMovement: string | null; targetWords: number | null; hardTargetWordsEnabled: boolean; isPlaceholder: boolean; version: number; sceneCount: number }
 export interface ChapterStructureSummary { id: string; volumeId: string | null; volumeSequenceIndex: number | null; sequenceIndex: number; displayNumber: string | null; title: string; outlineId: string | null; sceneCount: number }
 export interface SceneSummary { id: string; chapterId: string | null; chapterOutlineId: string | null; sequenceIndex: number; title: string; purpose: string | null; provenanceType: string; provenanceSourceId: string | null; provenanceBlockId: string | null; version: number }
+export interface EntityArcTargetSummary { id: string; name: string; version: number }
 export interface StoryReferenceSummary { id: string; sourceType: string; sourceId: string; sourceBlockId: string | null; targetType: string; targetId: string; targetBlockId: string | null; relationshipKey: string; provenanceType: string; version: number }
 export interface NarrativeIntentSummary { id: string; targetType: NarrativeIntentTargetType; targetId: string; blockId: string | null; category: NarrativeIntentCategory | null; customCategory: string | null; version: number }
 export interface StructureViewStateModel { mode: PresentationMode; activeLens: StructureLens; expandedIds: string[]; activeAnchorType: string | null; activeAnchorId: string | null; cursorOffset: number | null; selectionAnchor: number | null; selectionHead: number | null; scrollTop: number | null; pinIds: string[] }
@@ -19,6 +20,7 @@ export interface StructureOverview {
   chapterOutlines: ChapterOutlineSummary[];
   chapters: ChapterStructureSummary[];
   scenes: SceneSummary[];
+  entityArcs: EntityArcTargetSummary[];
   references: StoryReferenceSummary[];
   intents: NarrativeIntentSummary[];
   viewState: StructureViewStateModel;

@@ -9,7 +9,7 @@ export const STRUCTURE_MAX_EDGE_BUDGET = 750;
 
 export const presentationModes = ["DISCOVERY", "GUIDED", "ARCHITECT"] as const;
 export const structureLenses = ["OUTLINE", "VOLUMES", "CHAPTERS", "MILESTONES", "CAUSAL", "RELATIONSHIPS", "SEMANTIC_ZOOM"] as const;
-export const narrativeIntentTargetTypes = ["PLOT", "VOLUME", "MILESTONE", "CHAPTER", "SCENE", "PARAGRAPH_SELECTION"] as const;
+export const narrativeIntentTargetTypes = ["PLOT", "VOLUME", "MILESTONE", "CHAPTER", "SCENE", "PARAGRAPH_SELECTION", "ENTITY_ARC"] as const;
 export const narrativeIntentCategories = ["TENSION", "REVELATION", "EMOTION", "PACING", "AMBIGUITY", "ATMOSPHERE", "CUSTOM"] as const;
 
 export type PresentationMode = (typeof presentationModes)[number];

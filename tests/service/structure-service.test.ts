@@ -81,6 +81,17 @@ describe("StructureService", () => {
     expect(createNarrativeIntent).not.toHaveBeenCalled();
   });
 
+  it("accepts an entity-arc intent while keeping selection anchors paragraph-only", async () => {
+    const entityId = "00000000-0000-4000-8000-000000000011";
+    const createNarrativeIntent = vi.fn().mockResolvedValue({ object: { id: plotId, targetType: "ENTITY_ARC", targetId: entityId, blockId: null, category: null, customCategory: null, version: 1 }, projectStructuralVersion: 2 });
+    const service = new StructureService(repository({ createNarrativeIntent }), createLogger());
+    vi.spyOn(console, "log").mockImplementation(() => undefined);
+    await expect(service.createNarrativeIntent(actor, projectId, { expectedStructuralVersion: 1, targetType: "ENTITY_ARC", targetId: entityId, intentText: "Private arc intent" }, "request")).resolves.toMatchObject({ object: { targetType: "ENTITY_ARC", targetId: entityId } });
+    expect(createNarrativeIntent).toHaveBeenCalledWith(actor, projectId, expect.objectContaining({ targetType: "ENTITY_ARC", targetId: entityId }));
+    await expect(service.createNarrativeIntent(actor, projectId, { expectedStructuralVersion: 1, targetType: "ENTITY_ARC", targetId: entityId, blockId: "invalid", selectionAnchor: 1, selectionHead: 2, intentText: "Private arc intent" }, "request")).rejects.toMatchObject({ name: "ZodError" });
+    expect(createNarrativeIntent).toHaveBeenCalledOnce();
+  });
+
   it("rejects ResearchItemLink-only endpoints before repository access", async () => {
     const createStoryReference = vi.fn();
     const service = new StructureService(repository({ createStoryReference }), createLogger());

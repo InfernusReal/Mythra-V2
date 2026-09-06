@@ -206,6 +206,7 @@ enum NarrativeIntentTargetType {
   SCENE
   PARAGRAPH_SELECTION
   MILESTONE
+  ENTITY_ARC
 }
 
 enum NarrativeIntentCategory {
