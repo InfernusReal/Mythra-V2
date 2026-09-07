@@ -48,4 +48,26 @@ describe("DurabilityService", () => {
     await service.save(actor, chapterId, { baseVersion: 1, clientSaveId, document }, "canary-request");
     expect(operations.events).toMatchObject([{ workspaceId: actor.workspaceId, projectId: "4ab218e3-a86f-4f41-a11a-ec29971578aa", eventName: "writing.save", dimensions: { outcome: "success", featureFlag: "editor_save_canary" } }]);
   });
+
+  it("emits a content-free failure signal and preserves the rejected save error", async () => {
+    const repo = repository();
+    const rejection = new Error("PRIVATE_DATABASE_FAILURE_DETAIL");
+    vi.mocked(repo.saveDraft).mockRejectedValue(rejection);
+    const operations = new InMemoryOperationalEventSink();
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const service = new DurabilityService(repo, createLogger(), undefined, operations);
+    await expect(service.save(actor, chapterId, { baseVersion: 1, clientSaveId, document }, "failure-request")).rejects.toBe(rejection);
+    expect(operations.events).toMatchObject([{ workspaceId: actor.workspaceId, eventName: "writing.save", dimensions: { outcome: "failure" } }]);
+    expect(JSON.stringify(operations.events)).not.toContain("PRIVATE_DATABASE_FAILURE_DETAIL");
+    expect(consoleSpy.mock.calls.flat().join("\n")).not.toContain("PRIVATE_DATABASE_FAILURE_DETAIL");
+  });
+
+  it("does not classify rejected client input as a durable-save failure", async () => {
+    const repo = repository();
+    const operations = new InMemoryOperationalEventSink();
+    const service = new DurabilityService(repo, createLogger(), undefined, operations);
+    await expect(service.save(actor, chapterId, { baseVersion: 0, clientSaveId, document }, "invalid-request")).rejects.toThrow();
+    expect(repo.saveDraft).not.toHaveBeenCalled();
+    expect(operations.events).toEqual([]);
+  });
 });

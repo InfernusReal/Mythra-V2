@@ -512,6 +512,7 @@ model Workspace {
   billingWebhooks   BillingWebhookEvent[]
   usageEvents       UsageEvent[]
   operationalEvents OperationalEvent[]
+  operationalAlerts OperationalAlertState[]
   recoveryActions   RecoveryAction[]
   suggestions       Suggestion[]
   owner             User                  @relation("WorkspaceOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
@@ -1699,6 +1700,53 @@ model OperationalEvent {
   @@index([workspaceId, eventName, occurredAt(sort: Desc)])
   @@index([eventName, occurredAt(sort: Desc)])
   @@index([projectId, eventName, occurredAt(sort: Desc)])
+}
+
+model OperationalAlertState {
+  id                String                     @id @default(uuid()) @db.Uuid
+  scopeKey          String                     @db.VarChar(128)
+  workspaceId       String?                    @db.Uuid
+  ruleKey           String                     @db.VarChar(80)
+  eventName         String                     @db.VarChar(120)
+  state             String                     @default("OK") @db.VarChar(16)
+  observed          Int                        @default(0)
+  severity          String                     @db.VarChar(16)
+  runbook           String                     @db.VarChar(240)
+  windowStartedAt   DateTime                   @db.Timestamptz(3)
+  evaluatedAt       DateTime                   @db.Timestamptz(3)
+  firedAt           DateTime?                  @db.Timestamptz(3)
+  recoveredAt       DateTime?                  @db.Timestamptz(3)
+  transitionVersion Int                        @default(0)
+  createdAt         DateTime                   @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime                   @updatedAt @db.Timestamptz(3)
+  workspace         Workspace?                 @relation(fields: [workspaceId], references: [id], onDelete: Restrict)
+  deliveries        OperationalAlertDelivery[]
+
+  @@unique([scopeKey, ruleKey])
+  @@index([workspaceId, state, evaluatedAt(sort: Desc)])
+  @@index([ruleKey, state, evaluatedAt(sort: Desc)])
+}
+
+model OperationalAlertDelivery {
+  id                String                @id @default(uuid()) @db.Uuid
+  alertStateId      String                @db.Uuid
+  transitionVersion Int
+  transitionState   String                @db.VarChar(16)
+  observed          Int
+  status            String                @default("PENDING") @db.VarChar(16)
+  attempts          Int                   @default(0)
+  availableAt       DateTime              @default(now()) @db.Timestamptz(3)
+  leaseOwner        String?               @db.VarChar(160)
+  leasedUntil       DateTime?             @db.Timestamptz(3)
+  deliveredAt       DateTime?             @db.Timestamptz(3)
+  lastErrorCode     String?               @db.VarChar(80)
+  createdAt         DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime              @updatedAt @db.Timestamptz(3)
+  alertState        OperationalAlertState @relation(fields: [alertStateId], references: [id], onDelete: Restrict)
+
+  @@unique([alertStateId, transitionVersion])
+  @@index([status, availableAt])
+  @@index([leasedUntil])
 }
 
 model RateLimitBucket {

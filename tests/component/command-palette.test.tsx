@@ -143,6 +143,7 @@ describe("S18 authoritative palette integration", () => {
     openPalette(); fireEvent.click(screen.getByRole("button", { name: label }));
     await screen.findByRole("dialog", { name: "Connect this manuscript moment" });
     expect(screen.getByRole("combobox", { name: "Phrase" })).toHaveValue(phrase);
+    await waitFor(() => expect(screen.getByRole("textbox", { name: "Story Change" })).toHaveFocus());
     expect(vi.mocked(fetch).mock.calls.every((call) => call[1]?.method !== "POST")).toBe(true);
     fireEvent.keyDown(window, { key: "Escape" });
     await waitFor(() => expect(setTextSelection).toHaveBeenCalledWith({ from: 9, to: 4 }));

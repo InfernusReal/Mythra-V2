@@ -12,10 +12,11 @@ import { createLogger } from "@/lib/observability/logger";
 import { InMemoryMetricsSink } from "@/lib/observability/metrics";
 import { POST } from "@/app/api/v2/auth/oidc/route";
 
-const runtime = vi.hoisted(() => ({ env: {} as AppEnv, authenticate: vi.fn(), rateLimit: vi.fn() }));
+const runtime = vi.hoisted(() => ({ env: {} as AppEnv, authenticate: vi.fn(), rateLimit: vi.fn(), alertSignal: vi.fn() }));
 vi.mock("@/lib/auth/runtime", () => ({ createAuthenticateUser: runtime.authenticate }));
 vi.mock("@/lib/http/api-rate-limit", () => ({ assertPublicApiRateLimit: runtime.rateLimit }));
 vi.mock("@/lib/env", async (original) => ({ ...await original<typeof import("@/lib/env")>(), getEnv: () => runtime.env }));
+vi.mock("@/lib/operations/runtime", () => ({ recordGlobalAlertSignal: runtime.alertSignal }));
 
 const origin = "https://mythra.example.test";
 const issuer = "https://identity.example.test";
@@ -53,6 +54,7 @@ beforeEach(() => {
   identities = new MemoryIdentityRepository();
   runtime.authenticate.mockReset().mockImplementation(() => new AuthenticateUser(adapter, identities, createLogger({ service: "s18-test" }), new InMemoryMetricsSink()));
   runtime.rateLimit.mockReset().mockResolvedValue(undefined);
+  runtime.alertSignal.mockReset().mockResolvedValue(undefined);
 });
 
 describe("S18 OIDC internal-session exchange", () => {
@@ -72,6 +74,7 @@ describe("S18 OIDC internal-session exchange", () => {
     expect(next.sessionId).not.toBe(actor.sessionId);
     await expect(identities.findActor(actor.userId, actor.workspaceId, actor.sessionId)).resolves.toEqual(actor);
     expect(runtime.rateLimit).toHaveBeenCalledWith("auth.oidc", "local", 10);
+    expect(runtime.alertSignal).not.toHaveBeenCalled();
     for (const privateValue of [credential, cookie.value, "private@example.test", "Private Author", "external-author"]) expect(JSON.stringify(logs.mock.calls)).not.toContain(privateValue);
   });
 
@@ -88,6 +91,8 @@ describe("S18 OIDC internal-session exchange", () => {
     const body = await response.text();
     expect(body).toContain("UNAUTHENTICATED");
     expect(body + JSON.stringify(logs.mock.calls)).not.toContain(credential);
+    expect(runtime.alertSignal).toHaveBeenCalledOnce();
+    expect(runtime.alertSignal).toHaveBeenCalledWith("auth-failures", 1);
   });
 
   it("accepts the sole configured audience array and matching authorized party", async () => {
@@ -104,6 +109,7 @@ describe("S18 OIDC internal-session exchange", () => {
       expect(response.headers.get("set-cookie")).toBeNull();
       expect(await response.text()).not.toContain("JWT");
     }
+    expect(runtime.alertSignal).toHaveBeenCalledTimes(4);
   });
 
   it("rejects cross-origin/missing-origin and non-OIDC mode before identity resolution", async () => {
@@ -115,6 +121,7 @@ describe("S18 OIDC internal-session exchange", () => {
     expect(response.headers.get("set-cookie")).toBeNull();
     expect(runtime.authenticate).not.toHaveBeenCalled();
     expect(runtime.rateLimit).not.toHaveBeenCalled();
+    expect(runtime.alertSignal).toHaveBeenCalledTimes(3);
   });
 
   it("fails closed on throttling and dependency failure without storing external credentials", async () => {
@@ -130,6 +137,8 @@ describe("S18 OIDC internal-session exchange", () => {
     const evidence = await response.text() + JSON.stringify(logs.mock.calls);
     expect(evidence).not.toContain(credential);
     expect(evidence).not.toContain("private-provider-error");
+    expect(runtime.alertSignal).toHaveBeenCalledTimes(2);
+    expect(runtime.alertSignal).toHaveBeenCalledWith("auth-failures", 1);
   });
 
   it("requires deployed issuer/JWKS HTTPS without blocking loopback test configuration", () => {

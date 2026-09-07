@@ -8,6 +8,7 @@ import { assertSameOrigin } from "@/lib/http/csrf";
 import { assertPublicApiRateLimit } from "@/lib/http/api-rate-limit";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { logger } from "@/lib/observability/logger";
+import { recordGlobalAlertSignal } from "@/lib/operations/runtime";
 
 export async function POST(request: Request) {
   const requestId = requestIdFrom(request.headers);
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     const safe = asAppError(error);
+    await recordGlobalAlertSignal("auth-failures", 1).catch(() => undefined);
     // Console trace S18-AUTH-002: failed OIDC exchange records a stable error code and request ID, never tokens, claims, headers or raw errors.
     logger.warn("auth.failure", { step: "S18-AUTH-002", requestId, errorCode: safe.code });
     return NextResponse.json(failure(safe.code, safe.message, requestId), { status: safe.status, headers: { "cache-control": "no-store" } });

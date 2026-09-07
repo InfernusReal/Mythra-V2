@@ -20,7 +20,7 @@ export class OperationsService {
     requireWorkspaceRole(actor, "ADMIN");
     const snapshot = await this.repository.adminSnapshot(actor);
     // Console trace S16-ADMIN-001: restricted admin read records bounded metadata counts and never author content.
-    this.logger.info("operations.admin_snapshot_read", { step: "S16-ADMIN-001", workspaceId: actor.workspaceId, userId: actor.userId, jobCount: snapshot.jobs.length, auditCount: snapshot.audits.length, operationCount: snapshot.operations.length });
+    this.logger.info("operations.admin_snapshot_read", { step: "S16-ADMIN-001", workspaceId: actor.workspaceId, userId: actor.userId, jobCount: snapshot.jobs.length, auditCount: snapshot.audits.length, operationCount: snapshot.operations.length, alertCount: snapshot.alerts.length });
     return snapshot;
   }
 

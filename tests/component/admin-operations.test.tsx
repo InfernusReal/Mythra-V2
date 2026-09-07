@@ -12,7 +12,8 @@ export const adminFixture: AdminOperationsSnapshot = {
   exports: [{ id: "1a55dc4b-9841-4535-96d5-8b90576947f1", format: "TEXT", scope: "MANUSCRIPT", status: "VERIFIED", sizeBytes: 512, createdAt: "2026-09-01T00:00:00.000Z" }],
   snapshots: [{ id: "d40cd0f4-dbb3-422b-8c55-5e32ef84958e", status: "VERIFIED", sizeBytes: 1_024, createdAt: "2026-09-01T00:00:00.000Z" }],
   audits: [{ id: "608b547d-41f8-449c-96c2-27b5fa3b058c", kind: "ADMIN_RECOVERY", targetType: "OUTBOX_EVENT", targetId: null, correlationId: "safe", createdAt: "2026-09-01T00:00:00.000Z" }],
-  operations: [{ eventName: "writing.save", routeKey: "/api/v2/chapters/:id/draft", durationMs: 20, numericValue: 1, occurredAt: "2026-09-01T00:00:00.000Z" }]
+  operations: [{ eventName: "writing.save", routeKey: "/api/v2/chapters/:id/draft", durationMs: 20, numericValue: 1, occurredAt: "2026-09-01T00:00:00.000Z" }],
+  alerts: [{ key: "save-failures", state: "FIRING", observed: 5, severity: "critical", runbook: "docs/runbooks/incidents.md#save-failures", evaluatedAt: "2026-09-01T00:00:00.000Z" }]
 };
 
 describe("S16 restricted admin surface", () => {
@@ -23,6 +24,8 @@ describe("S16 restricted admin surface", () => {
     expect(within(jobs).getByRole("cell", { name: "projection.refresh" })).toBeVisible();
     expect(within(screen.getByRole("region", { name: "Export jobs" })).getByRole("cell", { name: "MANUSCRIPT" })).toBeVisible();
     expect(within(screen.getByRole("region", { name: "Snapshot jobs" })).getByRole("cell", { name: "1024" })).toBeVisible();
+    expect(within(screen.getByRole("region", { name: "Operational alerts" })).getByRole("cell", { name: "save-failures" })).toBeVisible();
+    expect(within(screen.getByRole("region", { name: "Operational alerts" })).getByRole("cell", { name: "FIRING" })).toBeVisible();
     expect(screen.getByText(/f14278a4-18d1-401f-9714-1ae313c1b4b0 \(OWNER\)/u)).toBeVisible();
     expect(screen.getByText(/Content-safe operational metadata only/u)).toBeVisible();
     expect(document.body.textContent).not.toContain("private manuscript fixture");

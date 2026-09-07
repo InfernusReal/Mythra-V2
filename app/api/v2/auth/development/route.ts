@@ -8,6 +8,7 @@ import { assertSameOrigin } from "@/lib/http/csrf";
 import { requestIdFrom } from "@/lib/http/request-context";
 import { assertPublicApiRateLimit } from "@/lib/http/api-rate-limit";
 import { logger } from "@/lib/observability/logger";
+import { recordGlobalAlertSignal } from "@/lib/operations/runtime";
 
 export async function POST(request: Request) {
   const requestId = requestIdFrom(request.headers);
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     const safe = asAppError(error);
+    await recordGlobalAlertSignal("auth-failures", 1).catch(() => undefined);
     // Console trace S16-AUTH-002: authentication failure records only its stable error code and request identity for alerting.
     logger.warn("auth.failure", { step: "S16-AUTH-002", requestId, errorCode: safe.code });
     // Console trace S0-AUTH-004: authentication failure emits only the stable error code and request identifier.

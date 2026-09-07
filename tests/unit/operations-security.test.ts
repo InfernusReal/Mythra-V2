@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { createSessionToken, readSessionToken } from "@/lib/auth/session";
 import { parseEnv } from "@/lib/env";
-import { evaluateAlert, alertRules } from "@/lib/observability/alerts";
+import { advanceAlertObservation, alertRules, alertSignalForOperationalEvent, evaluateAlert, StructuredLogAlertDelivery } from "@/lib/observability/alerts";
+import { createLogger } from "@/lib/observability/logger";
 import { InMemoryOperationalEventSink, operationalEventNames, recordOperationalEvent } from "@/lib/observability/operations";
 import { retainedAtDays, uninterruptedWritingTime } from "@/lib/observability/product-health";
 import { assertWorkerCompatibility, environmentProfiles } from "@/lib/operations/environments";
@@ -70,6 +71,32 @@ describe("S16 security and operations contracts", () => {
     expect(retainedAtDays(new Date("2026-01-01T00:00:00Z"), [new Date("2026-04-02T00:00:00Z")], 90)).toBe(true);
     expect(retainedAtDays(new Date("2026-01-01T00:00:00Z"), [new Date("2026-01-08T00:00:00Z")], 7)).toBe(true);
     expect(operationalEventNames).toEqual(expect.arrayContaining(["structure.adopted", "capture.processed", "causality.feedback", "autosave.trust_feedback", "core.value_feedback", "external_tool.escape"]));
+  });
+
+  it("derives every live alert observation without content and resets fixed windows", () => {
+    const event = (eventName: "writing.save" | "outbox.lag" | "backup.status" | "auth.failure" | "storage.failure" | "database.saturation", dimensions: Record<string, string> = {}, numericValue?: number, durationMs?: number) => ({ workspaceId: actor.workspaceId, eventName, dimensions, numericValue, durationMs, occurredAt: new Date(1_000) });
+    const [save, outbox, backup, auth, storage, database] = alertRules;
+    expect(alertSignalForOperationalEvent(save!, event("writing.save", { outcome: "success" }))).toBe(0);
+    expect(alertSignalForOperationalEvent(save!, event("writing.save", { outcome: "failure" }))).toBe(1);
+    expect(alertSignalForOperationalEvent(outbox!, event("outbox.lag", {}, undefined, 60_001))).toBe(60_001);
+    expect(alertSignalForOperationalEvent(backup!, event("backup.status", { status: "failed" }))).toBe(1);
+    expect(alertSignalForOperationalEvent(backup!, event("backup.status", { status: "verified" }))).toBe(0);
+    expect(alertSignalForOperationalEvent(auth!, event("auth.failure"))).toBe(1);
+    expect(alertSignalForOperationalEvent(storage!, event("storage.failure"))).toBe(1);
+    expect(alertSignalForOperationalEvent(database!, event("database.saturation", {}, 86))).toBe(86);
+    const first = advanceAlertObservation(save!, 1, undefined, new Date(1_000));
+    const accumulated = advanceAlertObservation(save!, 1, first, new Date(2_000));
+    const reset = advanceAlertObservation(save!, 0, accumulated, new Date(5 * 60_000 + 1_001));
+    expect(accumulated.observed).toBe(2);
+    expect(reset).toMatchObject({ observed: 0, windowStartedAt: new Date(5 * 60_000 + 1_001) });
+  });
+
+  it("delivers a content-safe structured transition with idempotent coordinates", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    await new StructuredLogAlertDelivery(createLogger({ module: "alert-test" })).deliver({ deliveryId: actor.sessionId, key: "save-failures", state: "FIRING", observed: 5, severity: "critical", runbook: "docs/runbooks/incidents.md#save-failures", scopeType: "workspace", workspaceId: actor.workspaceId, transitionVersion: 1, evaluatedAt: new Date("2026-09-07T00:00:00.000Z") });
+    const record = JSON.parse(String(consoleSpy.mock.calls[0]?.[0])) as Record<string, unknown>;
+    expect(record).toMatchObject({ level: "error", event: "operations.alert_transition_delivered", step: "S18-ALERT-001", deliveryId: actor.sessionId, ruleKey: "save-failures", state: "FIRING", observed: 5, transitionVersion: 1 });
+    expect(JSON.stringify(record)).not.toContain("manuscript");
   });
 
   it("locks environment separation, independent secrets, worker compatibility, and canary kill switches", () => {

@@ -43,6 +43,7 @@ jobs:
       - run: npm ci
       - run: npm run db:generate
       - run: npm run db:deploy
+      - run: npm run db:verify:alerts
       - run: npm run db:verify:structure
       - run: npx tsx scripts/verify-s18-archive-db.ts
       - run: npx tsx scripts/verify-s18-pagination-db.ts
