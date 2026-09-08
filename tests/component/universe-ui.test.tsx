@@ -176,7 +176,7 @@ describe("Universe UI", () => {
       target: { value: "Conflict entity" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Create entity" }));
-    expect(await screen.findByText("Version conflict")).toBeVisible();
+    expect(await screen.findByText("Universe operation failed.")).toBeVisible();
   });
   it("renders populated fields, directions, snapshots and backlinks and reports invalid state", async () => {
     const full = {
@@ -253,7 +253,7 @@ describe("Universe UI", () => {
     expect(screen.getByText("Protect home")).toBeVisible();
     expect(screen.getByText(/Knows: Other/)).toBeVisible();
     expect(screen.getByText(/Known by: Third/)).toBeVisible();
-    expect(screen.getByText(/CHAPTER · mentions/)).toBeVisible();
+    expect(screen.getByText(/Chapter · Mentions/)).toBeVisible();
     fireEvent.change(screen.getByRole("textbox", { name: "State JSON" }), {
       target: { value: "not-json" },
     });
@@ -424,7 +424,7 @@ describe("Universe UI", () => {
       screen.getAllByDisplayValue("Available after private storage activation"),
     ).toHaveLength(2);
     expect(
-      screen.getByText("BOOLEAN · required by project configuration"),
+      screen.getByText("Boolean · required by project configuration"),
     ).toBeVisible();
     expect(console.log).toHaveBeenCalledWith(
       expect.stringContaining('"step":"S9-UI-004"'),

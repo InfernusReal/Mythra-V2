@@ -1,4 +1,10 @@
 "use client";
+import { useLocale } from "@/components/i18n/LocaleProvider";
+import {
+  localizedEntityTemplateName,
+  localizedErrorMessage,
+  type MessageCatalog,
+} from "@/lib/i18n/messages";
 
 import { useMemo, useRef, useState } from "react";
 import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
@@ -16,6 +22,7 @@ type Props = {
 type Envelope<T> = { data?: T; error?: { message: string } };
 
 async function send<T>(
+  messages: MessageCatalog,
   url: string,
   method: string,
   body?: unknown,
@@ -27,7 +34,13 @@ async function send<T>(
   });
   const payload = (await response.json()) as Envelope<T>;
   if (!response.ok || !payload.data)
-    throw new Error(payload.error?.message ?? "Universe operation failed.");
+    throw new Error(
+      localizedErrorMessage(
+        messages,
+        payload.error,
+        messages.universeOperationFailed,
+      ),
+    );
   return payload.data;
 }
 
@@ -38,6 +51,7 @@ export function UniverseWorkspace({
   initialStructuralVersion,
   returnChapterId,
 }: Props) {
+  const { messages } = useLocale();
   const [entities, setEntities] = useState(initialEntities);
   const [catalog, setCatalog] = useState(initialCatalog);
   const [structuralVersion, setStructuralVersion] = useState(
@@ -46,12 +60,32 @@ export function UniverseWorkspace({
   const [typeId, setTypeId] = useState(initialCatalog.entityTypes[0]?.id ?? "");
   const [name, setName] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
-  useCommandHandlers([{ id: "entity.create", projectId, execute: () => { nameRef.current?.focus(); } }]);
+  useCommandHandlers([
+    {
+      id: "entity.create",
+      projectId,
+      execute: () => {
+        nameRef.current?.focus();
+      },
+    },
+  ]);
   const [summary, setSummary] = useState("");
   const [status, setStatus] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [customTypeKey, setCustomTypeKey] = useState("");
   const [customTypeName, setCustomTypeName] = useState("");
+  const typeName = (type: UniverseCatalog["entityTypes"][number]) =>
+    localizedEntityTemplateName(messages, type.systemKey, type.name);
+  const entityTypeName = (entity: UniverseEntitySummary) => {
+    const type = catalog.entityTypes.find(
+      (candidate) => candidate.id === entity.typeId,
+    );
+    return localizedEntityTemplateName(
+      messages,
+      type?.systemKey,
+      entity.typeName,
+    );
+  };
   const visible = useMemo(
     () =>
       entities.filter((entity) => !typeFilter || entity.typeId === typeFilter),
@@ -59,12 +93,12 @@ export function UniverseWorkspace({
   );
   const create = async () => {
     if (!name.trim() || !typeId) return;
-    setStatus("Creating entity…");
+    setStatus(messages.creatingEntity);
     try {
       const result = await send<{
         entity: UniverseEntitySummary;
         projectStructuralVersion: number;
-      }>(`/api/v2/projects/${projectId}/universe`, "POST", {
+      }>(messages, `/api/v2/projects/${projectId}/universe`, "POST", {
         typeId,
         name,
         ...(summary ? { summary } : {}),
@@ -77,7 +111,7 @@ export function UniverseWorkspace({
       setStructuralVersion(result.projectStructuralVersion);
       setName("");
       setSummary("");
-      setStatus("Entity created.");
+      setStatus(messages.entityCreated);
       // Console trace S9-UI-001: Universe create UI completion emits identity/version metadata and no authored values.
       console.log(
         JSON.stringify({
@@ -91,14 +125,14 @@ export function UniverseWorkspace({
       );
     } catch (error) {
       setStatus(
-        error instanceof Error ? error.message : "Entity creation failed.",
+        error instanceof Error ? error.message : messages.entityCreationFailed,
       );
     }
   };
   const refreshCatalog = async () => {
     const result = await send<
       UniverseCatalog & { projectStructuralVersion: number }
-    >(`/api/v2/projects/${projectId}/universe/types`, "GET");
+    >(messages, `/api/v2/projects/${projectId}/universe/types`, "GET");
     setCatalog(result);
     setStructuralVersion(result.projectStructuralVersion);
     if (!typeId) setTypeId(result.entityTypes[0]?.id ?? "");
@@ -109,7 +143,7 @@ export function UniverseWorkspace({
       const result = await send<{
         typeId: string;
         projectStructuralVersion: number;
-      }>(`/api/v2/projects/${projectId}/universe/types`, "POST", {
+      }>(messages, `/api/v2/projects/${projectId}/universe/types`, "POST", {
         key: customTypeKey,
         name: customTypeName,
         fields: [],
@@ -120,7 +154,7 @@ export function UniverseWorkspace({
       setCustomTypeName("");
       await refreshCatalog();
       setTypeId(result.typeId);
-      setStatus("Custom type created.");
+      setStatus(messages.customTypeCreated);
       // Console trace S9-UI-005: custom type UI completion excludes author labels and schema content.
       console.log(
         JSON.stringify({
@@ -134,7 +168,9 @@ export function UniverseWorkspace({
       );
     } catch (error) {
       setStatus(
-        error instanceof Error ? error.message : "Custom type creation failed.",
+        error instanceof Error
+          ? error.message
+          : messages.customTypeCreationFailed,
       );
     }
   };
@@ -142,8 +178,8 @@ export function UniverseWorkspace({
     <section className="universe-workspace" aria-labelledby="universe-title">
       <header>
         <div>
-          <p className="eyebrow">Optional world context</p>
-          <h1 id="universe-title">Universe</h1>
+          <p className="eyebrow">{messages.optionalWorldContext}</p>
+          <h1 id="universe-title">{messages.universe}</h1>
         </div>
         <a
           href={
@@ -152,12 +188,16 @@ export function UniverseWorkspace({
               : `/app/projects/${projectId}`
           }
         >
-          {returnChapterId ? "Return to Chapter" : "Return to Project Home"}
+          {returnChapterId
+            ? messages.returnToChapter
+            : messages.returnToProjectHome}
         </a>
       </header>
       <p>
-        Entities require only a type and name. Templates and fields remain
-        optional.
+        {" "}
+        {
+          messages.entitiesRequireOnlyATypeAndNameTemplatesAndFieldsRemainOptional
+        }{" "}
       </p>
       <form
         onSubmit={(event) => {
@@ -166,7 +206,8 @@ export function UniverseWorkspace({
         }}
       >
         <label>
-          Type
+          {" "}
+          {messages.type}{" "}
           <select
             value={typeId}
             onFocus={() => {
@@ -176,13 +217,14 @@ export function UniverseWorkspace({
           >
             {catalog.entityTypes.map((type) => (
               <option key={type.id} value={type.id}>
-                {type.name}
+                {typeName(type)}
               </option>
             ))}
           </select>
         </label>
         <label>
-          Name
+          {" "}
+          {messages.name}{" "}
           <input
             ref={nameRef}
             required
@@ -192,18 +234,19 @@ export function UniverseWorkspace({
           />
         </label>
         <label>
-          Optional summary
+          {" "}
+          {messages.optionalSummary}{" "}
           <textarea
             maxLength={20_000}
             value={summary}
             onChange={(event) => setSummary(event.target.value)}
           />
         </label>
-        <button type="submit">Create entity</button>
+        <button type="submit">{messages.createEntity}</button>
       </form>
       {status ? <p role="status">{status}</p> : null}
       <details>
-        <summary>Create a project custom type</summary>
+        <summary>{messages.createAProjectCustomType}</summary>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -211,7 +254,8 @@ export function UniverseWorkspace({
           }}
         >
           <label>
-            Stable key
+            {" "}
+            {messages.stableKey}{" "}
             <input
               required
               pattern="[a-z][a-z0-9_]*"
@@ -221,7 +265,8 @@ export function UniverseWorkspace({
             />
           </label>
           <label>
-            Type name
+            {" "}
+            {messages.typeName}{" "}
             <input
               required
               maxLength={120}
@@ -229,36 +274,48 @@ export function UniverseWorkspace({
               onChange={(event) => setCustomTypeName(event.target.value)}
             />
           </label>
-          <button>Create custom type</button>
+          <button>{messages.createCustomType}</button>
         </form>
       </details>
       <label>
-        Filter by type
+        {" "}
+        {messages.filterByType}{" "}
         <select
           value={typeFilter}
           onChange={(event) => setTypeFilter(event.target.value)}
         >
-          <option value="">All types</option>
+          <option value="">{messages.allTypes}</option>
           {catalog.entityTypes.map((type) => (
             <option key={type.id} value={type.id}>
-              {type.name}
+              {typeName(type)}
             </option>
           ))}
         </select>
       </label>
-      {visible.length ? <VirtualList items={visible} getKey={(entity) => entity.id} label="Universe entities" className="universe-list" rowHeight={144} renderItem={(entity) => (
+      {visible.length ? (
+        <VirtualList
+          items={visible}
+          getKey={(entity) => entity.id}
+          label={messages.universeEntities}
+          className="universe-list"
+          rowHeight={144}
+          renderItem={(entity) => (
             <a
               href={`/app/projects/${projectId}/universe/${entity.id}${returnChapterId ? `?returnChapterId=${returnChapterId}` : ""}`}
             >
               <strong>{entity.name}</strong>
-              <span>{entity.typeName}</span>
+              <span>{entityTypeName(entity)}</span>
               {entity.summary ? <p>{entity.summary}</p> : null}
             </a>
-      )} /> : null}
+          )}
+        />
+      ) : null}
       {visible.length === 0 ? (
         <p>
-          No entities match this view. Writing remains available without
-          Universe setup.
+          {" "}
+          {
+            messages.noEntitiesMatchThisViewWritingRemainsAvailableWithoutUniverseSetup
+          }{" "}
         </p>
       ) : null}
     </section>

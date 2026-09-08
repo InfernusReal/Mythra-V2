@@ -1,6 +1,5 @@
 export type TemplateField = {
   key: string;
-  label: string;
   fieldType:
     | "TEXT"
     | "RICH_TEXT"
@@ -16,224 +15,173 @@ export type TemplateField = {
 };
 export type EntityTemplate = {
   key: string;
-  name: string;
   icon: string;
   fields: TemplateField[];
 };
 
-const text = (key: string, label: string): TemplateField => ({
+const text = (key: string): TemplateField => ({
   key,
-  label,
   fieldType: "TEXT",
 });
-const rich = (key: string, label: string): TemplateField => ({
+const rich = (key: string): TemplateField => ({
   key,
-  label,
   fieldType: "RICH_TEXT",
 });
-const refs = (key: string, label: string): TemplateField => ({
+const refs = (key: string): TemplateField => ({
   key,
-  label,
   fieldType: "REFERENCE_LIST",
 });
 
 export const entityTemplates: readonly EntityTemplate[] = [
   {
     key: "character",
-    name: "Character",
     icon: "person",
     fields: [
-      text("role", "Role"),
-      text("age", "Age"),
-      text("pronouns", "Pronouns"),
-      rich("appearance", "Appearance"),
-      rich("personality", "Personality"),
-      rich("goals", "Goals"),
-      rich("fears", "Fears"),
-      rich("arc", "Arc"),
-      rich("voice_notes", "Voice notes"),
-      refs("affiliations", "Affiliations"),
+      text("role"),
+      text("age"),
+      text("pronouns"),
+      rich("appearance"),
+      rich("personality"),
+      rich("goals"),
+      rich("fears"),
+      rich("arc"),
+      rich("voice_notes"),
+      refs("affiliations"),
     ],
   },
   {
     key: "location",
-    name: "Location",
     icon: "place",
     fields: [
-      text("type", "Type"),
-      text("region", "Region"),
-      rich("description", "Description"),
-      text("atmosphere", "Atmosphere"),
-      text("population", "Population"),
-      rich("rules", "Rules"),
-      refs("connected_locations", "Connected locations"),
+      text("type"),
+      text("region"),
+      rich("description"),
+      text("atmosphere"),
+      text("population"),
+      rich("rules"),
+      refs("connected_locations"),
     ],
   },
   {
     key: "faction",
-    name: "Faction / Organization",
     icon: "group",
     fields: [
-      rich("purpose", "Purpose"),
-      refs("leadership", "Leadership"),
-      refs("members", "Members"),
-      rich("ideology", "Ideology"),
-      rich("resources", "Resources"),
-      refs("rivals", "Rivals"),
-      refs("allies", "Allies"),
+      rich("purpose"),
+      refs("leadership"),
+      refs("members"),
+      rich("ideology"),
+      rich("resources"),
+      refs("rivals"),
+      refs("allies"),
     ],
   },
   {
     key: "organization",
-    name: "Organization",
     icon: "organization",
     fields: [
-      rich("purpose", "Purpose"),
-      refs("leadership", "Leadership"),
-      refs("members", "Members"),
-      rich("resources", "Resources"),
+      rich("purpose"),
+      refs("leadership"),
+      refs("members"),
+      rich("resources"),
     ],
   },
   {
     key: "culture",
-    name: "Culture / Religion",
     icon: "culture",
     fields: [
-      rich("values", "Values"),
-      rich("customs", "Customs"),
-      text("language", "Language"),
-      rich("hierarchy", "Hierarchy"),
-      rich("taboos", "Taboos"),
-      rich("rituals", "Rituals"),
-      refs("regions", "Regions"),
+      rich("values"),
+      rich("customs"),
+      text("language"),
+      rich("hierarchy"),
+      rich("taboos"),
+      rich("rituals"),
+      refs("regions"),
     ],
   },
   {
     key: "religion",
-    name: "Religion",
     icon: "religion",
     fields: [
-      rich("values", "Values"),
-      rich("beliefs", "Beliefs"),
-      rich("hierarchy", "Hierarchy"),
-      rich("rituals", "Rituals"),
-      refs("regions", "Regions"),
+      rich("values"),
+      rich("beliefs"),
+      rich("hierarchy"),
+      rich("rituals"),
+      refs("regions"),
     ],
   },
   {
     key: "power_system",
-    name: "Power / Magic System",
     icon: "power",
     fields: [
-      rich("principles", "Principles"),
-      rich("costs", "Costs"),
-      rich("constraints", "Constraints"),
-      rich("ranks", "Ranks"),
-      rich("techniques", "Techniques"),
-      rich("exceptions", "Exceptions"),
+      rich("principles"),
+      rich("costs"),
+      rich("constraints"),
+      rich("ranks"),
+      rich("techniques"),
+      rich("exceptions"),
     ],
   },
   {
     key: "item",
-    name: "Item / Artifact",
     icon: "item",
     fields: [
-      text("type", "Type"),
-      refs("owner", "Owner"),
-      rich("abilities", "Abilities"),
-      rich("limitations", "Limitations"),
-      rich("history", "History"),
-      refs("location", "Location"),
+      text("type"),
+      refs("owner"),
+      rich("abilities"),
+      rich("limitations"),
+      rich("history"),
+      refs("location"),
     ],
   },
   {
     key: "species",
-    name: "Species",
     icon: "species",
     fields: [
-      rich("appearance", "Appearance"),
-      rich("traits", "Traits"),
-      rich("culture", "Culture"),
-      refs("regions", "Regions"),
+      rich("appearance"),
+      rich("traits"),
+      rich("culture"),
+      refs("regions"),
     ],
   },
   {
     key: "technology",
-    name: "Technology",
     icon: "technology",
     fields: [
-      rich("principles", "Principles"),
-      rich("capabilities", "Capabilities"),
-      rich("constraints", "Constraints"),
-      refs("creators", "Creators"),
+      rich("principles"),
+      rich("capabilities"),
+      rich("constraints"),
+      refs("creators"),
     ],
   },
   {
     key: "event",
-    name: "Event",
     icon: "event",
     fields: [
-      rich("description", "Description"),
-      rich("consequences", "Consequences"),
-      refs("participants", "Participants"),
-      refs("locations", "Locations"),
+      rich("description"),
+      rich("consequences"),
+      refs("participants"),
+      refs("locations"),
     ],
   },
   {
     key: "lore",
-    name: "Lore / Concept",
     icon: "lore",
     fields: [
-      rich("definition", "Definition"),
-      rich("origin", "Origin"),
-      rich("consequences", "Consequences"),
-      refs("related_concepts", "Related concepts"),
+      rich("definition"),
+      rich("origin"),
+      rich("consequences"),
+      refs("related_concepts"),
     ],
   },
-  { key: "custom", name: "Custom", icon: "custom", fields: [] },
+  { key: "custom", icon: "custom", fields: [] },
 ] as const;
 
 export const relationTemplates = [
-  {
-    key: "parent_of",
-    forwardLabel: "Parent of",
-    reverseLabel: "Child of",
-    directional: true,
-  },
-  {
-    key: "member_of",
-    forwardLabel: "Member of",
-    reverseLabel: "Has member",
-    directional: true,
-  },
-  {
-    key: "located_in",
-    forwardLabel: "Located in",
-    reverseLabel: "Contains",
-    directional: true,
-  },
-  {
-    key: "enemy_of",
-    forwardLabel: "Enemy of",
-    reverseLabel: "Enemy of",
-    directional: false,
-  },
-  {
-    key: "created_by",
-    forwardLabel: "Created by",
-    reverseLabel: "Created",
-    directional: true,
-  },
-  {
-    key: "rules_over",
-    forwardLabel: "Rules over",
-    reverseLabel: "Ruled by",
-    directional: true,
-  },
-  {
-    key: "knows",
-    forwardLabel: "Knows",
-    reverseLabel: "Known by",
-    directional: true,
-  },
+  { key: "parent_of", directional: true },
+  { key: "member_of", directional: true },
+  { key: "located_in", directional: true },
+  { key: "enemy_of", directional: false },
+  { key: "created_by", directional: true },
+  { key: "rules_over", directional: true },
+  { key: "knows", directional: true },
 ] as const;

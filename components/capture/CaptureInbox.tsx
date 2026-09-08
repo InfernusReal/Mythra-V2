@@ -1,4 +1,5 @@
 "use client";
+import { useLocale } from "@/components/i18n/LocaleProvider";
 
 import { useState } from "react";
 import {
@@ -9,6 +10,14 @@ import type {
   CaptureLifecycle,
   CaptureSummary,
 } from "@/domains/capture/domain/types";
+import {
+  formatDateTime,
+  formatNumber,
+  interpolateMessage,
+  localizedEntityTemplateName,
+  localizedEnumLabel,
+  localizedErrorMessage,
+} from "@/lib/i18n/messages";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 export function CaptureInbox({
@@ -22,6 +31,7 @@ export function CaptureInbox({
   initialStructuralVersion: number;
   returnChapterId?: string;
 }) {
+  const { messages, locale } = useLocale();
   const [captures, setCaptures] = useState(initialCaptures);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [structuralVersion, setStructuralVersion] = useState(
@@ -36,7 +46,7 @@ export function CaptureInbox({
     Record<string, ActiveCausalEndpointType>
   >({});
   const [entityTypes, setEntityTypes] = useState<
-    Array<{ id: string; name: string }>
+    Array<{ id: string; name: string; systemKey: string | null }>
   >([]);
   const [entityTypeId, setEntityTypeId] = useState("");
   const request = async <T,>(url: string, method: string, body?: unknown) => {
@@ -47,19 +57,29 @@ export function CaptureInbox({
     });
     const envelope = (await response.json()) as Envelope<T>;
     if (!response.ok || !envelope.data)
-      throw new Error(envelope.error?.message ?? "Capture action failed.");
+      throw new Error(
+        localizedErrorMessage(
+          messages,
+          envelope.error,
+          messages.captureActionFailed,
+        ),
+      );
     return envelope.data;
   };
   const loadEntityTypes = async () => {
     if (entityTypes.length) return;
     try {
       const catalog = await request<{
-        entityTypes: Array<{ id: string; name: string }>;
+        entityTypes: Array<{
+          id: string;
+          name: string;
+          systemKey: string | null;
+        }>;
       }>(`/api/v2/projects/${projectId}/universe/types`, "GET");
       setEntityTypes(catalog.entityTypes);
       setEntityTypeId(catalog.entityTypes[0]?.id ?? "");
     } catch {
-      setMessage("Entity conversion types are temporarily unavailable.");
+      setMessage(messages.entityConversionTypesAreTemporarilyUnavailable);
     }
   };
   const lifecycle = async (
@@ -87,7 +107,14 @@ export function CaptureInbox({
       ),
     );
     setSelected(new Set());
-    setMessage(`${ids.length} Capture item(s) updated.`);
+    setMessage(
+      interpolateMessage(
+        ids.length === 1
+          ? messages.captureItemsUpdatedOne
+          : messages.captureItemsUpdatedOther,
+        { count: formatNumber(locale, ids.length) },
+      ),
+    );
     // Console trace S8-INBOX-001: keyboard/bulk Capture triage completed with counts only.
     console.log(
       JSON.stringify({
@@ -205,8 +232,22 @@ export function CaptureInbox({
       className="capture-inbox"
       aria-labelledby="capture-inbox-title"
       onKeyDown={(event) => {
-        if (event.nativeEvent.isComposing || event.keyCode === 229 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
-        if (event.target instanceof Element && event.target.closest('input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select,[contenteditable]:not([contenteditable="false"])')) return;
+        if (
+          event.nativeEvent.isComposing ||
+          event.keyCode === 229 ||
+          event.ctrlKey ||
+          event.metaKey ||
+          event.altKey ||
+          event.shiftKey
+        )
+          return;
+        if (
+          event.target instanceof Element &&
+          event.target.closest(
+            'input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]),textarea,select,[contenteditable]:not([contenteditable="false"])',
+          )
+        )
+          return;
         if (event.key === "f") void lifecycle("FILE");
         if (event.key === "d") void lifecycle("DEFER");
         if (event.key === "x") void lifecycle("DISMISS");
@@ -215,35 +256,50 @@ export function CaptureInbox({
     >
       <header>
         <div>
-          <p className="eyebrow">Raw thoughts remain valid</p>
-          <h1 id="capture-inbox-title">Capture Inbox</h1>
+          <p className="eyebrow">{messages.rawThoughtsRemainValid}</p>
+          <h1 id="capture-inbox-title">{messages.captureInbox}</h1>
         </div>
         {returnChapterId ? (
-          <a href={`/app/chapters/${returnChapterId}`}>Return to Chapter</a>
+          <a href={`/app/chapters/${returnChapterId}`}>
+            {messages.returnToChapter}
+          </a>
         ) : (
-          <a href={`/app/projects/${projectId}`}>Return to Project Home</a>
+          <a href={`/app/projects/${projectId}`}>
+            {messages.returnToProjectHome}
+          </a>
         )}
       </header>
-      <div className="capture-bulk" aria-label="Capture bulk actions">
-        <button onClick={() => void lifecycle("FILE")}>File selected</button>
-        <button onClick={() => void lifecycle("DEFER")}>Defer selected</button>
+      <div className="capture-bulk" aria-label={messages.captureBulkActions}>
+        <button onClick={() => void lifecycle("FILE")}>
+          {messages.fileSelected}
+        </button>
+        <button onClick={() => void lifecycle("DEFER")}>
+          {messages.deferSelected}
+        </button>
         <button onClick={() => void lifecycle("DISMISS")}>
-          Dismiss selected
+          {" "}
+          {messages.dismissSelected}{" "}
         </button>
         <button onClick={() => void lifecycle("RESTORE")}>
-          Restore selected
+          {" "}
+          {messages.restoreSelected}{" "}
         </button>
         <label>
-          Entity conversion type
+          {" "}
+          {messages.entityConversionType}{" "}
           <select
             value={entityTypeId}
             onFocus={() => void loadEntityTypes()}
             onChange={(event) => setEntityTypeId(event.target.value)}
           >
-            <option value="">Choose type</option>
+            <option value="">{messages.chooseType}</option>
             {entityTypes.map((type) => (
               <option key={type.id} value={type.id}>
-                {type.name}
+                {localizedEntityTemplateName(
+                  messages,
+                  type.systemKey,
+                  type.name,
+                )}
               </option>
             ))}
           </select>
@@ -265,55 +321,74 @@ export function CaptureInbox({
                     return next;
                   })
                 }
-              />
-              Select Capture
+              />{" "}
+              {messages.selectCapture}{" "}
             </label>
             <p>{capture.rawText}</p>
             <small>
-              {capture.lifecycle} ·{" "}
-              {new Date(capture.capturedAt).toLocaleString()} ·{" "}
-              {capture.attachmentCount} attachment(s) ·{" "}
-              {capture.conversionCount} conversion(s)
+              {localizedEnumLabel(messages, capture.lifecycle)} ·{" "}
+              {formatDateTime(locale, new Date(capture.capturedAt))} ·{" "}
+              {interpolateMessage(
+                capture.attachmentCount === 1
+                  ? messages.captureAttachmentCountOne
+                  : messages.captureAttachmentCountOther,
+                { count: formatNumber(locale, capture.attachmentCount) },
+              )}{" "}
+              {interpolateMessage(
+                capture.conversionCount === 1
+                  ? messages.captureConversionCountOne
+                  : messages.captureConversionCountOther,
+                { count: formatNumber(locale, capture.conversionCount) },
+              )}{" "}
             </small>
             <div>
               <button onClick={() => void lifecycle("FILE", [capture.id])}>
-                File
+                {" "}
+                {messages.file}{" "}
               </button>
               <button onClick={() => void lifecycle("DEFER", [capture.id])}>
-                Defer
+                {" "}
+                {messages.defer}{" "}
               </button>
               <button onClick={() => void lifecycle("DISMISS", [capture.id])}>
-                Dismiss
+                {" "}
+                {messages.dismiss}{" "}
               </button>
               <button onClick={() => void lifecycle("RESTORE", [capture.id])}>
-                Restore
+                {" "}
+                {messages.restore}{" "}
               </button>
             </div>
             <div>
               <button onClick={() => void convert(capture.id, "MILESTONE")}>
-                Convert to Milestone
+                {" "}
+                {messages.convertToMilestone}{" "}
               </button>
               <button onClick={() => void convert(capture.id, "STORY_CHANGE")}>
-                Convert to Story Change
+                {" "}
+                {messages.convertToStoryChange}{" "}
               </button>
               <button
                 onClick={() =>
                   void convert(capture.id, "CAPTURE_DERIVED_CAUSAL")
                 }
               >
-                Create causal identity
+                {" "}
+                {messages.createCausalIdentity}{" "}
               </button>
               <button
                 disabled={!entityTypeId}
                 onClick={() => void convert(capture.id, "ENTITY")}
               >
-                Convert to Entity
+                {" "}
+                {messages.convertToEntity}{" "}
               </button>
             </div>
             <fieldset>
-              <legend>Optional explicit causal action</legend>
+              <legend>{messages.optionalExplicitCausalAction}</legend>
               <label>
-                Endpoint type
+                {" "}
+                {messages.endpointType}{" "}
                 <select
                   value={causalEndpointType[capture.id] ?? "STORY_CHANGE"}
                   onChange={(event) =>
@@ -334,7 +409,8 @@ export function CaptureInbox({
                 </select>
               </label>
               <label>
-                Endpoint ID
+                {" "}
+                {messages.endpointId}{" "}
                 <input
                   value={causalTarget[capture.id] ?? ""}
                   onChange={(event) =>
@@ -355,7 +431,8 @@ export function CaptureInbox({
                   )
                 }
               >
-                Because of endpoint
+                {" "}
+                {messages.becauseOfEndpoint}{" "}
               </button>
               <button
                 disabled={!causalTarget[capture.id]}
@@ -367,7 +444,8 @@ export function CaptureInbox({
                   )
                 }
               >
-                This causes endpoint
+                {" "}
+                {messages.thisCausesEndpoint}{" "}
               </button>
             </fieldset>
             <form
@@ -377,7 +455,8 @@ export function CaptureInbox({
               }}
             >
               <label>
-                Attach to chapter ID
+                {" "}
+                {messages.attachToChapterId}{" "}
                 <input
                   value={attachmentTarget[capture.id] ?? ""}
                   onChange={(event) =>
@@ -388,17 +467,19 @@ export function CaptureInbox({
                   }
                 />
               </label>
-              <button>Attach</button>
+              <button>{messages.attach}</button>
             </form>
             {capture.attachments.length ? (
               <ul>
                 {capture.attachments.map((attachment) => (
                   <li key={attachment.id}>
-                    {attachment.targetType} {attachment.targetId}{" "}
+                    {localizedEnumLabel(messages, attachment.targetType)}{" "}
+                    {attachment.targetId}{" "}
                     <button
                       onClick={() => void detach(capture.id, attachment.id)}
                     >
-                      Detach
+                      {" "}
+                      {messages.detach}{" "}
                     </button>
                   </li>
                 ))}

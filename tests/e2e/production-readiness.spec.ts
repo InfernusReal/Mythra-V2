@@ -122,5 +122,18 @@ test.describe("Sub-gate 15 production writing surfaces", () => {
     await expect(page.getByRole("button", { name: "المتابعة إلى ميثرا" })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
     await page.screenshot({ path: "test-results/s15-arabic-rtl.png", fullPage: true });
+    await page.getByRole("button", { name: "المتابعة إلى ميثرا" }).click();
+    await page.waitForURL(/\/app$/);
+    await expect(page.getByLabel("Project title")).toBeVisible();
+    await page.locator(".command-trigger").click();
+    const palette = page.getByRole("dialog", {
+      name: "لوحة الأوامر والبحث في المشروع",
+    });
+    await expect(palette).toBeVisible();
+    await expect(palette.getByRole("button", { name: "Create project" })).toBeVisible();
+    await page.screenshot({
+      path: "test-results/s18-i18n-product-arabic-fallback.png",
+      fullPage: true,
+    });
   });
 });

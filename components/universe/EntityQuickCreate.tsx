@@ -1,4 +1,9 @@
 "use client";
+import { useLocale } from "@/components/i18n/LocaleProvider";
+import {
+  localizedEntityTemplateName,
+  localizedErrorMessage,
+} from "@/lib/i18n/messages";
 
 import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
 import { useRef } from "react";
@@ -8,7 +13,10 @@ import type { Editor } from "@tiptap/core";
 import { useCallback, useEffect, useState } from "react";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
 import { useFocusPreservingOverlay } from "@/lib/editor/use-focus-preserving-overlay";
-import { MOBILE_WRITING_ACTION, type MobileWritingAction } from "@/lib/editor/mobile-actions";
+import {
+  MOBILE_WRITING_ACTION,
+  type MobileWritingAction,
+} from "@/lib/editor/mobile-actions";
 
 type Selection = { from: number; to: number; blockId: string; name: string };
 type Envelope<T> = { data?: T; error?: { message: string } };
@@ -39,6 +47,7 @@ export function EntityQuickCreate({
   projectId: string;
   chapterId: string;
 }) {
+  const { messages } = useLocale();
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<Selection | null>(null);
   const [catalog, setCatalog] = useState<
@@ -60,7 +69,11 @@ export function EntityQuickCreate({
         ) => {
           if (!payload.data)
             throw new Error(
-              payload.error?.message ?? "Entity types unavailable.",
+              localizedErrorMessage(
+                messages,
+                payload.error,
+                messages.entityTypesUnavailable,
+              ),
             );
           setCatalog(payload.data);
           setTypeId(payload.data.entityTypes[0]?.id ?? "");
@@ -68,28 +81,49 @@ export function EntityQuickCreate({
       )
       .catch((error) => {
         setMessage(
-          error instanceof Error ? error.message : "Entity types unavailable.",
+          error instanceof Error
+            ? error.message
+            : messages.entityTypesUnavailable,
         );
       });
-  }, [catalog, open, projectId]);
+  }, [catalog, messages, open, projectId]);
   const begin = useCallback(() => {
     if (!editor) return;
     const selected = selectionOf(editor);
     if (!selected) {
-      setMessage("Select manuscript text before creating an entity.");
+      setMessage(messages.selectManuscriptTextBeforeCreatingAnEntity);
       return;
     }
     capture();
     setSelection(selected);
     setOpen(true);
-  }, [capture, editor]);
-  useCommandHandlers([{ id: "entity.selection", projectId, chapterId, available: () => Boolean(editor && !editor.isDestroyed && selectionOf(editor) && !open), execute: begin }]);
+  }, [capture, editor, messages.selectManuscriptTextBeforeCreatingAnEntity]);
+  useCommandHandlers([
+    {
+      id: "entity.selection",
+      projectId,
+      chapterId,
+      available: () =>
+        Boolean(editor && !editor.isDestroyed && selectionOf(editor) && !open),
+      execute: begin,
+    },
+  ]);
   useEffect(() => {
     const action = (event: Event) => {
-      if ((event as CustomEvent<MobileWritingAction>).detail !== "entity") return;
+      if ((event as CustomEvent<MobileWritingAction>).detail !== "entity")
+        return;
       begin();
       // Console trace S15-MOBILE-007: mobile Entity action records availability without selected manuscript content.
-      console.log(JSON.stringify({ level: "info", step: "S15-MOBILE-007", event: "responsive.entity_action_invoked", projectId, chapterId, selectionAvailable: Boolean(editor && selectionOf(editor)) }));
+      console.log(
+        JSON.stringify({
+          level: "info",
+          step: "S15-MOBILE-007",
+          event: "responsive.entity_action_invoked",
+          projectId,
+          chapterId,
+          selectionAvailable: Boolean(editor && selectionOf(editor)),
+        }),
+      );
     };
     window.addEventListener(MOBILE_WRITING_ACTION, action);
     return () => window.removeEventListener(MOBILE_WRITING_ACTION, action);
@@ -129,7 +163,11 @@ export function EntityQuickCreate({
       }>;
       if (!response.ok || !payload.data)
         throw new Error(
-          payload.error?.message ?? "Entity quick create failed.",
+          localizedErrorMessage(
+            messages,
+            payload.error,
+            messages.entityQuickCreateFailed,
+          ),
         );
       editor
         .chain()
@@ -161,20 +199,21 @@ export function EntityQuickCreate({
             }
           : current,
       );
-      setMessage("Entity created and invisible reference attached.");
+      setMessage(messages.entityCreatedAndInvisibleReferenceAttached);
       close();
     } catch (error) {
       setMessage(
         error instanceof Error
           ? error.message
-          : "Entity quick create failed. Manuscript was not changed.",
+          : messages.entityQuickCreateFailedManuscriptWasNotChanged,
       );
     }
   };
   return (
     <section className="entity-quick-create">
       <button type="button" onClick={begin}>
-        Create Entity from Selection
+        {" "}
+        {messages.createEntityFromSelection}{" "}
       </button>
       {message ? <span role="status">{message}</span> : null}
       {open ? (
@@ -186,8 +225,8 @@ export function EntityQuickCreate({
             aria-modal="true"
             aria-labelledby="entity-quick-title"
           >
-            <h2 id="entity-quick-title">Create entity</h2>
-            <p>Visible manuscript text will not be rewritten.</p>
+            <h2 id="entity-quick-title">{messages.createEntity}</h2>
+            <p>{messages.visibleManuscriptTextWillNotBeRewritten}</p>
             <form
               onSubmit={(event) => {
                 event.preventDefault();
@@ -195,7 +234,8 @@ export function EntityQuickCreate({
               }}
             >
               <label>
-                Type
+                {" "}
+                {messages.type}{" "}
                 <select
                   autoFocus
                   value={typeId}
@@ -203,22 +243,28 @@ export function EntityQuickCreate({
                 >
                   {(catalog?.entityTypes ?? []).map((type) => (
                     <option key={type.id} value={type.id}>
-                      {type.name}
+                      {localizedEntityTemplateName(
+                        messages,
+                        type.systemKey,
+                        type.name,
+                      )}
                     </option>
                   ))}
                 </select>
               </label>
               <label>
-                Optional note
+                {" "}
+                {messages.optionalNote}{" "}
                 <input
                   maxLength={1000}
                   value={note}
                   onChange={(event) => setNote(event.target.value)}
                 />
               </label>
-              <button disabled={!typeId}>Create and reference</button>
+              <button disabled={!typeId}>{messages.createAndReference}</button>
               <button type="button" onClick={close}>
-                Cancel
+                {" "}
+                {messages.cancel}{" "}
               </button>
             </form>
           </section>

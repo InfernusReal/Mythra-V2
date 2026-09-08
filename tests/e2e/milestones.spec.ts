@@ -36,7 +36,7 @@ test.describe("Sub-gate 5 Milestones", () => {
     const previewed = page.waitForResponse((response) => response.url().endsWith("/milestones/scaffold/preview") && response.ok());
     await page.getByRole("button", { name: "Preview allocation" }).click(); await previewed;
     const dialog = page.getByRole("dialog", { name: "Review milestone allocation" });
-    await expect(dialog).toContainText("Milestone 1: chapters 1–2 · 6000 words · 2026-09-01");
+    await expect(dialog).toContainText("Milestone 1: chapters 1–2 · 6,000 words · Sep 1, 2026");
     const applied = page.waitForResponse((response) => response.url().endsWith("/milestones/scaffold/apply") && response.ok());
     await dialog.getByRole("button", { name: "Apply reviewed allocation" }).click(); await applied;
     await expect(page.getByText("Version 2. Planning remains optional.")).toBeVisible();
@@ -67,8 +67,8 @@ test.describe("Sub-gate 5 Milestones", () => {
     await page.getByRole("button", { name: "Milestones", exact: true }).click();
     await expect(page.locator(".milestone-range-list li")).toHaveCount(2);
     await page.getByRole("button", { name: "Chapter matrix" }).click();
-    await expect(page.getByText(/Opening: develop \(2\)/)).toBeVisible();
-    await expect(page.getByText(/Turn: turn \(1\)/)).toBeVisible();
+    await expect(page.getByText(/Opening: Develop \(2\)/)).toBeVisible();
+    await expect(page.getByText(/Turn: Turn \(1\)/)).toBeVisible();
     await page.getByRole("button", { name: "Dependencies" }).click();
     await page.getByLabel("Source").selectOption(state.firstId); await page.getByLabel("Depends on").selectOption(state.secondId); await page.getByLabel("Hard requirement").check();
     const forward = page.waitForResponse((response) => response.url().endsWith("/milestones/dependencies") && response.status() === 201);
@@ -79,8 +79,10 @@ test.describe("Sub-gate 5 Milestones", () => {
     await expect(page.locator(".form-error")).toContainText("integrity constraints");
     await page.getByRole("button", { name: "Semantic Zoom" }).click();
     await page.getByLabel("Active chapter").selectOption(chapterIds[0]!);
-    await expect(page.getByText("MILESTONE THREAD").first()).toBeVisible();
-    await expect(page.getByText("MILESTONE THREAD")).toHaveCount(2);
+    const levels = page.getByRole("navigation", { name: "Semantic zoom levels" });
+    await levels.getByRole("button", { name: "Milestone/Thread", exact: true }).click();
+    await expect(page.getByRole("button", { name: "Set anchor to Opening" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Set anchor to Turn" })).toBeVisible();
   });
 
   test("is accessible in the desktop milestone matrix", async ({ page }) => {

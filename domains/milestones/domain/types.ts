@@ -108,7 +108,7 @@ export function planMilestoneScaffold(raw: unknown) {
     allocations.push({ sequenceIndex: index, chapterStart, chapterEnd, targetWords, targetDate: targetDate === null ? null : new Date(targetDate).toISOString().slice(0, 10) });
   }
   const canonical = JSON.stringify({ input, allocations });
-  return { expectedStructuralVersion: input.expectedStructuralVersion, allocations, placeholderCount: allocations.length, planToken: createHash("sha256").update(canonical).digest("hex"), warnings: input.milestoneCount > input.chapterCount ? ["Some advisory ranges overlap because milestone count exceeds chapter count."] : [] };
+  return { expectedStructuralVersion: input.expectedStructuralVersion, allocations, placeholderCount: allocations.length, planToken: createHash("sha256").update(canonical).digest("hex"), warnings: input.milestoneCount > input.chapterCount ? ["OVERLAPPING_MILESTONE_RANGES"] : [] };
 }
 
 export type MilestoneScaffoldPlan = ReturnType<typeof planMilestoneScaffold>;

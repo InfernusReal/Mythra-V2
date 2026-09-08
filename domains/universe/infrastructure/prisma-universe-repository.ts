@@ -1,6 +1,12 @@
 import { Prisma, type PrismaClient } from "@/app/generated/prisma/client";
 import type { SessionActor } from "@/domains/accounts/domain/identity";
 import { errors } from "@/lib/contracts/errors";
+import {
+  getMessages,
+  localizedEntityTemplateFieldLabel,
+  localizedEntityTemplateName,
+  localizedRelationTemplateLabel,
+} from "@/lib/i18n/messages";
 import type { UniverseCatalog, UniverseRepository } from "../application/ports";
 import { entityTemplates, relationTemplates } from "../domain/templates";
 import type {
@@ -98,19 +104,25 @@ async function bump(
 }
 
 async function ensureCatalog(tx: Tx): Promise<void> {
+  const canonicalMessages = getMessages("en");
   for (const template of entityTemplates) {
+    const templateName = localizedEntityTemplateName(
+      canonicalMessages,
+      template.key,
+      template.key,
+    );
     const type = await tx.entityType.upsert({
       where: { systemKey: template.key },
       create: {
         systemKey: template.key,
         key: template.key,
-        name: template.name,
+        name: templateName,
         icon: template.icon,
         locale: "en",
         schemaVersion: 1,
       },
       update: {
-        name: template.name,
+        name: templateName,
         icon: template.icon,
         locale: "en",
         schemaVersion: 1,
@@ -123,13 +135,23 @@ async function ensureCatalog(tx: Tx): Promise<void> {
         create: {
           entityTypeId: type.id,
           key: field.key,
-          label: field.label,
+          label: localizedEntityTemplateFieldLabel(
+            canonicalMessages,
+            template.key,
+            field.key,
+            field.key,
+          ),
           fieldType: field.fieldType,
           orderIndex,
           configJson: json(field.config ?? {}),
         },
         update: {
-          label: field.label,
+          label: localizedEntityTemplateFieldLabel(
+            canonicalMessages,
+            template.key,
+            field.key,
+            field.key,
+          ),
           fieldType: field.fieldType,
           orderIndex,
           configJson: json(field.config ?? {}),
@@ -143,13 +165,33 @@ async function ensureCatalog(tx: Tx): Promise<void> {
       create: {
         systemKey: relation.key,
         key: relation.key,
-        forwardLabel: relation.forwardLabel,
-        reverseLabel: relation.reverseLabel,
+        forwardLabel: localizedRelationTemplateLabel(
+          canonicalMessages,
+          relation.key,
+          "forward",
+          relation.key,
+        ),
+        reverseLabel: localizedRelationTemplateLabel(
+          canonicalMessages,
+          relation.key,
+          "reverse",
+          relation.key,
+        ),
         directional: relation.directional,
       },
       update: {
-        forwardLabel: relation.forwardLabel,
-        reverseLabel: relation.reverseLabel,
+        forwardLabel: localizedRelationTemplateLabel(
+          canonicalMessages,
+          relation.key,
+          "forward",
+          relation.key,
+        ),
+        reverseLabel: localizedRelationTemplateLabel(
+          canonicalMessages,
+          relation.key,
+          "reverse",
+          relation.key,
+        ),
         directional: relation.directional,
         archivedAt: null,
       },
@@ -716,14 +758,16 @@ export class PrismaUniverseRepository implements UniverseRepository {
                 }),
                 tx.storyReference.count({ where }),
               ]);
-              const page = rows.slice(0, 100).map((row): UniverseBacklink => ({
-                sourceType: String(row.sourceType),
-                sourceId: row.sourceId,
-                sourceBlockId: row.sourceBlockId,
-                relationshipKey: row.relationshipKey,
-                provenanceType: row.provenanceType,
-                createdAt: row.createdAt.toISOString(),
-              }));
+              const page = rows.slice(0, 100).map(
+                (row): UniverseBacklink => ({
+                  sourceType: String(row.sourceType),
+                  sourceId: row.sourceId,
+                  sourceBlockId: row.sourceBlockId,
+                  relationshipKey: row.relationshipKey,
+                  provenanceType: row.provenanceType,
+                  createdAt: row.createdAt.toISOString(),
+                }),
+              );
               return {
                 sourceType,
                 page,

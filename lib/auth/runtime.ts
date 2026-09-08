@@ -11,6 +11,7 @@ import { getPrisma } from "@/lib/db/prisma";
 import { getEnv } from "@/lib/env";
 import { logger } from "@/lib/observability/logger";
 import { noOpMetrics } from "@/lib/observability/metrics";
+import { getMessages } from "@/lib/i18n/messages";
 import { readSessionToken, SESSION_COOKIE } from "./session";
 
 export function createAuthAdapter(): ExternalAuthAdapter {
@@ -21,13 +22,17 @@ export function createAuthAdapter(): ExternalAuthAdapter {
         provider: "development",
         subject: env.DEV_AUTH_SUBJECT ?? "local-author",
         email: env.DEV_AUTH_EMAIL ?? "author@example.test",
-        displayName: env.DEV_AUTH_NAME ?? "Local Author",
-        emailVerified: true
+        displayName: env.DEV_AUTH_NAME ?? getMessages("en").localAuthor,
+        emailVerified: true,
       },
-      env.DEV_AUTH_SUBJECT ?? "local-author"
+      env.DEV_AUTH_SUBJECT ?? "local-author",
     );
   }
-  return new OidcAuthAdapter(env.AUTH_JWKS_URL!, env.AUTH_ISSUER!, env.AUTH_AUDIENCE!);
+  return new OidcAuthAdapter(
+    env.AUTH_JWKS_URL!,
+    env.AUTH_ISSUER!,
+    env.AUTH_AUDIENCE!,
+  );
 }
 
 export function createAuthenticateUser(): AuthenticateUser {
@@ -35,12 +40,15 @@ export function createAuthenticateUser(): AuthenticateUser {
     createAuthAdapter(),
     new PrismaIdentityRepository(getPrisma()),
     logger.child({ module: "accounts" }),
-    noOpMetrics
+    noOpMetrics,
   );
 }
 
 export function createPreferenceService(): ManagePreferences {
-  return new ManagePreferences(new PrismaIdentityRepository(getPrisma()), logger.child({ module: "preferences" }));
+  return new ManagePreferences(
+    new PrismaIdentityRepository(getPrisma()),
+    logger.child({ module: "preferences" }),
+  );
 }
 
 export async function optionalActor(): Promise<SessionActor | null> {
@@ -48,12 +56,17 @@ export async function optionalActor(): Promise<SessionActor | null> {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
-  const claimed = readSessionToken(token, { current: env.SESSION_SECRET, currentKeyId: env.SESSION_KEY_ID, previous: env.SESSION_PREVIOUS_SECRET, previousKeyId: env.SESSION_PREVIOUS_KEY_ID });
+  const claimed = readSessionToken(token, {
+    current: env.SESSION_SECRET,
+    currentKeyId: env.SESSION_KEY_ID,
+    previous: env.SESSION_PREVIOUS_SECRET,
+    previousKeyId: env.SESSION_PREVIOUS_KEY_ID,
+  });
   if (!claimed) return null;
   return new PrismaIdentityRepository(getPrisma()).findActor(
     claimed.userId,
     claimed.workspaceId,
-    claimed.sessionId
+    claimed.sessionId,
   );
 }
 

@@ -13,6 +13,9 @@ export interface ProjectionProvenance {
 export interface NarrativeDirectiveItem {
   id: string;
   label: string;
+  leadingCode?: string;
+  labelCode?: string;
+  labelOrdinal?: number;
   rank: number;
   provenance: ProjectionProvenance;
 }
@@ -62,7 +65,10 @@ export interface DurableSemanticCoordinateProjection {
   orderedPath: SemanticCoordinateItem[];
   ancestorPath: SemanticCoordinateItem[];
   crossCuttingMilestoneThreadIds: string[];
-  neighborhoodSummaries: Array<{ level: SemanticCoordinateLevel; count: number }>;
+  neighborhoodSummaries: Array<{
+    level: SemanticCoordinateLevel;
+    count: number;
+  }>;
 }
 
 export interface ProjectionCandidate {
@@ -87,37 +93,80 @@ function canonical(value: unknown): string {
     .join(",")}}`;
 }
 
-export function projectionDigest(input: Omit<ProjectionCandidate, "digest" | "generatedAt">): string {
+export function projectionDigest(
+  input: Omit<ProjectionCandidate, "digest" | "generatedAt">,
+): string {
   // generatedAt is operational provenance, not semantic content; excluding it makes incremental and full rebuilds comparable.
   return createHash("sha256").update(canonical(input)).digest("hex");
 }
 
-export function projectionCandidate(input: Omit<ProjectionCandidate, "digest">): ProjectionCandidate {
-  const digest = projectionDigest({ kind: input.kind, scopeType: input.scopeType, scopeId: input.scopeId, projectStructuralVersion: input.projectStructuralVersion, sourceObjectVersions: input.sourceObjectVersions, payload: input.payload, freshness: input.freshness });
+export function projectionCandidate(
+  input: Omit<ProjectionCandidate, "digest">,
+): ProjectionCandidate {
+  const digest = projectionDigest({
+    kind: input.kind,
+    scopeType: input.scopeType,
+    scopeId: input.scopeId,
+    projectStructuralVersion: input.projectStructuralVersion,
+    sourceObjectVersions: input.sourceObjectVersions,
+    payload: input.payload,
+    freshness: input.freshness,
+  });
   return { ...input, digest };
 }
 
-export function canReplaceProjection(current: Pick<ProjectionCandidate, "projectStructuralVersion" | "sourceObjectVersions"> | null, candidate: ProjectionCandidate): boolean {
+export function canReplaceProjection(
+  current: Pick<
+    ProjectionCandidate,
+    "projectStructuralVersion" | "sourceObjectVersions"
+  > | null,
+  candidate: ProjectionCandidate,
+): boolean {
   if (!current) return true;
-  if (candidate.projectStructuralVersion < current.projectStructuralVersion) return false;
-  if (candidate.projectStructuralVersion > current.projectStructuralVersion) return true;
-  return Object.entries(candidate.sourceObjectVersions).every(([key, version]) => version >= (current.sourceObjectVersions[key] ?? 0));
+  if (candidate.projectStructuralVersion < current.projectStructuralVersion)
+    return false;
+  if (candidate.projectStructuralVersion > current.projectStructuralVersion)
+    return true;
+  return Object.entries(candidate.sourceObjectVersions).every(
+    ([key, version]) => version >= (current.sourceObjectVersions[key] ?? 0),
+  );
 }
 
-export function orderDirectiveItems(items: readonly NarrativeDirectiveItem[], cap = 8): NarrativeDirectiveItem[] {
-  return [...items].sort((left, right) => right.rank - left.rank || left.id.localeCompare(right.id)).slice(0, cap);
+export function orderDirectiveItems(
+  items: readonly NarrativeDirectiveItem[],
+  cap = 8,
+): NarrativeDirectiveItem[] {
+  return [...items]
+    .sort(
+      (left, right) =>
+        right.rank - left.rank || left.id.localeCompare(right.id),
+    )
+    .slice(0, cap);
 }
 
-export function buildDurableDirective(input: Omit<DurableNarrativeDirectiveProjection, "purpose" | "purposeItems" | "advanceItems" | "preserveItems" | "readerOutcomeItems" | "nextItems" | "becauseItems" | "consequenceItems" | "rankedContextItems"> & {
-  purposeItems?: readonly NarrativeDirectiveItem[];
-  advanceItems?: readonly NarrativeDirectiveItem[];
-  preserveItems?: readonly NarrativeDirectiveItem[];
-  readerOutcomeItems?: readonly NarrativeDirectiveItem[];
-  nextItems?: readonly NarrativeDirectiveItem[];
-  becauseItems?: readonly NarrativeDirectiveItem[];
-  consequenceItems?: readonly NarrativeDirectiveItem[];
-  rankedContextItems?: readonly NarrativeDirectiveItem[];
-}): DurableNarrativeDirectiveProjection {
+export function buildDurableDirective(
+  input: Omit<
+    DurableNarrativeDirectiveProjection,
+    | "purpose"
+    | "purposeItems"
+    | "advanceItems"
+    | "preserveItems"
+    | "readerOutcomeItems"
+    | "nextItems"
+    | "becauseItems"
+    | "consequenceItems"
+    | "rankedContextItems"
+  > & {
+    purposeItems?: readonly NarrativeDirectiveItem[];
+    advanceItems?: readonly NarrativeDirectiveItem[];
+    preserveItems?: readonly NarrativeDirectiveItem[];
+    readerOutcomeItems?: readonly NarrativeDirectiveItem[];
+    nextItems?: readonly NarrativeDirectiveItem[];
+    becauseItems?: readonly NarrativeDirectiveItem[];
+    consequenceItems?: readonly NarrativeDirectiveItem[];
+    rankedContextItems?: readonly NarrativeDirectiveItem[];
+  },
+): DurableNarrativeDirectiveProjection {
   const purposeItems = orderDirectiveItems(input.purposeItems ?? []);
   return {
     ...input,
@@ -148,18 +197,83 @@ export function buildDurableSemanticCoordinate(input: {
   blockId?: string | null;
   neighborhoodSummaries?: DurableSemanticCoordinateProjection["neighborhoodSummaries"];
 }): DurableSemanticCoordinateProjection {
-  const ancestors: SemanticCoordinateItem[] = [{ level: "PROJECT", id: input.projectId, relationship: "OWNERSHIP" }];
-  if (input.plotId) ancestors.push({ level: "PLOT", id: input.plotId, relationship: "OWNERSHIP" });
-  if (input.plotOutlineId) ancestors.push({ level: "PLOT_OUTLINE", id: input.plotOutlineId, relationship: "ABSTRACTION" });
-  if (input.volumeId) ancestors.push({ level: "VOLUME", id: input.volumeId, relationship: "OWNERSHIP" });
-  if (input.volumeOutlineId) ancestors.push({ level: "VOLUME_OUTLINE", id: input.volumeOutlineId, relationship: "ABSTRACTION" });
-  if (input.chapterOutlineId) ancestors.push({ level: "CHAPTER_OUTLINE", id: input.chapterOutlineId, relationship: "ABSTRACTION" });
-  if (input.chapterId) ancestors.push({ level: "CHAPTER", id: input.chapterId, relationship: "OWNERSHIP" });
-  if (input.sceneId) ancestors.push({ level: "SCENE", id: input.sceneId, relationship: "ABSTRACTION" });
-  if (input.storyChangeId) ancestors.push({ level: "STORY_CHANGE", id: input.storyChangeId, relationship: "RELEVANCE" });
-  if (input.blockId) ancestors.push({ level: "BLOCK", id: input.blockId, relationship: "CONTENT" });
-  const milestoneThreadIds = [...new Set(input.milestoneThreadIds ?? [])].sort();
-  const crossCutting = milestoneThreadIds.map<SemanticCoordinateItem>((id) => ({ level: "MILESTONE_THREAD", id, relationship: "RELEVANCE" }));
-  const orderedPath = [...ancestors, ...crossCutting].sort((left, right) => semanticCoordinateOrder.indexOf(left.level) - semanticCoordinateOrder.indexOf(right.level) || left.id.localeCompare(right.id));
-  return { activeAnchor: orderedPath.at(-1) ?? ancestors[0]!, projectStructuralVersion: input.projectStructuralVersion, orderedPath, ancestorPath: ancestors, crossCuttingMilestoneThreadIds: milestoneThreadIds, neighborhoodSummaries: input.neighborhoodSummaries ?? [] };
+  const ancestors: SemanticCoordinateItem[] = [
+    { level: "PROJECT", id: input.projectId, relationship: "OWNERSHIP" },
+  ];
+  if (input.plotId)
+    ancestors.push({
+      level: "PLOT",
+      id: input.plotId,
+      relationship: "OWNERSHIP",
+    });
+  if (input.plotOutlineId)
+    ancestors.push({
+      level: "PLOT_OUTLINE",
+      id: input.plotOutlineId,
+      relationship: "ABSTRACTION",
+    });
+  if (input.volumeId)
+    ancestors.push({
+      level: "VOLUME",
+      id: input.volumeId,
+      relationship: "OWNERSHIP",
+    });
+  if (input.volumeOutlineId)
+    ancestors.push({
+      level: "VOLUME_OUTLINE",
+      id: input.volumeOutlineId,
+      relationship: "ABSTRACTION",
+    });
+  if (input.chapterOutlineId)
+    ancestors.push({
+      level: "CHAPTER_OUTLINE",
+      id: input.chapterOutlineId,
+      relationship: "ABSTRACTION",
+    });
+  if (input.chapterId)
+    ancestors.push({
+      level: "CHAPTER",
+      id: input.chapterId,
+      relationship: "OWNERSHIP",
+    });
+  if (input.sceneId)
+    ancestors.push({
+      level: "SCENE",
+      id: input.sceneId,
+      relationship: "ABSTRACTION",
+    });
+  if (input.storyChangeId)
+    ancestors.push({
+      level: "STORY_CHANGE",
+      id: input.storyChangeId,
+      relationship: "RELEVANCE",
+    });
+  if (input.blockId)
+    ancestors.push({
+      level: "BLOCK",
+      id: input.blockId,
+      relationship: "CONTENT",
+    });
+  const milestoneThreadIds = [
+    ...new Set(input.milestoneThreadIds ?? []),
+  ].sort();
+  const crossCutting = milestoneThreadIds.map<SemanticCoordinateItem>((id) => ({
+    level: "MILESTONE_THREAD",
+    id,
+    relationship: "RELEVANCE",
+  }));
+  const orderedPath = [...ancestors, ...crossCutting].sort(
+    (left, right) =>
+      semanticCoordinateOrder.indexOf(left.level) -
+        semanticCoordinateOrder.indexOf(right.level) ||
+      left.id.localeCompare(right.id),
+  );
+  return {
+    activeAnchor: orderedPath.at(-1) ?? ancestors[0]!,
+    projectStructuralVersion: input.projectStructuralVersion,
+    orderedPath,
+    ancestorPath: ancestors,
+    crossCuttingMilestoneThreadIds: milestoneThreadIds,
+    neighborhoodSummaries: input.neighborhoodSummaries ?? [],
+  };
 }

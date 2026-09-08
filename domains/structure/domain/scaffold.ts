@@ -25,7 +25,7 @@ export interface StructureScaffoldPlan {
   expectedStructuralVersion: number;
   allocations: VolumeAllocation[];
   placeholderCount: number;
-  warnings: string[];
+  warnings: Array<"UNALLOCATED_VOLUME_RANGE">;
 }
 
 function balancedCounts(total: number, buckets: number): number[] {
@@ -53,7 +53,10 @@ export function planStructureScaffold(raw: ScaffoldInput): StructureScaffoldPlan
   return {
     planToken: createHash("sha256").update(JSON.stringify(unsigned)).digest("hex"),
     ...unsigned,
-    warnings: input.volumeCount > input.chapterCount ? ["Some volumes have no allocated chapter range; this is advisory and may be applied."] : []
+    warnings:
+      input.volumeCount > input.chapterCount
+        ? ["UNALLOCATED_VOLUME_RANGE"]
+        : [],
   };
 }
 
@@ -62,4 +65,3 @@ export function verifyScaffoldPlan(input: ScaffoldInput, planToken: string): Str
   if (plan.planToken !== planToken) throw new Error("STALE_OR_TAMPERED_SCAFFOLD_PLAN");
   return plan;
 }
-

@@ -5599,3 +5599,271 @@ Pure calculations, state reads, render-only markup and tests deliberately receiv
 | S16-OPS-008 / S16-OPS-009 | `scripts/process-live-model-outbox.ts` | 22 / 23 and 24 / 25 | Existing projection completion and outbox-lag comments/calls cover bounded counts, stable worker ID and measured lag only. |
 
 R10 final local decision: **LOCALLY REPAIRED — COMMIT/PUSH/REMOTE VERIFICATION PENDING**. R11 is **REMOTE VERIFIED**. R08 complete resource extraction remains **OPEN**. Therefore **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE**. The Phase 7 completion phrase remains unauthorized.
+
+### 27.22 R08 complete-resource-extraction pre-code boundary
+
+R10 remote observation at this boundary: commit `5b1603ce4ce935bec85ba16b148e60e47faa7faa` is the exact local and `origin/agent/workplan-subgates-audit` head. PR Security run `34086601890` and push Security run `34086598477` passed at that hash. PR CI run `34086601929` is still in progress, so R10 remains **REMOTE VERIFICATION PENDING** and this paragraph is not a remote-closure claim.
+
+The owned R08 problem is now finite. WorkPlan 9.1/9.2 requires complete i18n resource extraction, and Bible 29.1 requires user-facing English not to be embedded in deep domain logic plus locale-aware real-world date/number formatting. The existing S15 implementation correctly supplies locale resolution, `lang`/`dir`, an English/Arabic shell catalog, RTL/long-label evidence and region adapters, but only `AppShell`, `MobileNavigationSheet`, `ThemeMenu` and sign-in consume the catalog. A static-source inventory found user-facing literals in 52 remaining page/component files, Semantic Zoom included; `CaptureInbox` formats a real date with the host locale and `BillingPanel` hard-codes or omits locale for currency, usage and invoice dates. Therefore R08 is a **Verified gap**, not a request for another language, product redesign or domain rewrite.
+
+#### Surgical R08 contract recorded before application code
+
+| Required item | Locked implementation boundary |
+| --- | --- |
+| Exact owned problem | Move every static user-facing interface label, instruction, empty/loading/error copy, placeholder, title and accessibility name in `app/**/*.tsx` and `components/**/*.tsx` into one typed resource catalog; route all affected client and server surfaces through locale-aware access; route real-world dates, numbers, currency and byte quantities through locale-aware formatters; prevent regression with a source-level extraction audit. |
+| Resource/core files | Materially extend `lib/i18n/messages.ts`; add narrowly scoped request-locale and formatter helpers under `lib/i18n`; update `components/i18n/LocaleProvider.tsx` only if the typed client access contract needs formatter exposure. English is the complete canonical catalog. Existing Arabic translations remain authoritative; keys without an approved Arabic translation use an explicit typed English fallback rather than fabricated/machine-translated product truth. |
+| Server UI files | Update the user-facing pages under `app/app/**`, root metadata/layout where static copy exists, and `app/sign-in/page.tsx` only as required to consume the request catalog/formatters. API route semantics, URLs and envelopes remain unchanged. |
+| Client UI files | Update the inventoried product components under `components/{billing,capture,context,editor,language,live-model,operations,portability,projects,research,search,shell,structure,suggestions,timeline,universe}` that contain static user-facing copy. Existing dynamic author content and domain-provided values remain unmodified and untranslated. |
+| Deep domain boundary | Inspect domain/application messages that can cross an API/UI boundary. Replace only verified user-facing prose with stable resource-owned presentation mapping or locale-neutral error codes; retain internal invariant/configuration/telemetry errors that are never displayed to authors. No domain behavior or validation condition may change. |
+| Enforcement and tests | Add a focused R08 unit suite proving full catalog/fallback typing, interpolation, English/Arabic locale choice, locale-aware date/number/currency/byte output and a finite source scan that rejects newly embedded user-facing JSX/accessibility/form-control literals. Extend representative component/server tests and the existing S15 RTL/long-label proof where behavior changes. Run focused tests first, then lint, typecheck, full coverage, stress, accessibility, production build and applicable browser localization/regression suites. |
+| Instrumentation | Preserve `S15-I18N-001`. Add only meaningful content-safe R08 traces at locale fallback/request-catalog or formatter lifecycle boundaries, each with an adjacent `Console trace S18-I18N-NNN` comment. Do not log authored content, UI copy, search terms, entity names or translated/private content. Exact final comment/call line numbers will be recorded after formatting. |
+| Positive proof | The source audit reports zero unowned user-facing static literals within the declared app/component scope (excluding a reviewed finite allowlist for product identity, protocol tokens, enum values and non-visible technical attributes); representative English and Arabic UI uses the same keys; real-world formatting changes with locale; Semantic Zoom labels are resource-owned. |
+| Negative proof | No schema/migration, API route, domain workflow, object hierarchy, command behavior, pricing/entitlement, authored content, visual layout, CSS, theme token, navigation path or region capability changes. Existing tests plus full regression prove non-interference. |
+
+Expected product-file groups are deliberately exhaustive at this boundary: the 12 user-facing `app/app/**/page.tsx` files identified by the scan; the existing root/sign-in locale boundaries; and the 52 inventoried files in the component groups above. A file will be changed only when direct inspection confirms a user-facing literal or locale-sensitive formatter. Any inventoried file requiring no change will be recorded as inspected, not falsely listed as modified. Every actual changed file will receive an individual post-diff justification.
+
+Implementation order is locked as follows: (1) write the failing extraction/formatter/catalog tests; (2) implement the typed catalog, explicit fallback, interpolation and locale formatting primitives; (3) migrate server pages; (4) migrate client surfaces by existing domain group without changing component behavior; (5) inspect boundary-crossing domain errors and repair only confirmed presentation leakage; (6) run the finite source audit and close all true positives; (7) run full regression/stress/build/browser verification; (8) inspect and justify the complete diff, append exact trace/evidence tables, commit, push and require exact-hash remote CI/Security success before R08 or S18 may pass.
+
+Pre-code gate decision: **R08 IN PROGRESS; R10 REMOTE VERIFICATION PENDING; S18 IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.** No R08 application code was changed before this boundary was recorded.
+
+### 27.23 R10 exact remote closure
+
+R10 is now **REMOTE VERIFIED**. The implementation commit is `5b1603ce4ce935bec85ba16b148e60e47faa7faa`; local `HEAD`, `origin/agent/workplan-subgates-audit`, and `git ls-remote` resolved to that exact object when the closure was audited. GitHub Actions supplied three independent exact-hash results: pull-request CI run `34086601929` passed (`verify` job `101631731159`; `s18-regression` job `101631731060`), pull-request Security run `34086601890` passed, and push Security run `34086598477` passed. This closes only R10. It does not by itself close R08, S18, S19, S20, or Phase 7.
+
+### 27.24 R08 implementation, corrections, and post-code audit
+
+R08 converts the pre-code boundary above into a complete, typed, locale-aware presentation contract. The English catalog is canonical and exhaustive. The Arabic catalog preserves every previously approved Arabic shell translation and fills every otherwise-untranslated key through an explicit typed English fallback; no fabricated Arabic product translation was introduced. The final merged catalogs contain exactly 1,145 English keys and 1,145 Arabic-resolvable keys.
+
+The implementation migrated static user-facing copy across all inventoried product pages and components. Client surfaces consume `useMessages`; server pages consume the request-scoped catalog. Interpolation is centralized and typed. Locale-aware date, number, currency, percent, and byte formatters replace host-locale or hard-coded formatting at real-world presentation boundaries. Dynamic authored material, entity names, project names, manuscript text, research content, search input, Capture content, and other user data remain byte-for-byte presentation values and are never translated or logged.
+
+Deep application/domain values that reach presentation are now locale-neutral codes or structured presentation metadata. Causality endpoint failures, context exclusions/directives, live-model warnings, search labels, milestone roles, structure scaffolding, universe built-ins/templates, portability issues, and writing-command failures resolve to resource-owned labels at the UI boundary. Custom author-defined universe labels and relation labels remain authoritative. The directive projection keeps first-class `becauseItems[]` and `consequenceItems[]`; neither is collapsed into ranked context. Semantic Zoom uses the locked coordinate order `Plot -> Plot Outline -> Volume -> Volume Outline -> Milestone/Thread -> Chapter Outline -> Chapter -> Scene -> Prose`, while milestones remain cross-cutting ownership objects.
+
+#### R08 audit-found gaps and remediation register extension
+
+| ID | Finding | Classification | Repair and proof |
+| --- | --- | --- | --- |
+| R15 | The writing-continuation hook captured scroll synchronously. Playwright's link auto-scroll immediately before click could overwrite the last stable author snapshot, so back-navigation restored the wrong position. | Verified product defect | Debounced scroll capture, freeze-on-navigation, timer cancellation, and navigation-safe cleanup were added. The exact continuation browser proof and the complete browser matrix pass. |
+| R16 | `verify-causality-db.ts` still called `TIMELINE_EVENT`, `ENTITY_STATE`, and `CAPTURE_DERIVED` reserved adapters and reported `reservedAdaptersRejected: false`, despite Phase 3 having activated those endpoint kinds. This did not break runtime behavior, but it made the native proof semantically false. | Verified evidence defect | The verifier now tests missing active endpoint IDs, requires every adapter to return `NOT_FOUND`, fails if any do not, and emits `missingActiveEndpointsRejected: true`. The complete PostgreSQL 18 native proof passes. |
+
+The first complete browser run correctly exposed five issues: three localized expectation drifts, a scaffold punctuation defect, and the continuation defect above. The expectation drifts were updated to the resource-owned output (`Unmute Chapter outline`, locale-formatted `6,000 words · Sep 1, 2026`, and localized milestone roles); the semantic-zoom regression now selects `Milestone/Thread` before asserting milestone nodes. `BulkScaffold` no longer adds punctuation around a resource whose value already owns the colon. A first continuation repair was insufficient because browser auto-scroll precedes the click event; the final debounce/freeze design closes that timing window. No failed run was discarded or represented as a pass.
+
+#### R08 implemented contract
+
+| WorkPlan/Bible obligation | Implementation evidence | Negative/non-interference evidence | Decision |
+| --- | --- | --- | --- |
+| Complete typed resource extraction | One canonical `productMessages` catalog, a typed key union, complete locale merge, typed interpolation, client/server access, and a finite source audit cover every declared app/component UI source. | Product identity, protocol/enum values, technical attributes, test fixtures, authored data, and internal-only invariant text remain outside presentation resources under a reviewed finite policy. | PASS LOCALLY |
+| Approved Arabic plus explicit English fallback | Existing Arabic shell overrides remain unchanged in authority; every other catalog key resolves through the canonical English entry and the unit suite proves key parity/fallback. | No machine-generated or inferred Arabic product wording was added. | PASS LOCALLY |
+| Locale-aware real-world formatting | Shared formatters own numbers, percentages, currency, dates/times, and bytes; billing, Capture, milestone, operations, portability, timeline, research, editor, and other affected surfaces consume them. | Stored timestamps, quantities, pricing values, identifiers, and API representations are unchanged. | PASS LOCALLY |
+| Static UI copy migrated | All inventoried server pages and component groups use catalog keys for headings, instructions, buttons, placeholders, status/error/empty/loading copy, titles, and accessibility names. | Dynamic author content is passed through verbatim; routes, event handlers, layout structure, and capabilities are unchanged. | PASS LOCALLY |
+| Deep-domain presentation separation | User-visible outcomes cross boundaries as stable codes or structured label metadata and are localized at the adapter/UI boundary. | Validation conditions, transaction rules, causal semantics, ranking, projection math, and persistence contracts remain unchanged. | PASS LOCALLY |
+| Relevant Now directive integrity | Purpose, Advance, Preserve, Reader Outcome, Next, ranked context, `becauseItems[]`, and `consequenceItems[]` remain explicit resource-presented directive fields. | Because/Consequences are not inferred from or hidden inside another collection. | PASS LOCALLY |
+| Semantic Zoom hierarchy | Resource-owned labels expose the locked nine-level order, and browser coverage selects and verifies the milestone/thread level. | Milestone ownership remains cross-cutting; persistence hierarchy and routes are unchanged. | PASS LOCALLY |
+| Ctrl+K completeness | All 26 command names/descriptions and command-palette UI labels use typed resource keys; ranking receives localized presentation strings without changing command IDs or execution. | No command was added, removed, renamed at the ID level, rerouted, or re-permissioned. | PASS LOCALLY |
+| Source enforcement | `i18n-complete-extraction.test.ts` scans the finite production scope and fails on unowned JSX text, accessibility/form literals, and forbidden deep-domain presentation prose. Final scan reports zero violations. | The allowlist is finite and limited to reviewed technical/product-identity cases; it is not a catch-all suppression. | PASS LOCALLY |
+| Instrumentation/privacy | Locale resolution and client locale activation use content-safe traces; continuation and repaired DB verification retain adjacent step comments and bounded metadata. | No resource text, translation, author content, search term, entity name, manuscript text, token, credential, or raw error is logged. | PASS LOCALLY |
+| Regression/locality | Focused, full coverage, stress, accessibility, production build, browser, native PostgreSQL, lint, typecheck, and diff checks pass after repairs. | No schema/migration, API route, pricing/entitlement, CSS/theme, dependency, visual redesign, or WorkPlan change is present. | PASS LOCALLY |
+
+R08 did not alter `WorkPlan.md`; its SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. The six macro phases, mandatory original Sub-gates 0-17, sequencing, and Phase 7 authority remain intact.
+
+### 27.25 R08 exact per-file accountability
+
+Every actual R08 working-tree path is listed once below. Similar migrations remain separate rows so no file is hidden behind a directory-level claim.
+
+#### Documentation and server surfaces
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `app/app/chapters/[id]/page.tsx` | Migrate the chapters/[id] server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/app/page.tsx` | Migrate the page.tsx server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/app/projects/[id]/captures/page.tsx` | Migrate the projects/[id]/captures server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/app/projects/[id]/page.tsx` | Migrate the projects/[id] server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/app/projects/[id]/research/page.tsx` | Migrate the projects/[id]/research server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/app/settings/page.tsx` | Migrate the settings server page's static headings, instructions, status/empty/error copy, and labels to request-scoped typed resources; data access and routes are unchanged. |
+| `app/layout.tsx` | Resolve the request catalog for document metadata and preserve the existing locale-owned html language/direction boundary; routing and layout composition are unchanged. |
+
+#### Client presentation surfaces
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `components/billing/BillingPanel.tsx` | Migrate BillingPanel user-visible billing copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/capture/CaptureInbox.tsx` | Migrate CaptureInbox user-visible capture copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/capture/QuickCaptureOverlay.tsx` | Migrate QuickCaptureOverlay user-visible capture copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/context/ContextCards.tsx` | Migrate ContextCards user-visible context copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/context/ContextualWritingField.tsx` | Migrate ContextualWritingField user-visible context copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/context/PeekOverlay.tsx` | Migrate PeekOverlay user-visible context copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/context/RelevantNow.tsx` | Migrate RelevantNow user-visible context copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/CausalComposer.tsx` | Migrate CausalComposer user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/ChapterEditor.tsx` | Migrate ChapterEditor user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/ConflictBanner.tsx` | Migrate ConflictBanner user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/EditorToolbar.tsx` | Migrate EditorToolbar user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/FocusMode.tsx` | Migrate FocusMode user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/MobileWritingActions.tsx` | Migrate MobileWritingActions user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/RecoveryDrawer.tsx` | Migrate RecoveryDrawer user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/RestoreActions.tsx` | Migrate RestoreActions user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/RevisionDiff.tsx` | Migrate RevisionDiff user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/editor/WordTarget.tsx` | Migrate WordTarget user-visible editor copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/language/EditorSearchBridge.tsx` | Migrate EditorSearchBridge user-visible language copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/live-model/LiveModelFreshness.tsx` | Migrate LiveModelFreshness user-visible live-model copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/operations/AdminOperationsPanel.tsx` | Migrate AdminOperationsPanel user-visible operations copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/operations/ContinueWritingLink.tsx` | Migrate ContinueWritingLink user-visible operations copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/operations/RecoveryActionControl.tsx` | Migrate RecoveryActionControl user-visible operations copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/performance/VirtualList.tsx` | Migrate VirtualList user-visible performance copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/portability/PortabilityPanel.tsx` | Migrate PortabilityPanel user-visible portability copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/projects/ProjectCreator.tsx` | Migrate ProjectCreator user-visible projects copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/projects/StartFirstChapter.tsx` | Migrate StartFirstChapter user-visible projects copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/research/ResearchWorkspace.tsx` | Migrate ResearchWorkspace user-visible research copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/search/SearchPeek.tsx` | Migrate SearchPeek user-visible search copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/search/SearchResultGroups.tsx` | Migrate SearchResultGroups user-visible search copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/search/SearchWorkspace.tsx` | Migrate SearchWorkspace user-visible search copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/shell/AppShell.tsx` | Migrate AppShell user-visible shell copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/shell/CommandPalette.tsx` | Migrate CommandPalette user-visible shell copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/shell/DegradedNetworkStatus.tsx` | Migrate DegradedNetworkStatus user-visible shell copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/BulkScaffold.tsx` | Migrate BulkScaffold user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/CausalLens.tsx` | Migrate CausalLens user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/ChapterPlanningGrid.tsx` | Migrate ChapterPlanningGrid user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/MilestoneLens.tsx` | Migrate MilestoneLens user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/OutlineLens.tsx` | Migrate OutlineLens user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/RelationshipLens.tsx` | Migrate RelationshipLens user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/SemanticZoomViewport.tsx` | Migrate SemanticZoomViewport user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/StructureLensNav.tsx` | Migrate StructureLensNav user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/StructureWorkspace.tsx` | Migrate StructureWorkspace user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/structure/VolumeLane.tsx` | Migrate VolumeLane user-visible structure copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/suggestions/SuggestionInbox.tsx` | Migrate SuggestionInbox user-visible suggestions copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/timeline/TimelineWorkspace.tsx` | Migrate TimelineWorkspace user-visible timeline copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/universe/EntityDetail.tsx` | Migrate EntityDetail user-visible universe copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/universe/EntityQuickCreate.tsx` | Migrate EntityQuickCreate user-visible universe copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+| `components/universe/UniverseWorkspace.tsx` | Migrate UniverseWorkspace user-visible universe copy, form/accessibility labels, states, and locale-sensitive values to typed resources while preserving its existing events, author data, and layout behavior. |
+
+#### Domain and application boundaries
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `domains/accounts/infrastructure/prisma-identity-repository.ts` | Replace verified accounts presentation leakage with stable codes or structured resource metadata at prisma-identity-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/causality/application/ports.ts` | Replace verified causality presentation leakage with stable codes or structured resource metadata at ports, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/causality/domain/chronology.ts` | Replace verified causality presentation leakage with stable codes or structured resource metadata at chronology, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/causality/domain/endpoint-registry.ts` | Expose stable resource-resolvable endpoint labels and preserve the Phase 2/3 adapter activation and resolver contract. |
+| `domains/causality/infrastructure/prisma-causality-repository.ts` | Replace verified causality presentation leakage with stable codes or structured resource metadata at prisma-causality-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/causality/infrastructure/prisma-endpoint-adapters.ts` | Replace verified causality presentation leakage with stable codes or structured resource metadata at prisma-endpoint-adapters, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/context/application/ports.ts` | Replace verified context presentation leakage with stable codes or structured resource metadata at ports, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/context/domain/directive.ts` | Keep Because and Consequences as explicit directive collections while replacing presentation prose with stable resource-resolvable data. |
+| `domains/context/domain/resolver.ts` | Replace verified context presentation leakage with stable codes or structured resource metadata at resolver, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/context/domain/types.ts` | Carry locale-neutral context/directive presentation codes, including explicit Because and Consequences, without changing context semantics. |
+| `domains/context/infrastructure/prisma-context-repository.ts` | Replace verified context presentation leakage with stable codes or structured resource metadata at prisma-context-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/language/application/service.ts` | Replace verified language presentation leakage with stable codes or structured resource metadata at service, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/live-model/application/ports.ts` | Replace verified live-model presentation leakage with stable codes or structured resource metadata at ports, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/live-model/domain/projections.ts` | Carry structured projection presentation metadata while preserving projection values and freshness behavior. |
+| `domains/live-model/domain/warnings.ts` | Represent user-facing live-model warnings with stable codes and structured metadata rather than embedded English prose. |
+| `domains/live-model/infrastructure/prisma-live-model-repository.ts` | Replace verified live-model presentation leakage with stable codes or structured resource metadata at prisma-live-model-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/live-model/infrastructure/projector.ts` | Replace verified live-model presentation leakage with stable codes or structured resource metadata at projector, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/milestones/domain/types.ts` | Use stable milestone role codes for localized presentation while preserving role semantics. |
+| `domains/portability/domain/import.ts` | Represent import issue presentation through stable codes while preserving validation and import decisions. |
+| `domains/portability/infrastructure/prisma-portability-repository.ts` | Replace verified portability presentation leakage with stable codes or structured resource metadata at prisma-portability-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/search/domain/types.ts` | Use locale-neutral result-kind presentation metadata while preserving search result identity and ordering. |
+| `domains/search/infrastructure/prisma-search-repository.ts` | Replace verified search presentation leakage with stable codes or structured resource metadata at prisma-search-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/structure/domain/scaffold.ts` | Move generated scaffold presentation defaults to stable resource-owned identifiers without changing generated hierarchy or counts. |
+| `domains/structure/infrastructure/prisma-structure-repository.ts` | Replace verified structure presentation leakage with stable codes or structured resource metadata at prisma-structure-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/universe/domain/templates.ts` | Replace built-in type/relation/template display prose with stable resource keys while preserving custom author-defined labels and template structure. |
+| `domains/universe/infrastructure/prisma-universe-repository.ts` | Replace verified universe presentation leakage with stable codes or structured resource metadata at prisma-universe-repository, preserving repository queries, invariants, authorization, transactions, and stored author content. |
+| `domains/writing/application/commands.ts` | Replace author-visible command failure prose with stable presentation codes while retaining command validation and mutation behavior. |
+
+#### Shared runtime and native verification
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `lib/auth/runtime.ts` | Route runtime user-facing status or error presentation through typed resources and locale helpers without changing the underlying runtime contract. |
+| `lib/commands/ranking.ts` | Rank localized command presentation strings while preserving the existing scoring, ordering, and command identity rules. |
+| `lib/commands/registry.ts` | Replace all 26 Ctrl+K command names/descriptions with typed resource keys while preserving stable command IDs, scopes, shortcuts, and execution targets. |
+| `lib/context/use-context-field.ts` | Route use-context-field user-facing status or error presentation through typed resources and locale helpers without changing the underlying runtime contract. |
+| `lib/i18n/messages.ts` | Merge the complete canonical catalog with approved Arabic overrides, enforce typed fallback/interpolation, and expose locale-aware number/date/currency/percent/byte helpers. |
+| `lib/offline/degraded-mode.ts` | Route degraded-mode user-facing status or error presentation through typed resources and locale helpers without changing the underlying runtime contract. |
+| `lib/writing/use-durable-chapter.ts` | Route use-durable-chapter user-facing status or error presentation through typed resources and locale helpers without changing the underlying runtime contract. |
+| `lib/writing/use-writing-continuation.ts` | Repair exact continuation by debouncing scroll capture and freezing the author snapshot across navigation; add no route or persistence behavior. |
+| `scripts/verify-causality-db.ts` | Correct the native proof for active timeline, entity-state, and capture-derived adapters and require NOT_FOUND for missing active endpoints. |
+| `lib/i18n/product-messages.ts` | Define the exhaustive 1,145-key canonical English product catalog used by every migrated presentation surface. |
+| `lib/i18n/request.ts` | Provide request-scoped typed message access and record only the resolved locale through the centralized content-safe logger. |
+
+#### Regression, stress, and extraction tests
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `tests/component/admin-operations.test.tsx` | Update admin-operations.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/billing-ui.test.tsx` | Update billing-ui.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/capture-ui.test.tsx` | Update capture-ui.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/causal-composer.test.tsx` | Update causal-composer.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/causal-lens.test.tsx` | Update causal-lens.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/context-field.test.tsx` | Update context-field.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/list-pages.test.tsx` | Update list-pages.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/milestone-lens.test.tsx` | Update milestone-lens.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/search-language-ui.test.tsx` | Update search-language-ui.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/shell.test.tsx` | Update shell.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/structure-interactions.test.tsx` | Update structure-interactions.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/timeline-research-ui.test.tsx` | Update timeline-research-ui.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/component/universe-ui.test.tsx` | Update universe-ui.test component assertions/fixtures for resource-owned localized output while retaining the original interaction, state, privacy, and accessibility expectations. |
+| `tests/e2e/billing.spec.ts` | Update billing.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/capture.spec.ts` | Update capture.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/causality.spec.ts` | Update causality.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/context-field.spec.ts` | Update context-field.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/milestones.spec.ts` | Update milestones.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/portability.spec.ts` | Update portability.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/production-readiness.spec.ts` | Update production-readiness.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/e2e/timeline-research.spec.ts` | Update timeline-research.spec browser expectations for localized and locale-formatted output while preserving the original end-to-end capability and negative-path proof. |
+| `tests/service/causality-service.test.ts` | Update causality-service.test service fixtures/assertions for locale-neutral presentation codes without weakening causality behavior or security checks. |
+| `tests/stress/command-ranking.stress.test.ts` | Exercise command-ranking.stress.test with localized command presentation while preserving the existing stress budget and deterministic ordering assertions. |
+| `tests/unit/command-ranking.test.ts` | Update command-ranking.test unit assertions for stable presentation codes and localized labels while preserving the original domain/runtime contract. |
+| `tests/unit/live-model-automation.test.ts` | Update live-model-automation.test unit assertions for stable presentation codes and localized labels while preserving the original domain/runtime contract. |
+| `tests/unit/portability-import.test.ts` | Update portability-import.test unit assertions for stable presentation codes and localized labels while preserving the original domain/runtime contract. |
+| `tests/unit/i18n-complete-extraction.test.ts` | Enforce catalog parity, approved fallback, interpolation and locale formatting, and scan the finite production source scope for unowned UI/deep-domain presentation text. |
+
+#### Other audited paths
+
+| File | Exact necessity and preserved boundary |
+| --- | --- |
+| `Path.md` | Append the authoritative R08 pre-code contract, implementation ledger, audit corrections, per-file accountability, trace lines, verification results, and gate decision without rewriting prior history. |
+
+Accountability count: **121 changed paths listed / 121 accounted for / zero omitted**. This count includes the append-only execution ledger and the three new R08 files.
+
+### 27.26 R08 verification, stress, and correction evidence
+
+| Check | Final result | Evidence, failures, and correction disposition |
+| --- | --- | --- |
+| Focused R08 catalog/extraction suite | PASS: 1 file / 11 tests | Proves 1,145-key English canonical catalog, complete Arabic-resolvable catalog, explicit English fallback, interpolation, locale choice, number/date/currency/byte behavior, source ownership, and prohibited deep-domain presentation scan. |
+| Full coverage | PASS: 106 files / 407 tests in 92.21 seconds | Statements 87.95% (`5008/5694`), branches 77.14% (`2957/3833`), functions 85.62% (`1251/1461`), lines 90.48% (`4376/4836`); all configured thresholds pass. |
+| Lint | PASS twice, including after the native-verifier correction | ESLint completed with zero warnings or errors. |
+| Typecheck | PASS twice, including after the native-verifier correction | TypeScript completed with zero errors. |
+| Accessibility | PASS: 10 files / 13 tests in 24.16 seconds | Serious/critical axe checks pass. jsdom's expected canvas not-implemented notices are non-failing environment notices and do not hide an accessibility violation. |
+| Stress | PASS uncontested: 17 files / 32 tests in 11.69 seconds | The first run was intentionally concurrent with coverage and produced 31/32: one timing-only assertion completed in 4.582 seconds against a 4-second budget under shared CPU contention; no correctness assertion failed. The isolated rerun passed the unchanged budget and all 32 assertions. |
+| Targeted browser repairs | PASS: 3/3 in 45.2 seconds | The three repaired localized/scaffold/continuation paths passed before the final matrix. A prior seven-case diagnostic run produced 3 passes, 1 device skip, and 3 failures, which exposed a stale Semantic Zoom selection, duplicate resource-owned punctuation, and the remaining pre-click auto-scroll timing window; each was corrected before rerun. |
+| Complete Playwright matrix | PASS: 132 cases total | 70 applicable tests passed, 62 device-specific cases intentionally skipped by declared project applicability, zero failures, in 7.3 minutes. Desktop/mobile capability coverage includes commands, Capture, context, milestones, structure/Semantic Zoom, causality, timeline/research, portability, billing, production readiness, and exact continuation. |
+| Production build | PASS | Next.js 16.3.0 compiled in 8.0 seconds, TypeScript completed in 7.4 seconds, and all 22 static pages/routes completed in 25.74 seconds. Build-generated `next-env.d.ts` path churn was removed from the diff after proof. |
+| Native causality/database proof | PASS on isolated loopback PostgreSQL 18 | Structural version 16; four StoryChanges; six active relations; all active adapters resolved; missing active endpoints and missing block anchors rejected; hard cycle rejected; temporal feedback accepted; duplicate-active idempotence; cross-project and cross-workspace protection; discovery-time reveal basis; three impact paths with complete provenance; bounded/direct-first traversal; complete revision snapshots; content-free 14-item outbox; lifecycle choices and prose preserved; concurrent winners/conflicts `1/1`. |
+| Native verifier audit correction | PASS after R16 repair | The first successful runtime proof emitted the misleading legacy field `reservedAdaptersRejected: false`. Source audit identified the evidence defect; the verifier now hard-fails unless missing IDs for all three active Phase 3 endpoint kinds return `NOT_FOUND`, and the rerun emits `missingActiveEndpointsRejected: true`. |
+| Environment correction | Valid final proof only | A targeted browser invocation while the disposable database was stopped failed at sign-in and is classified as invalid setup evidence, not an application result. A new isolated server attempt on port 55418 encountered an OS bind restriction; the same isolated PostgreSQL 18 workspace was brought up on loopback port 55419 and all final native/browser proofs passed. No credential is recorded. |
+| Diff and scope | PASS | `git diff --check` returns no whitespace errors; Git emits only Windows LF-to-CRLF conversion notices. 121 paths are individually accounted for above. No unintended generated file remains. |
+
+The first full browser matrix before repairs contained 65 passes, 62 intentional skips, and five failures: three stale localized expectations, the scaffold punctuation defect, and the exact-continuation defect. The final 70-pass matrix is the rerun after each cause was repaired. This chronology is retained to distinguish discovery evidence from the final compliance result.
+
+### 27.27 R08 console/comment trace ledger
+
+Pure resource lookup, interpolation, formatting, presentation mapping, render markup, and tests do not receive artificial per-call logging because that would emit presentation volume and weaken privacy/performance. Every meaningful locale/continuation/native-verification lifecycle step has an adjacent identifying comment and content-safe `console.log` transport. Exact final source lines are:
+
+| Trace | File | Comment / call line | Exact step and privacy boundary |
+| --- | --- | --- | --- |
+| S18-I18N-001 | `lib/i18n/request.ts` | 12 / 13-14 | Comment: “request locale resolution records locale and direction keys only.” `logger.info` starts on line 13 and carries step `S18-I18N-001` on line 14. It reaches the single structured `console.log` transport in `lib/observability/logger.ts` lines 20-21 under adjacent comment `S0-LOG-001`; no UI string, author data, header, cookie, or raw error is emitted. |
+| S15-I18N-001 | `components/i18n/LocaleProvider.tsx` | 11 / 12 | Comment: “locale hydration records only locale and direction keys.” The direct `console.log` emits only level, step, event, locale, and direction. This existing trace remains the client activation boundary. |
+| S3-CLIENT-001 | `lib/writing/use-writing-continuation.ts` | 72 / 73 | Comment identifies local continuation metadata lookup; payload excludes manuscript content and contains bounded project/chapter/found/timestamp coordinates. |
+| S3-CLIENT-002 | `lib/writing/use-writing-continuation.ts` | 81 / 82 | Comment identifies restored block/cursor/scroll metadata; payload excludes selected text and prose. |
+| S3-CLIENT-005 offline | `lib/writing/use-writing-continuation.ts` | 87 / 88 | Comment identifies deferred server continuation while offline; stable reason only. |
+| S3-CLIENT-004 | `lib/writing/use-writing-continuation.ts` | 94 / 95 | Comment identifies server metadata persistence; no document or selection text is emitted. |
+| S3-CLIENT-005 dependency | `lib/writing/use-writing-continuation.ts` | 97 / 98 | Comment identifies dependency deferral while retaining the local snapshot; raw error/content are excluded. |
+| S3-CLIENT-003 | `lib/writing/use-writing-continuation.ts` | 106 / 107 | Comment identifies the metadata-only local snapshot write; bounded block/cursor/selection-coordinate/scroll/panel/pin-count values only. |
+| S3-CLIENT-007 | `lib/writing/use-writing-continuation.ts` | 125 / 126 | Comment identifies the new pre-navigation freeze that prevents auto-scroll from replacing the author position; content is excluded. |
+| S3-CLIENT-006 | `lib/writing/use-writing-continuation.ts` | 141 / 142 | Comment identifies teardown flush of the pre-navigation frozen snapshot; content is excluded. |
+| S6-DB-001 | `scripts/verify-causality-db.ts` | 657 / 658-690 | Comment identifies native PostgreSQL verification of ownership, active adapters, cycles, chronology, traversal, revisions/outbox, lifecycle, concurrency, and prose isolation. The direct `console.log` payload is bounded proof metadata; line 668 records `missingActiveEndpointsRejected: true`. |
+
+This satisfies the requested console/comment accountability at actual execution boundaries without logging translations or authored/private data. The line numbers above were captured after all source formatting and implementation repairs.
+
+### 27.28 R08 local compliance and gate decision
+
+The side-by-side audit finds no remaining local R08 compliance gap. All 1,145 canonical keys resolve in both supported locale catalogs; the declared source audit is zero; real-world formatting is locale-aware; deep user-facing prose is resource-owned; the command, Relevant Now, and Semantic Zoom rulings remain intact; every changed file is accounted for; all final focused/full/stress/a11y/build/browser/native checks pass; and no forbidden product, persistence, pricing, route, CSS/theme, dependency, or WorkPlan change is present.
+
+R08 current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. R10 and R11 are **REMOTE VERIFIED**. R12c remains **REMOTE VERIFIED** from its recorded evidence chain. Therefore **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE** until R08's exact implementation commit and its audit-closure commit are both remotely proven. The Phase 7 completion phrase remains unauthorized.

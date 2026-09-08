@@ -1,41 +1,105 @@
 import JSZip from "jszip";
 import { describe, expect, it } from "vitest";
-import { importedChapterDocument, mapV1Seam, previewImport } from "@/domains/portability/domain/import";
+import {
+  importedChapterDocument,
+  mapV1Seam,
+  previewImport,
+} from "@/domains/portability/domain/import";
 
 async function docxBytes(): Promise<Uint8Array> {
   const zip = new JSZip();
-  zip.file("[Content_Types].xml", `<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
-  zip.folder("_rels")!.file(".rels", `<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
-  zip.folder("word")!.file("document.xml", `<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Chapter One</w:t></w:r></w:p><w:p><w:r><w:t>Imported prose.</w:t></w:r></w:p></w:body></w:document>`);
+  zip.file(
+    "[Content_Types].xml",
+    `<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`,
+  );
+  zip
+    .folder("_rels")!
+    .file(
+      ".rels",
+      `<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
+    );
+  zip
+    .folder("word")!
+    .file(
+      "document.xml",
+      `<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Chapter One</w:t></w:r></w:p><w:p><w:r><w:t>Imported prose.</w:t></w:r></w:p></w:body></w:document>`,
+    );
   return zip.generateAsync({ type: "uint8array" });
 }
 
 describe("portability import", () => {
   it("previews text and Markdown without canonical mutation", async () => {
-    const markdown = await previewImport("MARKDOWN", new TextEncoder().encode("# One\nFirst body\n# Two\nSecond body"));
-    expect(markdown.chapters.map((item) => item.title)).toEqual(["One", "Two"]); expect(markdown.chapters[1]?.bodyText).toBe("Second body");
-    const text = await previewImport("TEXT", new TextEncoder().encode("Chapter 1\nFirst\nChapter 2\nSecond")); expect(text.chapters).toHaveLength(2);
+    const markdown = await previewImport(
+      "MARKDOWN",
+      new TextEncoder().encode("# One\nFirst body\n# Two\nSecond body"),
+    );
+    expect(markdown.chapters.map((item) => item.title)).toEqual(["One", "Two"]);
+    expect(markdown.chapters[1]?.bodyText).toBe("Second body");
+    const text = await previewImport(
+      "TEXT",
+      new TextEncoder().encode("Chapter 1\nFirst\nChapter 2\nSecond"),
+    );
+    expect(text.chapters).toHaveLength(2);
   });
 
   it("uses a real DOCX container parser and produces valid rich documents only after confirmation code requests it", async () => {
-    const preview = await previewImport("DOCX", await docxBytes()); expect(preview.chapters[0]?.bodyText).toContain("Imported prose.");
-    const document = importedChapterDocument(preview.chapters[0]!.bodyText); expect(document.schemaVersion).toBe(1); expect(document.content[0]?.attrs.blockId).toMatch(/[0-9a-f-]{36}/);
+    const preview = await previewImport("DOCX", await docxBytes());
+    expect(preview.chapters[0]?.bodyText).toContain("Imported prose.");
+    const document = importedChapterDocument(preview.chapters[0]!.bodyText);
+    expect(document.schemaVersion).toBe(1);
+    expect(document.content[0]?.attrs.blockId).toMatch(/[0-9a-f-]{36}/);
   });
 
   it("maps V1 facts without inventing outlines, scenes, or causal facts", () => {
-    const mapped = mapV1Seam({ chapters: [{ id: "chapter" }], worldNodes: [{ id: "node" }] }); expect(mapped.storyEntities[0]).toMatchObject({ id: "node", legacySourceType: "WORLD_NODE" }); expect(mapped.optionalScenes).toEqual([]); expect(mapped.causalRelations).toEqual([]); expect(mapped.inventedOutlineCount).toBe(0); expect(mapped.inventedCausalCount).toBe(0);
+    const mapped = mapV1Seam({
+      chapters: [{ id: "chapter" }],
+      worldNodes: [{ id: "node" }],
+    });
+    expect(mapped.storyEntities[0]).toMatchObject({
+      id: "node",
+      legacySourceType: "WORLD_NODE",
+    });
+    expect(mapped.optionalScenes).toEqual([]);
+    expect(mapped.causalRelations).toEqual([]);
+    expect(mapped.inventedOutlineCount).toBe(0);
+    expect(mapped.inventedCausalCount).toBe(0);
   });
 
   it("converts only explicit legacy chapter ownership into deduplicated relevance links without mutating facts", () => {
-    const chapter = Object.freeze({ id: "chapter", milestoneId: "milestone", bodyText: "Private legacy prose", volumeId: "volume" });
+    const chapter = Object.freeze({
+      id: "chapter",
+      milestoneId: "milestone",
+      bodyText: "Private legacy prose",
+      volumeId: "volume",
+    });
     const scene = { id: "optional-scene", chapterId: chapter.id };
     const relation = { id: "explicit-cause" };
-    const mapped = mapV1Seam({ chapters: [chapter, chapter, { id: "free", milestoneId: null }], scenes: [scene], causalRelations: [relation] });
-    expect(mapped.chapters[0]).toEqual({ id: "chapter", bodyText: chapter.bodyText, volumeId: "volume" });
+    const mapped = mapV1Seam({
+      chapters: [chapter, chapter, { id: "free", milestoneId: null }],
+      scenes: [scene],
+      causalRelations: [relation],
+    });
+    expect(mapped.chapters[0]).toEqual({
+      id: "chapter",
+      bodyText: chapter.bodyText,
+      volumeId: "volume",
+    });
     expect(mapped.chapters[2]).toEqual({ id: "free" });
-    expect(mapped.chapterMilestoneLinks).toEqual([{ chapterId: "chapter", milestoneId: "milestone", role: "CUSTOM", customRole: "Legacy ownership", weight: 0 }]);
-    expect(chapter.milestoneId).toBe("milestone"); expect(mapped.optionalScenes).toEqual([scene]); expect(mapped.causalRelations).toEqual([relation]);
-    expect(() => mapV1Seam({ chapters: [{ milestoneId: "orphan" }] })).toThrow("V1_CHAPTER_MILESTONE_IDENTITY_INVALID");
+    expect(mapped.chapterMilestoneLinks).toEqual([
+      {
+        chapterId: "chapter",
+        milestoneId: "milestone",
+        role: "CUSTOM",
+        customRole: "LEGACY_OWNERSHIP",
+        weight: 0,
+      },
+    ]);
+    expect(chapter.milestoneId).toBe("milestone");
+    expect(mapped.optionalScenes).toEqual([scene]);
+    expect(mapped.causalRelations).toEqual([relation]);
+    expect(() => mapV1Seam({ chapters: [{ milestoneId: "orphan" }] })).toThrow(
+      "V1_CHAPTER_MILESTONE_IDENTITY_INVALID",
+    );
     expect(mapV1Seam({}).chapterMilestoneLinks).toEqual([]);
   });
 });

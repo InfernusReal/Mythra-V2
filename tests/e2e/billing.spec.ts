@@ -13,7 +13,7 @@ test.describe("Sub-gate 14 billing and quotas", () => {
     await page.waitForURL(/\/app$/u);
     await page.goto("/app/settings/billing");
     await expect(page.getByRole("heading", { name: "Mythra Core" })).toBeVisible();
-    await expect(page.getByText("$15/month")).toBeVisible();
+    await expect(page.getByText("$15.00/month")).toBeVisible();
     await expect(page.getByRole("button", { name: "Future only" })).toBeDisabled();
     await expect(page.getByText(/not available, active, or charged/u)).toBeVisible();
     await expect(page.getByRole("progressbar")).toHaveCount(7);

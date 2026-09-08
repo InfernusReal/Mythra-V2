@@ -1,66 +1,251 @@
 "use client";
-
+import { useLocale } from "@/components/i18n/LocaleProvider";
 import { useState } from "react";
 import { clientTrace } from "@/lib/observability/client-trace";
-import type { EntitlementSnapshot, UsageResource } from "@/domains/billing/domain/types";
+import type {
+  EntitlementSnapshot,
+  UsageResource,
+} from "@/domains/billing/domain/types";
+import {
+  formatBytes,
+  formatCurrency,
+  formatDate,
+  formatNumber,
+  interpolateMessage,
+  localizedEnumLabel,
+  localizedErrorMessage,
+} from "@/lib/i18n/messages";
 
-interface PublicPlan { key: "core" | "intelligence"; name: string; amountUsdCents: number; interval: "month"; availability: "SELLABLE" | "FUTURE_ONLY" }
-interface InvoiceItem { id: string; status: string; amountUsdCents: number; issuedAt: string; invoiceUrl: string | null }
-export interface BillingPanelState { catalog: PublicPlan[]; entitlements: EntitlementSnapshot; invoices: readonly InvoiceItem[]; providerAvailable: boolean; portalAvailable: boolean; cancelAtPeriodEnd: boolean }
+interface PublicPlan {
+  key: "core" | "intelligence";
+  name: string;
+  amountUsdCents: number;
+  interval: "month";
+  availability: "SELLABLE" | "FUTURE_ONLY";
+}
+interface InvoiceItem {
+  id: string;
+  status: string;
+  amountUsdCents: number;
+  issuedAt: string;
+  invoiceUrl: string | null;
+}
+export interface BillingPanelState {
+  catalog: PublicPlan[];
+  entitlements: EntitlementSnapshot;
+  invoices: readonly InvoiceItem[];
+  providerAvailable: boolean;
+  portalAvailable: boolean;
+  cancelAtPeriodEnd: boolean;
+}
 
-const resourceLabels: Readonly<Record<UsageResource, string>> = {
-  binaryStorageBytes: "Binary storage",
-  snapshotBytes: "Project snapshots",
-  revisionStorageBytes: "Revision storage",
-  exportGenerationBytes: "Export generation",
-  databaseRows: "Structured rows",
-  bandwidthBytes: "Transfer bandwidth",
-  futureAiUnits: "Future Intelligence"
-};
-
-function formattedAmount(cents: number): string { return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(cents / 100); }
-function formattedUsage(resource: UsageResource, value: number): string { return resource === "databaseRows" || resource === "futureAiUnits" ? new Intl.NumberFormat().format(value) : `${(value / 1024 / 1024).toFixed(value ? 1 : 0)} MB`; }
-
-export function BillingPanel({ initialState }: { initialState: BillingPanelState }) {
+export function BillingPanel({
+  initialState,
+}: {
+  initialState: BillingPanelState;
+}) {
+  const { messages, locale } = useLocale();
+  const resourceLabels: Readonly<Record<UsageResource, string>> = {
+    binaryStorageBytes: messages.usageBinaryStorage,
+    snapshotBytes: messages.usageProjectSnapshots,
+    revisionStorageBytes: messages.usageRevisionStorage,
+    exportGenerationBytes: messages.usageExportGeneration,
+    databaseRows: messages.usageStructuredRows,
+    bandwidthBytes: messages.usageTransferBandwidth,
+    futureAiUnits: messages.usageFutureIntelligence,
+  };
+  const formattedAmount = (cents: number) =>
+    formatCurrency(locale, cents, "USD");
+  const formattedUsage = (resource: UsageResource, value: number) =>
+    resource === "databaseRows" || resource === "futureAiUnits"
+      ? formatNumber(locale, value)
+      : formatBytes(locale, value);
   const [pending, setPending] = useState<"checkout" | "portal" | null>(null);
-  const [message, setMessage] = useState(initialState.providerAvailable ? "" : "Billing provider details are temporarily unavailable. Writing and owned exports remain available.");
+  const [message, setMessage] = useState(
+    initialState.providerAvailable
+      ? ""
+      : messages.billingProviderTemporarilyUnavailable,
+  );
   const core = initialState.catalog.find((plan) => plan.key === "core")!;
-  const intelligence = initialState.catalog.find((plan) => plan.key === "intelligence")!;
+  const intelligence = initialState.catalog.find(
+    (plan) => plan.key === "intelligence",
+  )!;
 
   async function begin(action: "checkout" | "portal") {
     setPending(action);
     setMessage("");
     // Console trace S14-UI-001: author-initiated billing action records action and plan only.
-    clientTrace("billing.ui_action_started", { step: "S14-UI-001", action, planKey: "core" });
+    clientTrace("billing.ui_action_started", {
+      step: "S14-UI-001",
+      action,
+      planKey: "core",
+    });
     try {
-      const response = await fetch(`/api/v2/billing/${action}`, { method: "POST", headers: { "content-type": "application/json" }, body: action === "checkout" ? JSON.stringify({ planKey: "core", idempotencyKey: crypto.randomUUID() }) : undefined });
-      const payload = await response.json() as { data?: { checkoutUrl?: string; portalUrl?: string }; error?: { message: string } };
-      if (!response.ok) throw new Error(payload.error?.message ?? "Billing is temporarily unavailable.");
+      const response = await fetch(`/api/v2/billing/${action}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body:
+          action === "checkout"
+            ? JSON.stringify({
+                planKey: "core",
+                idempotencyKey: crypto.randomUUID(),
+              })
+            : undefined,
+      });
+      const payload = (await response.json()) as {
+        data?: { checkoutUrl?: string; portalUrl?: string };
+        error?: { message: string };
+      };
+      if (!response.ok)
+        throw new Error(
+          localizedErrorMessage(
+            messages,
+            payload.error,
+            messages.billingIsTemporarilyUnavailableWritingRemainsAvailable,
+          ),
+        );
       const destination = payload.data?.checkoutUrl ?? payload.data?.portalUrl;
-      if (!destination) throw new Error("Billing destination is unavailable.");
+      if (!destination)
+        throw new Error(messages.billingDestinationIsUnavailable);
       // Console trace S14-UI-002: verified billing navigation records action completion without destination or provider identifiers.
-      clientTrace("billing.ui_action_completed", { step: "S14-UI-002", action, planKey: "core" });
+      clientTrace("billing.ui_action_completed", {
+        step: "S14-UI-002",
+        action,
+        planKey: "core",
+      });
       window.location.assign(destination);
     } catch (caught) {
-      setMessage(caught instanceof Error ? caught.message : "Billing is temporarily unavailable. Writing remains available.");
+      setMessage(
+        caught instanceof Error
+          ? caught.message
+          : messages.billingIsTemporarilyUnavailableWritingRemainsAvailable,
+      );
       // Console trace S14-UI-003: billing UI failure records stable interaction state and no provider response body.
-      clientTrace("billing.ui_action_failed", { step: "S14-UI-003", action, planKey: "core" });
-    } finally { setPending(null); }
+      clientTrace("billing.ui_action_failed", {
+        step: "S14-UI-003",
+        action,
+        planKey: "core",
+      });
+    } finally {
+      setPending(null);
+    }
   }
 
   return (
     <section className="billing-panel" aria-labelledby="billing-heading">
-      <header><div><p className="eyebrow">Plan and usage</p><h1 id="billing-heading">Mythra Core</h1><p>Full deterministic Mythra V2 access. Limits follow measured infrastructure cost, never prose length.</p></div><strong>{formattedAmount(core.amountUsdCents)}/{core.interval}</strong></header>
-      <div className="billing-status" aria-label="Subscription status"><span>Status</span><strong>{initialState.entitlements.subscriptionStatus.replace("_", " ")}</strong>{initialState.cancelAtPeriodEnd ? <span>Access continues through the paid period.</span> : null}</div>
-      <div className="billing-actions">
-        <button type="button" onClick={() => void begin("checkout")} disabled={pending !== null}>{pending === "checkout" ? "Opening secure checkout" : "Choose Core"}</button>
-        <button type="button" onClick={() => void begin("portal")} disabled={pending !== null || !initialState.portalAvailable}>{pending === "portal" ? "Opening provider portal" : "Manage billing and invoices"}</button>
-        <a href="/app">Return to writing</a>
+      <header>
+        <div>
+          <p className="eyebrow">{messages.planAndUsage}</p>
+          <h1 id="billing-heading">{messages.mythraCore}</h1>
+          <p>
+            {
+              messages.fullDeterministicMythraV2AccessLimitsFollowMeasuredInfrastructureCostNeverProse
+            }
+          </p>
+        </div>
+        <strong>
+          {formattedAmount(core.amountUsdCents)}/{messages.monthlyInterval}
+        </strong>
+      </header>
+      <div className="billing-status" aria-label={messages.subscriptionStatus}>
+        <span>{messages.status}</span>
+        <strong>
+          {localizedEnumLabel(
+            messages,
+            initialState.entitlements.subscriptionStatus,
+          )}
+        </strong>
+        {initialState.cancelAtPeriodEnd ? (
+          <span>{messages.accessContinuesThroughThePaidPeriod}</span>
+        ) : null}
       </div>
-      <p className="billing-message" role="status" aria-live="polite">{message}</p>
-      <section aria-labelledby="usage-heading"><h2 id="usage-heading">Transparent usage</h2><ul className="usage-list">{Object.entries(initialState.entitlements.usage).map(([key, used]) => { const resource = key as UsageResource; const limit = initialState.entitlements.limits[resource]; return <li key={resource}><div><strong>{resourceLabels[resource]}</strong><span>{formattedUsage(resource, used)} of {formattedUsage(resource, limit)}</span></div><progress aria-label={`${resourceLabels[resource]} usage`} max={Math.max(1, limit)} value={Math.min(used, limit)} /></li>; })}</ul><p>Owned work stays readable and exportable if a cost limit is reached or billing changes.</p></section>
-      <section className="future-plan" aria-labelledby="future-heading"><h2 id="future-heading">{intelligence.name}</h2><p>{formattedAmount(intelligence.amountUsdCents)}/month is reserved for a future AI product. It is not available, active, or charged in V2.</p><button type="button" disabled>Future only</button></section>
-      {initialState.invoices.length ? <section aria-labelledby="invoices-heading"><h2 id="invoices-heading">Invoices</h2><ul>{initialState.invoices.map((invoice) => <li key={invoice.id}><span>{new Date(invoice.issuedAt).toLocaleDateString()} · {invoice.status} · {formattedAmount(invoice.amountUsdCents)}</span>{invoice.invoiceUrl ? <a href={invoice.invoiceUrl}>Open invoice</a> : null}</li>)}</ul></section> : null}
+      <div className="billing-actions">
+        <button
+          type="button"
+          onClick={() => void begin("checkout")}
+          disabled={pending !== null}
+        >
+          {pending === "checkout"
+            ? messages.openingSecureCheckout
+            : messages.chooseCore}
+        </button>
+        <button
+          type="button"
+          onClick={() => void begin("portal")}
+          disabled={pending !== null || !initialState.portalAvailable}
+        >
+          {pending === "portal"
+            ? messages.openingProviderPortal
+            : messages.manageBillingAndInvoices}
+        </button>
+        <a href="/app">{messages.returnToWriting}</a>
+      </div>
+      <p className="billing-message" role="status" aria-live="polite">
+        {message}
+      </p>
+      <section aria-labelledby="usage-heading">
+        <h2 id="usage-heading">{messages.transparentUsage}</h2>
+        <ul className="usage-list">
+          {Object.entries(initialState.entitlements.usage).map(
+            ([key, used]) => {
+              const resource = key as UsageResource;
+              const limit = initialState.entitlements.limits[resource];
+              return (
+                <li key={resource}>
+                  <div>
+                    <strong>{resourceLabels[resource]}</strong>
+                    <span>
+                      {formattedUsage(resource, used)} {messages.of}{" "}
+                      {formattedUsage(resource, limit)}
+                    </span>
+                  </div>
+                  <progress
+                    aria-label={interpolateMessage(messages.resourceUsage, {
+                      resource: resourceLabels[resource],
+                    })}
+                    max={Math.max(1, limit)}
+                    value={Math.min(used, limit)}
+                  />
+                </li>
+              );
+            },
+          )}
+        </ul>
+        <p>
+          {messages.ownedWorkStaysReadableAndExportableIfACostLimitIsReached}
+        </p>
+      </section>
+      <section className="future-plan" aria-labelledby="future-heading">
+        <h2 id="future-heading">
+          {localizedEnumLabel(messages, intelligence.key)}
+        </h2>
+        <p>
+          {formattedAmount(intelligence.amountUsdCents)}
+          {messages.monthIsReservedForAFutureAiProductItIsNotAvailable}
+        </p>
+        <button type="button" disabled>
+          {messages.futureOnly}
+        </button>
+      </section>
+      {initialState.invoices.length ? (
+        <section aria-labelledby="invoices-heading">
+          <h2 id="invoices-heading">{messages.invoices}</h2>
+          <ul>
+            {initialState.invoices.map((invoice) => (
+              <li key={invoice.id}>
+                <span>
+                  {formatDate(locale, new Date(invoice.issuedAt))} ·{" "}
+                  {localizedEnumLabel(messages, invoice.status)} ·{" "}
+                  {formattedAmount(invoice.amountUsdCents)}
+                </span>
+                {invoice.invoiceUrl ? (
+                  <a href={invoice.invoiceUrl}>{messages.openInvoice}</a>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </section>
   );
 }

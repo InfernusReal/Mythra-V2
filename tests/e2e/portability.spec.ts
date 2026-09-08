@@ -32,11 +32,11 @@ test.describe("Sub-gate 13 history and portability", () => {
     await page.getByRole("button", { name: "Create verified snapshot" }).click();
     await expect(page.getByText("Operation completed and verified.")).toBeVisible({ timeout: 30_000 });
     await page.getByText(/Verified snapshots \(\d+\)/u).click();
-    await expect(page.getByText(/Structure v\d+ · VERIFIED/u)).toBeVisible();
+    await expect(page.getByText(/Structure v\d+ · Verified/u)).toBeVisible();
 
     await page.getByRole("button", { name: "Export full project archive" }).click();
     await page.getByText(/Export artifacts \(\d+\)/u).click();
-    await expect(page.getByText(/FULL_PROJECT · MYTHRA_JSON · VERIFIED/u)).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/Full project · Mythra JSON · Verified/u)).toBeVisible({ timeout: 30_000 });
 
     await page.getByRole("button", { name: "Restore to safe copy" }).click();
     await expect(page.getByText("Operation completed and verified.")).toBeVisible({ timeout: 30_000 });

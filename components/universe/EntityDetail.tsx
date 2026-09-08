@@ -1,4 +1,16 @@
 "use client";
+import { useLocale } from "@/components/i18n/LocaleProvider";
+import {
+  localizedEntityTemplateFieldLabel,
+  localizedEntityTemplateName,
+  formatNumber,
+  interpolateMessage,
+  localizedEnumLabel,
+  localizedEnumLabelOrValue,
+  localizedErrorMessage,
+  localizedRelationTemplateLabel,
+  type MessageCatalog,
+} from "@/lib/i18n/messages";
 
 import { useState } from "react";
 import type { UniverseCatalog } from "@/domains/universe/application/ports";
@@ -6,6 +18,7 @@ import type { UniverseEntityDetail } from "@/domains/universe/domain/types";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 async function send<T>(
+  messages: MessageCatalog,
   url: string,
   body: unknown,
   method = "POST",
@@ -17,7 +30,13 @@ async function send<T>(
   });
   const payload = (await response.json()) as Envelope<T>;
   if (!response.ok || !payload.data)
-    throw new Error(payload.error?.message ?? "Universe operation failed.");
+    throw new Error(
+      localizedErrorMessage(
+        messages,
+        payload.error,
+        messages.universeOperationFailed,
+      ),
+    );
   return payload.data;
 }
 
@@ -34,6 +53,7 @@ export function EntityDetail({
   initialStructuralVersion: number;
   returnChapterId?: string;
 }) {
+  const { messages, locale } = useLocale();
   const [detail, setDetail] = useState(initialDetail);
   const [structuralVersion, setStructuralVersion] = useState(
     initialStructuralVersion,
@@ -44,6 +64,30 @@ export function EntityDetail({
     catalog.relationTypes[0]?.id ?? "",
   );
   const [stateText, setStateText] = useState("");
+  const entityType = catalog.entityTypes.find(
+    (type) => type.id === detail.entity.typeId,
+  );
+  const fieldLabel = (field: Readonly<{ key: string; label: string }>) =>
+    localizedEntityTemplateFieldLabel(
+      messages,
+      entityType?.systemKey,
+      field.key,
+      field.label,
+    );
+  const relationLabel = (
+    item: UniverseEntityDetail["outgoing"][number],
+    direction: "forward" | "reverse",
+  ) => {
+    const type = catalog.relationTypes.find(
+      (candidate) => candidate.id === item.relationTypeId,
+    );
+    return localizedRelationTemplateLabel(
+      messages,
+      type?.systemKey,
+      direction,
+      item.label,
+    );
+  };
   const [editName, setEditName] = useState(initialDetail.entity.name);
   const [editSummary, setEditSummary] = useState(
     initialDetail.entity.summary ?? "",
@@ -58,14 +102,12 @@ export function EntityDetail({
       ]),
     ),
   );
-  const entityType = catalog.entityTypes.find(
-    (type) => type.id === detail.entity.typeId,
-  );
   const update = async (body: Record<string, unknown>) => {
     const result = await send<{
       entity: UniverseEntityDetail["entity"];
       projectStructuralVersion: number;
     }>(
+      messages,
       `/api/v2/projects/${projectId}/universe/entities/${detail.entity.id}`,
       {
         expectedEntityVersion: detail.entity.version,
@@ -84,7 +126,7 @@ export function EntityDetail({
         name: editName,
         summary: editSummary || null,
       });
-      setMessage("Entity details updated.");
+      setMessage(messages.entityDetailsUpdated);
       // Console trace S9-UI-004: inline entity update emits identity/version metadata without authored fields.
       console.log(
         JSON.stringify({
@@ -99,7 +141,7 @@ export function EntityDetail({
       );
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Entity update failed.",
+        error instanceof Error ? error.message : messages.entityUpdateFailed,
       );
     }
   };
@@ -122,16 +164,19 @@ export function EntityDetail({
         return [{ fieldDefinitionId: field.id, value }];
       });
       await update({ values });
-      setMessage("Custom fields updated.");
+      setMessage(messages.customFieldsUpdated);
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Custom field update failed.",
+        error instanceof Error
+          ? error.message
+          : messages.customFieldUpdateFailed,
       );
     }
   };
   const relation = async () => {
     try {
       const result = await send<{ projectStructuralVersion: number }>(
+        messages,
         `/api/v2/projects/${projectId}/universe/relations`,
         {
           fromEntityId: detail.entity.id,
@@ -141,9 +186,11 @@ export function EntityDetail({
         },
       );
       setStructuralVersion(result.projectStructuralVersion);
-      setMessage("Relation created. Refresh to view it.");
+      setMessage(messages.relationCreatedRefreshToViewIt);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Relation failed.");
+      setMessage(
+        error instanceof Error ? error.message : messages.relationFailed,
+      );
     }
   };
   const snapshot = async () => {
@@ -153,6 +200,7 @@ export function EntityDetail({
         snapshotId: string;
         projectStructuralVersion: number;
       }>(
+        messages,
         `/api/v2/projects/${projectId}/universe/entities/${detail.entity.id}/snapshots`,
         {
           anchorType: "UNANCHORED",
@@ -179,7 +227,7 @@ export function EntityDetail({
         ],
       }));
       setStateText("");
-      setMessage("Historical state added.");
+      setMessage(messages.historicalStateAdded);
       // Console trace S9-UI-002: state Peek/history UI completion excludes state JSON and note content.
       console.log(
         JSON.stringify({
@@ -196,7 +244,7 @@ export function EntityDetail({
       setMessage(
         error instanceof Error
           ? error.message
-          : "State must be a valid JSON object.",
+          : messages.stateMustBeAValidJsonObject,
       );
     }
   };
@@ -204,7 +252,13 @@ export function EntityDetail({
     <article className="entity-detail">
       <header>
         <div>
-          <p className="eyebrow">{detail.entity.typeName}</p>
+          <p className="eyebrow">
+            {localizedEntityTemplateName(
+              messages,
+              entityType?.systemKey,
+              detail.entity.typeName,
+            )}
+          </p>
           <h1>{detail.entity.name}</h1>
         </div>
         <a
@@ -214,22 +268,24 @@ export function EntityDetail({
               : `/app/projects/${projectId}/universe`
           }
         >
-          {returnChapterId ? "Return to Chapter" : "Return to Universe"}
+          {returnChapterId
+            ? messages.returnToChapter
+            : messages.returnToUniverse}
         </a>
       </header>
       {detail.entity.summary ? <p>{detail.entity.summary}</p> : null}
       <dl>
         <div>
-          <dt>Aliases</dt>
-          <dd>{detail.entity.aliases.join(", ") || "None"}</dd>
+          <dt>{messages.aliases}</dt>
+          <dd>{detail.entity.aliases.join(", ") || messages.none}</dd>
         </div>
         <div>
-          <dt>Tags</dt>
-          <dd>{detail.entity.tags.join(", ") || "None"}</dd>
+          <dt>{messages.tags}</dt>
+          <dd>{detail.entity.tags.join(", ") || messages.none}</dd>
         </div>
         <div>
-          <dt>Version</dt>
-          <dd>{detail.entity.version}</dd>
+          <dt>{messages.version}</dt>
+          <dd>{formatNumber(locale, detail.entity.version)}</dd>
         </div>
       </dl>
       <form
@@ -239,7 +295,8 @@ export function EntityDetail({
         }}
       >
         <label>
-          Name
+          {" "}
+          {messages.name}{" "}
           <input
             required
             maxLength={240}
@@ -248,22 +305,23 @@ export function EntityDetail({
           />
         </label>
         <label>
-          Summary
+          {" "}
+          {messages.summary}{" "}
           <textarea
             maxLength={20_000}
             value={editSummary}
             onChange={(event) => setEditSummary(event.target.value)}
           />
         </label>
-        <button>Save entity details</button>
+        <button>{messages.saveEntityDetails}</button>
       </form>
       <section>
-        <h2>Custom fields</h2>
+        <h2>{messages.customFields}</h2>
         {detail.entity.fieldValues.length ? (
           <dl>
             {detail.entity.fieldValues.map((field) => (
               <div key={field.fieldDefinitionId}>
-                <dt>{field.label}</dt>
+                <dt>{fieldLabel(field)}</dt>
                 <dd>
                   {typeof field.value === "string"
                     ? field.value
@@ -273,7 +331,7 @@ export function EntityDetail({
             ))}
           </dl>
         ) : (
-          <p>No custom values. Completeness is optional.</p>
+          <p>{messages.noCustomValuesCompletenessIsOptional}</p>
         )}
         {entityType?.fields.length ? (
           <form
@@ -284,11 +342,11 @@ export function EntityDetail({
           >
             {entityType.fields.map((field) => (
               <label key={field.id}>
-                {field.label}
+                {fieldLabel(field)}
                 {field.fieldType === "IMAGE" || field.fieldType === "FILE" ? (
                   <input
                     disabled
-                    value="Available after private storage activation"
+                    value={messages.availableAfterPrivateStorageActivation}
                     readOnly
                   />
                 ) : field.fieldType === "BOOLEAN" ? (
@@ -301,9 +359,9 @@ export function EntityDetail({
                       }))
                     }
                   >
-                    <option value="">Unset</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
+                    <option value="">{messages.unset}</option>
+                    <option value="true">{messages.true}</option>
+                    <option value="false">{messages.false}</option>
                   </select>
                 ) : (
                   <textarea
@@ -318,23 +376,28 @@ export function EntityDetail({
                   />
                 )}
                 <small id={`field-help-${field.id}`}>
-                  {field.fieldType}
+                  {localizedEnumLabel(messages, field.fieldType)}{" "}
                   {field.requiredByUser
-                    ? " · required by project configuration"
-                    : " · optional"}
+                    ? messages.requiredByProjectConfiguration
+                    : messages.optional}
                 </small>
               </label>
             ))}
-            <button>Save custom fields</button>
+            <button>{messages.saveCustomFields}</button>
           </form>
         ) : null}
       </section>
       <section>
-        <h2>Relations</h2>
+        <h2>{messages.relations}</h2>
         <ul>
-          {[...detail.outgoing, ...detail.incoming].map((item) => (
+          {detail.outgoing.map((item) => (
             <li key={item.id}>
-              {item.label}: {item.otherName}
+              {relationLabel(item, "forward")}: {item.otherName}
+            </li>
+          ))}
+          {detail.incoming.map((item) => (
+            <li key={item.id}>
+              {relationLabel(item, "reverse")}: {item.otherName}
             </li>
           ))}
         </ul>
@@ -345,36 +408,52 @@ export function EntityDetail({
           }}
         >
           <label>
-            Relation
+            {" "}
+            {messages.relation}{" "}
             <select
               value={relationTypeId}
               onChange={(event) => setRelationTypeId(event.target.value)}
             >
               {catalog.relationTypes.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {type.forwardLabel} / {type.reverseLabel}
+                  {localizedRelationTemplateLabel(
+                    messages,
+                    type.systemKey,
+                    "forward",
+                    type.forwardLabel,
+                  )}{" "}
+                  /{" "}
+                  {localizedRelationTemplateLabel(
+                    messages,
+                    type.systemKey,
+                    "reverse",
+                    type.reverseLabel,
+                  )}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            Other entity ID
+            {" "}
+            {messages.otherEntityId}{" "}
             <input
               required
               value={otherId}
               onChange={(event) => setOtherId(event.target.value)}
             />
           </label>
-          <button>Add relation</button>
+          <button>{messages.addRelation}</button>
         </form>
       </section>
       <section>
-        <h2>Historical states</h2>
+        <h2>{messages.historicalStates}</h2>
         <ol>
           {detail.snapshots.map((snapshot) => (
             <li key={snapshot.id}>
-              <strong>{snapshot.anchorType}</strong> · position{" "}
-              {snapshot.orderIndex}
+              <strong>
+                {localizedEnumLabel(messages, snapshot.anchorType)}
+              </strong>{" "}
+              {messages.position} {formatNumber(locale, snapshot.orderIndex)}
               <pre>{JSON.stringify(snapshot.state, null, 2)}</pre>
             </li>
           ))}
@@ -386,31 +465,43 @@ export function EntityDetail({
           }}
         >
           <label>
-            State JSON
+            {" "}
+            {messages.stateJson}{" "}
             <textarea
               required
               value={stateText}
               onChange={(event) => setStateText(event.target.value)}
-              placeholder={'{"location":"harbor"}'}
+              placeholder={messages.locationHarbor}
             />
           </label>
-          <button>Add immutable state</button>
+          <button>{messages.addImmutableState}</button>
         </form>
       </section>
       <section>
-        <h2>Backlinks</h2>
-        <p>{detail.backlinks.length} explicit reference(s).</p>
+        <h2>{messages.backlinksb4278c6a}</h2>
+        <p>
+          {interpolateMessage(
+            detail.backlinks.length === 1
+              ? messages.explicitReferenceCountOne
+              : messages.explicitReferenceCountOther,
+            { count: formatNumber(locale, detail.backlinks.length) },
+          )}
+        </p>
         <ul>
           {detail.backlinks.map((backlink, index) => (
             <li key={`${backlink.sourceType}:${backlink.sourceId}:${index}`}>
-              {backlink.sourceType} · {backlink.relationshipKey} ·{" "}
+              {localizedEnumLabelOrValue(messages, backlink.sourceType)} ·{" "}
+              {localizedEnumLabelOrValue(messages, backlink.relationshipKey)} ·{" "}
               {backlink.sourceId}
             </li>
           ))}
         </ul>
       </section>
       {message ? <p role="status">{message}</p> : null}
-      <small>Project structure version {structuralVersion}</small>
+      <small>
+        {messages.projectStructureVersion}{" "}
+        {formatNumber(locale, structuralVersion)}
+      </small>
     </article>
   );
 }

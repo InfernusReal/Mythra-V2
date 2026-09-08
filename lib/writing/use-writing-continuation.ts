@@ -5,6 +5,7 @@ import type { Editor } from "@tiptap/core";
 import { writingPositionSchema, type WritingPosition } from "@/domains/writing/application/continuation-ports";
 
 const SERVER_DEBOUNCE_MS = 600;
+const SCROLL_SETTLE_MS = 100;
 
 function storageKey(projectId: string): string { return `mythra.continuation.${projectId}`; }
 
@@ -61,6 +62,7 @@ export function useWritingContinuation(input: {
   const seedRef = useRef(input.initialSession);
   const latestRef = useRef(input.initialSession);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigatingRef = useRef(false);
 
   useEffect(() => {
@@ -107,7 +109,10 @@ export function useWritingContinuation(input: {
       timerRef.current = setTimeout(() => { void syncServer(); }, SERVER_DEBOUNCE_MS);
     };
     const onSelection = () => capture();
-    const onScroll = () => capture();
+    const onScroll = () => {
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = setTimeout(() => capture(), SCROLL_SETTLE_MS);
+    };
     const onOnline = () => { void syncServer(); };
     const onBeforeUnload = () => capture();
     const onNavigationIntent = (event: MouseEvent) => {
@@ -115,6 +120,7 @@ export function useWritingContinuation(input: {
       if (!target) return;
       navigatingRef.current = true;
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
       void syncServer();
       // Console trace S3-CLIENT-007: the author position was frozen before in-app navigation could reset scroll; content is excluded.
       console.log(JSON.stringify({ level: "info", step: "S3-CLIENT-007", event: "continuation.navigation_position_frozen", projectId: input.projectId, chapterId: input.chapterId, positionAt: latestRef.current.capturedAt }));
@@ -127,9 +133,12 @@ export function useWritingContinuation(input: {
     requestAnimationFrame(() => requestAnimationFrame(() => capture()));
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
-      latestRef.current = capturePosition(editor, input.chapterId, seedRef.current);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      if (!navigatingRef.current) {
+        latestRef.current = capturePosition(editor, input.chapterId, seedRef.current);
+      }
       localStorage.setItem(storageKey(input.projectId), JSON.stringify(latestRef.current));
-      // Console trace S3-CLIENT-006: final local session metadata was flushed during teardown; content is excluded.
+      // Console trace S3-CLIENT-006: final local session metadata, including the pre-navigation frozen snapshot, was flushed during teardown; content is excluded.
       console.log(JSON.stringify({ level: "info", step: "S3-CLIENT-006", event: "continuation.local_flushed", projectId: input.projectId, chapterId: input.chapterId, capturedAt: latestRef.current.capturedAt }));
       editor.off("selectionUpdate", onSelection);
       window.removeEventListener("scroll", onScroll);
