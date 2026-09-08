@@ -5915,3 +5915,13 @@ This table supersedes the initial snapshot in 27.2 and the partial checkpoint in
 | S20 | Full coherence, regression, operational, and release verification | **LOCKED** | Must follow completed, audited, committed, pushed, and remotely verified S19 |
 
 S18 final decision: **PASS — FINITE REGISTER CLOSED WITH EXACT REMOTE IMPLEMENTATION PROOF**. S19 is unlocked but not started. S20 remains locked. Phase 7 remains incomplete, and the Phase 7 completion phrase remains unauthorized.
+
+### 27.30 R17 controlled numeric-input regression — post-S18 discovery boundary
+
+After S18 closure, live local use exposed a React development error at `components/structure/OutlineLens.tsx`: “Received NaN for the value attribute.” The supplied screenshot identifies the Order input. Source inspection confirms the cause: clearing a number input makes the browser's `valueAsNumber` return `NaN`; the component stores that non-finite value and passes it back to React as a controlled `value`. The same direct assignment pattern exists in `BulkScaffold`, `MilestoneLens`, and the paragraph-selection controls in `SemanticZoomViewport`, so repairing only the reported line would leave the identical defect reachable elsewhere.
+
+R17 is a **Verified product defect** discovered after the prior finite register closed. This append-only entry does not erase the prior evidence; it supersedes the current S18/S19 state while the new defect is being repaired. **S18 is REOPENED; R17 IN PROGRESS; S19 RELOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+Surgical plan: first add a failing component regression that clears the exact Outline Order field and proves React receives no `NaN`. Then add one client-safe pure numeric-input boundary helper that returns the declared finite minimum/default when the browser exposes a non-finite value. Replace only the unsafe direct `valueAsNumber` state assignments across the four confirmed Structure components, using each control's existing minimum as its fallback. Preserve input types, min/max/step constraints, API payload shapes, domain validation, calculations, logs, authored content, layout, styling, routes, schemas, and all other behavior. Add no trace: parsing an input event is not an operational lifecycle boundary, and logging keystrokes would be inappropriate.
+
+Required proof: the new regression must fail before production repair and pass afterward; the complete Structure component suite, i18n source audit, lint, typecheck, full coverage, production build, and a live browser console check must pass. Every actual file and exact outcome will be appended before R17/S18 can close; implementation and ledger commits must be pushed and exact-hash CI/Security verified.
