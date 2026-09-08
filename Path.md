@@ -5867,3 +5867,51 @@ This satisfies the requested console/comment accountability at actual execution 
 The side-by-side audit finds no remaining local R08 compliance gap. All 1,145 canonical keys resolve in both supported locale catalogs; the declared source audit is zero; real-world formatting is locale-aware; deep user-facing prose is resource-owned; the command, Relevant Now, and Semantic Zoom rulings remain intact; every changed file is accounted for; all final focused/full/stress/a11y/build/browser/native checks pass; and no forbidden product, persistence, pricing, route, CSS/theme, dependency, or WorkPlan change is present.
 
 R08 current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. R10 and R11 are **REMOTE VERIFIED**. R12c remains **REMOTE VERIFIED** from its recorded evidence chain. Therefore **S18 remains IN PROGRESS; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE** until R08's exact implementation commit and its audit-closure commit are both remotely proven. The Phase 7 completion phrase remains unauthorized.
+
+### 27.29 R08 exact remote proof and superseding S18 closure dashboard
+
+R08 implementation/audit commit `524c338085d1bd28714acaa2552a8afbcf967186` was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before this closure entry.
+
+Remote exact-hash evidence:
+
+- Pull-request CI run `34255219677` passed. `verify` job `102159183546` passed clean checkout/install, Prisma generation, lint, typecheck, the complete coverage suite, and the production build. `s18-regression` job `102159183465` passed PostgreSQL 18 startup, all migrations, alert/Structure/archive/pagination/OIDC/portability native verifiers, Chromium installation, the bounded eight-suite S18 browser matrix, and evidence upload.
+- Pull-request Security run `34255219488`, job `102159182409`, passed clean install, high-severity dependency audit, security tests, and committed-secret rejection.
+- Push Security run `34255214825`, job `102159168048`, passed the same security chain.
+- GitHub's only annotation is the non-failing upstream notice that `actions/checkout@v4` and `actions/setup-node@v4` target the deprecated Node 20 action runtime and are forced to Node 24. No Mythra step failed, skipped unexpectedly, or weakened a threshold.
+
+This evidence changes R08 from locally passed/pending to **REMOTE VERIFIED**. R15 and R16 are included in the same exact implementation commit and are therefore also remotely verified. Together with the earlier exact remote closures for R01-R07, R09, R10-R12, and R14, and the preserved-not-a-gap decision for R13, every finite S18 register item now has a terminal disposition.
+
+#### Superseding finite S18 register
+
+This table supersedes the initial snapshot in 27.2 and the partial checkpoint in 27.11 for current status. Historical rows remain chronological evidence of what was unknown at those times.
+
+| ID | Final classification | Final evidence-backed disposition | Status |
+| --- | --- | --- | --- |
+| R01 | Verified gap | Registry-backed 26-command palette, mixed object ranking, bounded safe recency, execution and remote browser/unit/stress proof. | REMOTE VERIFIED |
+| R02 | Implementation drift | Current capability activation and exact shortcut/IME/collision behavior repaired and remotely tested. | REMOTE VERIFIED |
+| R03 | Test drift | Obsolete registry/group expectations replaced with current behavior while retaining full Search/object assertions. | REMOTE VERIFIED |
+| R04 | Stale evidence | Original unsupported S10 claim preserved and explicitly reconciled with source, repair, and direct proof. | RECONCILED AND REMOTELY VERIFIED |
+| R05 | Verified gap | Exact editor return, modal/IME containment, action handoff, mobile stacking, and content-safe trace repair. | REMOTE VERIFIED |
+| R06 | Verified gap | Archive construction uses one bounded REPEATABLE READ snapshot; native concurrent-writer proof passes. | REMOTE VERIFIED |
+| R07 | Verified gap | Capture keyboard handling excludes authored/editable/composing/modified input and preserves intended triage. | REMOTE VERIFIED |
+| R08 | Verified gap | Complete typed 1,145-key extraction, approved Arabic fallback, locale formatting, deep-domain codes, source audit, full regression and exact remote proof. | REMOTE VERIFIED |
+| R09 | Verified gap | Production OIDC credential-to-internal-session repository seam, claim/security checks, and native proof. | REMOTE VERIFIED |
+| R10 | Verified gap and stale evidence | Real durable operational alert evaluation, state transitions, delivery/retry/scoping, producer integration, native proof and remote CI. | REMOTE VERIFIED |
+| R11 | Verified gap | Reversible accessible Semantic Zoom navigation with exact writing-position preservation and Scene/Prose descent. | REMOTE VERIFIED |
+| R12a | Verified gap | V1 milestone ownership is represented as explicit deduplicated legacy links without inferred facts. | REMOTE VERIFIED |
+| R12b | Verified gap | Composite timestamp/UUID pagination and reachable Capture/Note/Research continuation with compatibility/native proof. | REMOTE VERIFIED |
+| R12c | Verified gap | Bible-authorized entity-arc Narrative Intent adapter resolves existing active entities without inventing an arc aggregate. | REMOTE VERIFIED |
+| R13 | Not a gap | Proposal/canonical separation, entity detail, and provider-neutral adapters remain intentional and pass regression. | PRESERVED AND REMOTELY REGRESSED |
+| R14 | Verified gap | Tiptap patched to the safe exact dependency graph with attribute regression proof and zero reported audit vulnerabilities. | REMOTE VERIFIED |
+| R15 | Verified gap | Continuation scroll capture is debounced and frozen before navigation; exact browser restoration passes locally and remotely. | REMOTE VERIFIED |
+| R16 | Verified evidence gap | Native causality verifier now requires missing active Phase 3 endpoints to reject with `NOT_FOUND`. | REMOTE VERIFIED |
+
+#### S18 gate conclusion and successor state
+
+| Gate | Outcome | Current status | Evidence |
+| --- | --- | --- | --- |
+| S18 | Finite existing-capability compliance closure, surgical repairs, full audit, stress/regression, exact Git and remote proof | **PASSED** | Sections 27.1-27.29; final R08 implementation `524c338085d1bd28714acaa2552a8afbcf967186`; CI `34255219677`; Security `34255219488` and `34255214825` |
+| S19 | Quiet premium editorial visual refinement, one reviewed surface slice at a time | **UNLOCKED — NOT STARTED** | S18 predecessor is now passed; no S19 visual change exists in the R08 commit |
+| S20 | Full coherence, regression, operational, and release verification | **LOCKED** | Must follow completed, audited, committed, pushed, and remotely verified S19 |
+
+S18 final decision: **PASS — FINITE REGISTER CLOSED WITH EXACT REMOTE IMPLEMENTATION PROOF**. S19 is unlocked but not started. S20 remains locked. Phase 7 remains incomplete, and the Phase 7 completion phrase remains unauthorized.
