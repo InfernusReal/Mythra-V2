@@ -6153,3 +6153,16 @@ S19-A adds and changes no `console.log`. CSS variable resolution and pseudo-stat
 The side-by-side audit finds no remaining local S19-A gap. Every final token has a named consumer; proposed unused aliases were removed; every changed selector is enumerated; all changed files are accounted for; representative themes, desktop/mobile surfaces, keyboard focus, reduced motion, accessibility, and no-overflow behavior were inspected; affected component and real-browser workflows pass; lint, typecheck, and build pass; and functional/product contracts remain unchanged.
 
 S19-A current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-B MUST NOT START until the S19-A implementation and closure ledger are remotely verified; S20 remains LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.5 S19-A exact remote implementation proof
+
+S19-A implementation/audit commit `ff271adb5eb1f72195cfe188d4d80446f5fc3074` was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before remote evidence was accepted.
+
+Remote exact-hash evidence for `ff271adb5eb1f72195cfe188d4d80446f5fc3074`:
+
+- Pull-request CI run `34379662815` passed. `verify` job `102561094243` passed clean checkout/install, Prisma generation, lint, typecheck, complete coverage, and the Next.js `16.3.4` production build.
+- The same CI run's `s18-regression` job `102561094530` passed PostgreSQL startup and migrations, every declared native verifier, Chromium installation, the bounded command/Capture/Search/continuation/Context/Structure/Universe/Timeline browser matrix, and evidence upload.
+- Pull-request Security run `34379662823`, job `102561095897`, passed clean install, high-severity dependency audit, security tests, and committed-secret rejection.
+- Push Security run `34379658009`, job `102561077280`, passed the same security chain.
+
+All four remote jobs checked out the same S19-A implementation object and completed successfully; no threshold, test, native verifier, browser suite, security control, or evidence step was waived. S19-A implementation is therefore **REMOTE VERIFIED**. This append-only closure ledger must itself be committed, pushed, and remotely verified before S19-B starts. **S19 remains IN PROGRESS; S19-B LOCKED PENDING CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.**
