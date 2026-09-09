@@ -6089,3 +6089,67 @@ The baseline establishes specific cross-slice defects without changing product s
 **Required evidence before S19-A can close.** Inspect the complete CSS diff and enumerate every new/changed token and selector; prove all directly affected consumers; render Light/Dark/Cream representative desktop and mobile surfaces; inspect original-resolution screenshots; verify visible keyboard focus and reduced-motion handling; run shell/editor/Structure component and accessibility tests plus lint/typecheck/build; prove no DOM, route, behavior, or semantics changed; record any capture/test failure and correction; commit, push, and obtain exact-hash remote CI/Security proof. No `console.log` is expected because CSS token/primitives have no runtime operational lifecycle.
 
 Current state: **S19 IN PROGRESS; S19-A PRE-CODE CONTRACT RECORDED; NO S19 PRODUCT FILE HAS CHANGED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.4 S19-A implementation, rendered review, and local compliance audit
+
+S19-A establishes only the shared visual substrate required by later surface-owned slices. The retained vocabulary is deliberately smaller than the pre-code candidate list: proposed radius, spacing, depth, and control-height aliases were removed during diff review because no reviewed consumer uses them yet. This applies the declared no-unused-token rule and prevents unreviewed computed-value changes from leaking into later surfaces.
+
+#### Exact CSS accountability
+
+| Final line(s) | Token or selector | Implemented responsibility and consumer proof |
+| --- | --- | --- |
+| `app/globals.css:14` | `--font-ui` | Names the existing Inter/system UI stack once; consumed by `body` on line 74. The independent editor serif token remains on line 15 and is unchanged in value. |
+| `app/globals.css:16` | `--focus-halo` | Derives a theme-aware translucent halo from each theme's existing `--focus`; consumed only by `:focus-visible` on line 92. |
+| `app/globals.css:17` | `--selection` | Derives selection feedback from each theme's existing accent; consumed only by `::selection` on line 91. |
+| `app/globals.css:18-19` | `--motion-fast`, `--ease-standard` | Defines one restrained interaction transition; both are consumed by the shared control transition on lines 81-86. Existing reduced-motion policy still overrides durations. |
+| `app/globals.css:70-77` | `body` | Reuses `--font-ui` and adds a stable 1.5 UI line height plus text rasterization hints. No dimension, breakpoint, or DOM change. |
+| `app/globals.css:79` | form inheritance | Extends the existing inherited font rule to `textarea`, removing one native-font inconsistency without changing values or behavior. |
+| `app/globals.css:81-86` | shared interaction transition | Animates only color, background, border, and focus shadow; geometry and layout are excluded. |
+| `app/globals.css:88-89` | enabled/disabled cursor contract | Shows pointer intent only for enabled buttons, selects, checkboxes, and radios; disabled controls use `not-allowed`. Text inputs and textareas retain text-selection behavior. |
+| `app/globals.css:90` | links | Gives all existing links consistent underline weight and offset without changing accessible name, destination, or hit target. |
+| `app/globals.css:91` | selection | Applies the theme-derived selection color. |
+| `app/globals.css:92` | keyboard focus | Replaces the single 3px outline with a 2px outline, 3px offset, and 4px translucent halo. The indicator remains highly visible without moving layout. |
+
+No universal selector, surface layout, breakpoint, component, DOM node, accessible label, tab order, route, state transition, persistence path, domain rule, feature gate, price, or dependency changed. All five new tokens have direct consumers; there is no dead visual vocabulary in the final diff.
+
+#### Complete changed-file accountability
+
+| File | Exact implemented responsibility | Audit disposition |
+| --- | --- | --- |
+| `app/globals.css` | Adds five consumed shared tokens and the bounded typography, transition, cursor, link, selection, and focus primitives enumerated above. | Required S19-A product file; 23 insertions and 4 deletions before ledger update. |
+| `Path.md` | Records authority, baseline, pre-code contract, exact implementation, rendered inspection, verification, scope, and gate decision. | Required Pathway V2 execution ledger update. |
+
+Accountability count: **2 changed paths listed / 2 accounted for / zero omitted**. The optional `tests/e2e/visual-polish.spec.ts` was not created: the existing shell/editor/Structure suites plus direct Playwright computed-style inspection provide executable proof without duplicating product tests. All screenshot artifacts remain under ignored `tmp/` paths and no build-generated file remains in the diff.
+
+#### Before/after rendered inspection
+
+The same six representative routes, themes, and viewports from 28.2 were rendered after the change under `tmp/s19-a-after/`: Light desktop sign-in, Dark desktop project list, Cream desktop Project Home, Light desktop editor, Dark desktop Structure, and Cream 412x915 project list. Every artifact was opened at original resolution.
+
+The after inspection confirms the intended bounded result: UI typography is consistently rasterized; selection, link, and interaction foundations are coherent; the focused sign-in action shows a clear two-layer focus indicator; desktop and mobile composition, manuscript geometry, shell columns, controls, content order, and responsive flow are unchanged. The larger surface-specific baseline defects remain deliberately visible and are assigned to later S19 slices rather than being hidden by a global redesign.
+
+A current post-cleanup Chromium computation across Light, Dark, and Cream resolved the retained font, halo, selection, 140ms transition, and standard easing variables in every theme, reported no horizontal overflow, and emitted zero console or page errors. With keyboard focus on `Continue to Mythra`, the element matched `:focus-visible` and computed to a solid 2px outline, 3px offset, and 4px halo. Under `prefers-reduced-motion: reduce`, the computed transition duration collapsed to `0.00001s`, preserving the existing reduced-motion guarantee.
+
+#### Verification and non-interference evidence
+
+| Check | Final result | Evidence and scope |
+| --- | --- | --- |
+| Direct live theme/focus/overflow inspection | PASS | Three themes resolved every retained token; desktop sign-in had no horizontal overflow, visible keyboard focus, reduced motion, and zero browser errors. |
+| Affected component regression | PASS: 4 files / 30 tests in 15.22 seconds | Shell, Structure interactions, Context field, and editor attribute-security behavior remained intact. Expected jsdom scroll/navigation notices are non-failing platform limitations. |
+| Accessibility suite | PASS: 10 files / 13 tests in 15.85 seconds | Serious/critical axe checks pass; the expected jsdom canvas notice does not conceal a violation. |
+| Browser workflow stress | PASS: 15 applicable / 11 declared device skips in 1.7 minutes | Desktop and mobile foundation, editor, and Structure suites preserve authentication, exact shell geometry, Ctrl+K/Escape focus restoration, accessibility, reduced motion, Unicode/IME durability, optional Structure, reviewed scaffold/reorder, exact writing return, active-lens accessibility, and mobile Dark usability. |
+| Lint | PASS | ESLint completed with zero warnings or errors. |
+| Typecheck | PASS | TypeScript completed with zero errors. |
+| Production build | PASS | Next.js `16.3.4` compiled in 4.4 seconds, TypeScript completed in 8.0 seconds, and all 22 static pages/routes generated in 578ms. Build-generated `next-env.d.ts` churn was removed. |
+| Diff hygiene | PASS | `git diff --check` reports no whitespace errors; Git emits only the expected Windows LF-to-CRLF conversion notice. |
+
+Positive proof establishes the new common typography, state-transition, selection, cursor, link, and keyboard-focus treatment in real Chromium. Negative proof establishes that application markup and TypeScript were untouched, existing functional suites pass, route and data behavior are unchanged, no visual primitive animates geometry, mobile/desktop shells retain their contracts, and the later surface slices still own their respective composition work.
+
+#### Console/comment compliance
+
+S19-A adds and changes no `console.log`. CSS variable resolution and pseudo-state presentation are not operational lifecycle events; logging render or pointer/focus transitions would create high-volume telemetry and would not improve traceability. Therefore there are **zero new console/comment line entries to enumerate**. Existing structured operational traces and adjacent identifying comments remain unchanged.
+
+#### Local gate decision
+
+The side-by-side audit finds no remaining local S19-A gap. Every final token has a named consumer; proposed unused aliases were removed; every changed selector is enumerated; all changed files are accounted for; representative themes, desktop/mobile surfaces, keyboard focus, reduced motion, accessibility, and no-overflow behavior were inspected; affected component and real-browser workflows pass; lint, typecheck, and build pass; and functional/product contracts remain unchanged.
+
+S19-A current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-B MUST NOT START until the S19-A implementation and closure ledger are remotely verified; S20 remains LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
