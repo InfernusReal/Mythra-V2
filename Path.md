@@ -5978,3 +5978,37 @@ R17 implementation commit `d9e8cdfb34f1efdf6ee69279e89f59e647259ebd` was pushed 
 R18 is a **Verified dependency security gap** and blocks R17/S18 remote closure. The required surgical repair is to update only the affected aligned package families to patched stable versions: Next.js and its ESLint configuration to `16.3.4`; the complete directly declared Tiptap set to the mutually aligned `3.30.5`; Vitest and its coverage provider to `4.1.11`; and transitive Sharp/js-yaml resolutions to at least `0.35.4`/`4.3.2`. Preserve application code, routes, schemas, behavior, and thresholds. Then require a zero-high `npm audit`, dependency-tree version proof, editor attribute regressions, security tests, lint, typecheck, full coverage, production build, and replacement exact-hash remote CI/Security proof. Add no application trace because dependency resolution is a build/release boundary represented by package and gate evidence, not a runtime user operation.
 
 Current decision: **R17 LOCALLY PASSED BUT REMOTE BLOCKED BY R18; R18 IN PROGRESS; S18 REOPENED; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 27.33 R18 dependency repair and replacement local audit
+
+The dependency repair is complete and aligned. `package.json` now pins Next.js and `eslint-config-next` to `16.3.4`, all eight directly declared Tiptap packages to `3.30.5`, and Vitest plus `@vitest/coverage-v8` to `4.1.11`. `package-lock.json` resolves the complete Tiptap/ProseMirror peer graph at compatible patch levels, Next's platform packages at `16.3.4`, Sharp at `0.35.4`, js-yaml at `4.3.2`, and the Vitest family at `4.1.11`.
+
+The first package-manager attempt tried to replace the mutually exact Tiptap peer family while the installed `3.30.4` graph was still active and stopped with `ERESOLVE`; it made no repository change. The manifest was then updated atomically so every direct Tiptap peer requested `3.30.5`, installation completed, the safe transitive audit fix advanced js-yaml, and `npm ls --all` proved the resulting tree contains no invalid or missing peer. This chronology is retained because the failed attempt was diagnostic evidence, not a successful install.
+
+#### Complete changed-file accountability
+
+| File | Exact implemented responsibility | Audit disposition |
+| --- | --- | --- |
+| `package.json` | Advances only the five affected declared package families: Next.js, matching Next ESLint configuration, Tiptap, Vitest, and Vitest coverage. | Required patched-version contract; no feature dependency added. |
+| `package-lock.json` | Locks patched direct/transitive artifacts and platform variants, including Tiptap `3.30.5`, Next `16.3.4`, Sharp `0.35.4`, js-yaml `4.3.2`, and Vitest `4.1.11`. | Required reproducible security resolution. |
+| `Path.md` | Sections 27.32-27.33 preserve remote failure discovery, advisory basis, pre-change plan, implementation chronology, verification, accountability, and gate status. | Required Pathway V2 execution ledger update. |
+
+Accountability count: **3 changed paths listed / 3 accounted for / zero omitted**. Build-generated `next-env.d.ts` path changes were reverted and are not part of the change.
+
+#### Replacement verification evidence
+
+| Check | Final result | Evidence and scope |
+| --- | --- | --- |
+| Dependency security audit | PASS: zero vulnerabilities | `npm audit --audit-level=high` reports `found 0 vulnerabilities`; no allowlist or severity downgrade was introduced. |
+| Complete dependency-tree validity | PASS | `npm ls --all --json` exits successfully. Focused tree proof resolves Next `16.3.4`, Sharp `0.35.4`, js-yaml `4.3.2`, Tiptap direct/transitive packages `3.30.5`, and Vitest/coverage `4.1.11`. |
+| Editor and R17 focused regressions | PASS: 3 files / 20 tests in 7.39 seconds | Tiptap DOM-attribute hardening, numeric fallback, and complete Structure interactions pass on the patched graph. The only notice was jsdom's expected unsupported cross-document navigation notice. |
+| Security test suite | PASS: 2 files / 10 tests in 7.89 seconds | Operations security and admin accessibility/security cases pass. The only notice was jsdom's expected missing canvas implementation. |
+| Lint | PASS | ESLint completed with zero warnings or errors under `eslint-config-next` `16.3.4`. |
+| Typecheck | PASS | TypeScript completed with zero errors. |
+| Full coverage | PASS: 107 files / 410 tests in 136.29 seconds | Statements 87.97% (`5011/5696`), branches 77.15% (`2959/3835`), functions 85.70% (`1253/1462`), lines 90.51% (`4379/4838`); all thresholds pass. Expected jsdom scroll/navigation/canvas notices remain non-failing environment limitations. |
+| Production build | PASS | Next.js `16.3.4` compiled in 21.8 seconds, TypeScript completed in 29.9 seconds, and all 22 static pages/routes generated. |
+| Scope/diff audit | PASS | Only the manifest, reproducible lock, and append-only ledger remain changed; no source, test threshold, route, schema, migration, CSS, pricing, or WorkPlan alteration is present. |
+
+No runtime `console.log` or adjacent step comment was added or changed. Package resolution has no user-runtime lifecycle event; the manifest, lock, audit output, and CI/Security runs are its authoritative release evidence.
+
+R18 current decision: **LOCALLY PASSED — REPLACEMENT COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. R17 remains locally passed but cannot become remotely verified until the replacement hash that includes R18 is green. **S18 remains REOPENED; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.**
