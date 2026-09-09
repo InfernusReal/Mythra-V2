@@ -6,6 +6,7 @@ import {
   localizedEnumLabel,
   localizedErrorMessage,
 } from "@/lib/i18n/messages";
+import { finiteInputNumber } from "@/lib/forms/numeric-input";
 
 import { useMemo, useState, type FormEvent } from "react";
 import type { StructureOverview } from "@/domains/structure/application/ports";
@@ -632,7 +633,9 @@ export function SemanticZoomViewport({
                 min="0"
                 value={selectionAnchor}
                 onChange={(event) =>
-                  setSelectionAnchor(event.currentTarget.valueAsNumber)
+                  setSelectionAnchor(
+                    finiteInputNumber(event.currentTarget, 0),
+                  )
                 }
               />
             </label>
@@ -643,7 +646,7 @@ export function SemanticZoomViewport({
                 min="0"
                 value={selectionHead}
                 onChange={(event) =>
-                  setSelectionHead(event.currentTarget.valueAsNumber)
+                  setSelectionHead(finiteInputNumber(event.currentTarget, 0))
                 }
               />
             </label>

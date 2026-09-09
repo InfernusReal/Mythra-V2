@@ -5,6 +5,7 @@ import {
   interpolateMessage,
   localizedErrorMessage,
 } from "@/lib/i18n/messages";
+import { finiteInputNumber } from "@/lib/forms/numeric-input";
 
 import { useState, type FormEvent } from "react";
 import type { StructureOverview } from "@/domains/structure/application/ports";
@@ -396,7 +397,7 @@ export function OutlineLens({
               min="0"
               value={outlineSequence}
               onChange={(event) =>
-                setOutlineSequence(event.currentTarget.valueAsNumber)
+                setOutlineSequence(finiteInputNumber(event.currentTarget, 0))
               }
             />
           </label>

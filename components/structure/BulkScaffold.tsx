@@ -5,6 +5,7 @@ import {
   localizedEnumLabel,
   localizedErrorMessage,
 } from "@/lib/i18n/messages";
+import { finiteInputNumber } from "@/lib/forms/numeric-input";
 
 import { useRef, useState } from "react";
 
@@ -151,7 +152,7 @@ export function BulkScaffold({
             max="100"
             value={volumeCount}
             onChange={(event) =>
-              setVolumeCount(event.currentTarget.valueAsNumber)
+              setVolumeCount(finiteInputNumber(event.currentTarget, 1))
             }
           />
         </label>
@@ -163,7 +164,7 @@ export function BulkScaffold({
             max="100000"
             value={chapterStart}
             onChange={(event) =>
-              setChapterStart(event.currentTarget.valueAsNumber)
+              setChapterStart(finiteInputNumber(event.currentTarget, 1))
             }
           />
         </label>
@@ -175,7 +176,7 @@ export function BulkScaffold({
             max="10000"
             value={chapterCount}
             onChange={(event) =>
-              setChapterCount(event.currentTarget.valueAsNumber)
+              setChapterCount(finiteInputNumber(event.currentTarget, 1))
             }
           />
         </label>

@@ -5925,3 +5925,48 @@ R17 is a **Verified product defect** discovered after the prior finite register 
 Surgical plan: first add a failing component regression that clears the exact Outline Order field and proves React receives no `NaN`. Then add one client-safe pure numeric-input boundary helper that returns the declared finite minimum/default when the browser exposes a non-finite value. Replace only the unsafe direct `valueAsNumber` state assignments across the four confirmed Structure components, using each control's existing minimum as its fallback. Preserve input types, min/max/step constraints, API payload shapes, domain validation, calculations, logs, authored content, layout, styling, routes, schemas, and all other behavior. Add no trace: parsing an input event is not an operational lifecycle boundary, and logging keystrokes would be inappropriate.
 
 Required proof: the new regression must fail before production repair and pass afterward; the complete Structure component suite, i18n source audit, lint, typecheck, full coverage, production build, and a live browser console check must pass. Every actual file and exact outcome will be appended before R17/S18 can close; implementation and ledger commits must be pushed and exact-hash CI/Security verified.
+
+### 27.31 R17 implementation, regression, and local compliance audit
+
+The failure was reproduced before production code changed. The new focused component case failed with the cleared `Order` input holding no finite value: **1 failed / 15 skipped in 2.36 seconds**, with the assertion expecting `0` and receiving `null`. That red result proves the test would detect the screenshot defect instead of merely exercising the repaired branch.
+
+The repair introduces one pure client-safe boundary, `finiteInputNumber`, which accepts the browser control and a caller-owned fallback, returns `valueAsNumber` only when it is finite, and otherwise returns the fallback. The four affected Structure components use their already-declared minimum or current bounded value: Outline Order and Semantic Zoom selection coordinates use `0`; scaffold volume/chapter counts and first chapter use `1`; milestone sequence and weight use `0`; milestone first chapter and counts use `1`; milestone last chapter falls back to the current first chapter. No API, domain, persistence, route, schema, styling, input constraint, or authored-content behavior changed.
+
+#### Complete changed-file accountability
+
+| File | Exact implemented responsibility | Audit disposition |
+| --- | --- | --- |
+| `lib/forms/numeric-input.ts` | Defines the finite-number input boundary; line 1 declares `finiteInputNumber`, line 6 rejects `NaN` and either infinity through `Number.isFinite`. | Required shared repair; no presentation or persistence behavior. |
+| `components/structure/OutlineLens.tsx` | Imports the helper on line 8 and normalizes the cleared Order control to `0` on line 400. | Exact screenshot path repaired. |
+| `components/structure/BulkScaffold.tsx` | Imports the helper on line 8; lines 155, 167, and 179 normalize volume count, first chapter, and chapter count to their existing minimum `1`. | Same reachable defect class removed from scaffold controls. |
+| `components/structure/MilestoneLens.tsx` | Imports the helper on line 5; lines 540, 573, 584-585, 715, 798, and 810 normalize all direct numeric-control assignments using their existing semantic bounds. | Same reachable defect class removed from milestone controls. |
+| `components/structure/SemanticZoomViewport.tsx` | Imports the helper on line 9; lines 636-637 and 649 normalize paragraph-selection coordinates to `0`. | Same reachable defect class removed from Semantic Zoom controls. |
+| `tests/component/structure-interactions.test.tsx` | Lines 258-278 clear the exact controlled Order field, require value `0`, and assert React did not emit the reported warning. | Red-before-green regression evidence retained. |
+| `tests/unit/numeric-input.test.ts` | Lines 4-12 prove finite decimal preservation and fallback for both `NaN` and positive infinity. | Pure boundary and negative-path proof. |
+| `Path.md` | Sections 27.30-27.31 record discovery, gate reopening, pre-code contract, implementation, complete file accountability, verification, and decision without rewriting prior history. | Required Pathway V2 execution ledger update. |
+
+Accountability count: **8 changed paths listed / 8 accounted for / zero omitted**.
+
+#### Verification and stress evidence
+
+| Check | Final result | Evidence and scope |
+| --- | --- | --- |
+| Exact screenshot regression | PASS: 1 passed / 15 skipped in 5.47 seconds | Clearing Outline Order now yields the finite fallback and emits no React `NaN` warning. |
+| Affected automated matrix | PASS: 4 files / 33 tests in 8.86 seconds | Numeric helper, Structure interactions, Milestone Lens, and complete i18n extraction all pass. The only notice was jsdom's expected unsupported cross-document navigation notice. |
+| Unsafe-pattern source scan | PASS: zero matches | `set*(event.currentTarget.valueAsNumber)` no longer exists under `components/structure`; all confirmed direct assignments use the finite boundary. |
+| Lint | PASS | ESLint completed with zero warnings or errors. |
+| Typecheck | PASS | TypeScript completed with zero errors. |
+| Full coverage | PASS: 107 files / 410 tests in 133.84 seconds | Statements 87.97% (`5011/5696`), branches 77.15% (`2959/3835`), functions 85.70% (`1253/1462`), lines 90.51% (`4379/4838`); all configured thresholds pass. Expected jsdom scroll/navigation/canvas notices are non-failing environment limitations. |
+| Production build | PASS | Next.js 16.3.0 compiled in 11.5 seconds, TypeScript completed in 13.9 seconds, and all 22 static pages/routes generated. Build-only `next-env.d.ts` path churn was removed. |
+| Live local browser reproduction | PASS | On the existing local project at the Structure Outline lens, keyboard-clearing the exact Order stepper changed its DOM value and `valueAsNumber` to `0`; the matching development-overlay count was `0`; the browser's error log contained zero `Received NaN` entries. The visible corrected state was captured. |
+| Diff scope | PASS | Only the four affected components, one shared helper, two tests, and this append-only ledger changed. No dependency, generated file, schema, migration, route, CSS, pricing, or WorkPlan change is present. |
+
+#### Console/comment compliance
+
+No `console.log` was added. The pre-code ruling in 27.30 is upheld: a numeric input's per-keystroke parse is not an operational lifecycle event, and logging that stream would create noise and could expose author interaction telemetry. The repair leaves every existing operational trace and its adjacent identifying comment unchanged. Consequently there are **zero new console/comment line entries to enumerate**, not an undocumented trace gap.
+
+#### Local gate decision
+
+The side-by-side R17 audit finds no remaining local gap: the reported control and every confirmed identical setter are finite, the exact test is demonstrably red-before-green, negative numeric cases are covered, all affected and full automated gates pass, the production build passes, the live browser is clean, all changed paths are accounted for, and the implementation stays within the surgical pre-code contract.
+
+R17 current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. Because the post-closure defect has not yet crossed the remote gate, **S18 remains REOPENED; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE**. The Phase 7 completion phrase remains unauthorized.

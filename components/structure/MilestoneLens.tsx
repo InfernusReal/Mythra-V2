@@ -2,6 +2,7 @@
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { useRef, useState, type FormEvent } from "react";
 import { useCommandHandlers } from "@/lib/commands/use-command-handlers";
+import { finiteInputNumber } from "@/lib/forms/numeric-input";
 import { useNetworkStatus } from "@/lib/offline/use-network-status";
 import type {
   MilestoneOverview,
@@ -536,7 +537,7 @@ export function MilestoneLens({
               min="0"
               value={sequenceIndex}
               onChange={(event) =>
-                setSequenceIndex(event.currentTarget.valueAsNumber)
+                setSequenceIndex(finiteInputNumber(event.currentTarget, 0))
               }
             />
           </label>
@@ -569,7 +570,7 @@ export function MilestoneLens({
               min="1"
               value={chapterStart}
               onChange={(event) =>
-                setChapterStart(event.currentTarget.valueAsNumber)
+                setChapterStart(finiteInputNumber(event.currentTarget, 1))
               }
             />
           </label>
@@ -580,7 +581,9 @@ export function MilestoneLens({
               min={chapterStart}
               value={chapterEnd}
               onChange={(event) =>
-                setChapterEnd(event.currentTarget.valueAsNumber)
+                setChapterEnd(
+                  finiteInputNumber(event.currentTarget, chapterStart),
+                )
               }
             />
           </label>
@@ -708,7 +711,9 @@ export function MilestoneLens({
               min="0"
               step="0.1"
               value={weight}
-              onChange={(event) => setWeight(event.currentTarget.valueAsNumber)}
+              onChange={(event) =>
+                setWeight(finiteInputNumber(event.currentTarget, 0))
+              }
             />
           </label>
         </div>
@@ -790,7 +795,7 @@ export function MilestoneLens({
               max="500"
               value={milestoneCount}
               onChange={(event) =>
-                setMilestoneCount(event.currentTarget.valueAsNumber)
+                setMilestoneCount(finiteInputNumber(event.currentTarget, 1))
               }
             />
           </label>
@@ -802,7 +807,7 @@ export function MilestoneLens({
               max="10000"
               value={chapterCount}
               onChange={(event) =>
-                setChapterCount(event.currentTarget.valueAsNumber)
+                setChapterCount(finiteInputNumber(event.currentTarget, 1))
               }
             />
           </label>

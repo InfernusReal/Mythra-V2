@@ -255,6 +255,28 @@ describe("Structure interaction surfaces", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("keeps the controlled outline order finite when the number field is cleared", () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    render(
+      <OutlineLens
+        model={model}
+        expandedIds={[]}
+        onExpanded={vi.fn()}
+        onChanged={vi.fn()}
+      />,
+    );
+
+    const order = screen.getByLabelText("Order");
+    fireEvent.change(order, { target: { value: "" } });
+
+    expect(order).toHaveValue(0);
+    expect(consoleError.mock.calls.flat().join("\n")).not.toContain(
+      "Received NaN for the `value` attribute",
+    );
+  });
+
   it("covers plot, outline, reparent and scene conversion writes", async () => {
     const changed = vi.fn();
     vi.spyOn(globalThis, "fetch").mockImplementation(() => success());
