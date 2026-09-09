@@ -6042,3 +6042,50 @@ The earlier Security failures on R17 commit `d9e8cdfb34f1efdf6ee69279e89f59e6472
 | S20 | Full coherence, regression, operational, and release verification | **LOCKED** | Must follow completed, audited, committed, pushed, and remotely verified S19 |
 
 S18 superseding decision: **PASS — R17 AND R18 CLOSED WITH EXACT REMOTE IMPLEMENTATION PROOF**. S19 is unlocked but has not started. S20 remains locked. Phase 7 remains incomplete, and the Phase 7 completion phrase remains unauthorized.
+
+### 27.35 S18 closure-ledger exact remote verification
+
+The S18 reclosure ledger commit `a1f7f3891b7621a6581b4f5958616625d091d13d` was pushed and matched the remote branch exactly. Pull-request CI run `34376181390` passed `verify` job `102549445504` and `s18-regression` job `102549445207`; pull-request Security run `34376181278`, job `102549447295`, and push Security run `34376175009`, job `102549423854`, also passed. The closure record itself therefore has clean exact-hash checkout/install, Prisma, lint, typecheck, complete coverage, build, native PostgreSQL, bounded browser, dependency-audit, security-test, and secret-rejection evidence.
+
+This satisfies the final predecessor condition. **S18 is completely audited, committed, pushed, remotely verified, and recorded. S19 may begin.**
+
+## 28. Phase 7 Sub-gate 19 — Premium Visual Product Polish
+
+### 28.1 S19 authority, invariant boundary, and slice order
+
+S19 began only after the exact S18 closure proof in 27.35. Its authority is visual only: make the current Mythra product feel like quiet premium editorial software while preserving every current route, major surface, hierarchy, information architecture, workflow, capability, command/Search ranking rule, editor/durability/continuation behavior, persistence contract, schema, domain semantic, pricing decision, security/privacy boundary, and zero-AI deterministic Core rule. Writing remains sovereign, the manuscript remains the center of gravity, Structure remains optional power, and guidance/causality remain peripheral and optional.
+
+Work will follow the bounded internal slices in the user-authored Phase 7 contract: A shared tokens/primitives; B shell/navigation/Project Home; C editor chrome; D Structure/Milestones/Causality; E Universe/Timeline; F Capture; G Search/Ctrl+K; H Context/Relevant Now/Peek; I Notes/Research; J billing/settings/operations/supporting surfaces; K responsive consistency; L cross-product consistency. These are review slices, not new capability gates. Each slice requires rendered before/after inspection, exact file ownership, positive and negative proof, affected interaction/accessibility checks, diff review, commit/push, remote evidence, and a Path.md entry before the next slice starts.
+
+The Creative Production skill was inspected because this is a visual-polish task. Its mounted-board route is intended for generated image assets and no board tool is callable in this workspace; S19 needs repo-native HTML/CSS refinement and explicitly does not need generated bitmap assets. Its review discipline is therefore applied through real Mythra browser renders, not an image-generation board. The Browser/Computer Use transport became unavailable after the completed R17 live check, so the same installed Chromium used by Mythra's Playwright suite is the deterministic fallback for S19 captures; each artifact is then opened at original resolution for manual inspection.
+
+### 28.2 Clean pre-change rendered baseline
+
+The local Next.js `16.3.4` app was rendered against the existing loopback PostgreSQL workspace at 1440×1000 and 412×915. Six clean pre-change artifacts were written under `tmp/s19-baseline/`:
+
+| Artifact | Theme / viewport | Manual visual finding |
+| --- | --- | --- |
+| `01-sign-in-light-desktop.png` | Light / desktop | Centered entry is functional but uses a generic bordered card, undifferentiated sans typography, a flat saturated action, and excessive unstructured negative space. |
+| `02-project-list-dark-desktop.png` | Dark / desktop | Content is readable, but one-letter rail glyphs look provisional; pure border lines and similar dark surfaces flatten depth; the project row, form, and action lack deliberate grouping. |
+| `03-project-home-cream-desktop.png` | Cream / desktop | Warm palette is coherent but controls resemble default HTML; the native file chooser is visually raw; portability dominates a flat stack; supporting destination links wrap as unrelated pills. |
+| `04-editor-light-desktop.png` | Light / desktop | Manuscript space is calm, but toolbar actions read as ungrouped text, Structure/Capture links run together, hierarchy above the manuscript is weak, and the peripheral context rail is visually empty/abrupt. |
+| `05-structure-dark-desktop.png` | Dark / desktop | Capability remains usable, but repeated heavy bordered boxes, near-identical surfaces, large dense forms, default select/number controls, and uniform buttons produce an engineering-console impression. |
+| `06-project-list-cream-mobile.png` | Cream / 412×915 | Single-column behavior is correct, but top-bar truncation, a generic `Navigation` footer button, oversized dead space, and unresolved control chrome prevent a deliberate mobile product feel. |
+
+The first capture attempt took screenshots immediately after DOM readiness; Playwright temporarily hides carets for screenshots while React was still hydrating, producing two development-only hydration warnings on hidden/file inputs. No source contained the reported inline style. The capture was rerun only after the visible surface settled; the final six-artifact run recorded **zero browser console errors**. This is a capture-timing correction, not a product defect or suppressed evidence.
+
+The baseline establishes specific cross-slice defects without changing product structure: limited surface hierarchy; inconsistent radii/control geometry; generic focus/hover/pressed/disabled presentation; uneven type rhythm; raw native controls; provisional shell glyphs; flat action grouping; and insufficiently authored desktop/mobile chrome. No feature, content, or workflow defect is inferred from appearance alone.
+
+### 28.3 S19-A pre-code contract — shared tokens and primitives
+
+**Exact owned problem.** The existing global file repeats close-but-not-identical radii, shadows, spacing, control heights, and surface treatments. Existing theme variables cover only the base palette, so later visual slices would otherwise introduce one-off values and drift. S19-A owns a small semantic visual token vocabulary and the truly shared interactive primitives needed by later slices. It does not own shell layout, editor layout, Structure forms, content hierarchy, or any surface-specific composition.
+
+**Expected files.** `app/globals.css` for tokens/shared primitives; `tests/e2e/visual-polish.spec.ts` only if executable theme/focus/overflow evidence cannot be expressed through existing suites; and `Path.md` for the before/after ledger. No component, route, domain, service, repository, schema, migration, registry, localization catalog, dependency, or WorkPlan file is expected.
+
+**Implementation method.** Define restrained theme-resolved semantic aliases for typography, spacing/rhythm, control height, radii, border emphasis, surface depth, shadows, focus, motion, and disabled treatment. Preserve the existing Light/Dark/Cream base variables and map new aliases onto them. Introduce only reusable CSS primitives that have real later consumers; do not restyle every element through an uncontrolled universal selector. Initial token establishment will preserve current computed values wherever a consuming surface has not yet been reviewed; visual changes occur in that surface's owning slice.
+
+**Must remain unchanged.** The 48px desktop command bar, 48px rail, three-column wide shell, compact/mobile breakpoints, readable manuscript width, independent editor serif typography, DOM/accessibility names, tab order, routes, component props, theme persistence, save-state truth, all keyboard/IME behavior, reduced-motion behavior, RTL directionality, touch-target requirements, and every functional contract remain unchanged.
+
+**Required evidence before S19-A can close.** Inspect the complete CSS diff and enumerate every new/changed token and selector; prove all directly affected consumers; render Light/Dark/Cream representative desktop and mobile surfaces; inspect original-resolution screenshots; verify visible keyboard focus and reduced-motion handling; run shell/editor/Structure component and accessibility tests plus lint/typecheck/build; prove no DOM, route, behavior, or semantics changed; record any capture/test failure and correction; commit, push, and obtain exact-hash remote CI/Security proof. No `console.log` is expected because CSS token/primitives have no runtime operational lifecycle.
+
+Current state: **S19 IN PROGRESS; S19-A PRE-CODE CONTRACT RECORDED; NO S19 PRODUCT FILE HAS CHANGED; S20 LOCKED; PHASE 7 INCOMPLETE.**
