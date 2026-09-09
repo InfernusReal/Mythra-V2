@@ -6012,3 +6012,33 @@ Accountability count: **3 changed paths listed / 3 accounted for / zero omitted*
 No runtime `console.log` or adjacent step comment was added or changed. Package resolution has no user-runtime lifecycle event; the manifest, lock, audit output, and CI/Security runs are its authoritative release evidence.
 
 R18 current decision: **LOCALLY PASSED — REPLACEMENT COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. R17 remains locally passed but cannot become remotely verified until the replacement hash that includes R18 is green. **S18 remains REOPENED; S19 LOCKED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 27.34 R17/R18 exact remote proof and superseding S18 reclosure
+
+The replacement dependency/audit commit `2ee4dc4a8e6e5eb572fceca33af3b52596a43c5b` was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD` and the remote branch resolved to that exact object before remote evidence was accepted. This commit contains the previously pushed R17 implementation commit `d9e8cdfb34f1efdf6ee69279e89f59e647259ebd`, the R18 discovery ledger, and the patched dependency graph.
+
+Remote exact-hash evidence for `2ee4dc4a8e6e5eb572fceca33af3b52596a43c5b`:
+
+- Pull-request CI run `34375049520` passed. `verify` job `102545611076` passed clean checkout, `npm ci`, Prisma generation, lint, typecheck, all coverage tests, and the Next.js `16.3.4` production build.
+- The same CI run's `s18-regression` job `102545611578` passed PostgreSQL startup, all migrations, alert/Structure/archive/pagination/OIDC/portability native verifiers, Chromium installation, and the bounded command/Capture/Search/continuation/Context/Structure/Universe/Timeline browser matrix.
+- Pull-request Security run `34375049482`, job `102545611069`, passed clean install, zero-high dependency audit, all security tests, and committed-secret rejection.
+- Push Security run `34375043214`, job `102545589569`, passed the same security chain.
+
+The earlier Security failures on R17 commit `d9e8cdfb34f1efdf6ee69279e89f59e647259ebd` and the R18 boundary commit `0420417ab8c8b960ee2ca54b01a3b1e73e9e7225` remain valid discovery evidence: they identified the newly published advisories and were superseded only after the vulnerable graph was replaced. They are not represented as product-code regressions or silently discarded.
+
+#### Addendum to the finite S18 register
+
+| ID | Classification | Final evidence-backed disposition | Status |
+| --- | --- | --- | --- |
+| R17 | Verified post-closure product defect | All confirmed direct controlled-number assignments use a finite boundary; red-before-green component proof, full local regression/build, clean live browser reproduction, and exact remote CI/browser regression pass. | REMOTE VERIFIED |
+| R18 | Verified dependency security gap caused by newly published advisory data | Patched aligned Next/Tiptap/Vitest/Sharp/js-yaml graph, zero-vulnerability local and remote audits, valid peer tree, full local regression/build, and exact remote CI/Security pass. | REMOTE VERIFIED |
+
+#### Superseding gate status
+
+| Gate | Outcome | Current status | Evidence |
+| --- | --- | --- | --- |
+| S18 | Original finite register plus post-closure R17/R18 reconciliation, surgical repairs, local audit, and exact remote proof | **PASSED AGAIN** | Sections 27.1-27.34; implementation `2ee4dc4a8e6e5eb572fceca33af3b52596a43c5b`; CI `34375049520`; Security `34375049482` and `34375043214` |
+| S19 | Quiet premium editorial visual refinement in bounded reviewed slices A-L | **UNLOCKED — NOT STARTED** | The reopened predecessor is now passed; no S19 visual file changed in the R17/R18 commits |
+| S20 | Full coherence, regression, operational, and release verification | **LOCKED** | Must follow completed, audited, committed, pushed, and remotely verified S19 |
+
+S18 superseding decision: **PASS — R17 AND R18 CLOSED WITH EXACT REMOTE IMPLEMENTATION PROOF**. S19 is unlocked but has not started. S20 remains locked. Phase 7 remains incomplete, and the Phase 7 completion phrase remains unauthorized.
