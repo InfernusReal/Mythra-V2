@@ -6188,3 +6188,88 @@ S19-B began only after the exact S19-A closure in 28.6. Its clean pre-change ren
 **Required evidence before S19-B can close.** Enumerate every changed JSX/CSS selector and consuming surface; render Project list and populated/empty Project Home across applicable Light/Dark/Cream desktop/mobile states; inspect screenshots at original resolution; verify 48px desktop geometry, no overflow, touch targets, keyboard focus, reduced motion, long-label and RTL behavior; run affected shell/project component suites and foundation/continuation/Capture/portability browser workflows; run accessibility, lint, typecheck, and build; prove unchanged routes/workflows/data; inspect and account for the exact diff; then commit, push, and obtain exact-hash remote CI/Security proof. No new `console.log` is expected because decorative markup and presentation state have no operational lifecycle; existing shell/mobile traces and adjacent comments must remain unchanged.
 
 Current state: **S19 IN PROGRESS; S19-A REMOTE VERIFIED; S19-B PRE-CODE CONTRACT RECORDED; NO S19-B PRODUCT FILE HAS CHANGED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.8 S19-B implementation, rendered review, and local compliance audit
+
+S19-B refines the existing shell, navigation, Project list, and Project Home without moving, adding, removing, or reordering a capability. The product still renders the same three wide-shell columns, the same mobile single-column path, the same Project Home child order, seven secondary project destinations in their original order, and one existing Continue Writing action when a chapter exists.
+
+#### Complete changed-file accountability
+
+| File | Exact implemented responsibility | Audit disposition |
+| --- | --- | --- |
+| `components/shell/AppShell.tsx` | Adds the local presentation-only `RailGlyph` at line 12 and replaces the visible `H`/`P`/`S` marks with decorative Home/Projects/Settings SVGs at lines 66, 70, and 74. Links, order, titles, hidden accessible labels, destinations, and `aria-current` are unchanged. | Required shell visual refinement; no state or navigation logic. |
+| `components/shell/MobileNavigationSheet.tsx` | Adds the decorative menu SVG at lines 51-59 and close SVG at lines 84-91 while retaining the same trigger label, dialog name, two destinations, open/close state, focus trap, Escape/backdrop/explicit close behavior, and focus restoration. | Required mobile chrome refinement; no workflow change. |
+| `app/globals.css` | Adds four directly consumed aliases and the exact shell/project presentation groups enumerated below; corrects the discovered 200% text overflow by allowing the existing context grid track to honor its normal 340px allocation. | Required S19-B styling and accessibility correction; no DOM, route, or data change. |
+| `Path.md` | Records the S19-A closure, S19-B pre-code contract, implementation, exact file/selector ownership, rendered/manual evidence, correction chronology, tests, traces, and gate decision. | Required Pathway V2 execution ledger update. |
+
+Accountability count: **4 changed paths listed / 4 accounted for / zero omitted**. Eight rendered PNGs remain under ignored `tmp/s19-b-after/`; no generated artifact or test output is committed. Build-generated `next-env.d.ts` changes were reverted after both build invocations.
+
+#### Exact CSS/token ownership
+
+| Final line(s) | Selector/token group | Exact effect and major consumers |
+| --- | --- | --- |
+| 20-23, 56 | `--surface-soft`, `--border-strong`, `--shadow-soft`, `--control-radius` | Adds only aliases consumed in this slice; Dark overrides the shadow opacity. Consumers are command controls, rail, Project list/home cards/actions/forms, and mobile navigation. |
+| 104-131 | command bar, wordmark, actions, save status, command trigger, top-level Theme control | Preserves the 48px bar and content while establishing editorial wordmark type, bounded status pill, consistent control geometry, and explicit hover/pressed states. Palette-internal behavior and ranking are untouched. |
+| 132-156 | rail links and `.rail-icon` | Preserves the 48px rail and existing link order while styling the decorative SVGs and current/hover/pressed states. |
+| 158 | `.context-reservation` | Changes only `min-width: 16rem` to `0`; normal wide layout still computes to the existing 340px track, while 200% root text no longer forces it to 512px and overflows the viewport. Context content/behavior is unchanged. |
+| 236-251 | Project list/new-project/create-form selectors | Turns existing divider rows and form section into restrained contained surfaces, gives long titles safe wrapping, and visually distinguishes the already-primary first-chapter action. Markup and submission behavior are unchanged. |
+| 254-270 | Project Home heading, destinations, continuation, empty state, recent chapters | Establishes editorial hierarchy and existing primary/secondary emphasis without moving content or changing the seven destination links, Continue Writing target, chapter list, or empty-project action. |
+| 365-372 | mobile navigation dialog, links, icon/close geometry | Refines the existing bottom sheet and maintains 44px controls, same dialog semantics, destinations, and focus behavior. |
+| 379-395 | existing mobile media block additions | Preserves the single-column/bottom-rail layout; refines bar/rail/menu states, gives the save truth a larger bounded label, collapses Project rows safely, keeps Continue Writing full-width dominant, and leaves every later editor/Structure rule intact. |
+
+Every added alias has current consumers. All new dimensions use the existing product constraints: desktop command bar 48px, desktop rail 48px, mobile bottom rail 52px, and mobile navigation trigger 44px high. No broad card rule, global surface redesign, or later-slice capability selector was added.
+
+#### Rendered inspection and correction chronology
+
+Final artifacts inspected at original resolution:
+
+| Artifact | State | Final manual finding |
+| --- | --- | --- |
+| `01-project-list-light-desktop.png` | Light / 1440x1000 | Brand, controls, rail glyphs, contained project rows, long title wrapping, and creation surface read as one calm shell; context reservation and page hierarchy remain unchanged. |
+| `02-project-list-dark-desktop.png` | Dark / 1440x1000 | Surface/border hierarchy remains legible without heavy shadows; current rail state and primary/secondary actions are precise. |
+| `03-project-home-cream-desktop.png` | Cream / populated | Existing Portability content remains in place and deferred internally to S19-J; seven destination links retain order; Continue Writing is visually dominant; recent chapter is a quiet contained row. |
+| `04-project-home-dark-mobile.png` | Dark / 412x915 / populated | Long project title wraps without clipping; Portability, destinations, Continue Writing, continuation fact, and recent chapter retain exact vertical workflow and no horizontal overflow. |
+| `05-mobile-navigation-dark.png` | Dark mobile dialog | Bottom sheet, backdrop, title, explicit Return action, Projects, and Settings are aligned and retain the existing focus-contained workflow. |
+| `06-empty-project-home-cream-mobile.png` | Cream mobile / no chapter | The same seven secondary destinations precede the existing single unambiguous first-chapter action; no additional onboarding or Structure requirement appears. |
+| `07-project-list-arabic-rtl-dark.png` | Arabic RTL / Dark desktop | Logical spacing mirrors correctly; rail moves to the inline end, context reservation to the opposite side, long titles wrap, and no horizontal overflow occurs. Existing approved English fallback strings remain explicit rather than being invented here. |
+| `08-project-list-200-percent-text.png` | Dark desktop / 32px root font | Project titles/actions do not overlap; the context track remains 340px; document width equals viewport width at 1440px. |
+
+Capture/test chronology is preserved:
+
+1. The first post-change capture used an obsolete local database name after the prior preview process had ended. Development sign-in returned the existing content-safe internal envelope; no product screenshot or conclusion was counted. The recovered isolated PostgreSQL cluster was inspected and the server was rebound to its actual synthetic `mythra_s18` database.
+2. The next attempt created synthetic fixtures and rendered `/app`, but `waitUntil: networkidle` timed out because Project Home background status requests are intentionally live. No failed application assertion occurred; the final harness uses DOM readiness plus a fixed 1.5-second visual-settle window.
+3. The corrected harness produced the six English desktop/mobile artifacts, then its Arabic step waited for the English `Continue to Mythra` accessible name and timed out before the RTL capture. The locale-neutral existing `.primary-action` control was used for the isolated RTL rerun; this changed no product code. Final current-state evidence across English desktop/mobile and Arabic RTL emitted zero console/page errors.
+4. The first explicit 200% text run measured viewport 1440px and document width 1612px. Element bounds identified only `.context-reservation`: its `16rem` minimum became 512px and overrode the fixed 340px grid track. Changing that one minimum to `0` retained a 340px normal/final context column. The unchanged rerun measured viewport/document `1440/1440`, no title/action overlap, and zero browser errors.
+
+#### Verification and non-interference evidence
+
+| Check | Final result | Evidence and scope |
+| --- | --- | --- |
+| Direct Chromium geometry/content audit | PASS | Desktop command bar 48px; rail 48px; mobile rail 52px; navigation trigger 121x44px and `:focus-visible`; seven secondary Project Home links; one Continue Writing action; full save label; Light/Dark/Cream and RTL; zero final browser errors. |
+| 200% text regression | PASS after measured correction | Root font 32px; viewport/document width 1440/1440; context track 340px; no Project title/action overlap. Initial 1612px failure and exact cause are retained above. |
+| Affected component/accessibility set | PASS: 5 files / 15 tests in 32.44 seconds | Shell, responsive/mobile navigation, Portability behavior, and their accessibility contracts pass. jsdom canvas/scroll notices are expected non-failing platform limitations. |
+| Complete accessibility suite | PASS: 10 files / 13 tests in 7.59 seconds | Serious/critical axe checks pass; no threshold or rule changed. |
+| Shell/Project workflow browser matrix | PASS: 17 applicable / 15 declared device skips in 1.7 minutes | Foundation, exact continuation, empty Project Home, mobile dominant continuation, Project Home Capture/focus return, Inbox accessibility, Portability success/degraded states, desktop geometry, reduced motion, Ctrl+K/Escape, and mobile shell all pass. |
+| Context-column browser regression | PASS: 3 applicable / 1 declared mobile skip in 47.4 seconds | Relevant Now/Peek exact return, preference/typing behavior, causal expansion, desktop context rendering, and serious/critical accessibility checks remain intact after the min-width correction. |
+| Lint and typecheck | PASS on final source | ESLint completed with zero warnings/errors; TypeScript completed with zero errors. |
+| Production build | PASS on final source | Next.js `16.3.4` compiled in 2.1 seconds, TypeScript completed in 6.8 seconds, and all 22 pages/routes generated in 625ms. |
+| Diff hygiene and scope | PASS | `git diff --check` reports no whitespace errors; only the three declared product files and this ledger change. Windows emits only expected LF-to-CRLF notices. |
+
+Positive proof establishes materially improved shell/navigation/Project presentation in real Light/Dark/Cream desktop/mobile/RTL/200%-text renders. Negative proof establishes exact shell geometry, accessible names, links/order/count, focus behavior, keyboard commands, save truth, Theme persistence, Capture, continuation, first-chapter creation, Portability, Context, reduced motion, routes, and data semantics remain unchanged.
+
+#### Console/comment accountability
+
+No new `console.log` was added. Decorative SVG creation, CSS hover/pressed/focus states, and responsive layout are render boundaries rather than operational lifecycle events; logging them would add high-volume noise. Existing mobile lifecycle traces remain identical in payload and privacy:
+
+| Existing trace | File | Final comment / call line | Preserved boundary |
+| --- | --- | --- | --- |
+| `S15-MOBILE-003` | `components/shell/MobileNavigationSheet.tsx` | 14 / 15 | Close plus restored-focus fact only; no route or content. |
+| `S15-MOBILE-002` | `components/shell/MobileNavigationSheet.tsx` | 40 / 41-49 | Open plus enumerated mobile viewport class only; no route or content. |
+
+No other changed product file contains a console call. Existing global shell, Project creation, Project Home, save-status, theme, and operation traces remain in their existing owners and were not duplicated.
+
+#### Local gate decision
+
+The side-by-side S19-B audit finds no remaining local compliance gap. All owned visual defects have bounded treatment; every token/selector/JSX change and consumer is enumerated; all actual files are accounted for; screenshots were manually inspected; invalid environment/harness attempts and the 200% discovery are retained with corrections; final Light/Dark/Cream, desktop/mobile, long-title, RTL, focus, touch, reduced-motion, accessibility, and overflow evidence passes; affected functional workflows and the production build pass; and no product hierarchy, workflow, capability, route, semantic, canonical state, persistence, pricing, security, or command/Search behavior changed.
+
+S19-B current decision: **LOCALLY PASSED — COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-C MUST NOT START until the S19-B implementation and closure ledger are remotely verified; S20 remains LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
