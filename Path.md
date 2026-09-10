@@ -6296,3 +6296,18 @@ The regression was traced to the S19-B-only `z-index: 10` added to `.command-bar
 The correction adds or changes no `console.log` and no identifying comment. CSS stacking order is presentation state, not an operational lifecycle event, and logging modal paint/hit-testing would add noise without trace value. The existing S19-B trace inventory remains unchanged: `components/shell/MobileNavigationSheet.tsx` comment/call `S15-MOBILE-003` at final lines 14/15 and comment/call `S15-MOBILE-002` at final lines 40/41-49. No manuscript content, selection text, route, or private Capture data was logged by the correction or its tests.
 
 Revised S19-B local decision: **PASS**. The original cancelled remote run and its cause are fully retained, the introduced regression is corrected, and the exact browser matrix now completes locally in 4.0 minutes. A new implementation commit must be pushed and must obtain exact-hash CI `verify`, `s18-regression`, pull-request Security, and push Security success before a closure-ledger commit is permitted. **S19 remains IN PROGRESS; S19-C remains LOCKED; S20 remains LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.10 S19-B corrected implementation exact remote proof
+
+Corrected S19-B implementation/audit commit `259033c9f920d495660bcf364aa62369d988bec4` was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before any pass was accepted.
+
+Remote exact-hash evidence for `259033c9f920d495660bcf364aa62369d988bec4`:
+
+- Pull-request CI run `34480486253` passed `verify` job `102881736352`, including clean checkout/install, Prisma generation, lint, typecheck, complete coverage, and the Next.js `16.3.4` production build.
+- The same CI run passed `s18-regression` job `102881735830`, including PostgreSQL 18 startup/migrations, alert/structure/archive/pagination/OIDC/portability native verification, Chromium installation, the exact eight-suite command/Capture/Search/continuation/Context/Structure/Universe/Timeline browser matrix, and evidence upload.
+- Pull-request Security run `34480486173`, job `102881735391`, passed clean install, the high-severity dependency audit, security tests, and committed-secret rejection.
+- Push Security run `34480482123`, job `102881721740`, passed the same security chain.
+
+This clean-checkout result proves that removing the unintended command-bar stacking context resolves the observed pointer interception without increasing retry counts, weakening the workflow's 20-minute limit, skipping a suite, or changing an assertion. All required remote jobs checked out the same corrected implementation object and completed successfully.
+
+S19-B corrected implementation decision: **REMOTE VERIFIED**. This closure-ledger addition must itself be committed, pushed, and exact-hash remotely verified before S19-B is final and S19-C may begin. **S19 remains IN PROGRESS; S19-C LOCKED PENDING CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.**
