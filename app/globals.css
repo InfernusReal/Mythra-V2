@@ -107,7 +107,6 @@ a { text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
   align-items: center;
   justify-content: space-between;
   min-width: 0;
-  z-index: 10;
   padding: 0 14px 0 16px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
