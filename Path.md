@@ -4936,12 +4936,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B remotely closed; C locally passed and awaits exact remote proof | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B remotely closed; C implementation remotely verified and closure ledger awaits exact remote proof | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives and B shell/home are remotely closed; C editor chrome is locally passed and awaits exact implementation-hash remote proof; D Structure/Milestones/Causality through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives and B shell/home are remotely closed; C editor chrome implementation is remotely verified and its closure ledger awaits exact remote proof; D Structure/Milestones/Causality through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6460,3 +6460,18 @@ S19-C adds and changes **zero `console.log` calls**. CSS render states and a wra
 The side-by-side S19-C audit finds no remaining local compliance gap. All owned selectors and consumers are enumerated; both product files and the ledger are justified; all baseline/after artifacts were inspected at original resolution; every discovered source or harness problem is retained with its correction; final geometry, themes, focus, responsive, touch, reduced-motion, 200%-text, RTL, overlay, accessibility, functional, durability, security and build evidence passes; and no protected product contract changed.
 
 S19-C current decision: **LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-D MUST NOT START until the S19-C implementation and closure ledger are independently remotely verified; S20 remains LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.14 S19-C implementation exact remote proof
+
+S19-C implementation/audit commit `8288d878758ce2204c374805e72fd1521dc421fb` was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before remote evidence was accepted.
+
+Remote exact-hash evidence for `8288d878758ce2204c374805e72fd1521dc421fb`:
+
+- Pull-request CI run `34577184279` passed. `verify` job `103192206050` completed in 4 minutes 35 seconds and passed clean checkout/install, Prisma generation, lint, typecheck, complete coverage, and the Next.js production build.
+- The same CI run's `s18-regression` job `103192206319` completed in 8 minutes 34 seconds, inside the unchanged 20-minute limit. It passed PostgreSQL initialization/migrations; alert, Structure, concurrent archive, tied-row pagination, OIDC and Portability verification; Chromium installation; the exact command-palette, Capture, Search/Language, continuation, Context, Structure, Universe and Timeline/Research browser matrix; evidence upload; and cleanup.
+- Pull-request Security run `34577184269`, job `103192205836`, passed clean install, the high-severity dependency audit, security tests and committed-secret rejection.
+- Push Security run `34577180838`, job `103192195924`, passed the same security chain.
+
+GitHub annotated its hosted action runtime transition from Node.js 20 to Node.js 24 for the v4 checkout/setup/upload actions. The annotation did not fail a step and does not alter Mythra source, tests, thresholds or evidence. Every required product, database, browser and security step checked out the exact S19-C implementation object and passed without retry, forced interaction, raised timeout, weakened assertion or added skip.
+
+S19-C implementation decision: **REMOTE VERIFIED**. This section is the required closure ledger and must itself be committed, pushed and independently exact-hash remotely verified before S19-C is final or S19-D begins. **S19 remains IN PROGRESS; S19-D LOCKED PENDING CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
