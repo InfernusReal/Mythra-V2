@@ -6311,3 +6311,39 @@ Remote exact-hash evidence for `259033c9f920d495660bcf364aa62369d988bec4`:
 This clean-checkout result proves that removing the unintended command-bar stacking context resolves the observed pointer interception without increasing retry counts, weakening the workflow's 20-minute limit, skipping a suite, or changing an assertion. All required remote jobs checked out the same corrected implementation object and completed successfully.
 
 S19-B corrected implementation decision: **REMOTE VERIFIED**. This closure-ledger addition must itself be committed, pushed, and exact-hash remotely verified before S19-B is final and S19-C may begin. **S19 remains IN PROGRESS; S19-C LOCKED PENDING CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.11 S19-B closure-ledger exact remote verification
+
+The S19-B closure-ledger commit `79a72648d4070c1dcfd1ff2f82b9164323cd2132` was pushed and matched `origin/agent/workplan-subgates-audit` exactly. Pull-request CI run `34481483122` passed `verify` job `102885094192` and `s18-regression` job `102885093804`; the regression job completed its Playwright step in 6 minutes 40 seconds and the full job in 8 minutes 27 seconds, inside the unchanged 20-minute limit. Pull-request Security run `34481482995`, job `102885093088`, and push Security run `34481478128`, job `102885077008`, also passed. The closure record itself therefore has clean-checkout install, Prisma, lint, typecheck, complete coverage, build, native PostgreSQL verification, exact eight-suite desktop/mobile browser evidence, dependency-audit, security-test, and committed-secret-rejection proof.
+
+S19-B final decision: **PASS — IMPLEMENTATION, CORRECTION, AND CLOSURE LEDGER REMOTELY VERIFIED**. The predecessor barrier is satisfied and S19-C may begin. S19 remains in progress, S20 remains locked, and Phase 7 remains incomplete.
+
+### 28.12 S19-C pre-code contract — editor chrome
+
+S19-C begins only after the exact S19-B closure in 28.11. Its authority is visual presentation of the existing chapter-writing surface: breadcrumb hierarchy, Focus control, editor-owned peripheral action chrome, nearby-chapter navigation, formatting toolbar, manuscript surface, word-target/autosave footer, focus-mode presentation, and the existing mobile writing-action bar. It may not redesign, move, add, remove, or reinterpret an editor capability.
+
+#### Clean pre-change rendered baseline
+
+Three ignored artifacts under `tmp/s19-c-baseline/` were captured from the current authenticated local product using the real `/app/chapters/:id` route and synthetic non-private fixture content. Each was opened at original resolution. The later S19-B correction removed only an inactive parent stacking context; it changes palette hit-testing when an overlay is open and does not alter any pixel in these closed-overlay baseline states, so the captures remain a valid clean S19-C baseline.
+
+| Artifact | Theme / viewport | Manual finding owned by S19-C |
+| --- | --- | --- |
+| `01-editor-light-desktop.png` | Light / 1440x1000 | Breadcrumb and Focus read as unrelated text; Live Model, Structure/Capture, entity and causal actions form a visually flat preamble; nearby-chapter links and formatting commands are ungrouped; the manuscript is a raw bordered region with weak page hierarchy. |
+| `02-editor-cream-desktop.png` | Cream / 1440x1000 | The warm palette is coherent, but repeated text actions and undifferentiated spacing obscure the transition from optional support controls into sovereign manuscript space; toolbar state and footer are too quiet to scan. |
+| `03-editor-dark-mobile.png` | Dark / 412x915 | The breadcrumb separator wraps onto its own line; pre-manuscript actions dominate the narrow viewport; toolbar buttons break into uneven rows; manuscript and status boundaries look provisional; the fixed writing actions are functional but visually generic. |
+
+The baseline harness reported `desktopNoOverflow: true`, `mobileNoOverflow: true`, and zero browser console/page errors. It preserved the editor's saved synthetic two-paragraph document rather than injecting screenshot-only DOM. The visual defects are hierarchy and chrome defects only; they do not establish a functional defect.
+
+#### Exact ownership and implementation method
+
+**Owned outcome.** Establish a calm editorial hierarchy in which the manuscript is the center of gravity. The current 780px editor bound and 18px/1.62 serif manuscript typography remain authoritative. Breadcrumb/Focus, chapter navigation, formatting/checkpoint controls, manuscript boundary, footer truth, focus mode, and mobile actions will receive deliberate spacing, contained surfaces, hover/pressed/focus/disabled states, and responsive wrapping. Editor-owned links to Structure/Capture and existing quick-create/causal triggers may receive subordinate chrome only; their content, semantics, ordering, dialogs, and owning capability surfaces are not redesigned here.
+
+**Expected files.** `app/globals.css` is the expected product file. `components/editor/ChapterEditor.tsx`, `EditorToolbar.tsx`, `FocusMode.tsx`, or `MobileWritingActions.tsx` may change only if CSS cannot express a required state without weakening semantics; no such JSX change is presently expected. `Path.md` is required. Existing editor-core, durability, continuation, command-palette, Capture, Context, Universe quick-create, causality, responsive, accessibility, and attribute-security suites will be reused; a new test file is permitted only for a reachable visual/interaction contract absent from existing coverage.
+
+**Protected behavior and negative scope.** Tiptap configuration, stable block IDs, selection, IME/Unicode, paste/hard-stop rules, undo/redo, checkpoint creation, autosave/debounce/retry, offline journal/recovery, conflict resolution, canonical document/version truth, continuation coordinates, focus capture/restoration, Ctrl+K/Ctrl+S/Focus/Escape commands, Quick Capture, Context/Relevant Now/Peek, entity creation, causal composition, Live Model state, Structure/Capture routes, chapter order, word target, save announcements, DOM/accessibility names, roles, tab order, routes, services, repositories, schemas, migrations, domain semantics, pricing, telemetry payloads, and privacy boundaries remain unchanged. S19-D owns Structure/Milestones/Causality content; S19-E Universe/Timeline; S19-F Capture; S19-G Search/Ctrl+K; S19-H Context/Relevant Now/Peek. This slice will not pre-style those surfaces.
+
+**Required evidence before closure.** Enumerate every changed selector, component, and direct consumer; inspect Light, Dark, and Cream editor renders across desktop/mobile, populated/empty and long-title states; inspect focus mode and open-overlay stacking; verify 780px bound, 18px/1.62 typography, 48px desktop shell, mobile touch targets, keyboard focus, reduced motion, 200% text, RTL/logical layout, and no horizontal overflow; run editor-core, durability, continuation, command-palette, Capture, Context, Universe quick-create, causality, responsive, accessibility, attribute-security, lint, typecheck, and production build checks; inspect the exact diff; record all failures/corrections; then commit, push, and obtain exact-hash CI/Security proof followed by an independently verified closure-ledger commit.
+
+**Console/comment contract.** Presentation-only CSS is not an operational lifecycle boundary, so no new `console.log` is expected. Existing editor operational traces and their immediately adjacent identifying comments must remain byte-for-byte behaviorally unchanged and will be re-enumerated with final line numbers if a component line shifts. No render, hover, focus, selection, keystroke content, manuscript text, Capture text, or private context may be newly logged.
+
+Current state: **S19 IN PROGRESS; S19-B REMOTELY VERIFIED; S19-C PRE-CODE CONTRACT RECORDED; NO S19-C PRODUCT FILE HAS CHANGED; S20 LOCKED; PHASE 7 INCOMPLETE.**
