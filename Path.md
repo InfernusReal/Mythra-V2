@@ -4935,13 +4935,13 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
-| S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | IN PROGRESS | S19 locked until all register defects close, tests/audit pass, commit is pushed, remote hash and CI/security are verified and recorded |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | LOCKED | S20 locked until S19 visual/manual/functional/diff evidence and remote verification pass |
+| S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B remotely closed; C locally passed and awaits exact remote proof | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 planned slices, still locked: A shared tokens/primitives; B shell/home; C editor chrome; D Structure/Milestones/Causality; E Universe/Timeline; F Capture; G Search/palette; H Context/Peek; I Notes/Research; J supporting/billing/operations; K responsive; L cross-product consistency. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice. No visual changes are authorized under the current S18 command repair.
+S19 slice state: A shared tokens/primitives and B shell/home are remotely closed; C editor chrome is locally passed and awaits exact implementation-hash remote proof; D Structure/Milestones/Causality through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6347,3 +6347,116 @@ The baseline harness reported `desktopNoOverflow: true`, `mobileNoOverflow: true
 **Console/comment contract.** Presentation-only CSS is not an operational lifecycle boundary, so no new `console.log` is expected. Existing editor operational traces and their immediately adjacent identifying comments must remain byte-for-byte behaviorally unchanged and will be re-enumerated with final line numbers if a component line shifts. No render, hover, focus, selection, keystroke content, manuscript text, Capture text, or private context may be newly logged.
 
 Current state: **S19 IN PROGRESS; S19-B REMOTELY VERIFIED; S19-C PRE-CODE CONTRACT RECORDED; NO S19-C PRODUCT FILE HAS CHANGED; S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.13 S19-C implementation, rendered review, correction, and local compliance audit
+
+S19-C changes only the presentation of the already-implemented chapter-writing surface. The final product diff contains one style owner and one semantic-neutral Tiptap wrapper class. No editor command, document transaction, state owner, route, request, response, domain object, persistence rule, feature gate, price, or telemetry payload changed.
+
+#### Pre-code record exact remote proof
+
+The 28.12 pre-code contract was committed as `9550064a5bd623f6b0b546c44458a92baa510774` and pushed to `origin/agent/workplan-subgates-audit`; local and remote refs matched that object. Pull-request CI run `34573313860` passed `verify` job `103180037177` and `s18-regression` job `103180036965`. Pull-request Security run `34573313765`, job `103180036675`, and push Security run `34573310007`, job `103180024080`, also passed. S19-C therefore began from a clean, independently verified contract rather than from an undocumented product edit.
+
+#### Exact selector, component, and consumer accountability
+
+| Final source line(s) | Selector/component | Exact responsibility and direct consumer |
+| --- | --- | --- |
+| `app/globals.css:157-160` | `.context-reservation` wide-screen containment | At widths of at least 1280px, retains the existing 340px shell track but makes the Context reservation a sticky `calc(100vh - 48px)` independent scroll owner. This prevents a lower Context-card action from changing the manuscript window scroll before Peek captures it. The compact/mobile Context sheet remains unchanged because line 394 still removes this reservation below 1280px. |
+| `app/globals.css:179-180` | `.pin-bar` | Keeps an author-created pin navigation visible at the top of the independently scrolling Context reservation. Existing DOM, accessible label, action and preference mutation are unchanged. This is the minimum cross-boundary presentation correction required by the unchanged exact-return/pin E2E. |
+| `app/globals.css:273` | `.editor-layout` | Retains the authoritative 780px maximum and minimum writing height; explicitly declares one `minmax(0, 1fr)` grid column so a Tiptap wrapper cannot expand the editor through intrinsic min-content sizing. |
+| `app/globals.css:274-282` | `.editor-header`, breadcrumb, Focus | Establishes a bounded header separator, serif chapter hierarchy, truncated project/chapter labels, and explicit Focus hover/pressed presentation. Existing link/button names, destinations, order and `aria-pressed` truth are untouched. |
+| `app/globals.css:283-290` | editor-owned support chrome | Subordinates Live Model freshness, Structure, Capture Inbox, Entity, Relevant Now, and causal triggers through shared spacing, quiet borders and hover state. Their existing components, dialogs, semantics and order remain unchanged. |
+| `app/globals.css:291-293` | `.chapter-switcher` | Groups the existing first/latest chapter navigation with a quiet separator and hover color; chapter sequence and URLs are unchanged. |
+| `app/globals.css:294-299` | `.editor-toolbar` and buttons | Creates one contained formatting surface with hover, active and pressed states and an emphasized existing Checkpoint action. Bold, italic, undo, redo, checkpoint order and behavior remain unchanged. |
+| `app/globals.css:300-303` | `.editor-canvas`, `.editor-prose` | Constrains the Tiptap wrapper to the grid and creates the manuscript's page-like surface, caret, theme-aware depth and explicit keyboard focus indicator. The required 18px/1.62 serif typography and 72ch paragraph measure are preserved exactly. |
+| `app/globals.css:304` | `.editor-status` | Groups the existing word count, word target and autosave truth without changing their text, calculation or live semantics. |
+| `app/globals.css:319` | `.focus-mode` | Retains the fixed full-viewport, 780px-centered focus composition and adds overflow ownership so a long document remains reachable. Focus state and Escape behavior are unchanged. |
+| `app/globals.css:421-432, 447-448` | compact editor rules | Removes the orphaned visual breadcrumb separator, preserves long-title wrapping, enforces 44px owned controls, creates a deterministic five-column toolbar and a three-column/two-row layout at 480px, reduces manuscript inset without changing typography, and wraps status truth. |
+| `app/globals.css:434-437, 445-446` | `.mobile-writing-actions` | Refines the existing fixed action bar's separation, depth, spacing, state feedback and safe-area padding while retaining five actions, their order, 44px targets, names and behavior. |
+| `components/editor/EditorCanvas.tsx:7` | `EditorContent className="editor-canvas"` | Supplies the Tiptap wrapper with a presentation hook after direct measurement found its intrinsic width was 917px inside a 780px parent. It does not change the editor instance, content, extensions, role, accessible name, transaction behavior or rendered ProseMirror document. |
+
+The pre-code expectation allowed a component change only where CSS could not safely target the library-owned wrapper. A named class on `EditorContent` is the narrower implementation: it avoids an unstable generated selector and is used only by the width containment on `app/globals.css:300`.
+
+#### Complete changed-file accountability
+
+| File | Exact necessity | Audit disposition |
+| --- | --- | --- |
+| `app/globals.css` | Owns every S19-C editor visual state plus the two minimal wide Context containment rules required to preserve the pre-existing exact Peek return after the taller manuscript presentation. | Required visual owner; all changed selectors and consumers enumerated above. |
+| `components/editor/EditorCanvas.tsx` | Adds the stable class consumed by the editor grid containment rule; no semantic or behavioral prop changes. | Necessary component exception explicitly permitted by 28.12. |
+| `Path.md` | Updates the current Phase 7 gate table and records authority, code, rendered evidence, failures, corrections, logs, tests, scope and decision. | Required Pathway V2 execution ledger. |
+
+Accountability count: **3 changed paths listed / 3 accounted for / zero omitted**. No dependency, schema, migration, test threshold, test skip, generated file, screenshot or local database artifact is included in the product commit. `next-env.d.ts` production-build churn was restored to the tracked development form.
+
+#### Rendered before/after review
+
+The three original-resolution baseline renders in 28.12 were compared with six current original-resolution artifacts under ignored `tmp/s19-c-after/`:
+
+| Artifact | State inspected | Final visual finding |
+| --- | --- | --- |
+| `01-editor-light-desktop.png` | Light, populated, 1440x1000 | The breadcrumb/Focus header, subordinate assistance band, nearby-chapter navigation, contained toolbar, manuscript page and footer now read as distinct levels; manuscript remains dominant. |
+| `02-editor-cream-desktop.png` | Cream, populated, 1440x1000 | The warm theme retains its existing palette while borders, depth and spacing clarify the writing surface without decorative content or capability changes. |
+| `03-focus-cream-desktop.png` | Cream focus mode, populated, 1440x1000 | The full-screen layer centers the exact 780px writing column and retains every existing editor control and footer truth. |
+| `04-editor-dark-mobile.png` | Dark, populated, 412x915 | The orphan separator is absent; support actions meet 44px; the toolbar occupies two balanced rows; the manuscript and fixed action bar have deliberate boundaries with no horizontal overflow. |
+| `05-editor-rtl-dark-desktop.png` | Dark, populated, RTL, 1440x1000 | Logical inline spacing, breadcrumb direction, toolbar checkpoint alignment and manuscript containment remain coherent without an LTR-only rule. |
+| `06-editor-empty-long-title-light-desktop.png` | Light, empty, long project/chapter titles, 1440x1000 | Both title levels truncate without colliding with Focus; the empty editor remains visibly writable; focus ring, zero-word footer and supporting Context reservation remain intact. |
+
+No generated bitmap, stock asset or decorative illustration was introduced. The Creative Production workflow was applied through repository-native rendered screenshots and original-resolution inspection because this slice refines an existing coded product surface and no design-board connector is available.
+
+#### Failure and correction chronology
+
+1. The first reduced-motion harness compared the serialized duration to the literal string `0.00001s`; Chromium serialized the same value as `1e-05s`. The corrected numeric assertion passed. No source changed for that harness error.
+2. Initial computed geometry measured `.editor-layout` at 780px but the Tiptap wrapper and prose at 917px. The grid's implicit min-content behavior was the cause. The explicit `minmax(0, 1fr)` track plus the stable `editor-canvas` class corrected layout/canvas/prose to 780/780/780 without changing document behavior.
+3. The first complete 74-case browser matrix passed 40, intentionally skipped 33, and failed the desktop Context test only after Peek return: the taller writing surface made the browser scroll the window from 141px to a lower card before `openPeek` captured 499px. An isolated rerun reproduced the same 141-to-499 mismatch. The wide Context reservation now owns that scroll, so the unchanged exact route/history/selection/scroll assertion passes.
+4. The first isolated rerun after Context containment advanced past exact return, proving the original defect corrected, then found the new pin bar outside the clipped reservation after pinning. The card itself visibly changed to `Pinned`; the navigation was above the independent scroll position. Making only `.pin-bar` sticky preserved the existing preference state and made the unchanged navigation assertion pass. The final isolated test passed in 15.7 seconds and the full matrix passed.
+5. A supplemental geometry harness searched for a nonexistent `[role="option"]` in the command list and terminated before its palette measurement. Source inspection confirmed the existing stable hook is `[data-palette-option]`; the corrected harness passed and confirmed the palette row is topmost. No product or test code changed for this harness error.
+6. The first combined geometry report measured Focus immediately after the click and captured a transient outer-grid value. A focused rerun waited for `.editor-layout.focus-mode`; final bounds were outer fixed layer 1440px with 330px inline padding and a 780px grid track, while `.editor-canvas` and `.editor-prose` were each exactly 780px. This was an evidence-timing correction, not a source correction.
+
+#### Final direct browser measurements
+
+| Contract | Final measurement |
+| --- | --- |
+| Desktop shell/editor | viewport/document 1440/1440; command bar 48px; normal layout/canvas/prose 780/780/780px; manuscript 18px with computed 29.16px line height (1.62). |
+| Wide Context ownership | `position: sticky`; height 952px at a 1000px viewport below the unchanged 48px command bar; vertical overflow `auto`. |
+| Focus mode | fixed outer layer 1440px; 330px logical inline padding; grid track, canvas and prose each 780px. |
+| Command overlay | visible after Ctrl+K; first `[data-palette-option]` was the element returned by center-point hit testing, so no editor/mobile action layer intercepted it. |
+| 200% text | root 32px; viewport/document 1440/1440; layout/canvas/prose 780/780/780px; no horizontal overflow. |
+| RTL | viewport/document 1440/1440; layout/canvas/prose 780/780/780px; no horizontal overflow. |
+| Reduced motion | Chromium serialized the existing near-zero duration as `1e-05s`, numerically equal to the required `0.00001s`. |
+| Mobile | viewport/document 412/412; layout/canvas/prose 380/380/380px; toolbar exactly two rows; 16 visible owned actions inspected; minimum target 44px. |
+| Runtime errors | Zero page errors and zero browser console errors in the corrected direct audit. |
+
+#### Verification and stress evidence
+
+| Check | Final result | Exact evidence and protected scope |
+| --- | --- | --- |
+| Affected component/accessibility/security set | PASS: 15 files / 31 tests in 43.34 seconds | Causal composer, Context, responsive/performance, writing analytics, complete accessibility set and editor attribute security pass. Expected jsdom canvas notices are non-failing limitations. |
+| Isolated reproduced Context regression | PASS: 1/1 in 15.7 seconds after both corrections | The unchanged test proves Relevant Now contract fields, no premature Capture endpoint, exact Peek route/history/selection/scroll return, pin bar visibility, mute/unmute, open/return navigation, and required structured trace presence. |
+| Complete affected desktop/mobile browser matrix | PASS: 41 applicable / 33 declared device-project skips across 74 cases in 4.4 minutes | Foundation, editor core, durability, continuation, command palette, Capture, Context, Universe and Causality pass on their assigned Chromium projects. No retry, force-click, assertion, timeout or skip changed. |
+| Complete Vitest coverage | PASS: 107 files / 410 tests in 156.43 seconds | Statements 87.97% (5012/5697), branches 77.18% (2963/3839), functions 85.71% (1254/1463), lines 90.51% (4380/4839); thresholds unchanged. Expected jsdom scroll/navigation/canvas notices are covered by the passed browser run. |
+| Lint | PASS | ESLint completed with zero warnings or errors. |
+| Typecheck | PASS | TypeScript completed with zero errors. |
+| Production build | PASS | Next.js `16.3.4` compiled in 8.8 seconds, TypeScript completed in 11.2 seconds, and all 22 static pages generated in 706ms. |
+| Diff hygiene | PASS | `git diff --check` reports no whitespace defects; only expected Windows LF-to-CRLF notices appear. |
+
+Positive proof establishes the owned visual hierarchy, exact manuscript geometry, themes, focus mode, long/empty content, desktop/mobile/RTL/200%-text behavior, control targets, overlay stacking and Context scroll ownership. Negative proof establishes unchanged editor content semantics, Unicode/IME, hard-stop and paste guards, undo/redo/checkpoint, save/retry/offline/conflict flows, continuation coordinates, command routing, Capture, Context/directive fields, Universe/causal mutations, accessibility names/roles, Live Model, prices, permissions and privacy.
+
+#### Console/comment accountability
+
+S19-C adds and changes **zero `console.log` calls**. CSS render states and a wrapper class are not operational lifecycle events; adding logs for render, hover, focus or layout would create high-volume noise and risk content-adjacent telemetry. The existing meaningful traces exercised by the affected editor remain behaviorally unchanged. Final comment/call lines are:
+
+| Owner | Trace(s) | Final adjacent comment / call line(s) |
+| --- | --- | --- |
+| `components/editor/ChapterEditor.tsx` | `S3-BLOCK-001`; `S16-FRICTION-001`; `S1-EDITOR-CLIENT-001`; `S16-FRICTION-002`; `S1-EDITOR-CLIENT-002`; `S1-EDITOR-CLIENT-004`; `S1-EDITOR-CLIENT-005`; `S1-EDITOR-CLIENT-006`; `S1-EDITOR-CLIENT-007`; `S1-EDITOR-CLIENT-003`; `S4-UI-015` | 121/122; 186/187; 196/197; 222/223; 239/240; 275/276; 306/307; 386/387; 406/407; 424/425; 491/492. |
+| `components/editor/MobileWritingActions.tsx` | `S15-MOBILE-001` | 19/20. |
+| `lib/editor/use-focus-preserving-overlay.ts` | `S7-FOCUS-001`; `S7-FOCUS-002` | 15/16; 21/22. |
+| `components/universe/EntityQuickCreate.tsx` | `S15-MOBILE-007`; `S9-UI-003` | 116/117; 180/181. |
+| `components/editor/CausalComposer.tsx` | `S16-FRICTION-011`; `S6-UI-006`; `S16-FRICTION-013`; `S16-FRICTION-012`; `S6-UI-007` | 104/105; 117/118; 139/140; 270/271; 282/283. |
+| `components/context/ContextualWritingField.tsx` | `S16-FRICTION-014`; `S16-FRICTION-008`; `S7-UI-001`; `S15-MOBILE-006`; `S7-UI-002`; `S16-FRICTION-009`; `S15-MOBILE-008` | 62/63; 93/94; 103/104; 234/235; 310/311; 359/360; 525/526. |
+| `components/live-model/LiveModelFreshness.tsx` | `S12-UI-001`; `S12-UI-002`; `S12-UI-003`; `S12-UI-004`; `S12-UI-005` | 83/84; 101/102; 135/136; 147/148; 172/173. |
+
+`components/editor/EditorCanvas.tsx`, the only changed component, contains no console call. Every listed trace comment still identifies its boundary directly above the call; no listed payload contains manuscript text, selected prose, Capture text or private Context content.
+
+#### Local gate decision
+
+The side-by-side S19-C audit finds no remaining local compliance gap. All owned selectors and consumers are enumerated; both product files and the ledger are justified; all baseline/after artifacts were inspected at original resolution; every discovered source or harness problem is retained with its correction; final geometry, themes, focus, responsive, touch, reduced-motion, 200%-text, RTL, overlay, accessibility, functional, durability, security and build evidence passes; and no protected product contract changed.
+
+S19-C current decision: **LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-D MUST NOT START until the S19-C implementation and closure ledger are independently remotely verified; S20 remains LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
