@@ -355,7 +355,7 @@ export function QuickCaptureOverlay({
                   </option>
                 </select>
               </label>
-              <div>
+              <div className="capture-overlay-actions">
                 <button type="submit">{messages.saveCapture}</button>
                 <button type="button" onClick={close}>
                   {messages.returnToChapter}

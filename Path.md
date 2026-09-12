@@ -4936,12 +4936,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E remotely closed; F pre-code contract and baseline recorded | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E remotely closed; F locally passed and implementation remote proof pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality and E Universe/Timeline are remotely closed; F Capture has a recorded pre-code contract and baseline but no product edit; G Search/Ctrl+K through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality and E Universe/Timeline are remotely closed; F Capture is implemented and locally passed with implementation remote proof pending; G Search/Ctrl+K through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6879,3 +6879,123 @@ Every baseline state has zero serious/critical Axe findings and no horizontal ov
 Baseline harness corrections are part of the audit trail: the initial read-only source command used the nonexistent historical name `CaptureOverlay.tsx` and a non-literal PowerShell path containing `[id]`; inspection was corrected to `QuickCaptureOverlay.tsx` and `Get-Content -LiteralPath`. The first two baseline fixture reads supplied `dueOnly=false`; the route's existing boolean coercion treated the non-empty string as true and filtered the just-created non-due records. The harness omitted the query for the default unfiltered list. These were inspection/harness corrections; no product source, API or test was changed and no conclusion was inferred from the failed attempts.
 
 `WorkPlan.md` SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. Current state: **S19 IN PROGRESS; S19-A/B/C/D/E REMOTELY VERIFIED; S19-F PRE-CODE CONTRACT AND BASELINE RECORDED; NO S19-F PRODUCT FILE HAS CHANGED; S19-G AND S20 LOCKED; PHASE 7 INCOMPLETE.** This record must be committed, pushed and exact-hash remotely verified before S19-F product code begins.
+
+### 28.23 S19-F Capture implementation, rendered review, and local compliance audit
+
+S19-F product work began only after its pre-code record was independently verified. Commit `5215e9d5424d9a051874edd213936d4ae7c08800` (`Close S19-E and define S19-F visual contract`) matched local `HEAD`, the origin tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit`. Pull-request CI run `34686925602` reports that exact `headSha`: `verify` job `103535414284` passed in 4 minutes 54 seconds and `s18-regression` job `103535414430` passed in 7 minutes 14 seconds. Pull-request Security run `34686925546`, job `103535414262`, passed in 39 seconds; push Security run `34686923806`, job `103535409969`, passed in 40 seconds. Thus clean install, Prisma generation, lint, typecheck, complete coverage/build, PostgreSQL migrations/native verifiers, the unchanged eight-suite browser matrix, dependency audit, security tests and secret rejection all passed on the exact contract before any product edit.
+
+The implementation is strictly presentational. It preserves the existing DOM order, wording, accessible names, roles, actions, handlers, state, network calls and routes. No new Capture, lifecycle, conversion, causality, attachment, queue, editor, command, Context or continuation behavior was added. The final product diff contains one Capture-specific style block revision and semantic-neutral class hooks only.
+
+#### Exact changed files and causal justification
+
+| File | Exact change | Why required and what remains unchanged |
+| --- | --- | --- |
+| `app/globals.css` | Replaces the existing raw Capture block with fully Capture-rooted overlay, sync-status, Inbox, row, action-group, form, empty-state and mobile presentation; fixes the invalid `var(--background)` backdrop reference by using the existing `--text` token; adds no token or generic element rule. | Sole visual owner required by S19-F. Every selector is consumed only by the two Capture components. No shared token value, shell, editor, Structure, Universe, Timeline, Search, Context, Notes, billing or operations selector changes. |
+| `components/capture/CaptureInbox.tsx` | Adds ten class-only hooks: `capture-inbox-header`, `capture-list`, `capture-select`, `capture-text`, `capture-meta`, `capture-lifecycle-actions`, `capture-conversion-actions`, `capture-causal-actions`, `capture-attachment-form`, and `capture-attachment-list`. | Existing structural elements could not be safely distinguished without positional selectors. Hooks do not add/remove/reorder nodes, props, text, state, events or requests. |
+| `components/capture/QuickCaptureOverlay.tsx` | Adds only `capture-overlay-actions` to the existing form action wrapper. | Permits Save-primary/Return-secondary visual emphasis without generic `form > div` leakage. Buttons, order, types and handlers are unchanged. |
+| `Path.md` | Advances the current S19-F state and records predecessor proof, exact scope, visual evidence, corrections, tests, log lines and side-by-side decision. | Required Pathway V2 evidence; no authority or historical entry is rewritten. |
+
+The production diff is 67 additions/21 deletions in the Capture CSS block, ten additions/nine replacements for Inbox class attributes/line wrapping, and one class replacement in the overlay. Ignored `tmp/s19-f-baseline.mjs`, `tmp/s19-f-baseline/` and `tmp/s19-f-after/` are local evidence only. The build-generated `next-env.d.ts` route-reference churn was restored with an explicit patch and is absent from the final diff. No file outside the four rows above is changed.
+
+#### Exact selectors, hooks, consumers, and visual effect
+
+| Selector/hook group | Lines after implementation | Major consumer and bounded effect |
+| --- | --- | --- |
+| `.capture-backdrop` | `app/globals.css:547` | `QuickCaptureOverlay.tsx:318`; scroll-contained fixed modal layer, valid theme-aware dimming and restrained blur. |
+| `.capture-overlay`, heading/form/label/input/select/textarea descendants | CSS `548–555` | Overlay section/form at component lines `321–357`; raised editorial modal, deliberate typography, readable raw-thought field and refined controls. |
+| `.capture-overlay-actions` and button/first/hover states | CSS `556–559`; hook `QuickCaptureOverlay.tsx:358` | Existing Save then Return actions; Save receives the already-implied primary visual treatment without changing order or behavior. |
+| `.capture-sync-status` | CSS `560`; consumer `QuickCaptureOverlay.tsx:313` | Existing queued/error truth becomes a bounded logical-edge status with no message/state change. |
+| `.capture-inbox`, `.capture-inbox-header` and descendants | CSS `561–565`; root/header at `CaptureInbox.tsx:232/257` | Available-width Inbox, editorial title hierarchy and contained existing Return link. |
+| `.capture-bulk` and scoped label/control/hover rules | CSS `566–570`; consumer `CaptureInbox.tsx:272` | Existing bulk actions/type selector form a single quiet toolbar; no action is promoted, removed or reordered. |
+| `.capture-inbox > [role="status"]` | CSS `571` | Existing operation status only; adds contained state treatment. |
+| `.capture-list`, `:empty`, `:empty::before` | CSS `572–574`; hook `CaptureInbox.tsx:309` | Existing populated list rhythm plus a decorative, copy-free empty-state container; no new product state or text. |
+| `.capture-row`, selected `:has(...)`, `.capture-select`, checkbox | CSS `575–578`; hooks `CaptureInbox.tsx:311–312` | Card hierarchy and non-color-only selection through checked control, logical accent border, surface and shadow. |
+| `.capture-text`, `.capture-meta` | CSS `579–580`; hooks `CaptureInbox.tsx:327–328` | Separates author thought from content-safe lifecycle/date/count metadata; preserves whitespace, Unicode and wrapping. |
+| `.capture-lifecycle-actions`, `.capture-conversion-actions`, scoped buttons/hover/disabled | CSS `581–585`; hooks `CaptureInbox.tsx:344/362` | Visually separates state transitions from optional conversions and makes disabled state explicit; actions/order unchanged. |
+| `.capture-causal-actions` plus legend/labels | CSS `586–588`; hook `CaptureInbox.tsx:387` | Bounded subordinate explicit-causality region; no inferred link or endpoint behavior. |
+| `.capture-attachment-form`, `.capture-attachment-list` and descendants | CSS `589–592`; hooks `CaptureInbox.tsx:452/474` | Clear input/action and existing attachment row, with long-ID wrapping and no attachment semantic change. |
+| Capture-rooted `max-width:640px` rules | CSS `594–615` | The same two consumers only: one-column modal actions, logical sync placement above mobile navigation, two-column action groups, stacked causality/attachment flow and 44px controls/checkbox hit area. |
+
+All CSS reads the existing `--surface`, `--surface-raised`, `--surface-soft`, `--text`, `--text-muted`, `--border`, `--border-strong`, `--accent`, `--accent-action`, `--accent-soft`, `--shadow-soft`, `--control-radius` and `--editor-font` tokens. No token was modified. Logical `inset-inline-end`, `border-inline-start`, `margin-inline-start` and `padding-inline` preserve RTL. The selected-row correction uses `border-inline-start-width`, not a left-only inset shadow.
+
+#### Final actual-product visual and geometry evidence
+
+The final harness re-authenticated for every state, used actual routes/APIs/PostgreSQL records, waited for theme transitions, injected Axe, measured document/surface/control geometry and produced nine refreshed images under ignored `tmp/s19-f-after/`. Every final image was manually opened at original resolution; the earlier manual review is not reused as after-state evidence.
+
+| Artifact | Final evidence and comparison with 28.22 baseline |
+| --- | --- |
+| `01-inbox-light-desktop.png` | PASS — 972px surface, no overflow/errors/Axe issue. Bulk tools are contained; raw thought, metadata, lifecycle, conversion, causal and attachment layers are visually distinct while preserving exact sequence. |
+| `02-inbox-cream-selected.png` | PASS — 1052px surface; visible 3px focus; selected row has checked state, logical accent edge, differentiated surface and shadow. A populated endpoint ID exposes both causal buttons as enabled without triggering a write. |
+| `03-inbox-dark-mobile.png` | PASS — 380px surface; zero undersized measured targets after correction; no overflow/error/Axe issue. Bulk actions, lifecycle/conversion groups, causal form and attachment flow remain legible at 412px. |
+| `04-inbox-rtl-light.png` | PASS — 1052px RTL surface, no overflow/error/Axe issue. Logical edges/alignment reverse correctly; entity type selection loads and selects a real type, exposing enabled Entity conversions without changing author data. |
+| `05-inbox-empty-cream.png` | PASS — 1052px surface; the prior unstructured blank is now an intentional dashed, softly surfaced, copy-free empty list with restrained center marker. Header and toolbar remain unchanged. |
+| `06-overlay-dark-desktop.png` | PASS — 544px modal; valid dim/blur backdrop, raised panel, editorial heading, focused raw field, refined target and differentiated actions; no page error, overflow or serious/critical Axe finding. |
+| `07-overlay-cream-mobile.png` | PASS — 288px modal at 320px with reduced motion; long text wraps, controls/actions are at least 44px, and no overflow/Axe issue occurs. Harness traversed `NONE`, `MILESTONE`, `STORY_CHANGE`, `CAPTURE_DERIVED_CAUSAL` in exact order and returned to Story Change for the image. |
+| `08-overlay-light-200-percent.png` | PASS — 544px modal in the 720px 200%-text-equivalent state; no clipping, overflow, control collision or Axe finding. |
+| `09-queued-error-dark.png` | PASS — existing message is contained in a 368px logical-edge status. The only console error is the deliberately intercepted `net::ERR_INTERNET_DISCONNECTED`; queue truth and writing availability remain visible. |
+
+Across all nine states: zero serious/critical Axe violations; zero horizontal overflow; zero uncontrolled page/console errors; zero measured sub-44px controls at 412px/320px; correct Light/Dark/Cream; correct RTL; visible focus; reduced-motion match; 972/1052/380px Inbox widths and 544/288px overlay widths. The final dense mobile image is long because all six audit Captures and every existing per-row capability remain present; S19 is forbidden to hide or reorganize them. Grouping and touch geometry were improved without progressive-disclosure invention.
+
+#### Corrections and failed/incomplete evidence retained
+
+1. The first focused Vitest command named three nonexistent guessed files. Vitest ran only the three valid arguments and passed 19 tests, so that invocation was classified incomplete rather than inflated to the required focused result. The corrected exact eight-file run passed 29/29 tests.
+2. The first post-style geometry run reported six 19px native checkbox rectangles although each associated label was already 44px clickable. To make both the effective target and the direct-control metric unambiguous, the mobile checkbox now owns a 44px custom hit box with a restrained 20px visual center and checked dot. The complete rerun reports zero undersized controls.
+3. The enhanced selected-state harness initially tried to choose causal endpoint type `CHAPTER`; the active registry correctly does not offer it, so Playwright timed out before evidence was accepted. The harness retained the existing `STORY_CHANGE` type and supplied a synthetic ID solely to inspect enabled controls. No causal request was issued and no product endpoint list changed.
+4. The first after-state process completed and wrote all images but its terminal session handle was not retained by the caller, so no metric result was claimed from it. A complete rerun produced inspectable output and replaced the images.
+5. `next build` generated production `.next/types` imports in `next-env.d.ts`; the repository's development references were restored by patch. Build output remains valid and generated churn is absent from the exact diff.
+6. JSDOM emitted its known unimplemented canvas, scroll and navigation notices in component/full runs; all affected assertions and files passed. These notices are not browser defects and were not suppressed by changing configuration.
+
+#### Console comments and calls after implementation
+
+S19-F adds or changes zero `console.log` calls. Class hooks and CSS render states have no lifecycle boundary; logging render/hover/focus/selection layout would be noisy and could move content-adjacent state toward telemetry. Existing operational traces remain immediately preceded by their identifying comments, and all final line pairs are unchanged:
+
+| Component | Step | Comment / call line | Content-safe purpose |
+| --- | --- | --- | --- |
+| `CaptureInbox.tsx` | `S8-INBOX-001` | `118 / 119` | Keyboard/bulk lifecycle completion logs counts only. |
+| `CaptureInbox.tsx` | `S8-INBOX-002` | `170 / 171` | Explicit conversion logs identity/type/version only. |
+| `QuickCaptureOverlay.tsx` | `S16-FRICTION-003` | `73 / 74` | Open timing and source, no Capture/manuscript text. |
+| `QuickCaptureOverlay.tsx` | `S15-MOBILE-004` | `85 / 86` | Open coordinate/input class, no authored content. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-005` | `102 / 103` | Local replay unavailable state without content. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-004` | `116 / 117` | Connectivity replay aggregate counts only. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-006` | `130 / 131` | Replay infrastructure failure as stable content-free state. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-001` | `163 / 164` | Global open identities only; query values excluded. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-002` | `219 / 220` | Raw-first local save completion; authored text excluded. |
+| `QuickCaptureOverlay.tsx` | `S8-UI-003` | `286 / 287` | Server acknowledgement/optional action identities only. |
+
+No Capture raw text, endpoint/attachment value, manuscript/selection, route query, credential, token or raw error was added to a log.
+
+#### Functional, stress, accessibility, privacy, security and build evidence
+
+| Verification | Exact final-tree result | Requirement proven |
+| --- | --- | --- |
+| Capture domain/queue/service/component/accessibility/responsive/stress focused run | PASS — 8 files, 29 tests, 7.37s | Lifecycle, raw-first queue, conversions, responsive components and overlay accessibility remain intact. Known JSDOM canvas notices only. |
+| Command/Context/continuation/writing/privacy compatibility | PASS — 17 files, 77 tests, 63.16s | Registry/ranking, editor state, Context, exact continuation, operations security and responsive shell remain unchanged. |
+| Explicit Capture queue stress | PASS — 1 file/1 test; exactly 100 ordered items accepted, 101st rejected without eviction; assertion completed in 83ms | Offline hard bound and ordering remain unchanged under stress. |
+| Capture + Ctrl+K real browser run | PASS — 9 applicable tests, 5 intentional device-project skips, 1.4m | Local-first/offline replay, exact focus/selection/scroll, project-level coordinates, idempotent provenance/explicit causality, Inbox keyboard/Axe, mobile overlay and palette handoff/actions. |
+| Context + continuation real browser compatibility | PASS — 8 applicable tests, 8 intentional device-project skips, 1.5m | Relevant Now/Peek/preferences, debouncing, exact return, local fallback and mobile continuation remain unaffected. |
+| Final nine-state render/Axe/geometry harness | PASS | Themes, populated/empty/selected/long/RTL/200%/reduced-motion/disabled/enabled/offline states; zero overflow, uncontrolled errors, serious/critical Axe findings or undersized measured targets. |
+| `npm run test:coverage` | PASS — 107 files, 410 tests, 144.91s | Unchanged thresholds exceeded: statements 87.97% (5012/5697), branches 77.18% (2963/3839), functions 85.71% (1254/1463), lines 90.51% (4380/4839). |
+| `npm run test:security` + `npm audit --audit-level=high` | PASS — 2 files/10 tests; zero vulnerabilities | Operations privacy/security and dependency boundary remain intact. |
+| `npm run lint` | PASS — zero warnings | JSX/class/style changes meet lint contract. |
+| `npm run typecheck` | PASS | Class hooks and unchanged component contracts type-check. |
+| `npm run build` | PASS — Next.js 16.3.4; compile 13.8s, TypeScript 14.8s, 22 pages in 609ms | Production CSS/components/routes compile; no generated source churn retained. |
+| `git diff --check` | PASS | No whitespace errors. |
+| WorkPlan SHA-256 | `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9` | WorkPlan remains byte-for-byte unchanged. |
+
+#### Side-by-side S19-F compliance decision
+
+| 28.22 / Phase 7 requirement | Final implementation and evidence | Decision |
+| --- | --- | --- |
+| Premium overlay and raw-first hierarchy | Valid dim/blur, raised modal, editorial raw field, refined target, Save-primary/Return-secondary presentation; all overlay behavior/browser tests pass. | PASS |
+| Premium scannable Inbox without IA/workflow redesign | Header, bulk toolbar, thought/meta, lifecycle, conversion, causal and attachment groups are visually distinct in exact original order. | PASS |
+| Lifecycle/selected/disabled/enabled/status/error/empty state clarity | All states rendered and manually inspected; copy-free empty treatment and explicit selected/disabled/status treatments are present. | PASS |
+| Light/Dark/Cream, desktop/mobile, long/Unicode/RTL, focus, reduced motion, 200% | Nine actual-product after artifacts cover every dimension; all pass geometry/Axe/manual review. | PASS |
+| No horizontal overflow and mobile touch requirements | Every state reports no overflow; 412px/320px final lists contain zero controls below 44px. | PASS |
+| Preserve Capture domain, queue, provenance and explicit causality | No behavior owner changed; 29 focused tests, stress bound and 9 real Capture/palette browser flows pass. | PASS |
+| Preserve editor/Context/command/continuation behavior | 77 compatibility tests plus 8 browser flows pass; no owning implementation changed. | PASS |
+| Exact shared-CSS safety | Every rule is rooted at a Capture owner; existing tokens only; every hook/consumer is indexed; no global primitive/token change. | PASS |
+| Logging/privacy/security | No log changed; exact adjacent comment/call lines retained; security tests/audit pass; no authored payload added. | PASS |
+| Exact diff and negative scope | Only three authorized product files plus this ledger; no route, text, test, domain, service, repository, schema, migration, dependency, price, entitlement, command or ranking change. | PASS |
+| Complete local regression/build evidence | 410-test coverage, lint, typecheck, build, security, stress, 17 applicable real browser tests and nine-state visual audit pass. | PASS |
+
+No local compliance gap remains in the bounded S19-F contract. Current decision: **S19-F LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING. S19 REMAINS IN PROGRESS; S19-G AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.

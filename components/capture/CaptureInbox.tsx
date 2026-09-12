@@ -254,7 +254,7 @@ export function CaptureInbox({
         if (event.key === "r") void lifecycle("RESTORE");
       }}
     >
-      <header>
+      <header className="capture-inbox-header">
         <div>
           <p className="eyebrow">{messages.rawThoughtsRemainValid}</p>
           <h1 id="capture-inbox-title">{messages.captureInbox}</h1>
@@ -306,10 +306,10 @@ export function CaptureInbox({
         </label>
       </div>
       {message ? <p role="status">{message}</p> : null}
-      <ol>
+      <ol className="capture-list">
         {captures.map((capture) => (
           <li key={capture.id} className="capture-row">
-            <label>
+            <label className="capture-select">
               <input
                 type="checkbox"
                 checked={selected.has(capture.id)}
@@ -324,8 +324,8 @@ export function CaptureInbox({
               />{" "}
               {messages.selectCapture}{" "}
             </label>
-            <p>{capture.rawText}</p>
-            <small>
+            <p className="capture-text">{capture.rawText}</p>
+            <small className="capture-meta">
               {localizedEnumLabel(messages, capture.lifecycle)} ·{" "}
               {formatDateTime(locale, new Date(capture.capturedAt))} ·{" "}
               {interpolateMessage(
@@ -341,7 +341,7 @@ export function CaptureInbox({
                 { count: formatNumber(locale, capture.conversionCount) },
               )}{" "}
             </small>
-            <div>
+            <div className="capture-lifecycle-actions">
               <button onClick={() => void lifecycle("FILE", [capture.id])}>
                 {" "}
                 {messages.file}{" "}
@@ -359,7 +359,7 @@ export function CaptureInbox({
                 {messages.restore}{" "}
               </button>
             </div>
-            <div>
+            <div className="capture-conversion-actions">
               <button onClick={() => void convert(capture.id, "MILESTONE")}>
                 {" "}
                 {messages.convertToMilestone}{" "}
@@ -384,7 +384,7 @@ export function CaptureInbox({
                 {messages.convertToEntity}{" "}
               </button>
             </div>
-            <fieldset>
+            <fieldset className="capture-causal-actions">
               <legend>{messages.optionalExplicitCausalAction}</legend>
               <label>
                 {" "}
@@ -449,6 +449,7 @@ export function CaptureInbox({
               </button>
             </fieldset>
             <form
+              className="capture-attachment-form"
               onSubmit={(event) => {
                 event.preventDefault();
                 void attach(capture.id);
@@ -470,7 +471,7 @@ export function CaptureInbox({
               <button>{messages.attach}</button>
             </form>
             {capture.attachments.length ? (
-              <ul>
+              <ul className="capture-attachment-list">
                 {capture.attachments.map((attachment) => (
                   <li key={attachment.id}>
                     {localizedEnumLabel(messages, attachment.targetType)}{" "}
