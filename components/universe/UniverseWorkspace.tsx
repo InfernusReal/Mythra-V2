@@ -176,7 +176,7 @@ export function UniverseWorkspace({
   };
   return (
     <section className="universe-workspace" aria-labelledby="universe-title">
-      <header>
+      <header className="universe-header">
         <div>
           <p className="eyebrow">{messages.optionalWorldContext}</p>
           <h1 id="universe-title">{messages.universe}</h1>
@@ -193,13 +193,14 @@ export function UniverseWorkspace({
             : messages.returnToProjectHome}
         </a>
       </header>
-      <p>
+      <p className="universe-intro">
         {" "}
         {
           messages.entitiesRequireOnlyATypeAndNameTemplatesAndFieldsRemainOptional
         }{" "}
       </p>
       <form
+        className="universe-create-form"
         onSubmit={(event) => {
           event.preventDefault();
           void create();
@@ -245,7 +246,7 @@ export function UniverseWorkspace({
         <button type="submit">{messages.createEntity}</button>
       </form>
       {status ? <p role="status">{status}</p> : null}
-      <details>
+      <details className="universe-type-details">
         <summary>{messages.createAProjectCustomType}</summary>
         <form
           onSubmit={(event) => {
@@ -277,7 +278,7 @@ export function UniverseWorkspace({
           <button>{messages.createCustomType}</button>
         </form>
       </details>
-      <label>
+      <label className="universe-filter">
         {" "}
         {messages.filterByType}{" "}
         <select

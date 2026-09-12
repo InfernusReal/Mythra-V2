@@ -4936,12 +4936,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D remotely closed; E pre-code contract and baseline recorded | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D remotely closed; E locally passed with implementation remote proof pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome and D Structure/Milestones/Causality are remotely closed; E Universe/Timeline is at its pre-code contract/baseline stage; F Capture through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome and D Structure/Milestones/Causality are remotely closed; E Universe/Timeline is locally passed and awaits its implementation commit/push/exact-hash remote CI and Security proof; F Capture through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6693,3 +6693,124 @@ The successful baseline reported no browser console/page errors, no serious/crit
 **Console/comment contract.** Presentation CSS is not a lifecycle boundary, so no new `console.log` is expected. If class-only component hooks shift lines, the existing S9 entity create/update/state/type/quick-create and S11 Timeline create/link traces and immediately adjacent comments will be re-enumerated. No entity name/summary/field/state, Timeline title/display label/coordinates/link label, manuscript content, selection, search query or private Context may be newly logged.
 
 Current state: **S19 IN PROGRESS; S19-A/B/C/D REMOTELY VERIFIED; S19-E PRE-CODE CONTRACT AND BASELINE RECORDED; NO S19-E PRODUCT FILE HAS CHANGED; S19-F AND S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.20 S19-E implementation and local audit — Universe and Timeline
+
+#### Run identity and predecessor proof
+
+- **Date/time:** 12 September 2026, completed local audit at 14:18 PKT.
+- **Branch/baseline:** `agent/workplan-subgates-audit` from `69543358299b8fe2ba49c580e1b6a7be46fb0bf0`.
+- **Predecessor proof before product work:** local `HEAD`, `origin/agent/workplan-subgates-audit` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to `69543358299b8fe2ba49c580e1b6a7be46fb0bf0`. Pull-request CI run `34679501515` passed `verify` job `103515344789` in 4 minutes 40 seconds and `s18-regression` job `103515344861` in 7 minutes 53 seconds. Pull-request Security run `34679501547`, job `103515345036`, and push Security run `34679500667`, job `103515342474`, passed. All checked out the exact baseline hash. Therefore 28.19 itself was remotely verified before S19-E product edits were accepted.
+- **Bounded objective:** implement only the Universe list, entity detail/history and Timeline visual contract defined in 28.19. S19-F Capture and all later slices remained locked.
+
+#### Implemented outcome and per-file causality
+
+Universe now occupies the available main region and reads as optional authored world context. Creation is a primary but bounded authoring surface; project custom types remain a subordinate disclosure; filtering remains compact; the virtualized collection remains performance-owned but its container and entity cards read as a catalog. Entity detail distinguishes immutable/read-only facts, editable common fields, optional template fields, directional relations, immutable historical states and backlinks through paced sections without removing any input or fact. Timeline now gives its neutral chronology doctrine a distinct callout, separates event creation from explicit non-causal linking, and presents the existing deterministically ordered records on a logical-direction chronology axis with subordinate mode/version pills. No information architecture, object order, route, label, state transition or domain contract changed.
+
+| File | Exact implementation and necessity | Preserved boundary |
+| --- | --- | --- |
+| `app/globals.css` | Replaced only the existing Universe/entity/Timeline presentation rules with owner-scoped width, hierarchy, form, card, chronology-axis, logical-direction and responsive rules. All new override selectors are rooted under `.universe-workspace`, `.entity-detail` or `.chronicle-workspace`; the pre-existing `.chronicle-columns` responsive rule remains unchanged. | Shared tokens, shell, editor, Structure, Capture, Search, Context, Research, billing and operations selectors are unchanged. The 340px Context reservation is unchanged. |
+| `components/universe/UniverseWorkspace.tsx` | Added stable class hooks for header, introduction, primary create form, custom-type disclosure and type filter. | Existing JSX order, labels, type-and-name minimum, optional summary, create/filter/custom-type behavior, virtual list, state and API calls are unchanged. |
+| `components/universe/EntityDetail.tsx` | Added stable class hooks for header, summary, read-only facts, common edit form, optional fields, relation, history and backlink sections/forms. | Entity/version truth, optional template fields, directional relations, snapshot immutability, backlinks, request bodies, optimistic versions and status behavior are unchanged. |
+| `components/timeline/TimelineWorkspace.tsx` | Added stable class hooks for header, doctrine, event form, explicit-link form and status. | All five modes, conditional fields, authored labels, sortable values, relative anchors, deterministic ordering, explicit links, chronology wording, structural versions and API calls are unchanged. |
+| `app/app/projects/[id]/universe/page.tsx` | Necessary cross-boundary geometry repair: the already-existing anonymous data-context wrapper receives only `width: 100%` and `minWidth: 0` inline presentation values. Rendered evidence showed the wrapper, not the workspace, was shrink-to-fit inside `.shell-main`; workspace-only CSS could not correct the 534px item. | Authentication, route, search context attributes, service read, not-found handling, props and return behavior are byte-semantically unchanged. No new selector leaks into the global stylesheet. |
+| `app/app/projects/[id]/timeline/page.tsx` | Applies the same two inline geometry values to the equivalent existing wrapper after the first after-render still measured a 656px parent-constrained workspace. | Authentication, Timeline service read, 100-item bound, route/search parameters, not-found handling and props are unchanged. |
+| `Path.md` | Records predecessor proof, every file/hook/selector family, corrections, render matrix, test results, log/comment inventory and side-by-side decision. | Historical evidence and `WorkPlan.md` remain unchanged. |
+
+No file was created, moved or deleted. No schema, migration, dependency, server contract, service, repository, command, Context adapter, Live Model projection, billing, infrastructure or test file changed. The ignored local harness `tmp/s19-e-baseline.mjs` and its ignored PNG directories are audit equipment, not product or committed evidence files.
+
+#### Presentation hooks and CSS consumer accounting
+
+| Owner | New hook consumers | CSS behavior |
+| --- | --- | --- |
+| Universe collection | `universe-header`, `universe-intro`, `universe-create-form`, `universe-type-details`, `universe-filter` | Coherent identity/return row; restrained editorial heading and description; accent-leading primary creation; contained optional disclosure; bounded filter; full-width virtual catalog; authored cards with durable long-content wrapping. |
+| Entity detail | `entity-header`, `entity-summary`, `entity-facts`, `entity-common-form`, `entity-section`, `entity-custom-fields`, `entity-fields-form`, `entity-relations`, `entity-relation-form`, `entity-history`, `entity-history-form`, `entity-backlinks` | Separates read-only facts from writes; uses editorial section rhythm; keeps optional fields visually grouped; renders relation and historical truth distinctly; bounds JSON/code overflow. |
+| Timeline | `chronicle-header`, `chronicle-intro`, `chronicle-event-form`, `chronicle-link-form`, `chronicle-status` | Makes the chronology-not-causality doctrine visible; gives event creation primary and explicit linking secondary weight; preserves a quiet status region; presents ordered events on an RTL-safe chronology axis. |
+
+The common owner rules set `width: 100%`, `min-width: 0`, existing maximum reading widths and `justify-self: stretch`. Inputs and authored text gain wrapping/overflow containment; text areas remain resizable. Accent-leading borders use `border-inline-start`, chronology uses `inset-inline-start` and lists use `padding-inline-start`, so RTL reverses correctly without physical-left overrides. Desktop return controls remain compact; 320px/412px touch layouts increase return controls, forms, inputs, selects, text areas, buttons and the custom-type summary to at least 44px. Entity fact cards collapse from three columns to one; Timeline forms and event rows collapse to one column. Existing global reduced-motion behavior is unchanged and verified active.
+
+The final source review found that initially named hooks such as `.chronicle-list`, `.universe-filter` and `.entity-section` were specific but not rooted under the three promised workspace owners. It also found that the first shared input/button rewrite changed `.entity-quick-create` styling outside this slice. Before acceptance, every added override was rooted under the owned workspace and the original quick-create input/button declaration was restored exactly; focused editor quick-create and command return tests then passed. This closes the shared-CSS leakage gap identified during the audit.
+
+#### Actual rendered state matrix and manual review
+
+The final ignored after-render set contains fourteen full-page PNGs under `tmp/s19-e-after/`. Every file was opened at original resolution or inspected in an original-resolution batch. The harness authenticates through the real development sign-in, reads/writes the isolated local PostgreSQL project through production routes, uses the actual theme selector, runs Axe in the rendered document, measures geometry/touch targets, and captures the real application. It created local audit-only fixtures when absent: two Characters, one explicit relation, one immutable state, and all five Timeline modes.
+
+| Artifact/state | Final result and comparison with 28.19 baseline |
+| --- | --- |
+| `01-universe-light-desktop.png`, 1440x1000, populated | Surface is 972px rather than 534px; creation, optional type tooling, filter and two authored cards have distinct hierarchy. Long entity text wraps without clipping. |
+| `02-entity-cream-desktop.png`, 1440x1000, populated truth/history | Surface is 972px. Fact cards, edit form, ten optional fields, an explicit directional relation, immutable JSON state and zero-backlink state remain all present and visually distinct. |
+| `03-timeline-dark-desktop.png`, 1440x1000, five modes | Surface is 972px. Doctrine, primary event form, secondary link form, chronological axis and Absolute/Approximate/Relative/Ordinal/Range records are legible without causal implication. |
+| `04-universe-dark-mobile.png`, 412x915 | Surface is 380px; one-column authoring/catalog flow, no horizontal overflow and no interactive target below 44px. The intentionally fixed-height virtual viewport remains for bounded-performance behavior but its inner authored cards no longer merge with the container. |
+| `05-timeline-cream-mobile.png`, 320x900, reduced motion | Surface is 288px; forms and chronological cards stack cleanly, no overflow, no undersized touch target, and `prefers-reduced-motion: reduce` evaluates true. |
+| `06-entity-rtl-light.png`, 1180x900 | Surface is 1052px; header, forms, list bullets, chronology-independent entity content and logical borders reverse correctly; relation and state content remain readable. |
+| `07-universe-custom-type-dark.png` | Open disclosure clearly subordinates stable key/type-name creation to the main entity flow; visible focused summary outline is retained. |
+| `08-universe-empty-cream.png` | Location filter produces the canonical optional empty message; no blank catalog container or false setup requirement is introduced. |
+| `09-timeline-range-light.png` | Range mode reveals both unchanged sortable start and sortable end controls inside the primary event surface. |
+| `10-timeline-relative-dark.png` | Relative mode reveals unchanged offset and anchor controls; explicit link form remains separately subordinate. |
+| `11-universe-200-percent-light.png`, 720x900 equivalent | Surface is 688px with no overflow; creation reflows without content loss and the focused Return control has a measured 2px outline. This is a desktop 200%-equivalent viewport, not classified as touch input. |
+| `12-timeline-rtl-dark.png` | The axis, dots, mode metadata, forms and return action use logical direction and remain ordered/legible in RTL with no overflow. |
+| `13-entity-mobile-cream.png`, 412x915 | Long detail page remains one column; all fields, relation, immutable state and backlink empty state remain reachable; no undersized target or overflow. |
+| `14-entity-error-light.png` | Invalid JSON leaves authored data untouched and renders the existing status error in a bounded surface; focus remains on the submitting action and no browser error is emitted. |
+
+Across the final fourteen-state run: browser console/page error arrays were empty; serious/critical Axe violation arrays were empty; horizontal-overflow flags were false; actual 320px and 412px touch-target defect lists were empty; LTR/RTL and reduced-motion measurements matched the requested states. Final measured workspace widths were 972px at the 1440 desktop shell with Context reserved, 1052px at 1180, 688px at the 720 200%-equivalent viewport, 380px at 412 and 288px at 320. No screenshot or metric was used to claim a changed domain behavior.
+
+#### Failures and corrections retained as evidence
+
+1. The first after-render retained the 534px Universe width and reduced Timeline to 656px despite workspace `width: 100%`. DOM geometry proved the anonymous route wrappers were the shrink-to-fit grid items. The minimal two-value inline wrapper repair corrected both surfaces to the entire 972px available main region without touching shell or Context CSS.
+2. An intermediate RTL screenshot produced a React hydration mismatch because Playwright's default screenshot behavior temporarily injected `caret-color: transparent` during hydration. The harness was corrected to capture with `caret: "initial"`; the unchanged product then completed with zero hydration/browser errors.
+3. The expanded empty-state pass timed out because the harness expected abbreviated copy. The product correctly rendered the canonical “No entities match this view. Writing remains available without Universe setup.” message; the harness was corrected to assert that existing exact text. Product copy was not changed.
+4. One transient Dark Relative capture reported `kbd` contrast while the immediately preceding/following Dark captures and a complete rerun did not. The actual computed theme is transitioned by the existing provider. The harness now waits two animation frames plus the existing 200ms transition window before Axe. The stabilized complete rerun produced zero serious/critical violations in all fourteen states; no token or command-bar selector was changed by S19-E.
+5. Final selector review found the unrooted-hook/quick-create leakage described above. Selectors were rooted and quick-create's former declarations restored before the final visual and regression ladders.
+6. One `npm run typecheck` invocation named a nonexistent working directory, so the command process did not start. The correct repository invocation immediately passed. This is recorded as an operator-path error, not a failed TypeScript result.
+7. `next build` generated the known `next-env.d.ts` development/production import churn. The generated change was restored to the tracked development form with no implementation claim. `next-env.d.ts` is absent from the final diff.
+
+#### Console trace and adjacent-comment inventory
+
+S19-E adds no `console.log`: class hooks, scoped CSS and wrapper geometry have no material lifecycle boundary. Existing meaningful traces remain immediately preceded by their identifying comments. Final lines are:
+
+| File | Trace ID | Comment / `console.log` line | Preserved content boundary |
+| --- | --- | --- | --- |
+| `components/universe/UniverseWorkspace.tsx` | S9-UI-001 | `115 / 116` | Entity create logs project/source identity and structural version, not name/summary/fields. |
+| `components/universe/UniverseWorkspace.tsx` | S9-UI-005 | `158 / 159` | Custom type creation logs type identity/version, not label/schema. |
+| `components/universe/EntityDetail.tsx` | S9-UI-004 | `130 / 131` | Entity update logs identity/version, not authored fields. |
+| `components/universe/EntityDetail.tsx` | S9-UI-002 | `231 / 232` | Immutable state creation excludes state JSON and notes. |
+| `components/universe/EntityQuickCreate.tsx` | S15-MOBILE-007 | `116 / 117` | Mobile action availability excludes manuscript selection. |
+| `components/universe/EntityQuickCreate.tsx` | S9-UI-003 | `180 / 181` | Reference transaction logs coordinates/identity/version, not selected prose. |
+| `components/timeline/TimelineWorkspace.tsx` | S11-UI-001 | `96 / 97` | Event creation logs identity/mode/version, not title/label/coordinates. |
+| `components/timeline/TimelineWorkspace.tsx` | S11-UI-006 | `164 / 165` | Explicit link logs endpoint identity/replay state, not link label and never a causal relation. |
+
+No entity name, summary, field value, relation text, state JSON, Timeline title, display label, coordinate, link label, manuscript, selection, search query, private Context, credential or raw error was added to telemetry.
+
+#### Functional, stress, accessibility, privacy and build evidence
+
+| Verification | Exact final-tree result | Requirement proven |
+| --- | --- | --- |
+| Universe/Timeline focused unit, service, stress, component, responsive and accessibility run | PASS — 12 files, 39 tests, 15.66s | Entity templates/minimums, relations/snapshots/backlinks, five Timeline modes/order/link semantics, stress bounds, responsive behavior and rendered component accessibility remain intact. JSDOM canvas notices are environment limitations, not failures. |
+| Causality/Context/Ctrl+K/continuation/privacy focused run | PASS — 17 files, 79 tests, 10.66s | Timeline remains non-causal; Context adapters, command registry/ranking, exact continuation, editor attribute privacy and operations security remain compatible. |
+| Real-browser Universe/Timeline regression | PASS — 6 applicable tests; 6 intentional device-project skips; 33.8s | Minimal entity/relation/state flow, entity quick-create/reference focus restoration, Timeline/Research chronology/link/provenance, file handling and both mobile collection surfaces. No skip changed. |
+| Real-browser Causal/command/Context/continuation compatibility | PASS — 17 applicable tests; 13 intentional device-project skips; 2.4m | Explicit causal composition and cycle rejection, exact writing return, palette/Capture handoff, Relevant Now/Peek, compact mobile Context and mobile continuation remain intact. No skip changed. |
+| Final authenticated visual/Axe/geometry matrix | PASS — 14 states | Light/Dark/Cream, desktop/mobile/200%, long/empty/populated, custom disclosure, relations/state/backlinks, all five modes, Range/Relative controls, error, focus, reduced motion and RTL; zero browser errors, serious/critical Axe findings, overflow or actual mobile target defects. |
+| `npm run test:coverage` | PASS — 107 files, 410 tests, 84.97s | Full suite at unchanged thresholds: statements 87.97% (5012/5697), branches 77.18% (2963/3839), functions 85.71% (1254/1463), lines 90.51% (4380/4839). |
+| `npm run lint` | PASS — zero warnings under `--max-warnings=0` | JSX/accessibility/static lint contract. |
+| `npm run typecheck` | PASS — correct repository invocation | TypeScript and class/style contracts. |
+| `npm run build` | PASS — Next.js 16.3.4; compile 2.3s, TypeScript 6.7s, 22 static pages in 539ms | Production CSS and route compilation remain valid. Generated `next-env.d.ts` churn was not retained. |
+| `git diff --check` | PASS | No whitespace-error evidence. |
+| WorkPlan SHA-256 | `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9` | WorkPlan remained byte-for-byte unchanged. |
+
+#### Side-by-side S19-E compliance decision
+
+| 28.19 requirement | Implementation/evidence | Decision |
+| --- | --- | --- |
+| Universe reads as optional world context and uses the available region | Full-width route/workspace geometry, subordinate type tooling, compact filter, authored catalog and exact optional empty copy; 534px baseline becomes 972px. | PASS |
+| Entity truth/history is distinct from authoring | Fact cards, common edit form, optional field region, relation list/form, immutable state card/form and backlinks were manually inspected populated and empty. | PASS |
+| Timeline foregrounds chronology without implying causality | Neutral doctrine callout, primary mode-aware event form, subordinate explicit-link form and logical chronology axis; all causal/Timeline tests pass. | PASS |
+| Preserve all Universe semantics | No behavior/API/domain change; focused and browser entity/relation/state/reference tests pass. | PASS |
+| Preserve five modes, ordering, relative anchors and explicit links | All five rendered; Range/Relative conditional states captured; domain/service/stress/browser tests pass. | PASS |
+| Preserve Context, commands, continuation, Live Model and privacy | No owning file changed; 79 focused and 17 browser compatibility tests pass; trace payload inventory is unchanged/content-safe. | PASS |
+| Light/Dark/Cream, mobile, long/empty/populated, focus, reduced motion, 200% and RTL | Fourteen manually reviewed actual-product artifacts cover every dimension and reachable status/error state. | PASS |
+| No overflow and at least 44px mobile controls | All geometry flags false; 320px/412px target lists empty. | PASS |
+| Exact selectors/consumers and shared CSS isolation | Every hook/selector family and consumer is recorded; all added overrides are owner-rooted; quick-create out-of-slice styling was restored. | PASS |
+| Full regression, stress, accessibility and production proof | 410-test coverage, 118 focused tests, 23 applicable browser tests, 14-state rendered audit, lint, typecheck, build and diff check all pass. | PASS |
+| Negative scope | No schema, service, repository, route semantics, command, pricing, dependency, token or shared shell/Context change; no new telemetry. | PASS |
+
+No local compliance gap remains in the bounded S19-E contract. Current decision: **S19-E LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING. S19 REMAINS IN PROGRESS; S19-F AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.

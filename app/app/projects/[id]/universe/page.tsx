@@ -29,7 +29,11 @@ export default async function UniversePage({
   if (!loaded) notFound();
   return (
     <AppShell>
-      <div data-search-project-id={id} data-search-chapter-id={query.returnChapterId}>
+      <div
+        style={{ width: "100%", minWidth: 0 }}
+        data-search-project-id={id}
+        data-search-chapter-id={query.returnChapterId}
+      >
         <UniverseWorkspace
           projectId={id}
           initialEntities={loaded.model.entities}

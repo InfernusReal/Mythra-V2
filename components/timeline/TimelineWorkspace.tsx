@@ -178,7 +178,7 @@ export function TimelineWorkspace({
 
   return (
     <section className="chronicle-workspace" aria-labelledby="timeline-title">
-      <header>
+      <header className="chronicle-header">
         <div>
           <p className="eyebrow">{messages.chronologyNotCausality}</p>
           <h1 id="timeline-title">{messages.timeline}</h1>
@@ -195,11 +195,12 @@ export function TimelineWorkspace({
             : messages.returnToProjectHome}
         </a>
       </header>
-      <p>
+      <p className="chronicle-intro">
         {messages.displayLabelsRemainAuthorOwnedSortValuesAreModeSpecificAndDo}{" "}
         {formatNumber(locale, structuralVersion)}.
       </p>
       <form
+        className="chronicle-event-form"
         onSubmit={(event) => {
           event.preventDefault();
           void create();
@@ -285,6 +286,7 @@ export function TimelineWorkspace({
       </form>
       {ordered.length ? (
         <form
+          className="chronicle-link-form"
           onSubmit={(event) => {
             event.preventDefault();
             void link();
@@ -362,7 +364,9 @@ export function TimelineWorkspace({
           <button type="submit">{messages.linkWithoutCausality}</button>
         </form>
       ) : null}
-      <p role="status">{status}</p>
+      <p className="chronicle-status" role="status">
+        {status}
+      </p>
       <ol className="chronicle-list">
         {ordered.map((item) => (
           <li key={item.id}>

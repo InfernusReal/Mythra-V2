@@ -250,7 +250,7 @@ export function EntityDetail({
   };
   return (
     <article className="entity-detail">
-      <header>
+      <header className="entity-header">
         <div>
           <p className="eyebrow">
             {localizedEntityTemplateName(
@@ -273,8 +273,10 @@ export function EntityDetail({
             : messages.returnToUniverse}
         </a>
       </header>
-      {detail.entity.summary ? <p>{detail.entity.summary}</p> : null}
-      <dl>
+      {detail.entity.summary ? (
+        <p className="entity-summary">{detail.entity.summary}</p>
+      ) : null}
+      <dl className="entity-facts">
         <div>
           <dt>{messages.aliases}</dt>
           <dd>{detail.entity.aliases.join(", ") || messages.none}</dd>
@@ -289,6 +291,7 @@ export function EntityDetail({
         </div>
       </dl>
       <form
+        className="entity-common-form"
         onSubmit={(event) => {
           event.preventDefault();
           void saveCommon();
@@ -315,7 +318,7 @@ export function EntityDetail({
         </label>
         <button>{messages.saveEntityDetails}</button>
       </form>
-      <section>
+      <section className="entity-section entity-custom-fields">
         <h2>{messages.customFields}</h2>
         {detail.entity.fieldValues.length ? (
           <dl>
@@ -335,6 +338,7 @@ export function EntityDetail({
         )}
         {entityType?.fields.length ? (
           <form
+            className="entity-fields-form"
             onSubmit={(event) => {
               event.preventDefault();
               void saveFields();
@@ -387,7 +391,7 @@ export function EntityDetail({
           </form>
         ) : null}
       </section>
-      <section>
+      <section className="entity-section entity-relations">
         <h2>{messages.relations}</h2>
         <ul>
           {detail.outgoing.map((item) => (
@@ -402,6 +406,7 @@ export function EntityDetail({
           ))}
         </ul>
         <form
+          className="entity-relation-form"
           onSubmit={(event) => {
             event.preventDefault();
             void relation();
@@ -445,7 +450,7 @@ export function EntityDetail({
           <button>{messages.addRelation}</button>
         </form>
       </section>
-      <section>
+      <section className="entity-section entity-history">
         <h2>{messages.historicalStates}</h2>
         <ol>
           {detail.snapshots.map((snapshot) => (
@@ -459,6 +464,7 @@ export function EntityDetail({
           ))}
         </ol>
         <form
+          className="entity-history-form"
           onSubmit={(event) => {
             event.preventDefault();
             void snapshot();
@@ -477,7 +483,7 @@ export function EntityDetail({
           <button>{messages.addImmutableState}</button>
         </form>
       </section>
-      <section>
+      <section className="entity-section entity-backlinks">
         <h2>{messages.backlinksb4278c6a}</h2>
         <p>
           {interpolateMessage(
