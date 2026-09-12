@@ -200,7 +200,7 @@ export function StructureWorkspace({
             </span>
           ) : null}
           <header className="structure-header">
-            <div>
+            <div className="structure-identity">
               <p className="eyebrow">{messages.structure}</p>
               <h1 id="structure-title">{initialModel.project.title}</h1>
               <p>
@@ -226,7 +226,7 @@ export function StructureWorkspace({
                 )}
               </div>
             </div>
-            <label>
+            <label className="structure-mode-control">
               {messages.presentationMode}
               <select
                 value={mode}

@@ -389,7 +389,7 @@ export function MilestoneLens({
         ))}
       </nav>
       {view === "RANGE" ? (
-        <section className="structure-card">
+        <section className="structure-card milestone-overview">
           <div className="structure-heading">
             <div>
               <h2>{messages.milestoneRanges}</h2>

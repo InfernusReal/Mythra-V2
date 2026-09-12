@@ -408,9 +408,12 @@ export function SemanticZoomViewport({
 
   return (
     <div className="structure-stack" data-testid="semantic-zoom-lens">
-      <section className="structure-card" aria-labelledby="semantic-zoom-title">
+      <section
+        className="structure-card semantic-zoom-card"
+        aria-labelledby="semantic-zoom-title"
+      >
         <h2 id="semantic-zoom-title">{messages.semanticZoom}</h2>
-        <p role="status">
+        <p className="semantic-location" role="status">
           {messages.youAreHere} {anchor.label} (
           {semanticLevelLabels[anchor.level]})
         </p>
@@ -462,10 +465,13 @@ export function SemanticZoomViewport({
             {messages.zoomIn}
           </button>
         </div>
-        <p>
+        <p className="semantic-level-readout">
           {messages.viewingAt} {semanticLevelLabels[resolvedZoomLevel]}
         </p>
-        <div aria-labelledby="semantic-neighborhood-title">
+        <div
+          className="semantic-neighborhood"
+          aria-labelledby="semantic-neighborhood-title"
+        >
           <h3 id="semantic-neighborhood-title">
             {messages.boundedNeighborhood}
           </h3>

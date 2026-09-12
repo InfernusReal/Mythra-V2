@@ -284,7 +284,7 @@ export function CausalLens({
 
   return (
     <section className="causal-lens" aria-labelledby="causal-lens-title">
-      <header>
+      <header className="causal-intro">
         <p className="eyebrow">{messages.causalStoryFabric}</p>
         <h2 id="causal-lens-title">{messages.becauseAndConsequence}</h2>
         <p>
@@ -327,7 +327,7 @@ export function CausalLens({
         </button>
       </form>
       {model.endpoints.length >= 2 ? (
-        <form action={compose} className="causal-form">
+        <form action={compose} className="causal-form causal-relation-form">
           <h3>{messages.causeAndEffect}</h3>
           <label>
             A
@@ -454,7 +454,7 @@ export function CausalLens({
         </div>
       ) : null}
       {model.relations.length ? (
-        <section aria-labelledby="causal-list-title">
+        <section className="causal-relations" aria-labelledby="causal-list-title">
           <h3 id="causal-list-title">{messages.causalRelationships}</h3>
           <p>
             {
@@ -500,7 +500,7 @@ export function CausalLens({
                       {messages.note1150f054} {relation.note}
                     </p>
                   ) : null}
-                  <div>
+                  <div className="causal-relation-actions">
                     <button onClick={() => void checkChronology(relation.id)}>
                       {messages.checkChronology}
                     </button>
@@ -540,7 +540,7 @@ export function CausalLens({
         </section>
       ) : null}
       {presentationMode === "ARCHITECT" && model.relations.length ? (
-        <section aria-labelledby="local-graph-title">
+        <section className="causal-graph" aria-labelledby="local-graph-title">
           <h3 id="local-graph-title">{messages.localGraph}</h3>
           <div className="causal-local-graph" aria-hidden="true">
             {model.relations.slice(0, 12).map((relation) => (
@@ -554,7 +554,7 @@ export function CausalLens({
         </section>
       ) : null}
       {trace ? (
-        <section aria-labelledby="causal-trace-title">
+        <section className="causal-trace" aria-labelledby="causal-trace-title">
           <h3 id="causal-trace-title">
             {trace.paths[0]?.direction === "UPSTREAM"
               ? messages.whyNow

@@ -4936,12 +4936,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C remotely closed; D pre-code contract and baseline recorded | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C remotely closed; D implementation and local audit passed, exact-hash remote verification pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives, B shell/home and C editor chrome are remotely closed; D Structure/Milestones/Causality has begun at the pre-code contract/baseline stage; E Universe/Timeline through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives, B shell/home and C editor chrome are remotely closed; D Structure/Milestones/Causality has passed its implementation and local audit, with exact-hash remote implementation and closure-ledger verification pending; E Universe/Timeline through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6516,3 +6516,118 @@ The 340px Context reservation is intentionally not styled here; S19-H owns Conte
 **Console/comment contract.** Presentation-only CSS is not a lifecycle boundary, so no new `console.log` is expected. Existing S4/S5/S6/S18 Structure, preview/apply, zoom, causal trace, chronology, lifecycle and writing-return logs and their immediately adjacent identifying comments must remain behaviorally unchanged and will be re-enumerated with final line numbers if any component line shifts. No project title, outline text, Milestone title/note, Story Change, causal condition/note, manuscript content, search query or private Context may be newly logged.
 
 Current state: **S19 IN PROGRESS; S19-A/B/C REMOTELY VERIFIED; S19-D PRE-CODE CONTRACT AND BASELINE RECORDED; NO S19-D PRODUCT FILE HAS CHANGED; S19-E AND S20 LOCKED; PHASE 7 INCOMPLETE.**
+
+### 28.17 S19-D implementation, rendered review, correction, and local compliance audit
+
+S19-D product work began only after its own pre-code contract commit `4df0499d91922bb1ef3fc040db51ec91bc7f8eff` passed the predecessor barrier. Local `HEAD`, `origin/agent/workplan-subgates-audit`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before any S19-D product edit. Pull-request CI run `34676353390` passed `verify` job `103506797763` in 3 minutes 36 seconds and `s18-regression` job `103506797871` in 7 minutes 27 seconds. Pull-request Security run `34676353379`, job `103506797641`, and push Security run `34676351612`, job `103506791987`, also passed. This independently verifies that the recorded contract and baseline, rather than an unverified working state, authorized implementation.
+
+#### Implemented scope and file causality
+
+The implementation is a presentation-only refinement of the existing capability. It did not add or remove a lens, command, route, action, service, repository operation, schema field, migration, entitlement, price, telemetry payload or authored object. The 1180px Structure workspace bound and the 340px Context reservation remain unchanged. The Context rail itself was not styled because it belongs to S19-H.
+
+| Changed file | Exact implementation | Reason it was necessary | Non-interference boundary |
+| --- | --- | --- | --- |
+| `app/globals.css` | Refined Structure identity/header, return control, mode control, lens navigation, status/range strip, cards, forms, lists, previews, Milestone switcher/ranges/progress/matrix, Causal forms/relations/trace/graph, Semantic Zoom coordinate/readout/neighborhood, presentation-mode emphasis and narrow-screen layout. | The baseline showed disconnected navigation/context, same-weight authored and creation content, weak reviewed/canonical action hierarchy, dense Causal forms and long mobile stacks. | Uses existing design tokens and logical properties; no DOM, accessible name, route, state, action, semantic ordering or capability behavior changed. |
+| `components/structure/StructureWorkspace.tsx` | Added stable `structure-identity` and `structure-mode-control` presentation hooks. | Existing markup could not target project identity and mode containment without brittle element-position selectors. | Text, controls, values, event handlers and document order are unchanged. |
+| `components/structure/MilestoneLens.tsx` | Added the stable `milestone-overview` hook to the existing read-only overview section. | Read-only projection needed to remain visually quieter than authoring forms without relying on section position. | Milestone views, ranges, roles, progress, dependencies, previews and mutations are unchanged. |
+| `components/structure/CausalLens.tsx` | Added stable hooks for intro, relation form, trace actions, authored relations, lifecycle actions, local graph and trace result. | Causal authoring, authored evidence, graph and trace required distinct visual hierarchy that generic section selectors could not express safely. | Story Change creation, explicit relation composition, endpoint registry, provenance, chronology, lifecycle and trace behavior are unchanged. |
+| `components/structure/SemanticZoomViewport.tsx` | Added stable hooks for the Semantic Zoom card, location, readout and neighborhood. | The coordinate and current navigation state needed to read as one model without selecting by content or position. | The locked semantic coordinate, reversible zoom/descent actions, anchor state and Narrative Intent behavior are unchanged. |
+| `Path.md` | Updated current gate state and recorded baseline, exact ownership, implementation, failures, visual review, tests, logs and gate decision. | Phase 7 requires a durable Pathway V2 audit trail before remote verification. | Historical entries remain unchanged; WorkPlan authority and earlier gates are not rewritten. |
+
+No test file changed. The ignored `tmp/s19-d-baseline/`, `tmp/s19-d-after/` and `tmp/s19-d-visual.mjs` materials are local audit evidence and are not product or Git changes.
+
+#### Exact selectors, hooks, and consumers
+
+| File / final line | Changed selector or hook | Consumer and visible purpose |
+| --- | --- | --- |
+| `app/globals.css:26-43` | `.causal-lens`, `.causal-lens > header`, `.causal-lens > section`, `.causal-lens > .causal-intro`, `.causal-lens > [role="alert"]`, `.causal-form` and its heading, label, input, select, textarea, fieldset and direct primary-button descendants | `CausalLens`; establishes readable introduction and bounded, responsive authoring groups with a clear primary commit action. |
+| `app/globals.css:44-56` | `.causal-relation-form`, `.causal-trace-actions`, `.causal-relation-actions`, `.causal-lens > section > p`, `.causal-list` and its descendants, `.causal-local-graph` and its `span`, `.causal-lens > .causal-trace` | `CausalLens`; distinguishes relationship composition, trace controls, authored evidence, lifecycle actions, graph chips and trace result. |
+| `app/globals.css:338-346` | `.structure-workspace`, `.structure-header`, `.structure-identity`, header heading/paragraph, `.structure-return`, `.structure-return a`, `.structure-mode-control` and its label text | `StructureWorkspace`; preserves the exact 1180px bound while reducing long-title dominance and unifying return/mode context. |
+| `app/globals.css:347-358` | `.structure-workspace` input/select/textarea/button rules, hover rule, `.structure-lenses`, lens buttons and `[aria-current="page"]` state, `.structure-budget`, `.structure-range-nav` and its links | Every Structure lens through existing shared classes; creates consistent controls, an unmistakable current lens, and a quiet bounded-navigation/status strip. |
+| `app/globals.css:359-380` | `.structure-stack`, `.structure-card`, form-card exclusion, card headings/text/help/empty state, `.structure-fields`, checkbox labels, primary form actions, Causal primary-action specificity, disabled states, `.structure-preview`, `.structure-actions`, `.structure-warning` | Outline, Volumes, Chapters, Milestones, Causal, Relationships and Semantic Zoom; separates read-only summaries, creation forms, reviewed previews and canonical actions without removing fields. |
+| `app/globals.css:381-400` | `.structure-list`, `.volume-lane`, their row/text descendants, `.milestone-view-switcher` and `[aria-pressed="true"]` state, `.milestone-overview`, `.milestone-range-list` and its row/content/progress descendants, `.milestone-matrix` and its row/cell descendants | Outline/Volume/Chapter/Relationship lists and `MilestoneLens`; improves authored-object priority, view state, range progress and matrix scanning. |
+| `app/globals.css:406-418` | `.semantic-zoom-card`, `.semantic-location`, `.semantic-path` and its button/current-state descendants, `.semantic-level-readout`, `.semantic-neighborhood` and its descendants, `.mode-discovery`, `.mode-guided` and `.mode-architect` refinements | `SemanticZoomViewport` plus existing presentation-mode class on `StructureWorkspace`; presents the semantic coordinate as navigation and changes emphasis only, never capability availability. |
+| `app/globals.css:462-478` | Narrow-screen overrides for return link, mode control, Structure controls, lists/ranges/actions, Milestone switcher, Semantic Zoom neighborhood, Causal panels/forms/touch controls and Causal action grids | All Structure consumers at 720px and below; supplies 44px action/control targets and one-column content without hiding features or causing overflow. Native checkbox/radio geometry remains native; its associated full label is the interaction target. |
+| `components/structure/StructureWorkspace.tsx:203,229` | `structure-identity`, `structure-mode-control` | Direct consumers of the two header selectors above. |
+| `components/structure/MilestoneLens.tsx:392` | `milestone-overview` | Direct consumer of the quieter read-only overview rule. |
+| `components/structure/CausalLens.tsx:287,330,447,457,503,543,557` | `causal-intro`, `causal-relation-form`, `causal-trace-actions`, `causal-relations`, `causal-relation-actions`, `causal-graph`, `causal-trace` | Direct consumers of the Causal hierarchy rules above. |
+| `components/structure/SemanticZoomViewport.tsx:412,416,468,472` | `semantic-zoom-card`, `semantic-location`, `semantic-level-readout`, `semantic-neighborhood` | Direct consumers of the Semantic Zoom navigation-model rules above. |
+
+#### Rendered-state matrix and manual inspection
+
+The authenticated application was rendered through its actual local Next.js and PostgreSQL path. Thirteen ignored after-state artifacts under `tmp/s19-d-after/` were opened and manually inspected at original resolution. The harness measured document/workspace geometry, browser console/page errors, serious/critical Axe results, focus visibility, theme, direction, reduced-motion state and mobile touch targets.
+
+| Artifact | State covered | Result |
+| --- | --- | --- |
+| `01-outline-light-desktop.png` | Outline; Light; desktop; long project title; empty planning content; active-lens keyboard focus | PASS — title is subordinate to planning context, focus outline measured 3px, no overflow/error/serious-or-critical Axe result. |
+| `02-milestones-cream-desktop.png` | Milestones; Cream; desktop; populated ranges, roles, dependencies, progress and matrix; Guided mode | PASS — overview/view/ranges and authoring utilities are distinct; all data and actions remain visible. |
+| `03-causal-dark-desktop.png` | Causal; Dark; desktop; populated Story Changes, explicit relation, graph and trace; Architect mode | PASS — authored evidence outranks creation utilities and trace/lifecycle controls are visibly grouped without behavior change. |
+| `04-semantic-zoom-light-desktop.png` | Semantic Zoom; Light; desktop; coordinate, current anchor, neighborhood and Narrative Intent | PASS — locked coordinate, current step and local neighborhood read as one navigation model. |
+| `05-milestones-dark-mobile.png` | Milestones; Dark; 412x915; populated content | PASS — one-column flow, full-width mode/switching controls, no horizontal overflow and no undersized non-native touch target. |
+| `06-volumes-dark-desktop.png` | Volumes; Dark; desktop; empty state; Discovery mode | PASS — optional empty state remains explicit and no authoring capability is removed by presentation mode. |
+| `07-chapters-cream-desktop.png` | Chapters; Cream; desktop; planning grid/empty state | PASS — chapter planning hierarchy and all controls remain available. |
+| `08-relationships-light-desktop.png` | Relationships; Light; desktop; empty state | PASS — non-causal relationship ownership remains distinct and usable. |
+| `09-scaffold-preview-light-desktop.png` | Outline reviewed scaffold preview dialog | PASS — preview remains visibly separate from canonical apply; dialog content and actions are reachable. |
+| `10-milestone-preview-cream-desktop.png` | Milestone reviewed allocation preview dialog | PASS — review-before-apply flow remains intact and visually legible. |
+| `11-outline-200-percent.png` | Outline; 720x900 200%-equivalent CSS viewport | PASS — content reflows without horizontal overflow or hidden action. |
+| `12-relationships-rtl-dark.png` | Relationships; Dark; 1180x900; Arabic preference and `dir=rtl` | PASS — computed document direction was `rtl`; logical spacing/order remained coherent and no overflow occurred. |
+| `13-causal-320-cream-reduced-motion.png` | Causal; Cream; 320px mobile; reduced motion | PASS — reduced-motion media state was active, form/actions stacked, and no horizontal overflow, page error or undersized non-native target was found. |
+
+All thirteen final runs reported empty browser-console and page-error collections, zero serious/critical Axe violations, and `scrollWidth <= clientWidth`. Measured Structure workspace widths were 972px beside the 340px Context reservation at a 1440px desktop, 1052px at the 1180px RTL viewport, 688px at the 720px zoom-equivalent viewport, 380px at 412px mobile and 288px at 320px mobile. These measurements prove the fixed maximum and responsive bounds rather than inferring them from CSS alone.
+
+#### Negative evidence and corrections retained
+
+1. The first visual-harness run failed because a fresh browser context was not authenticated. No visual conclusion was accepted. The ignored harness was corrected to use the real development sign-in flow before opening Structure.
+2. The next run timed out at `networkidle` because the development server retained background requests. No visual conclusion was accepted. Readiness was corrected to `DOMContentLoaded` plus the actual `.structure-workspace` contract.
+3. The first successful geometry run measured the mobile `Return to writing` control at 36px and a native checkbox at 13px. The product defect was corrected by making the mobile return action 44px. The audit correctly treats the associated checkbox label, not the browser-native checkbox rectangle, as its usable target; final non-native undersized-target results are empty.
+4. An initial multi-theme Axe run reported inconsistent contrast after the harness directly mutated `data-theme` while the live Theme Provider retained different state. This was a harness defect, not accepted product evidence. Theme setup was corrected to use the actual theme selector, including a forced selection only where that existing selector is visually hidden on mobile, and to wait for the canonical document theme. The complete final matrix has zero serious/critical violations.
+
+#### Console trace and adjacent-comment accounting
+
+S19-D added no `console.log`. CSS has no lifecycle boundary, and the JSX changes are class-only presentation hooks. All existing Structure/Milestone/Causal/Semantic Zoom traces and their immediately adjacent identifying comments remain in place; final comment/log line pairs are:
+
+| File | Trace IDs and final comment / `console.log` lines |
+| --- | --- |
+| `components/structure/StructureWorkspace.tsx` | S4-UI-001 `101/102`; S4-UI-002 `116/117`; S4-UI-024 `145/146` |
+| `components/structure/BulkScaffold.tsx` | S4-UI-003 `63/64`; S4-UI-004 `102/103` |
+| `components/structure/OutlineLens.tsx` | S4-UI-007 `59/60`; S4-UI-016 `102/103`; S4-UI-009 `147/148`; S4-UI-017 `204/205`; S4-UI-018 `224/225`; S4-UI-019 `266/267`; S4-UI-020 `313/314` |
+| `components/structure/VolumeLane.tsx` | S4-UI-008 `51/52`; S4-UI-021 `99/100`; S4-UI-022 `116/117`; S4-UI-005 `159/160`; S4-UI-006 `202/203` |
+| `components/structure/ChapterPlanningGrid.tsx` | S4-UI-011 `36/37` |
+| `components/structure/RelationshipLens.tsx` | S4-UI-012 `49/50` |
+| `components/structure/SemanticZoomViewport.tsx` | S4-UI-010 `288/289`; S18-ZOOM-001 `311/312`; S18-ZOOM-002 `334/335`; S4-UI-013 `363/364` |
+| `components/structure/MilestoneLens.tsx` | S5-UI-001 `126/127`; S5-UI-002 `149/150`; S5-UI-003 `164/165`; S5-UI-004 `203/204`; S5-UI-005 `233/234`; S5-UI-006 `275/276`; S5-UI-007 `298/299`; S5-UI-009 `321/322`; S5-UI-010 `346/347` |
+| `components/structure/CausalLens.tsx` | S6-UI-001 `96/97`; S6-UI-002 `148/149`; S6-UI-003 `180/181`; S6-UI-004 `228/229`; S6-UI-008 `263/264` |
+
+Every listed comment identifies its trace purpose. Existing payloads remain aggregate/stable-identity metadata only. No project title, outline text, Milestone title/note, Story Change, causal condition/note, manuscript content, search query or private Context was added to logging.
+
+#### Functional, stress, accessibility, privacy, and build verification
+
+| Verification | Exact result | Requirement proven |
+| --- | --- | --- |
+| Focused component regression: Structure workspace/interactions, Milestone, Causal and responsive performance | PASS — final-tree rerun: 5 files, 33 tests, 6.24s | Existing lens/mode/range actions, Milestone and Causal interaction contracts, responsive component behavior. JSDOM scroll/navigation notices were environment limitations, not failures. |
+| Browser regression: `structure-core`, `milestones`, `causality`, `command-palette`, `continuation`, `context-field` | PASS — 26 passed, 22 intentional project/device skips, 3.0m | Exact writing-position restoration; Structure review/reorder/allocation; Milestone many-to-many behavior; cycle rejection; causal composition/trace/chronology/lifecycle; Ctrl+K, continuation and Context coexistence on covered desktop/mobile projects. No skip was added or changed. |
+| Focused unit/stress/component/privacy set: semantic coordinate, Structure invariants/scaffold/conversion, Milestone/Causality domains, editor-attribute security, command registry/ranking, Context resolver, continuation, three Structure stress suites, causal composer, palette, Context field and responsive accessibility | PASS — 18 files, 79 tests, 11.79s | Locked hierarchy and semantic coordinate, deterministic previews, domain invariants, bounded stress behavior, privacy/security, command adapters and accessibility. JSDOM canvas notices were environment limitations, not failures. |
+| `npm run test:coverage` | PASS — final-tree rerun: 107 files, 410 tests, 102.12s | Complete unchanged suite. Statements 87.97% (5012/5697), branches 77.18% (2963/3839), functions 85.71% (1254/1463), lines 90.51% (4380/4839). |
+| `npm run lint` | PASS | No lint regression. |
+| `npm run typecheck` | PASS | No TypeScript contract regression. |
+| `npm run build` | PASS — final-tree rerun on Next.js 16.3.4: compile 3.0s, type validation 13.3s, 22 pages generated in 592ms | Production compilation and route generation remain valid. Generated `next-env.d.ts` churn was reverted; it is not an implementation change. |
+| `git diff --check` | PASS | No whitespace-error evidence. |
+| WorkPlan SHA-256 | `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9` | WorkPlan remained byte-for-byte unchanged during S19-D. |
+
+#### Side-by-side S19-D compliance decision
+
+| Pre-code requirement from 28.16 | Implementation/evidence | Decision |
+| --- | --- | --- |
+| All seven original lenses, lens order and current state remain legible | Every Outline, Volumes, Chapters, Milestones, Causal, Relationships and Semantic Zoom state was rendered; active state is visually explicit; component tests retain lens ordering. | PASS |
+| Authored objects outrank utilities; reviewed preview remains distinct from canonical apply | Shared card/form/list hierarchy plus both real preview-dialog captures; browser Structure/Milestone review/apply tests passed. | PASS |
+| Preserve optionality, presentation modes, bounded navigation and exact writing return | Empty Outline/Volume/Chapter/Relationship states, all three modes and bounded range UI rendered; exact writing-position E2E passed. | PASS |
+| Preserve Milestone ownership, weighted progress, many-to-many roles, advisory ranges and hard cycle rejection | Milestone overview/range/progress/matrix styles are presentation-only; domain/stress/component/E2E suites passed. | PASS |
+| Preserve explicit Causal Story Fabric, endpoint/provenance/lifecycle/chronology/trace semantics and never infer from order | Causal hooks apply only hierarchy styling; full Causal domain/stress/component/E2E suite passed. | PASS |
+| Preserve locked Semantic Zoom coordinate and Narrative Intent | Navigation styling consumes the existing coordinate; semantic-coordinate and interaction tests passed. | PASS |
+| Desktop/mobile, Light/Dark/Cream, long title, focus, empty/populated, previews, reduced motion, 200% and RTL | Thirteen manually opened artifacts and recorded geometry/state cover every required dimension. | PASS |
+| No overflow; usable mobile controls | All artifacts measured no horizontal overflow; final 412px and 320px non-native undersized target lists are empty. | PASS |
+| Context, commands, continuation and private logging remain compatible | Context-column/palette/continuation browser and component tests passed; no logging change and exact trace/comment inventory recorded. | PASS |
+| Exact changed selector/consumer and file-causality accounting | Complete tables above account for all five product files, every new hook, every changed selector group and `Path.md`. | PASS |
+| Complete local quality gate and negative evidence | 410-test coverage, focused regressions/stress, lint, typecheck, production build, diff check, visual/Axe checks and all four failed-attempt corrections are recorded. | PASS |
+
+No local compliance gap remains in the bounded S19-D contract. This is not remote or phase completion evidence. S19-D current decision: **LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING**. **S19 remains IN PROGRESS; S19-E MUST NOT START until the S19-D implementation and closure ledger are independently remotely verified; S20 LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
