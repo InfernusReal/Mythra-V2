@@ -4936,12 +4936,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E remotely closed; F locally passed and implementation remote proof pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E remotely closed; F implementation remotely verified and closure-ledger proof pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality and E Universe/Timeline are remotely closed; F Capture is implemented and locally passed with implementation remote proof pending; G Search/Ctrl+K through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality and E Universe/Timeline are remotely closed; F Capture implementation is remotely verified and its closure-ledger proof is pending; G Search/Ctrl+K through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -6999,3 +6999,15 @@ No Capture raw text, endpoint/attachment value, manuscript/selection, route quer
 | Complete local regression/build evidence | 410-test coverage, lint, typecheck, build, security, stress, 17 applicable real browser tests and nine-state visual audit pass. | PASS |
 
 No local compliance gap remains in the bounded S19-F contract. Current decision: **S19-F LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING. S19 REMAINS IN PROGRESS; S19-G AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.24 S19-F implementation exact remote proof
+
+S19-F implementation/audit commit `2d53b8e9ac48eee71f565a6eec3c31b96975b7d4` (`Polish Capture surfaces`) was pushed to `origin/agent/workplan-subgates-audit`. Local `HEAD`, the origin tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object before any hosted result was accepted.
+
+- Pull-request CI run `34705078916` passed on exact `headSha` `2d53b8e9ac48eee71f565a6eec3c31b96975b7d4`. `verify` job `103583568416` completed in 4 minutes 52 seconds and passed clean checkout/install, Prisma generation, zero-warning lint, typecheck, the complete unchanged-threshold 107-file/410-test coverage suite and the production build.
+- The same run's `s18-regression` job `103583568284` completed in 8 minutes 6 seconds, inside the unchanged 20-minute limit. It passed PostgreSQL initialization, all migrations, alert/Structure/archive/pagination/OIDC/Portability native verifiers, Chromium installation, the exact command-palette/Capture/Search/Language/continuation/Context/Structure/Universe/Timeline browser matrix, artifact upload and cleanup.
+- Pull-request Security run `34705078883`, job `103583567924`, passed in 33 seconds. Push Security run `34705076909`, job `103583562893`, passed in 40 seconds. Both checked out the exact implementation hash and passed clean install, high-severity dependency audit, security tests and committed-secret rejection.
+
+No source/test step failed, retried, weakened or skipped beyond the pre-existing intentional browser project skips. No workflow timeout, test threshold, assertion or product contract changed. Hosted Node.js 20-to-24 action-runtime annotations were informational only.
+
+S19-F implementation decision: **REMOTE VERIFIED**. This section is the required closure ledger and must itself be committed, pushed and independently exact-hash remotely verified before S19-F is final or S19-G begins. **S19 REMAINS IN PROGRESS; S19-G LOCKED PENDING CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
