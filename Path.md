@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-F remotely closed; S19-G pre-code audit active** | Sections 27–28 below | S19-F closure ledger `5a18131491cebfcd7f3438eb3429f248b58867bb`; exact CI `34705582467` and Security `34705582446`/`34705580151` passed |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-F remotely closed; S19-G locally passed, implementation remote proof pending** | Sections 27–28 below | S19-F closure ledger `5a18131491cebfcd7f3438eb3429f248b58867bb`; S19-G pre-code ledger `761990fcfa4222438434d4403437163b9d6cefa8` remotely verified; implementation/audit checkpoint recorded in 28.26 |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7076,3 +7076,110 @@ Final baseline measurements: Search surfaces are 972/1052/380/288/688px wide as 
 **Required negative and regression evidence.** Run registry/ranking/Search domain/service/component/accessibility/stress suites; command and Search/Language real browser flows; editor focus/keyboard/continuation, Capture, Context, Structure, Universe, Timeline, offline, responsive and privacy compatibility; then unchanged-threshold complete coverage, security/audit, lint, typecheck and production build. Retain every failure/correction; inspect and account for the exact diff; commit/push; require exact-hash CI `verify`, `s18-regression`, pull-request Security and push Security proof; then independently verify the closure-ledger commit before S19-H.
 
 `WorkPlan.md` SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. Current state: **S19 IN PROGRESS; S19-A/B/C/D/E/F REMOTELY VERIFIED; S19-G PRE-CODE CONTRACT AND BASELINE RECORDED; NO S19-G PRODUCT FILE HAS CHANGED; S19-H AND S20 LOCKED; PHASE 7 INCOMPLETE.** This record must be committed, pushed and exact-hash remotely verified before S19-G product code begins.
+
+### 28.26 S19-G implementation, rendered review, and local compliance audit
+
+#### Pre-code ledger predecessor proof
+
+The S19-G pre-code contract commit `761990fcfa4222438434d4403437163b9d6cefa8` (`Close S19-F and define S19-G visual contract`) was pushed before any S19-G product edit. Local `HEAD`, the origin tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to that exact object before implementation began.
+
+- Pull-request CI run `34706904195` reports the exact pre-code `headSha`. `verify` job `103588493656` passed in 3 minutes 46 seconds, including clean install, Prisma generation, zero-warning lint, typecheck, complete unchanged-threshold coverage and production build. `s18-regression` job `103588493753` passed in 10 minutes 47 seconds, including PostgreSQL/migrations, every configured database verifier and the protected eight-suite real-browser matrix.
+- Pull-request Security run `34706904048`, job `103588493220`, passed in 41 seconds. Push Security run `34706900976`, job `103588485763`, passed in 32 seconds. Both checked out the exact pre-code object and passed install, high-severity dependency audit, security tests and committed-secret rejection.
+- No job failed or retried. Intentional browser-project skips remained declared device partitions. No assertion, threshold, timeout, workflow, dependency or product contract changed.
+
+This independently establishes that S19-F was closed and the S19-G contract was remotely durable before implementation. The predecessor barrier was satisfied.
+
+#### Actual product implementation and exact file scope
+
+- **Implementation time:** 2026-09-13 02:43 PKT.
+- **Tracked product file modified:** `app/globals.css` only, 71 additions and 25 removals before ledger documentation.
+- **Execution ledger modified:** `Path.md` only.
+- **Created/moved/deleted tracked files:** none.
+- **Schema, migration, API, route, domain, service, repository, cache, provider, editor, command registry/ranking/runtime, message catalog, dependency, entitlement and test changes:** none.
+- **Temporary evidence:** `tmp/s19-g-baseline.mjs`, `tmp/s19-g-baseline/` and `tmp/s19-g-after/` remain Git-ignored local audit material and are not product artifacts.
+
+`app/globals.css` lines 662–672 now establish the palette backdrop, bounded five-row modal grid, deliberate header, theme/status surfaces and result-only internal scrolling. Lines 673–683 establish the Search focus well, bullet-free result list, uniform command rows, keyboard focus and discrete shortcut badges. Lines 684–714 establish the Search workspace header/return hierarchy, bounded status/provider notice, grouped result cards/counts, logical-edge current-context emphasis, compact metadata, readable snippets and primary-versus-secondary action treatment. Lines 715–726 establish a subordinate Peek/definition grid, causal trace and compact palette-owned result cards. Lines 733–749 establish viewport-bounded mobile palette geometry, 44px controls, stacked logical layouts, compact cards and single-column Peek/trace reflow.
+
+The implementation reuses the existing S19 design tokens (`--text`, `--text-muted`, `--surface`, `--surface-soft`, `--surface-raised`, `--border`, `--border-strong`, `--accent`, `--accent-soft`, `--control-radius`, `--editor-font`) and does not modify their values. Current-context and provider/trace emphasis use `border-inline-start`; result metadata uses `text-align: start/end`; spacing uses inline/block logical properties where direction matters. The former combined Search/Language selectors were separated at lines 694, 710 and 712 so the Language card and word controls retain their prior declaration values. This is a selector-isolation change, not a Language redesign.
+
+No component markup or behavior changed. The existing DOM supplies every required selector: `.command-palette-backdrop`, `.command-dialog-search`, `.command-search`, `.command-results` and `[data-palette-key]` in `CommandPalette.tsx`; `.search-workspace`, `.search-input` and status/provider nodes in `SearchWorkspace.tsx`; `.search-groups`, `.search-group`, `.search-result`, `[data-current-context]`, `.search-result-actions` and `.search-trace` in `SearchResultGroups.tsx`; `.search-peek` in `SearchPeek.tsx`. The stylesheet does not target generic unscoped primitives and `git diff --check` is clean.
+
+#### Final rendered matrix and manual inspection
+
+The complete final after-run recreated all 13 actual-product states from a fresh isolated project and actual APIs/database. Every PNG was opened at original resolution after the last CSS correction. Every row below reports zero horizontal overflow, zero serious/critical Axe violations and zero page/console errors. Desktop sub-44 measurements are recorded but nonbinding; the mobile/reflow acceptance requirement is zero controls below 44px, and every applicable row passes.
+
+| Artifact | Final geometry and content state | Focus / target evidence | Manual result |
+| --- | --- | --- | --- |
+| `01-search-empty-light-desktop.png` | 1440x1000; 972x324 Search; 0 results | Input; 0 under 44px | Deliberate header/query/empty status; no invented result or action. |
+| `02-search-populated-cream-desktop.png` | 1180x900; 1052x1593 Search; 5 groups/5 results | Input; 28 compact desktop actions | Scannable grouped hierarchy, quiet counts, readable snippets and bounded current-context emphasis. |
+| `03-search-peek-dark-desktop.png` | 1440x1000; 972x1841 Search; 5 groups/5 results plus Peek | Return to results; 29 compact desktop actions | Preview is visibly subordinate, remains nonmodal and keeps all underlying results available. |
+| `04-search-rtl-light-desktop.png` | 1180x900; 1052x560 Search; Arabic query, 1 Note | Input; 5 compact desktop actions | RTL text and action flow remain intact; logical current-context edge appears on the correct side. |
+| `05-search-populated-dark-mobile.png` | 412x915; 380x2274 Search; 5 groups/5 results | Input; **0 under 44px** | All content/actions remain visible in one non-overflowing column; hierarchy and selected state persist. |
+| `06-search-offline-cream-mobile.png` | 320x720; 288x1090 Search; reduced motion, cached chapter | Input; **0 under 44px** | Offline limitation remains explicit; cached result is contained and every action is reachable. |
+| `07-search-populated-light-200-percent.png` | 720x900; 688x1845 Search; 200%-text-equivalent reflow | Input; **0 under 44px** | Five groups and every action reflow without clipping or horizontal scrolling. |
+| `08-palette-empty-dark-desktop.png` | 1440x1000; bounded 800x768 palette; 15 contextual commands | Input; 2 nonbinding desktop controls | Raw bullets are removed; rows, shortcut badges, header/query/theme/status and intentional scrolling are coherent. |
+| `09-palette-mixed-cream-desktop.png` | 1180x900; bounded 800x756 palette; 5 objects + 8 commands | First ranked anchor after ArrowDown; 30 compact desktop controls | Mixed deterministic results remain in order; object cards are compact and clipped only by intentional internal scroll. |
+| `10-palette-peek-light-desktop.png` | 1440x1000; 800x580 palette Peek | Return to results; 3 nonbinding desktop controls | Compact preview has clear containment, readable facts and preserved return focus. |
+| `11-palette-mixed-dark-mobile.png` | 412x915; viewport-bounded 396x899 palette; 5 objects + 8 commands, reduced motion | Ranked anchor; **0 under 44px** | Internal scrolling is deliberate, cards remain readable and all visible actions meet the mobile target. |
+| `12-palette-rtl-cream-mobile.png` | 320x720; viewport-bounded 304x704 palette; Arabic Note | Focused result action; **0 under 44px** | RTL object content, logical alignment, visible focus and vertical actions remain fully contained. |
+| `13-palette-no-project-light.png` | 1180x900; compact 800x302 palette; 0 objects/commands | Input; 2 nonbinding desktop controls | Project requirement is a contained truthful status with no invalid project action. |
+
+The final after-run demonstrates Light, Dark and Cream themes; 1440, 1180, 720, 412 and 320 widths; empty, populated, offline and no-project states; long Unicode and Arabic/RTL; current context; keyboard focus; Peek; reduced motion; and 200%-equivalent reflow. The unrelated local project list behind artifact 13 remains long but is inert beneath the modal and outside S19-G ownership.
+
+#### Corrections retained in the evidence trail
+
+1. The first baseline run stopped at the Arabic authentication state because its locator was English-specific. The ignored harness was corrected to use the locale-neutral `.sign-in-card button`; product code was unchanged.
+2. The second baseline run stopped at the no-project state because `/app` owns `.empty-shell`, not the guessed `.project-home`. The actual product root was added; product code was unchanged.
+3. A single hydration race occurred before the palette listener was installed. The harness now waits one second and retries `Ctrl+K` only when the dialog is absent. No failed/partial run is counted as evidence.
+4. The first complete after-run revealed that the more-specific desktop palette-object rule kept mobile object actions at 39px despite the general mobile rule. A palette-scoped media rule at final line 737 raises those object actions to 44px. The entire 13-state matrix was rerun from the beginning. Final mobile rows 05, 06, 07, 11 and 12 all report zero under-44 controls.
+5. `next build` changed generated `next-env.d.ts` references from development to production output. The file was restored through a two-line `apply_patch`; final tracked status excludes it.
+
+No correction weakened or changed a test, accessibility name, assertion, application workflow, user-visible text, target, command, rank, route, contract or ownership boundary.
+
+#### Console instrumentation and privacy proof
+
+S19-G adds presentation declarations only; it creates no operational transition and therefore adds no meaningless log. No existing log/comment pair or payload changed. Final source locations remain:
+
+| File | Adjacent identification comment / `console.log` line | Retained content boundary |
+| --- | --- | --- |
+| `components/shell/CommandPalette.tsx` | S1-COMMAND-001 120/121; S1-COMMAND-002 144/145; S15-MOBILE-005 242/243; S16-FRICTION-004 317/318; S10-UI-009 328/329; S10-UI-010 365/366 | Open/close, mobile source, duration/count and result identity/history only; no query, authored result, selection or editor content. |
+| `components/search/SearchWorkspace.tsx` | S11-OFFLINE-001 55/56; S10-UI-001 91/92 | Cache/result counts and timing/context booleans only; no query or authored result content. |
+| `components/search/SearchResultGroups.tsx` | S10-UI-004 83/84; S10-UI-005 122/123; S10-UI-011 188/189 | Result identity, causal endpoint/count and attachment identity/version only; no copied text, endpoint value or manuscript content. |
+| `components/search/SearchPeek.tsx` | No log | Peek is a presentational state without a new operational boundary. |
+
+`npm run test:security` passed 2 files/10 tests; `npm audit --audit-level=high` found zero vulnerabilities. No credential, error object or authored payload enters CSS or telemetry.
+
+#### Exact local verification evidence
+
+| Command / evidence | Exact result |
+| --- | --- |
+| Final ignored actual-product matrix, Axe/geometry/error probes and manual original-resolution review | 13/13 states completed; 0 horizontal overflows; 0 serious/critical Axe findings; 0 page/console errors; 0 under-44 controls at all binding mobile/reflow widths. |
+| `npx vitest run` for command registry/ranking, Search domain/service/component/accessibility/stress, command palette and responsive component/accessibility | **11 files, 50 tests passed** in 53.29s. jsdom canvas notices are environment limitations already tolerated by the tests, not failures. |
+| Playwright protected eight-suite matrix against local PostgreSQL and `http://127.0.0.1:3210` | **32 passed, 28 intentionally device-gated skipped, 0 failed** across 60 discovered cases in 3.7 minutes. Search/Ctrl+K, Capture, continuation, Context, Structure, Universe and Timeline/Research passed on their applicable Chromium/mobile projects. |
+| `npm run lint` | PASS; zero warnings under `--max-warnings=0`. |
+| `npm run typecheck` | PASS; `tsc --noEmit`. |
+| `npm run test:coverage` | **107 files, 410 tests passed** in 70.03s; statements 87.97%, branches 77.18%, functions 85.71%, lines 90.51%; all unchanged thresholds pass. |
+| `npm run test:security` | **2 files, 10 tests passed** in 2.30s. |
+| `npm audit --audit-level=high` | PASS; **0 vulnerabilities**. |
+| `npm run build` | PASS; Next.js 16.3.4 optimized production build, TypeScript, 22 static pages and complete route inventory succeeded. |
+| `git diff --check` and exact status/diff inspection | PASS; no whitespace error; only the authorized stylesheet and this ledger remain tracked changes. |
+
+The non-failing jsdom notices for unimplemented `scrollTo`, document navigation and canvas `getContext` are emitted by the simulated browser environment; all owning assertions pass and the real Chromium matrix independently exercises rendered behavior.
+
+#### Side-by-side S19-G compliance audit
+
+| WorkPlan / Phase 7 S19-G requirement | Implementation evidence | Decision |
+| --- | --- | --- |
+| Premium full Search hierarchy without a redesign | Lines 684–723 and rendered artifacts 01–07 provide deliberate header, query/status/provider, grouped cards/counts, result hierarchy, action priority, Peek and causal trace using existing nodes/text/tokens. | PASS |
+| Premium Ctrl+K modal and mixed list | Lines 662–683/724–726 provide bounded grid, blur/backdrop, stable header/query/theme/status, bullet-free uniform command rows, shortcut badges, compact object rows and intentional internal scrolling; artifacts 08–13 confirm it. | PASS |
+| Preserve 26 commands, availability, shortcuts, rank, history and keyboard/focus return | No owning TS/TSX changed; focused registry/ranking/palette suites and applicable command browser cases pass; visual focus probes reach the expected input/anchor/Return controls. | PASS |
+| Preserve all Search sources/types/actions, cancellation/offline/causal semantics and exact writing return | No service/domain/provider/cache/editor/route code changed; Search tests, stress, eight-suite browser matrix and offline/Peek renders pass. | PASS |
+| Light/Dark/Cream, mobile/desktop, RTL/Unicode, reduced motion and 200% | All required dimensions occur in the 13-state final matrix and were manually inspected at original resolution. | PASS |
+| No horizontal overflow; mobile actions at least 44px | Every state reports no overflow; all five binding mobile/reflow states report zero under-44 controls after the retained specificity fix. | PASS |
+| Logical-direction layout and correct current-context emphasis | `border-inline-start`, `padding-inline-end`, `margin-inline-start`, `text-align: start/end`; Arabic desktop/mobile artifacts confirm direction-sensitive placement. | PASS |
+| Shared-CSS isolation and unchanged Language | Every edited visual rule is rooted in an authorized Search/palette owner. Combined Language declarations were separated with identical Language values; no token, global primitive or Language consumer changed. | PASS |
+| Meaningful, identified, content-safe logging | CSS adds no operational event, so no new log is introduced. Every existing adjacent comment/call pair and its exact line is recorded above; security/privacy regressions pass. | PASS |
+| Exact diff / anti-goals | One product stylesheet plus `Path.md`; no component, text, behavior, test, API, persistence, dependency, price, entitlement or AI change. | PASS |
+| Full local stress/regression/build gate | Focused 50 tests, real-browser 32 applicable passes, full 410-test coverage, security, audit, lint, typecheck, build, rendered matrix and exact diff all pass. | PASS |
+
+No local compliance gap remains in S19-G. The implementation follows the pre-code contract exactly and does not contradict `WorkPlan.md`; the immutable WorkPlan hash remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. Current decision: **S19-G LOCALLY PASSED — IMPLEMENTATION COMMIT/PUSH/EXACT-HASH REMOTE CI AND SECURITY VERIFICATION PENDING. S19-H AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
