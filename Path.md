@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-G remotely closed; S19-H pre-code contract and baseline recorded** | Sections 27–28 below | S19-G closure `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a`; exact CI rerun `34742183380` and Security `34742183338`/`34742179298` passed |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-G remotely closed; S19-H implementation and local evidence complete, exact-hash hosted gates pending** | Sections 27–28 below | S19-H pre-code checkpoint `e14a54aae4910e413d74d69c839742265d37b397` passed exact CI `34744094730` and Security `34744094740`/`34744093817`; implementation proof pending |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7300,3 +7300,109 @@ The user-required identified logging already covers every Context operational bo
 After implementation, the complete 15-state actual-product matrix and original-resolution inspection will be repeated. Focused Context resolver/service/component/stress and compatibility/accessibility suites, protected Context/continuation/Capture/Search/Structure/Universe/Timeline browser flows, zero-warning lint, typecheck, complete unchanged-threshold coverage, security tests/audit and production build will run. The final diff will be compared against this contract, S19-H scope, WorkPlan/Bible invariants, Phase 7 anti-goals and all retained console boundaries. Any in-scope gap will be repaired and the complete affected evidence repeated before a pass claim.
 
 Current pre-code decision: **S19-G CLOSED; S19-H CONTRACT AND BASELINE COMPLETE; S19-H PRODUCT CODE NOT STARTED; S19-I THROUGH S19-L AND S20 LOCKED; PHASE 7 INCOMPLETE.** This Path-only checkpoint must be committed, pushed and independently exact-hash verified by pull-request CI `verify`, `s18-regression`, pull-request Security and push Security before `app/globals.css` may change.
+
+### 28.29 S19-H implementation, actual-product review, and local compliance audit
+
+#### Pre-code predecessor proof
+
+The S19-H pre-code contract commit `e14a54aae4910e413d74d69c839742265d37b397` (`Close S19-G and define S19-H visual contract`) was pushed before the first product edit. Local `HEAD`, the upstream tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object at the implementation boundary.
+
+- Pull-request CI run `34744094730` checked out exact `headSha` `e14a54aae4910e413d74d69c839742265d37b397`. `verify` job `103688661085` passed in 4 minutes 45 seconds; `s18-regression` job `103688661222` passed in 8 minutes 31 seconds.
+- Pull-request Security run `34744094740`, job `103688661168`, passed in 36 seconds. Push Security run `34744093817`, job `103688658863`, passed in 41 seconds.
+- Those four independent jobs established a clean install, Prisma generation/migration path, lint, typecheck, unchanged-threshold complete coverage, production build, the complete protected real-browser matrix, native database verifiers, dependency audit, 10-test security suite and secret scan on the exact pre-code object.
+
+This closes the predecessor checkpoint and proves the S19-H contract was remotely durable before product work began. It is not evidence for the implementation described below.
+
+#### Exact implementation and ownership
+
+The tracked product diff is deliberately one CSS file: `app/globals.css`, **69 insertions and 27 deletions**. No TS/TSX, message catalog, test, schema, migration, route, service, repository, dependency, workflow or configuration file changed. `Path.md` is the only evidence-ledger change. A production build rewrote the generated `next-env.d.ts` route-import mode; that generated change was restored with an explicit patch and is absent from the final diff.
+
+| Final source range | Implemented presentation contract | Coding method and preserved boundary |
+| --- | --- | --- |
+| `app/globals.css:175-185` | Context reservation, scroll gutter/containment, stable desktop seam, field rhythm, orienting header and version badge. | Reused existing semantic hooks and theme tokens; preserved 340px rendered reservation, sticky position, resize capability, DOM and Context resolution behavior. |
+| `app/globals.css:186-195` | Relevant Now raised directive surface, separated directive groups, typographic hierarchy, contained hover/active rows and logical alignment. | `text-align: start`, block/logical spacing and existing tokens replace the physical-left ambiguity; directive collections and their order remain unchanged. |
+| `app/globals.css:196-218` | Context cards, pinned identity, action band, pin shortcut surface, preferences/reference-search hierarchy, and framed truthful error/loading state. | Styling is rooted in existing Context classes and role state. No action, label, source, freshness value or synthetic empty-state copy was added. |
+| `app/globals.css:220-238` | Bounded Peek/backdrop, header/body/freshness hierarchy, explicit causal panel, trace list, author-source edit form, and grid-based compact Context container with independent inner scrolling. | Existing overlay stacking, modal semantics, focus hook, causal request and edit handlers are unchanged; `100dvh`, overflow containment and existing tokens provide bounded presentation. |
+| `app/globals.css:529-537` | Mobile/reflow bottom sheet, safe-area-aware inner padding, full-width containment, 44px compact/Peek targets and deliberate compact action spacing. | Existing mobile breakpoint and DOM are retained; only target geometry and sheet framing change. |
+| `app/globals.css:540-554` | Narrow-header wrapping, mobile Peek scale and tablet side-sheet geometry/44px targets. | Logical margins and inline-edge declarations preserve RTL; existing 768–1279px and narrow breakpoints retain their behavioral ownership. |
+
+The implementation uses the established Light/Dark/Cream variables, logical properties, `color-mix`, bounded grid/overflow rules and existing component classes. It adds no selector outside the Context/Peek owners except the already existing responsive media containers. The 1180px Structure/editor shell relationship, `context-field-slot`, portal behavior and desktop/mobile capability switch remain intact.
+
+#### Actual-product after-render evidence
+
+The exact baseline harness and API-authored fixture were rerun unchanged with output isolated at `tmp/s19-h-after/`. `observations.json` records **15/15 completed states**, **0 horizontal overflows**, **0 Axe violations of any impact**, **0 unexpected errors**, and **0 compact controls below 44px** at 720, 412 and 320 widths. The intentional intercepted Context 503 produces one expected browser resource error and the visible truthful error state; it is not classified as an unexpected error. All 15 after PNGs were opened and inspected at original resolution.
+
+| After artifact | Exact measured state | Side-by-side result and manual inspection |
+| --- | --- | --- |
+| `01-context-light-desktop.png` | 1440x1000; 340x952 reservation; 10 cards; 5 directive groups; 5 pins | The same expanded content now has a distinct sticky pin surface, separated cards/actions and an orienting Context hierarchy without widening the reservation. |
+| `02-context-cream-desktop.png` | 1440x1000; 340x952; 8 cards; 5 groups | Relevant Now, preferences, search and cards read as intentionally ranked surfaces; Cream contrast and content remain intact. |
+| `03-peek-outline-dark-desktop.png` | 540x335 Peek; `Return to Chapter` focused | Preview identity, body, freshness and return action are clearly separated; focus, history and in-place semantics are unchanged. |
+| `04-peek-causal-cream-desktop.png` | 540x370 expanded causal Peek | Causal controls and returned path are visibly bounded and subordinate to the source card; traversal direction/content are unchanged. |
+| `05-peek-edit-light-desktop.png` | 540x527 edit Peek; textarea focused | The editable author-source area and submit action are a deliberate protected form state; no automatic write or prose mutation was introduced. |
+| `06-context-disabled-dark-desktop.png` | 340x952; 8 cards; 0 directive groups; 5 pins | Disabled Relevant Now remains truthful while pin, enable, reference and card layers remain distinguishable and usable. |
+| `07-context-rtl-cream-desktop.png` | RTL; 340x952; 8 cards; 5 groups | Logical alignment and inline edges mirror correctly; Arabic direction and provider order remain unchanged. |
+| `08-context-tablet-dark.png` | 1180x900; 512x900 side sheet | The existing side sheet is now fully framed with its own bounded scroll and 44px controls; duplicate desktop+portal DOM remains an existing responsive implementation detail. |
+| `09-context-reflow-light.png` | 720x900; 720x702 bottom sheet | Baseline **48** sub-44 controls reduced to **0**; no document overflow and all content remains reachable through intentional inner scrolling. |
+| `10-context-mobile-dark.png` | 412x915; 412x714 bottom sheet | Baseline **48** sub-44 controls reduced to **0**; hierarchy, touch geometry and safe-area containment pass. |
+| `11-context-mobile-rtl-cream.png` | 320x720; RTL/reduced motion; 320x562 sheet | Baseline **46** sub-44 controls reduced to **0**; logical layout passes. The visible lower text edge is the expected inner-scroll viewport, not document clipping or overflow. |
+| `12-peek-mobile-light.png` | 412x915; Context sheet plus bounded Peek | Nested inspection stays legible and focus-safe; the underlying sheet remains inert and all measured compact controls meet 44px. |
+| `13-context-focus-cream.png` | 1440x1000; first directive button focused | Keyboard focus is both visibly outlined and contained by the directive row; it does not depend on color alone. |
+| `14-context-empty-light.png` | 340x952; 0 cards; 0 directive items | Existing empty truth is legible through surface separation without invented explanatory copy or fabricated results. |
+| `15-context-error-dark.png` | 340x952; intentional 503; 0 cards | The existing `Context is unavailable.` status receives clear alert weight; no success or cached-content claim is synthesized. |
+
+The after matrix covers Light, Dark and Cream; desktop, tablet, 200%-equivalent reflow, 412 and 320 widths; LTR and Arabic RTL; reduced motion; expanded/default/disabled/empty/error/focus states; and outline/causal/edit/mobile Peek. Desktop reservation width remains exactly 340px and Peek width remains bounded at 540px. This satisfies every objective locked in 28.28 without changing fixture data or product semantics.
+
+#### Console instrumentation and adjacent comments
+
+CSS introduces no operational lifecycle boundary, so adding a decorative `console.log` would create noise rather than trace an implementation step. No existing comment/call pair, payload or line number changed. The required professional instrumentation remains adjacent and factual:
+
+| File | Identifying comment line / `console.log` line | Verified boundary |
+| --- | --- | --- |
+| `components/context/ContextualWritingField.tsx` | S16-FRICTION-014 `62/63`; S16-FRICTION-008 `93/94`; S7-UI-001 `103/104`; S15-MOBILE-006 `234/235`; S7-UI-002 `310/311`; S16-FRICTION-009 `359/360`; S15-MOBILE-008 `525/526` | Context/Peek opening source, source-edit completion and stable identity/timing coordinates; no authored text. |
+| `components/context/PeekOverlay.tsx` | S7-UI-003 `84/85` | Explicit causal expansion with bounded counts; no causal/story content. |
+| `lib/context/use-context-field.ts` | S15-CONTEXT-001 `110/111`; S11-OFFLINE-002 `134/135`; S7-CLIENT-001 `156/157`; S7-CLIENT-002 `189/190`; S16-FRICTION-005 `219/220`; S7-CLIENT-003 `230/231` | Cancellation/cache/request sequence, duration, freshness and card counts; no manuscript, selection or returned author context. |
+| `lib/editor/use-focus-preserving-overlay.ts` | S7-FOCUS-001 `15/16`; S7-FOCUS-002 `21/22` | Selection/scroll coordinates and route-equality result; no selected prose or query values. |
+
+#### Tests, stress evidence, and retained failures
+
+All commands below ran against the S19-H CSS implementation with no assertion, threshold, timeout, skip, test source, dependency or workflow change.
+
+| Check | Result |
+| --- | --- |
+| Focused Context/responsive matrix: `context-resolver.test.ts`, `context-service.test.ts`, `context-field.test.tsx`, `context-resolver.stress.test.ts`, `responsive-performance.test.tsx`, `responsive-performance-accessibility.test.tsx` | **6 files, 25 tests passed**. Only expected jsdom canvas notices appeared. |
+| Actual-product visual/accessibility stress | **15/15 states passed**, 0 Axe violations, 0 horizontal overflows, 0 unexpected errors, and compact target failures improved from 48/48/46 to 0/0/0 at 720/412/320. |
+| `npm run lint` | Passed with zero warnings. |
+| `npm run typecheck` | Passed. |
+| `npm run test:coverage` | **107 files, 410 tests passed**; statements 87.97%, branches 77.18%, functions 85.71%, lines 90.51%. Expected jsdom canvas/scroll/navigation notices only. |
+| `npm run test:security` | **2 files, 10 tests passed**; expected jsdom canvas notice only. |
+| `npm audit --audit-level=high` | Passed: **0 vulnerabilities**. |
+| `npm run audit:launch` | Passed all `P6-AUDIT-001` through `P6-AUDIT-006`: 14 critical E2Es, 6 visual dimensions, 7 causal acceptance items, 16 doctrine questions, 11 launch conditions, 40 numbered sections, 5 appendices, 18 Sub-gates, 8 future capability groups and AI disabled. |
+| `npm run build` with the CI production environment shape | Passed Next.js 16.3.4 optimized production compilation, TypeScript, page-data collection and 22/22 static-page generation; route inventory includes Context preferences/sources, chapter Context and every protected product route. |
+| `git diff --check` and ownership review | Passed. Product diff contains only `app/globals.css`; final stat is 69 insertions/27 deletions. |
+
+The real-browser history is retained in full because failed checks are evidence:
+
+1. The first unchanged eight-suite protected matrix against the long-lived local Turbopack server ended **23 passed, 28 declared project skips, 9 failed** after approximately 15.6 minutes. Failures spanned three desktop Context cases, mobile Context, continuation return, two Search/Language cases, Universe relation creation and mobile command navigation. Server evidence showed unrelated route/API calls exceeding their fixed locator windows, including an 11-second Universe render; this cross-domain distribution did not identify a CSS defect.
+2. After replacing that server, the isolated Context suite on a fresh Windows Turbopack instance ended **4 failed, 4 declared skips**. Every failure occurred before Context rendering because the existing `/structure/outlines/chapter` source route returned an HTML framework 404. The source file and generated per-route artifact existed, while the active development manifest omitted the route. No product/test change was made.
+3. The same server was restarted using Next.js 16.3.4's supported Webpack development compiler. The unchanged nested route immediately compiled and returned 200 through `structureApi`, proving the prior HTML 404 was local compiler route discovery rather than application behavior. The first Webpack Context run ended **2 passed, 4 declared skips, 2 failed**: cold compilation caused the initial Relevant Now wait to miss 5 seconds, and one causal response missed the same fixed window.
+4. A warmed unchanged rerun again ended **2 passed, 4 declared skips, 2 failed**. The passing cases were the complete serious/critical accessibility case and exact mobile overlay/return-focus case. The first failure advanced through Context resolution, directive collections, author save, Peek history and exact focus/selection/scroll restoration, then the asynchronous pin mutation/refresh missed 5 seconds. The second advanced through debounced typing and both keyboard Peek shortcuts, then the explicit causal request remained busy past 5 seconds. Failure snapshots show the truthful current UI with no crash, invalid value, accessibility corruption or CSS overflow.
+
+These local browser attempts are **not relabeled as passes**. They demonstrate that the CSS implementation can render and interact through each affected path, but the Windows development host cannot satisfy the protected suite's fixed 5-second asynchronous expectations reliably. The exact pre-code object passed the complete hosted browser matrix in 8 minutes 31 seconds. The S19-H implementation must now pass that same unchanged hosted `s18-regression` job on its exact commit; failure there reopens implementation, while a pass supplies the authoritative browser gate. No test weakening is permitted.
+
+#### Side-by-side S19-H compliance audit
+
+| WorkPlan / Bible / Phase 7 requirement | Implementation and evidence | Decision |
+| --- | --- | --- |
+| Context is an always-available writing companion, not a replacement workspace | 340px desktop reservation preserved; tablet/mobile retain existing portal sheet; no route/DOM/behavior change. | Pass locally |
+| Relevant Now keeps first-class Because and Consequences plus all directive groups | Only `.relevant-now` presentation changed; domain types, resolver and `RelevantNow.tsx` are untouched; focused Context tests pass. | Pass locally |
+| Peek stays in place and exact writing position returns | Overlay/focus code untouched; browser run advanced through route/history and exact focus/selection/scroll equality; mobile return-focus passed. | Pass locally |
+| Causal expansion remains explicit, bounded and read-only | `traceAction` and endpoint contracts untouched; after-render causal state and focused service/resolver tests pass. | Pass locally; hosted timing gate pending |
+| Pin/mute/hide/search/open actions retain semantics | No handler, label, API or test changed; component/service tests pass; local async pin browser wait is retained and requires hosted confirmation. | Hosted gate pending |
+| Truthful empty/disabled/loading/error/offline states | Actual-product empty, disabled and intercepted-503 states inspected; no synthetic content/copy. | Pass locally |
+| Light/Dark/Cream, RTL, reduced motion, focus, reflow and mobile targets | 15-state matrix covers every dimension; 0 Axe/overflow/unexpected errors; compact target failures reduced to zero. | Pass locally |
+| Production-grade scoped implementation with no feature drift | One CSS product file, existing tokens/hooks, logical properties; no functional/configuration/test change; lint/typecheck/coverage/security/audit/build/diff all pass. | Pass locally |
+| Required factual console logs with adjacent comments and privacy-safe payloads | All 16 existing Context/focus operational pairs verified at exact lines; no new non-operational log. | Pass locally |
+| Mandatory gate order and WorkPlan integrity | S19-G closure and S19-H pre-code commit passed exact remote gates before code; WorkPlan unchanged with SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`; S19-I/S20 remain locked. | Pass |
+| Exact-hash hosted verification and independently verified closure ledger | Implementation commit does not yet exist at this ledger-writing point. CI `verify`, `s18-regression`, pull-request Security and push Security must pass, followed by a separate Path-only closure commit and the same exact-hash proof. | Pending |
+
+No product-contract contradiction or unimplemented item is present in the bounded S19-H diff. The only unresolved acceptance item is mandatory external proof of this exact implementation object, including the authoritative hosted browser matrix. Current decision: **S19-H IMPLEMENTATION AND LOCAL DETERMINISTIC/VISUAL AUDIT COMPLETE; EXACT-HASH HOSTED CI, REGRESSION AND SECURITY PENDING. S19-H IS NOT CLOSED; S19-I THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.

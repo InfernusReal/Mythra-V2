@@ -172,38 +172,70 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
 .app-rail a[aria-current="page"] { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 24%, var(--border)); background: var(--accent-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent); }
 .rail-icon { width: 18px; height: 18px; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; vector-effect: non-scaling-stroke; }
 .shell-main { display: grid; place-items: center; padding: 40px; min-width: 0; }
-.context-reservation { min-width: 0; max-width: 42rem; overflow: auto; resize: horizontal; border-inline-start: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 60%, var(--bg)); }
+.context-reservation { min-width: 0; max-width: 42rem; overflow: auto; resize: horizontal; border-inline-start: 1px solid var(--border-strong); background: linear-gradient(180deg, color-mix(in srgb, var(--surface-raised) 88%, var(--bg)) 0%, color-mix(in srgb, var(--surface) 68%, var(--bg)) 100%); box-shadow: inset 1px 0 0 color-mix(in srgb, var(--surface) 55%, transparent); overscroll-behavior: contain; scrollbar-gutter: stable; }
 @media (min-width: 1280px) {
   .context-reservation { position: sticky; top: 48px; height: calc(100vh - 48px); align-self: start; }
 }
-.context-field { display: grid; gap: 14px; padding: 18px; }
+.context-field { display: grid; align-content: start; gap: 16px; min-width: 0; padding: 20px 18px 32px; }
 .context-field > header, .context-card > header, .relevant-now > header, .peek-overlay > header { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
 .context-field h2, .context-card h3, .relevant-now h2, .relevant-now h3, .peek-overlay h2 { margin: 0; }
+.context-field > header { min-width: 0; padding-block-end: 15px; border-block-end: 1px solid var(--border); }
+.context-field > header h2 { font-family: var(--editor-font); font-size: 1.45rem; letter-spacing: -.025em; line-height: 1.1; }
 .context-field > header > span, .context-card header span, .relevant-now header span, .freshness { color: var(--text-muted); font-size: .72rem; }
-.relevant-now { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
-.relevant-now h2 { font-size: 1rem; }
-.relevant-now h3 { color: var(--text-muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
-.relevant-now ul { display: grid; gap: 4px; margin: 4px 0 0; padding: 0; list-style: none; }
-.relevant-now button { width: 100%; padding: 3px 0; color: var(--text); border: 0; background: transparent; text-align: left; line-height: 1.4; }
-.context-card-list { display: grid; gap: 10px; }
-.context-card { padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
-.context-card[data-pinned="true"] { border-inline-start: 3px solid var(--accent); }
-.context-card h3 { font-size: .9rem; }
-.context-card p { margin: 8px 0; color: var(--text); font-size: .84rem; line-height: 1.45; }
-.context-card small { color: var(--text-muted); }
-.context-card-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-.context-card-actions button, .context-card-actions a, .peek-overlay button, .context-mobile > button, .context-compact-trigger, .pin-bar button, .context-preferences button { min-height: 32px; padding: 5px 8px; color: var(--text); border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+.context-field > header > span { flex: 0 0 auto; padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-soft); }
+.relevant-now { display: grid; gap: 0; min-width: 0; padding: 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border)); border-radius: 13px; background: linear-gradient(145deg, var(--surface-raised) 0%, color-mix(in srgb, var(--accent-soft) 16%, var(--surface)) 100%); box-shadow: 0 1px 0 color-mix(in srgb, var(--border-strong) 34%, transparent); }
+.relevant-now > header { padding-block-end: 12px; }
+.relevant-now h2 { font-family: var(--editor-font); font-size: 1.08rem; letter-spacing: -.015em; }
+.relevant-now h3 { color: var(--text-muted); font-size: .69rem; letter-spacing: .105em; text-transform: uppercase; }
+.relevant-now > div { padding-block: 11px; border-block-start: 1px solid color-mix(in srgb, var(--border) 76%, transparent); }
+.relevant-now > p { margin: 6px 0 2px; padding: 12px; color: var(--text-muted); border-radius: var(--control-radius); background: var(--surface-soft); line-height: 1.5; }
+.relevant-now ul { display: grid; gap: 3px; margin: 5px 0 0; padding: 0; list-style: none; }
+.relevant-now button { display: block; width: 100%; min-height: 36px; padding: 7px 8px; color: var(--text); border: 1px solid transparent; border-radius: 7px; background: transparent; text-align: start; line-height: 1.45; overflow-wrap: anywhere; }
+.relevant-now button:hover { border-color: color-mix(in srgb, var(--accent) 20%, var(--border)); background: var(--accent-soft); }
+.relevant-now button:active { background: color-mix(in srgb, var(--accent-soft) 72%, var(--surface)); }
+.context-card-list { display: grid; gap: 12px; min-width: 0; }
+.context-card { display: grid; gap: 9px; min-width: 0; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 1px 0 color-mix(in srgb, var(--border-strong) 28%, transparent); }
+.context-card:hover { border-color: var(--border-strong); box-shadow: 0 8px 20px color-mix(in srgb, var(--text) 6%, transparent); }
+.context-card[data-pinned="true"] { border-inline-start: 3px solid var(--accent); background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 24%, var(--surface)) 0%, var(--surface) 46%); }
+.context-card h3 { min-width: 0; font-family: var(--editor-font); font-size: .96rem; letter-spacing: -.01em; line-height: 1.35; overflow-wrap: anywhere; }
+.context-card header span { flex: 0 0 auto; padding: 2px 6px; border-radius: 999px; background: var(--surface-soft); }
+.context-card p { margin: 0; color: var(--text); font-size: .86rem; line-height: 1.52; overflow-wrap: anywhere; }
+.context-card small { display: block; color: var(--text-muted); line-height: 1.45; }
+.context-card-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-block-start: 2px; padding-block-start: 10px; border-block-start: 1px solid var(--border); }
+.context-card-actions button, .context-card-actions a, .peek-overlay button, .context-mobile > button, .context-compact-trigger, .pin-bar button, .context-preferences button { min-height: 36px; padding: 6px 9px; color: var(--text); border: 1px solid var(--border); border-radius: var(--control-radius); background: var(--surface); font-weight: 650; }
+.context-card-actions button:hover, .context-card-actions a:hover, .peek-overlay button:hover:not(:disabled), .pin-bar button:hover, .context-preferences button:hover { border-color: var(--border-strong); background: var(--surface-soft); }
+.context-card-actions button:first-child, .context-card-actions a { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 24%, var(--border)); background: var(--accent-soft); }
 .context-card-actions a { display: inline-flex; align-items: center; text-decoration: none; }
-.pin-bar, .context-preferences { display: flex; flex-wrap: wrap; gap: 6px; }
-.pin-bar { position: sticky; top: 0; z-index: 1; padding: 10px 0; border-bottom: 1px solid var(--border); background: var(--bg); }
-.context-reference-search { display: grid; gap: 5px; color: var(--text-muted); font-size: .76rem; font-weight: 650; }
-.context-reference-search input { min-height: 36px; padding: 6px 8px; color: var(--text); border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.pin-bar, .context-preferences { display: flex; flex-wrap: wrap; gap: 7px; min-width: 0; }
+.pin-bar { position: sticky; top: 0; z-index: 3; margin-inline: -4px; padding: 10px; border: 1px solid var(--border); border-radius: 11px; background: color-mix(in srgb, var(--surface-raised) 94%, transparent); box-shadow: 0 8px 22px color-mix(in srgb, var(--text) 7%, transparent); backdrop-filter: blur(10px); }
+.pin-bar button { max-width: 100%; color: var(--accent); border-color: color-mix(in srgb, var(--accent) 20%, var(--border)); background: var(--accent-soft); text-align: start; overflow-wrap: anywhere; }
+.context-preferences { padding: 10px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-soft); }
+.context-preferences button { color: var(--text-muted); background: var(--surface-raised); }
+.context-reference-search { display: grid; gap: 7px; color: var(--text-muted); font-size: .76rem; font-weight: 700; }
+.context-reference-search input { min-width: 0; min-height: 40px; padding: 8px 10px; color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--control-radius); background: var(--surface); box-shadow: inset 0 1px 2px color-mix(in srgb, var(--text) 5%, transparent); }
+.context-reference-search input:hover { border-color: color-mix(in srgb, var(--accent) 28%, var(--border-strong)); }
+.context-field > [role="status"], .context-field[aria-busy="true"] > p { margin: 0; padding: 12px 13px; color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 27%, var(--border)); border-inline-start: 3px solid var(--danger); border-radius: 9px; background: color-mix(in srgb, var(--danger) 7%, var(--surface)); line-height: 1.5; }
+.context-field[aria-busy="true"] { padding-block-start: 18px; }
 .context-compact-trigger { display: none; justify-self: end; }
-.peek-backdrop, .context-mobile-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--text) 30%, transparent); }
-.peek-overlay { width: min(100%, 520px); max-height: calc(100vh - 32px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-raised); box-shadow: 0 18px 80px color-mix(in srgb, var(--text) 22%, transparent); }
-.peek-overlay textarea { width: 100%; min-height: 120px; margin-block: 8px; padding: 10px; color: var(--text); border: 1px solid var(--border); border-radius: 7px; background: var(--surface); resize: vertical; }
-.context-mobile { width: min(100%, 420px); max-height: calc(100vh - 32px); overflow: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-raised); }
-.context-mobile > button { margin: 12px 18px 0; }
+.peek-backdrop, .context-mobile-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--text) 34%, transparent); backdrop-filter: blur(3px); overscroll-behavior: contain; }
+.peek-overlay { display: grid; gap: 15px; width: min(100%, 540px); max-height: calc(100dvh - 32px); overflow: auto; padding: 24px; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface-raised); box-shadow: 0 24px 84px color-mix(in srgb, var(--text) 28%, transparent); overscroll-behavior: contain; }
+.peek-overlay > header { padding-block-end: 15px; border-block-end: 1px solid var(--border); }
+.peek-overlay h2 { max-width: 24ch; font-family: var(--editor-font); font-size: 1.55rem; letter-spacing: -.025em; line-height: 1.15; overflow-wrap: anywhere; }
+.peek-overlay > p:not(.freshness) { margin: 0; font-family: var(--editor-font); font-size: 1.02rem; line-height: 1.55; overflow-wrap: anywhere; }
+.peek-overlay > small { color: var(--text-muted); }
+.peek-overlay .freshness { width: fit-content; margin: 0; padding: 4px 7px; border-radius: 999px; background: var(--surface-soft); }
+.peek-overlay > [role="alert"] { padding: 10px 12px; color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 28%, var(--border)); border-radius: var(--control-radius); background: color-mix(in srgb, var(--danger) 7%, var(--surface)); }
+.peek-overlay .causal-trace-actions { margin: 0; padding: 11px; background: color-mix(in srgb, var(--accent-soft) 44%, var(--surface)); }
+.peek-overlay .causal-list { margin: 0; }
+.peek-overlay .causal-list li { padding: 12px; }
+.peek-overlay > div:not(.causal-trace-actions) { display: flex; flex-wrap: wrap; gap: 7px; }
+.peek-overlay form { display: grid; gap: 10px; width: 100%; padding: 13px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-soft); }
+.peek-overlay form label { display: grid; gap: 7px; color: var(--text-muted); font-size: .8rem; font-weight: 700; }
+.peek-overlay textarea { width: 100%; min-height: 128px; margin: 0; padding: 11px 12px; color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--control-radius); background: var(--surface); box-shadow: inset 0 1px 2px color-mix(in srgb, var(--text) 5%, transparent); resize: vertical; }
+.peek-overlay form button[type="submit"] { width: fit-content; color: white; border-color: var(--accent-action); background: var(--accent-action); }
+.context-mobile { display: grid; grid-template-rows: auto minmax(0, 1fr); width: min(100%, 440px); max-height: calc(100dvh - 32px); overflow: hidden; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--surface-raised); box-shadow: 0 24px 84px color-mix(in srgb, var(--text) 26%, transparent); }
+.context-mobile > button { z-index: 2; width: fit-content; margin: 14px 18px 0; justify-self: start; background: var(--surface-soft); }
+.context-mobile > .context-field { min-height: 0; overflow: auto; overscroll-behavior: contain; }
 .empty-shell { width: min(100%, 680px); }
 .empty-shell h1, .sign-in-card h1 { margin: 8px 0 12px; font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.035em; }
 .empty-shell p:not(.eyebrow), .sign-in-card p { color: var(--text-muted); line-height: 1.65; }
@@ -495,8 +527,14 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
   .mobile-writing-actions button:hover, .mobile-writing-actions a:hover { color: var(--text); border-color: var(--border); background: var(--surface-soft); }
   .mobile-writing-actions button:active, .mobile-writing-actions a:active { background: var(--accent-soft); }
   .context-mobile-backdrop { place-items: end stretch; padding: 0; }
-  .context-mobile { max-height: 78dvh; overflow: auto; padding: 1rem max(1rem, env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); border-radius: 1rem 1rem 0 0; background: var(--surface-raised); }
-  .context-mobile > button { min-height: 44px; }
+  .context-mobile { width: 100%; max-height: 78dvh; padding: 0; border-inline: 0; border-block-end: 0; border-radius: 1rem 1rem 0 0; background: var(--surface-raised); box-shadow: 0 -1rem 3rem color-mix(in srgb, var(--text) 24%, transparent); }
+  .context-mobile > button { min-height: 44px; margin-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right)); }
+  .context-mobile > .context-field { padding: 1rem max(1rem, env(safe-area-inset-right)) calc(1.25rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); }
+  .context-mobile :is(button, a, input, select, textarea), .peek-overlay :is(button, a, input, select, textarea) { min-height: 44px; }
+  .context-mobile .context-card-actions { gap: 8px; }
+  .context-mobile .context-card-actions button, .context-mobile .context-card-actions a { padding-inline: 11px; }
+  .peek-overlay { width: min(100%, 540px); padding: 20px; }
+  .peek-overlay > header { align-items: flex-start; }
 }
 
 @media (max-width: 480px) {
@@ -505,11 +543,15 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
   .mobile-writing-actions button, .mobile-writing-actions a { overflow-wrap: normal; word-break: normal; }
   .editor-toolbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .editor-toolbar button:last-child { grid-column: span 2; }
+  .context-mobile .context-field > header, .context-mobile .relevant-now > header, .peek-overlay > header { flex-wrap: wrap; }
+  .context-mobile .context-field > header > span, .context-mobile .relevant-now header span { margin-inline-start: auto; }
+  .peek-overlay h2 { font-size: 1.4rem; }
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
   .context-mobile-backdrop { place-items: stretch end; padding: 0; }
-  .context-mobile { width: min(32rem, 88vw); height: 100dvh; overflow: auto; padding: 1rem; background: var(--surface-raised); box-shadow: -1rem 0 3rem rgb(0 0 0 / .2); }
+  .context-mobile { width: min(32rem, 88vw); height: 100dvh; max-height: 100dvh; padding: 0; border-block: 0; border-inline-end: 0; border-radius: 0; background: var(--surface-raised); box-shadow: 0 0 3rem rgb(0 0 0 / .2); }
+  .context-mobile :is(button, a, input, select, textarea) { min-height: 44px; }
 }
 
 .chronicle-workspace { width: 100%; max-width: 76rem; min-width: 0; margin: 0 auto; justify-self: stretch; }
