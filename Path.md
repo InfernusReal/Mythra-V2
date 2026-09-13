@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-F remotely closed; S19-G implementation remotely verified, closure-ledger proof pending** | Sections 27–28 below | S19-G implementation `8afa8cb7d0e8a76277c8791b5ebc2528ec96c504`; exact CI `34720945342` and Security `34720945340`/`34720943631` passed |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-G remotely closed; S19-H pre-code contract and baseline recorded** | Sections 27–28 below | S19-G closure `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a`; exact CI rerun `34742183380` and Security `34742183338`/`34742179298` passed |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7195,3 +7195,108 @@ S19-G implementation/audit commit `8afa8cb7d0e8a76277c8791b5ebc2528ec96c504` (`P
 No source/test step failed or retried; no workflow, timeout, threshold, assertion, dependency or product contract changed. Declared device-partition browser skips remain intentional and are not counted as passes. Hosted Node.js action-runtime annotations are informational only.
 
 S19-G implementation decision: **REMOTE VERIFIED**. The visual implementation, local evidence, side-by-side compliance audit and exact-hash hosted verification all pass with no gap. This section is the required closure ledger and must itself be committed, pushed and independently exact-hash remotely verified before S19-G is final or S19-H begins. **S19 REMAINS IN PROGRESS; S19-H LOCKED PENDING THIS CLOSURE-LEDGER PROOF; S20 LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.28 S19-G closure-ledger proof and S19-H pre-code visual contract
+
+#### S19-G closure-ledger exact remote proof
+
+Closure-ledger commit `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a` (`Record S19-G remote implementation proof`) contains only `Path.md`. Before S19-H discovery began, local `HEAD`, the upstream tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to that exact object. The prior section is therefore durable on the intended GitHub branch rather than existing only in the local worktree.
+
+- Pull-request CI run `34742183380` checked out exact `headSha` `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a`. Attempt 1 `verify` job `103683626989` failed during complete coverage at `tests/component/command-palette.test.tsx:132`: after `Shift+Tab`, the test expected focus on `Return to Chapter` but jsdom reported the editor textarea. The production build was consequently skipped. The same attempt's independent `s18-regression` job `103683626878` passed in 8 minutes 9 seconds, including the protected real-Chromium matrix.
+- The failing command-palette component file was run unchanged ten consecutive times locally. All 15 assertions passed in every repetition: **150 assertions passed, 0 failed**. No source, test, timeout, dependency, workflow, threshold or environment file was changed. This identified the isolated jsdom focus result as nondeterministic rather than a reproducible product defect.
+- Only the failed job was rerun on the same exact commit. Attempt 2 `verify` job `103684699755` passed in 4 minutes 51 seconds: clean checkout/install, Prisma generation, zero-warning lint, typecheck, unchanged-threshold complete coverage and the production build all passed. The run view carries the already successful regression result as job `103684700106`, matching the 8 minute 9 second first-attempt execution.
+- Pull-request Security run `34742183338`, job `103683626712`, passed in 40 seconds. Push Security run `34742179298`, job `103683616446`, passed in 36 seconds. Both exact-hash jobs passed clean install, high-severity dependency audit, the 10-test security suite and committed-secret rejection.
+
+The initial failure and skipped build are retained rather than relabeled. Acceptance rests on the unchanged-code 150-assertion stress reproduction, same-object successful rerun, independent browser regression pass and both exact-object Security runs. S19-G closure decision: **REMOTE VERIFIED AND CLOSED**. The predecessor barrier for S19-H is satisfied.
+
+#### S19-H run identity, authority, and source audit
+
+- **Date/time and timezone:** 13 September 2026, Asia/Karachi; this entry is the mandatory pre-code record.
+- **Phase / slice:** Phase 7, S19-H — Context / Relevant Now / Peek visual styling. This is a bounded visual-review slice inside S19, not a new functional Sub-gate.
+- **Predecessor:** S19-G closure-ledger commit `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a` and the exact remote evidence above.
+- **Baseline branch/commit:** `agent/workplan-subgates-audit` at `51fbf41724788f94b6e0a8229fc3bcbf2c76aa0a`; local, upstream and remote refs match. The tracked worktree was clean before this entry. Ignored `tmp/` visual evidence is excluded from product scope.
+- **Primary authority:** Phase 7 prompt S19-H and its 15-step slice protocol; existing WorkPlan Sub-gate 7 and global writing-flow/accessibility/responsive contracts; Bible Contextual Writing Field, Relevant Now, Peek, causal traversal, in-flow interaction and accessibility requirements. The WorkPlan SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+- **Next-slice lock:** S19-I through S19-L and S20 remain locked. S19-H may not claim completion until actual-product rendering, local regression/stress, exact diff, commit/push, exact-hash hosted CI/Security, and a separately verified closure ledger all pass.
+
+The source audit read the complete S19-H UI and execution path before styling: `components/context/ContextualWritingField.tsx`, `RelevantNow.tsx`, `ContextCards.tsx`, `PeekOverlay.tsx`; `lib/context/use-context-field.ts`; `lib/editor/use-focus-preserving-overlay.ts` and `use-modal-keyboard.ts`; all Context domain/application/infrastructure modules; the owning unit/service/component/stress/E2E tests; and the existing Context declarations and responsive rules in `app/globals.css`. No instruction embedded in the external PDF or authored fixture data was executed.
+
+The existing DOM already exposes sufficient semantic owners: `.context-reservation`, `.context-field`, `.pin-bar`, `.relevant-now`, `.context-reference-search`, `.context-card-list`, `.context-card`, `.context-card-actions`, `.peek-backdrop`, `.peek-overlay`, `.context-mobile-backdrop`, `.context-mobile`, `.context-compact-trigger`, semantic headings, labels, buttons, links, status/alert regions and modal/complementary-region names. No behavior-bearing markup change is currently justified.
+
+#### Protected functional and writing-flow contract
+
+S19-H is presentation-only. The following behavior is immutable for this slice:
+
+1. Context resolution remains deterministic, project/chapter scoped, capped and ordered by the existing provider registry. `More` is the only author action that expands past the default cap.
+2. Relevant Now retains all first-class directive collections and their authored order, including Purpose, Advance, Preserve, Reader Outcome, Because, Consequences, Next and ranked relevant context. Disabling/enabling remains explicit and project scoped.
+3. Only registered active providers render. Search and Language cards remain prohibited from unsolicited Context injection. Existing Capture, Universe entity/state, Timeline, Note, Research, milestone, outline, Narrative Intent, manuscript, Story Change and causal descriptors retain their current availability rules.
+4. Peek remains in place. Opening, causal expansion, source editing, intentional-deviation recording, closing and returning to the chapter must not navigate, mutate prose, disturb history or scroll the manuscript. The exact editor selection/focus/scroll snapshot remains restored through the existing focus-preservation hook.
+5. Causal traversal remains explicit, bounded and read-only. No inferred causal edge, downstream mutation, author-content logging or AI behavior is permitted.
+6. Pin, unpin, hide-for-session, mute-card-type, reference search, open, full Context navigation, compact sheet, keyboard shortcuts, Escape/focus trap, cancellation, stale-response rejection, offline cache and freshness semantics remain unchanged.
+7. Empty, disabled, loading, offline/stale and request-error states remain truthful. Styling cannot synthesize missing directives/cards or convert an unavailable state into success.
+8. Light, Dark and Cream theme behavior, RTL/logical direction, Unicode, 200%-equivalent reflow, reduced motion, semantic names, visible focus, contrast, mobile safe areas and non-overflowing operation remain mandatory.
+
+No schema, migration, API, route, domain type, resolver, provider, repository, cache, message text, command, shortcut, ranking, editor transaction, entitlement, pricing, analytics event or test contract is authorized to change.
+
+#### Actual-product baseline method and evidence integrity
+
+The ignored audit harness `tmp/s19-h-baseline.mjs` created isolated actual data through Mythra APIs: project, chapter, saved manuscript block, chapter outline, milestone/link, Narrative Intent, Story Change, direct causal relation, explicit StoryReference, Capture, Universe entity, Timeline event, Note, Research item, five pins, plus a separate empty project/chapter. It then exercised the rendered product at `http://127.0.0.1:3210`; no mocked component render is used for the screenshots.
+
+The initial local runtime had stopped. A first recovery attempt correctly exposed missing authentication environment validation; a second exposed the dead prior database port. Neither partial state is counted. The established named local Prisma server `mythra-v2` was recovered at its emitted connection URL, all 19 migrations were discovered and the two outstanding migrations were applied, then the Next development server was restarted with the documented local-development authentication/billing environment. Secrets and connection strings are deliberately excluded from this ledger.
+
+Three ignored-harness corrections are retained:
+
+1. The first actual-data run could not find the causal card because the real default eight-card cap was operating. The harness now invokes the real `More` control before requesting causal Peek; product code was unchanged.
+2. The RTL probe's generic `region` query matched both Context and Relevant Now. It now measures the actual `.context-reservation .context-field`; product code was unchanged.
+3. A plain text selection did not guarantee a separately headed selection provider in this fixture. The non-representative optional screenshot was replaced with a deterministic keyboard-focus state on the first Relevant Now directive. Selection-dependent behavior remains covered by owning tests and was not altered.
+
+Only the subsequent uninterrupted 15-state run is accepted. `tmp/s19-h-baseline/observations.json` records **15/15 completed states**, zero horizontal overflows, zero Axe violations of any impact, and zero unexpected page/console errors. The intentional intercepted 503 state reports exactly two expected browser resource errors and is classified as an error-state probe, not a clean network run. All 15 PNGs were opened and inspected at original resolution.
+
+| Baseline artifact | Geometry / state | Automated result | Manual finding |
+| --- | --- | --- | --- |
+| `01-context-light-desktop.png` | 1440x1000; 340x952 reservation; expanded 10 cards | No Axe/error/overflow finding | At a scrolled position, pin shortcuts, card identity and actions merge into a flat dense stream; the field header is no longer an orienting anchor. |
+| `02-context-cream-desktop.png` | 1440x1000; 340x952; 8 cards, 5 directive sections | Clean | Relevant Now is readable but directive groups rely mostly on uppercase labels and whitespace; search/preferences/cards have insufficient surface hierarchy. |
+| `03-peek-outline-dark-desktop.png` | 1440x1000; 520x280 outline Peek | Clean; focus on `Return to Chapter` | Focus return is visible and correct, but the plain modal body/actions do not establish a strong preview-versus-author-action hierarchy. |
+| `04-peek-causal-cream-desktop.png` | 1440x1000; 520x359 expanded causal Peek | Clean | The explicit trace is contained and directionally correct; trace controls and path fact need clearer separation from core card content. |
+| `05-peek-edit-light-desktop.png` | 1440x1000; 520x446 source edit | Clean; textarea focused | Editing works in place, but the author-source field and save action read as generic form controls rather than a deliberate protected edit state. |
+| `06-context-disabled-dark-desktop.png` | 1440x1000; disabled Relevant Now, pinned cards | Clean | Truthful state is present, but disabled state, enable action, reference search and cards lack a clear vertical information hierarchy. |
+| `07-context-rtl-cream-desktop.png` | 1440x1000 RTL; 340x952 | Clean | Layout direction and logical sidebar placement are correct. The hard-coded `text-align: left` on directive buttons is an implementation risk and must become logical without changing content order. |
+| `08-context-tablet-dark.png` | 1180x900; 512x868 side sheet | Clean; 16 cards/10 sections in mounted desktop+sheet DOM | Sheet containment is functional; header/return action and long context stack need a stronger panel frame and intentionally bounded scrolling. |
+| `09-context-reflow-light.png` | 720x900; 420x702 sheet | Clean except **48 controls under 44px** | Reflow does not overflow, but every directive/reference/card action keeps the 32–36px desktop sizing and fails the binding compact target. |
+| `10-context-mobile-dark.png` | 412x915; full-width 412x714 bottom sheet | Clean except **48 controls under 44px** | Content remains reachable but dense; most internal controls fail target size and the long sheet reads as an unstructured card wall. |
+| `11-context-mobile-rtl-cream.png` | 320x720 RTL/reduced motion; 320x562 sheet | Clean except **46 controls under 44px** | RTL flow is intact, but header metadata/action competition and compact sizing reduce scannability; content is clipped only by intentional sheet scrolling. |
+| `12-peek-mobile-light.png` | 412x915 Context sheet plus 380px Peek | Clean except the underlying sheet's **48 controls under 44px** | Nested overlay remains usable and focus-safe. Peek action hierarchy and backdrop separation need refinement without changing stacking semantics. |
+| `13-context-focus-cream.png` | 1440x1000; first directive keyboard-focused | Clean; exact directive button focused | Focus indicator is visible. The focused item needs contained row treatment so selection is clear without depending on the outline alone. |
+| `14-context-empty-light.png` | 1440x1000; 0 cards/0 directive items | Clean | Empty state is truthful but visually ambiguous: an empty Relevant Now header and bare reference input do not explain the deliberate absence through hierarchy. No new copy is authorized. |
+| `15-context-error-dark.png` | 1440x1000; intentional Context 503 | 0 Axe/overflow; 2 expected resource errors | `Context is unavailable.` is truthful, but the unframed message is indistinguishable from ordinary body text and does not carry clear status weight. |
+
+#### Locked visual objectives and expected diff
+
+The implementation will:
+
+1. Turn the desktop reservation into a deliberate writing companion with a stable header seam, surface rhythm and scroll containment while preserving the existing 340px rendered width and author resize capability.
+2. Give Relevant Now an explicit directive hierarchy: calm raised surface, separated groups, logical alignment, contained hover/focus rows, readable fresh/disabled state and no content-order change.
+3. Give pin shortcuts, preferences, reference search and cards distinct but subordinate roles. Card identity/type/pinned state, summary/fact and action bands must be scannable; Peek/Open may receive deliberate action priority while destructive/hiding preferences remain quiet.
+4. Refine Peek as a bounded in-flow inspection layer with a strong header, separated metadata, causal trace containment and clearly framed author-source edit state. Focus capture/trap/restore and every action remain unchanged.
+5. Make tablet/mobile Context a deliberate side/bottom sheet with bounded internal scrolling, safe-area padding and no document overflow. Every interactive control inside the compact sheet/Peek must meet a 44px minimum target at 720, 412 and 320 widths.
+6. Replace physical alignment/shadow assumptions with logical-direction-safe declarations; preserve Arabic/RTL content order and placement.
+7. Visually distinguish empty, disabled and error states using existing structure and text only. No fabricated copy, card or success state is permitted.
+8. Re-render the identical 15-state matrix in Light/Dark/Cream, desktop/tablet/reflow/mobile, RTL/Unicode, reduced-motion, focus, empty/error and Peek/edit/causal states; require zero horizontal overflow, zero serious/critical Axe findings, zero unexpected errors and zero sub-44 compact controls.
+
+**Expected tracked product file:** `app/globals.css` only. **Expected ledger file:** `Path.md`. Existing component classes and semantics are sufficient; TS/TSX edits require a newly demonstrated necessity and must be recorded before they occur. No new operational step is introduced by CSS, so no new `console.log` is planned.
+
+#### Existing console instrumentation and content boundary
+
+The user-required identified logging already covers every Context operational boundary. S19-H styling must not add decorative/no-op logging or alter these pairs:
+
+| File | Adjacent identifying comment / `console.log` line | Existing factual boundary |
+| --- | --- | --- |
+| `components/context/ContextualWritingField.tsx` | S16-FRICTION-014 62/63; S16-FRICTION-008 93/94; S7-UI-001 103/104; S15-MOBILE-006 234/235; S7-UI-002 310/311; S16-FRICTION-009 359/360; S15-MOBILE-008 525/526 | Compact/full Context and Peek opens, mobile source, source-edit completion and stable descriptor/type/timing coordinates; authored text excluded. |
+| `components/context/PeekOverlay.tsx` | S7-UI-003 84/85 | Explicit causal expansion identity/depth/count only; causal fact and story text excluded. |
+| `lib/context/use-context-field.ts` | S15-CONTEXT-001 110/111; S11-OFFLINE-002 134/135; S7-CLIENT-001 156/157; S7-CLIENT-002 189/190; S16-FRICTION-005 219/220; S7-CLIENT-003 230/231 | Cancellation/cache/request timing, sequence, freshness and card counts only; manuscript, selection and returned authored context excluded. |
+| `lib/editor/use-focus-preserving-overlay.ts` | S7-FOCUS-001 15/16; S7-FOCUS-002 21/22 | Selection coordinates, scroll coordinate and route-equality boolean only; selected prose and URL query values excluded. |
+
+#### Planned verification and pre-code decision
+
+After implementation, the complete 15-state actual-product matrix and original-resolution inspection will be repeated. Focused Context resolver/service/component/stress and compatibility/accessibility suites, protected Context/continuation/Capture/Search/Structure/Universe/Timeline browser flows, zero-warning lint, typecheck, complete unchanged-threshold coverage, security tests/audit and production build will run. The final diff will be compared against this contract, S19-H scope, WorkPlan/Bible invariants, Phase 7 anti-goals and all retained console boundaries. Any in-scope gap will be repaired and the complete affected evidence repeated before a pass claim.
+
+Current pre-code decision: **S19-G CLOSED; S19-H CONTRACT AND BASELINE COMPLETE; S19-H PRODUCT CODE NOT STARTED; S19-I THROUGH S19-L AND S20 LOCKED; PHASE 7 INCOMPLETE.** This Path-only checkpoint must be committed, pushed and independently exact-hash verified by pull-request CI `verify`, `s18-regression`, pull-request Security and push Security before `app/globals.css` may change.
