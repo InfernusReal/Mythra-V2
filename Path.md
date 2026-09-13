@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-G remotely closed; S19-H implementation and local evidence complete, exact-hash hosted gates pending** | Sections 27–28 below | S19-H pre-code checkpoint `e14a54aae4910e413d74d69c839742265d37b397` passed exact CI `34744094730` and Security `34744094740`/`34744093817`; implementation proof pending |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-G remotely closed; S19-H implementation is remotely verified and its closure ledger is pending independent proof** | Sections 27–28 below | S19-H product/evidence `90c80fa6bc37133c3590fdd4ef05cff0c0245329` passed CI `34776755538` (including clean exact-SHA regression rerun) and Security `34776755476`/`34776753098`; this Path-only closure commit must now pass the same gates |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7406,3 +7406,53 @@ These local browser attempts are **not relabeled as passes**. They demonstrate t
 | Exact-hash hosted verification and independently verified closure ledger | Implementation commit does not yet exist at this ledger-writing point. CI `verify`, `s18-regression`, pull-request Security and push Security must pass, followed by a separate Path-only closure commit and the same exact-hash proof. | Pending |
 
 No product-contract contradiction or unimplemented item is present in the bounded S19-H diff. The only unresolved acceptance item is mandatory external proof of this exact implementation object, including the authoritative hosted browser matrix. Current decision: **S19-H IMPLEMENTATION AND LOCAL DETERMINISTIC/VISUAL AUDIT COMPLETE; EXACT-HASH HOSTED CI, REGRESSION AND SECURITY PENDING. S19-H IS NOT CLOSED; S19-I THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.30 S19-H implementation remote proof and closure-ledger decision
+
+#### Exact object and immutable diff
+
+**Ledger verification date/time:** 14 September 2026, Asia/Karachi. GitHub job timestamps below are reported in UTC exactly as returned by the workflow API.
+
+S19-H product/evidence commit `90c80fa6bc37133c3590fdd4ef05cff0c0245329` (`Polish Context and Peek visual system`) was pushed to `origin/agent/workplan-subgates-audit`. Before hosted results were accepted, local `HEAD` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both resolved to that exact 40-character object. The committed diff contains exactly `app/globals.css` and `Path.md`, with 176 insertions and 28 deletions. No component, route, domain, API, persistence, test, workflow, dependency, configuration or generated file is present in the commit.
+
+The immutable WorkPlan SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. Therefore the hosted result verifies the implementation audited in 28.29 against the same governing plan; it does not verify a later revision, relaxed test, altered fixture or changed workflow.
+
+#### Pull-request CI proof
+
+Pull-request CI run `34776755538` used exact `headSha` `90c80fa6bc37133c3590fdd4ef05cff0c0245329` and concluded `success`.
+
+| CI boundary | Exact job/result | Evidence and interpretation |
+| --- | --- | --- |
+| Deterministic verification | `verify` job `103776156802`, 19:08:12–19:13:09 UTC, **passed in 4 minutes 57 seconds** | Clean checkout and install, Prisma generation, zero-warning lint, typecheck, complete unchanged-threshold 107-file/410-test coverage and production build all passed. This independently confirms the local deterministic gate on the committed object. |
+| Protected browser/database attempt 1 | `s18-regression` job `103776156645`, 19:08:10–19:18:58 UTC, **workflow success** | PostgreSQL initialization, migrations, alert/Structure/archive/pagination/OIDC/Portability verifiers and Chromium installation passed. Playwright collected 60 tests: **31 passed, 28 declared project skips, 1 flaky** in 9.2 minutes. The desktop Capture Project Home test timed out after 120 seconds waiting for the existing `Capture Thought` textbox and then passed unchanged on automatic retry in 4.3 seconds. All S19-H Context cases passed. This recovered result is retained and is not described as a clean browser pass. |
+| Strict unchanged-object rerun | Attempt 2 `s18-regression` job `103777894256`, 19:20:31–19:27:46 UTC, **passed in 7 minutes 15 seconds** | No code, test, fixture, dependency, configuration or workflow changed. All native database verifiers passed again. Playwright collected the identical 60 tests: **32 passed, 28 declared project skips, 0 failed, 0 flaky** in 5.5 minutes. This clean exact-SHA rerun resolves the transient Capture timing classification without concealing attempt 1. |
+
+The 28 declared skips are the repository's existing mobile-project applicability exclusions and are reported as skips, never passes. Both attempts remained within the unchanged 20-minute hosted limit. Attempt 2 is authoritative for the strict clean browser gate because it exercises the same commit and unchanged suite after attempt 1's recovered, unrelated Capture startup/timing event. The combination proves that the S19-H CSS diff does not break Context, Capture, Search/Language, Continuation, Structure, Universe or Timeline/Research protected workflows.
+
+#### Independent Security proof
+
+Both workflow triggers independently verified the same implementation object:
+
+| Trigger | Run/job | Exact result |
+| --- | --- | --- |
+| Pull request | Security run `34776755476`, job `103776156545`, 19:08:12–19:08:57 UTC | **Passed.** Clean install, `npm audit --audit-level=high`, 10-test security suite and committed environment/key-material rejection passed. |
+| Push | Security run `34776753098`, job `103776150248`, 19:08:09–19:08:46 UTC | **Passed.** The same dependency, security-test and secret-material boundaries passed on the branch update. |
+
+The hosted setup emitted the existing informational GitHub Actions Node runtime transition annotation; no security, test or build step failed and no workflow file changed in S19-H. It is recorded as infrastructure information, not suppressed and not treated as a product gap.
+
+#### Remote side-by-side closure audit
+
+| Mandatory S19-H acceptance boundary | Exact remote evidence | Decision |
+| --- | --- | --- |
+| Implementation object equals audited local object | Local `HEAD`, pushed remote ref and every hosted `headSha` equal `90c80fa6bc37133c3590fdd4ef05cff0c0245329`. | PASS |
+| Professional scoped diff with no functional drift | Commit contains only scoped Context/Peek CSS plus the contemporaneous Path entry; hosted lint, typecheck, coverage and build pass. | PASS |
+| Context/Relevant Now/Peek behavior and exact writing-flow return | All four applicable protected Context cases passed on desktop in attempt 1 and again in clean attempt 2; mobile overlay/return case passed; focused local suites and visual matrix remain recorded in 28.29. | PASS |
+| Cross-product compatibility | Clean attempt 2 passed all 32 applicable cases across eight suites; 28 applicability skips remain explicit. | PASS |
+| Database, portability and operational compatibility | Every migration and native alert/Structure/archive/pagination/OIDC/Portability verifier passed in both regression attempts. | PASS |
+| Security/privacy and content-safe instrumentation | Pull-request and push Security jobs passed; CSS introduced no event or payload and all existing adjacent Context/focus log pairs remain recorded at exact lines in 28.29. | PASS |
+| Plan integrity and predecessor ordering | WorkPlan hash is unchanged; S19-G and S19-H pre-code evidence were green before implementation; S19-I was not started while implementation proof was pending. | PASS |
+| Closure-ledger durability | This section exists only in the current uncommitted `Path.md` working tree and has not yet been independently checked out by hosted workflows. | PENDING |
+
+No S19-H product or hosted compliance gap remains. The first regression attempt's recovered Capture flake is fully disclosed and resolved by a clean rerun of the identical suite on the identical commit; it did not authorize a test or product change. The only remaining S19-H gate is independent proof that this Path-only closure record is durable and does not regress the repository.
+
+Current decision: **S19-H IMPLEMENTATION IS EXACT-HASH REMOTELY VERIFIED. S19-H REMAINS OPEN ONLY FOR THIS PATH-ONLY CLOSURE COMMIT/PUSH AND ITS EXACT-HASH CI, REGRESSION, PULL-REQUEST SECURITY AND PUSH SECURITY PROOF. S19-I THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
