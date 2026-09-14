@@ -4937,12 +4937,12 @@ Predecessor: branch `agent/workplan-subgates-audit`, clean initial worktree, HEA
 | Gate | Owned outcome | Current status | Successor rule |
 | --- | --- | --- | --- |
 | S18 | Reconcile and surgically repair genuine existing-capability defects and unsupported evidence | PASS — exact implementation and closure-ledger remote proof recorded in 27.24–27.25 | S19 unlocked only after the recorded exact remote closure; that predecessor barrier has passed |
-| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E/F remotely closed; G Search/Ctrl+K pre-code audit active | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
+| S19 | Quiet premium editorial visual refinement of the same product, one reviewed surface slice at a time | IN PROGRESS — A/B/C/D/E/F/G/H remotely closed; I Notes/Research implementation and local audit complete, exact-hash hosted proof pending | S20 locked until all S19 slices, visual/manual/functional/diff evidence, and remote verification pass |
 | S20 | Full coherence, regression, operational and release verification | LOCKED | No release seal until all required local and remote evidence exists |
 
 Anti-scope: no new domain, speculative capability, AI, plan/pricing change, information-architecture redesign, workflow removal, unrelated infrastructure, schema redesign, module renaming, or opportunistic refactor. Every changed file needs an individual causal justification. A necessary cross-boundary touch must document its minimal extent and non-interference evidence. A passing build or inventory script is not a passing capability gate.
 
-S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality, E Universe/Timeline and F Capture are remotely closed; G Search/Ctrl+K is in its pre-code audit; H Context/Relevant Now/Peek through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
+S19 slice state: A shared tokens/primitives, B shell/home, C editor chrome, D Structure/Milestones/Causality, E Universe/Timeline, F Capture, G Search/Ctrl+K and H Context/Relevant Now/Peek are remotely closed. I Notes/Research has completed its bounded implementation and local audit; exact-hash hosted CI/regression/Security and the independently verified closure ledger remain mandatory. J billing/settings/operations/supporting surfaces through L cross-product consistency remain locked in order. Each requires before/after actual renders, manual screenshot inspection, theme/device/focus/accessibility checks, exact selectors/consumers, and positive/negative proof before the next slice.
 
 S20 planned evidence, still locked: full lint/typecheck/unit/service/repository/component/coverage/accessibility/stress/security, real PostgreSQL/migrations/backup restore, production build, E2E/visual, and release checks. Existing thresholds and legitimate tests are preserved. Skips remain skips. Regressions return to the appropriate S18 or S19 owner.
 
@@ -7494,12 +7494,12 @@ S19-H final decision: **PASS — IMPLEMENTATION AND CLOSURE LEDGER REMOTELY VERI
 
 The ignored `tmp/s19-i-baseline.mjs` harness created a new isolated project and chapter through actual Mythra APIs, then created three Notes (tagged, untagged and Arabic), four non-file Research kinds, and an empty project. Through the actual rendered UI it uploaded a text file, exercised kind-dependent fields, filled uncommitted Note and Research drafts, selected an explicit promotion target, intercepted one controlled 503, and focused the return action. It used the real Next.js 16.3.4 Webpack development product at `http://127.0.0.1:3210`, the current local PostgreSQL schema and the real private-file scanner/storage path. Fixture content and all PNG/JSON artifacts are ignored and are not product code or committed test fixtures.
 
-The final baseline run produced `tmp/s19-i-baseline/observations.json` and 12 PNGs. All 12 were opened and inspected at original resolution. Aggregate result: **12/12 completed, 0 Axe violations of any impact, 0 horizontal-overflow states, and 0 unexpected runtime errors**. Artifact 08 contains the one intentional 503 browser resource error and the truthful existing `Research could not be saved.` live status. It is expected test stimulus, not an unexplained console failure.
+The final baseline run produced `tmp/s19-i-baseline/observations.json` and 12 PNGs. All 12 were opened and inspected at original resolution. Aggregate result: **12/12 completed, 0 Axe violations of any impact, 0 horizontal-overflow states, and 0 unexpected runtime errors**. Artifact 08 contains the one intentional 503 browser resource error and the truthful existing `Research could not be saved.` live status. It is expected test stimulus, not an unexplained console failure. Superseding audit 28.32 established that this baseline did not record selected/applied theme and that late canonical preference hydration left the named Dark/Cream images in the system-resolved Light theme. The baseline remains valid for geometry/content/focus/overflow findings only; its requested theme labels are not theme evidence.
 
-| Baseline artifact | Theme / viewport / state | Exact measurement and owned visual finding |
+| Baseline artifact | Requested theme / viewport / state | Exact measurement and owned visual finding |
 | --- | --- | --- |
 | `01-notes-research-light-desktop.png` | Light, 1440x1000, populated/file | 972px workspace under the existing chapter-context reservation; 2 columns, 3 Notes, 5 Research items and 3 forms. Header link and intro are raw; forms have accidental cross-axis placement; list styling presents two false timeline spines. |
-| `02-notes-research-cream-desktop.png` | Cream, 1440x1000, Project return | Same data/counts and stable width. Theme is correct but surface/action hierarchy remains flat. |
+| `02-notes-research-cream-desktop.png` | Cream requested, 1440x1000, Project return | Same data/counts and stable width; the surface/action hierarchy remains flat. Theme application was not proven by this baseline and is superseded by 28.32. |
 | `03-citation-form-dark-desktop.png` | Dark, 1180x900, CITATION draft/focus | 1052px workspace, 2 columns; Add Research focus ring is visible. Kind/title/citation/action placement lacks deliberate grouping. |
 | `04-url-form-light-desktop.png` | Light, 1180x900, URL draft | Long URL wraps inside the textarea without overflow; form hierarchy and native file control remain visually unfinished. |
 | `05-promotion-cream-desktop.png` | Cream, 1180x900, selected Note/Chapter Outline | Explicit promotion focus is visible, but creation and structural-promotion forms look identical despite their already-defined primary/secondary intent. |
@@ -7511,7 +7511,7 @@ The final baseline run produced `tmp/s19-i-baseline/observations.json` and 12 PN
 | `11-reflow-light.png` | Light, 720x900, 200%-equivalent reflow | 688px workspace, one column and no overflow. Return action remains 126x21px; every other measured control meets the 44px binding geometry. |
 | `12-focus-return-cream.png` | Cream, 1440x1000, return focus | Existing plain link has a visible 2px outline and correct href/focus order, but it lacks the bounded action geometry already provided by `.chronicle-header`. |
 
-The first four harness attempts are retained: a pre-hydration file-input event missed the success wait; a broad label query matched the Kind select and Citation textarea; a stale exact-label focus locator timed out after draft entry; and the controlled error wait initially expected raw server text rather than the correct localized fallback. Each was a defect in the ignored evidence harness, not shipped product. The harness was corrected without changing product code, assertions, message catalogs or behavior; the fifth run completed all 12 states.
+The first four harness attempts are retained: a pre-hydration file-input event missed the success wait; a broad label query matched the Kind select and Citation textarea; a stale exact-label focus locator timed out after draft entry; and the controlled error wait initially expected raw server text rather than the correct localized fallback. Each was a defect in the ignored evidence harness, not shipped product. The harness was corrected without changing product code, assertions, message catalogs or behavior; the fifth run completed all 12 geometry/content states. It did not resolve the later-discovered canonical-theme hydration race, which is corrected and fully evidenced in 28.32.
 
 #### Immutable S19-I implementation contract
 
@@ -7524,3 +7524,124 @@ The first four harness attempts are retained: a pre-hydration file-input event m
 **Required proof.** Repeat the unchanged 12-state harness into a separate after directory and manually inspect every image. Require 0 Axe violations, 0 overflow, expected-only controlled 503, 0 under-44 controls at 720/412/320, unchanged counts/forms/columns/data, correct focus and Light/Dark/Cream/RTL/reduced-motion presentation. Run owning domain/service/component/accessibility/stress tests, the protected Timeline/Research browser suite and cross-product eight-suite matrix, zero-warning lint, typecheck, unchanged-threshold full coverage, security tests/audit, launch audit and production build. Inspect and justify the exact diff, then commit/push and require exact-hash CI `verify`, `s18-regression`, pull-request Security and push Security, followed by independent closure-ledger verification.
 
 Current pre-code decision: **S19-H CLOSED. S19-I BASELINE, SOURCE AUDIT AND SURGICAL CONTRACT COMPLETE; NO S19-I PRODUCT FILE HAS CHANGED. S19-J THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** This Path-only checkpoint must be committed, pushed and exact-hash remotely verified before either authorized product file changes.
+
+### 28.32 S19-I implementation, corrected actual-product evidence, and local compliance audit
+
+#### Pre-code checkpoint remote proof
+
+The S19-I pre-code contract was committed as Path-only object `b9fed7bee5dc8d0834ae53524feb83b0227ae428` (`Close S19-H and define S19-I visual contract`) and pushed before either authorized product file changed. Local `HEAD`, the upstream tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact object at the implementation boundary. The commit contains 69 insertions and one removal in `Path.md` only.
+
+- Pull-request CI run `34858309082` checked out exact `headSha` `b9fed7bee5dc8d0834ae53524feb83b0227ae428` and passed. `verify` job `104023551513` passed in 4 minutes 53 seconds: clean install, Prisma generation, zero-warning lint, typecheck, all 107 test files/410 tests at unchanged coverage thresholds, and the production build passed.
+- The same run's `s18-regression` job `104023551829` passed in 8 minutes 2 seconds. Native PostgreSQL startup, all 19 migrations, alert/Structure/archive/pagination/OIDC/Portability verifiers and Chromium setup passed; the protected eight-file browser matrix completed **32 passed, 28 declared project skips, 0 failed, 0 flaky** in 6.5 minutes.
+- Pull-request Security run `34858309197`, job `104023550836`, passed on that exact object. Push Security run `34858299569`, job `104023519785`, independently passed the same clean install, high-severity dependency audit, 10-test security suite and committed-secret/environment rejection gate.
+- The hosted Node action-runtime transition annotation was informational. No test, retry, threshold, workflow, dependency or product file changed in this pre-code checkpoint.
+
+This exact remote chain proves S19-H remained closed and the S19-I contract was durable before implementation. It is predecessor evidence, not implementation acceptance.
+
+#### Exact implementation and file ownership
+
+The implementation is presentation-only. Before this ledger entry, the product diff was exactly two files, **53 insertions and 12 deletions**, and `git diff --check` passed.
+
+| File and final implementation lines | Exact change | Why required by the locked S19-I contract | Explicit nonchange |
+| --- | --- | --- | --- |
+| `components/research/ResearchWorkspace.tsx:288-488` | Added `.research-workspace`, Chronicle header/intro hooks, Notes/Research column hooks, creation/promotion form hooks, file-control hook, list/item hooks, `data-kind`, and status hook. | Gives CSS a bounded owner and exposes existing semantic regions without inventing content or state. | No element was reordered; no label, message, handler, state, request, response, validation, type, href, role or operation changed. |
+| `app/globals.css:586-616` | Added 31 compact declarations plus one bounded mobile rule, all rooted in `.research-workspace`. | Implements the quiet reference-library hierarchy, deliberate form geometry, primary/secondary action hierarchy, refined file control, non-chronological cards, status treatment and binding-width target geometry. | Existing shared `.chronicle-*` declarations and all Timeline, shell, editor, Structure, Universe, Capture, Search, Context, billing and operations selectors remain byte-for-byte unchanged. |
+| `Path.md` | Updated the live S19 status and appended predecessor, implementation, render, failure, test, logging, diff and compliance evidence. | Required Pathway V2 execution ledger. | `WorkPlan.md` and all historical phase/gate evidence remain unchanged. |
+
+The component hooks and their complete consumers are:
+
+| Component hook | CSS consumer and result |
+| --- | --- |
+| `.research-workspace`, `.research-header`, `.research-intro` at lines 288, 291 and 308 | CSS 586-587: bounded page identity, separator, deliberate intro rhythm and inherited Chronicle return-action geometry. |
+| `.research-columns`, `.research-column`, `.notes-column`, `.research-library-column` at lines 313-314 and 405 | CSS 588-590: stable two-column reference-library rhythm, bounded headings and minimum-width safety. The owner classes preserve Notes and Research as peers. |
+| `.research-form.note-create-form` at line 317 | CSS 591-594 and 601-602: Title/Body span both columns; Tags and existing Save action share the final row; the existing Save action alone receives primary treatment. |
+| `.research-form.note-promotion-form` at line 351 | CSS 591-592 and 595-596: dashed, quiet secondary surface; existing Note/target selects remain paired; existing explicit promotion action spans the row with accent-soft treatment. |
+| `.research-form.research-create-form` and `.research-file-control` at lines 408 and 453 | CSS 597-604: Kind/Title pair, kind-dependent authored field spans, and existing file control/Add action form the final row; file-selector styling remains native and accessible. |
+| `.research-list`, `.notes-list`, `.research-item-list`, `.note-item`, `.research-item`, `data-kind` at lines 390-392 and 465-467 | CSS 605-614: removes only this page's inherited timeline spine/dots, establishes quiet reference cards, metadata/version hierarchy, logical-side distinction and full-width mobile private-download action. `data-kind` is presentational and no kind behavior changed. |
+| `.chronicle-status.research-status` at line 486 | CSS 615: retains the existing live region and text while making non-empty status bounded and legible. Empty status still uses the shared hidden rule. |
+| Binding-width media rule at CSS 616 | One-column forms/collections, two-rem section separation, full-width 44px asset action and no inherited list inset at at most 767px. |
+
+No new `console.log` was added because the slice creates no new operational transition. Adding decorative/no-op logs would violate the pre-code instrumentation contract. Every existing adjacent trace and identifying comment remains intact at its final line:
+
+| Step | Comment / `console.log` line | Retained content-safe evidence |
+| --- | --- | --- |
+| `S11-UI-002` | comment 81; call 82 | Note completion logs identity, version and counts only; Note title/body/tag values are excluded. |
+| `S11-UI-003` | comment 130; call 131 | Research completion logs identity, kind and version only; URL, citation and excerpt values are excluded. |
+| `S11-UI-004` | comment 186; call 187 | Private upload completion logs asset identity, byte count and MIME only; filename and content are excluded. |
+| `S11-UI-005` | comment 221; call 222 | Private access logs asset identity and token lifetime only; signed URL/token and file metadata are excluded. |
+| `S11-UI-007` | comment 270; call 271 | Explicit promotion logs source/target/version/replay identity only; Note content is excluded. |
+
+#### Actual-product after matrix and retained harness corrections
+
+The final authoritative local render evidence is `tmp/s19-i-after-final7/observations.json` plus its 12 ignored PNGs. The harness used a new real API-created project/chapter and empty project, three Notes, all four non-file Research kinds, an actual validated/scanned private text upload, existing promotion controls, live error semantics, actual locale direction and actual theme controls. Every final image was inspected at original resolution. Eleven final7 PNGs are byte-identical to the manually inspected final6 images; the only differing image is the focused draft textarea, caused by caret rasterization, and that final7 image was separately opened and inspected.
+
+The final result is **12/12 states completed; selected theme equals applied document theme in all 12; 0 Axe violations of any impact; 0 horizontal-overflow states; 0 under-44 measured controls at 720px, 412px and 320px; 0 unexpected console/page errors**. Artifact 08 contains the single deliberate HTTP 503 resource error and the truthful existing localized status; it is expected stimulus and remains the only error entry.
+
+| Final artifact | Verified theme/state | Final measurement and manual result |
+| --- | --- | --- |
+| `01-notes-research-light-desktop.png` | Light selected/applied, 1440x1000, chapter return | 972px workspace beside the existing Context reservation; 2 columns, 3 Notes, 5 Research items, 3 forms, no overflow/Axe/error. Header, doctrine intro, forms, primary actions and cards have deliberate hierarchy; false chronological spine/dots are absent. |
+| `02-notes-research-cream-desktop.png` | Cream selected/applied, 1440x1000, Project return | Same counts and width; correct warm surface/token contrast and unchanged Project Home href. |
+| `03-citation-form-dark-desktop.png` | Dark selected/applied, 1180x900, Citation draft | 1052px/2-column layout; actual Dark surfaces and text contrast are coherent; Add Research has a visible 2px focus outline and the conditional Citation field stays contained. |
+| `04-url-form-light-desktop.png` | Light selected/applied, 1180x900, URL draft | Long URL remains contained; kind/title/body/file/action hierarchy is deliberate and no control or page overflow occurs. |
+| `05-promotion-cream-desktop.png` | Cream selected/applied, 1180x900, selected Note/Chapter Outline | Existing selection values and explicit intent remain visible; secondary promotion action has readable `rgb(99,88,217)`-family theme treatment and a visible 2px focus outline. A prior blank-label screenshot was disproved by a clean repeat and computed style; final capture visibly contains the label. |
+| `06-note-draft-dark-desktop.png` | Dark selected/applied, 1180x900, uncommitted Note | Draft Title/Body/Tags remain exact and unsubmitted; focused textarea outline and deliberate Save row pass; no promotion is triggered. |
+| `07-empty-light-desktop.png` | Light selected/applied, 1180x900, empty project | 1052px/2-column layout, 0 Notes, 0 Research, exactly 2 creation forms; no fabricated empty copy/action was introduced. |
+| `08-error-dark-desktop.png` | Dark selected/applied, 1180x900, controlled 503 | Existing `Research could not be saved.` live text is unchanged and now legible as a bounded status under the Notes collection; 3/5 data counts remain intact and the failed draft remains present. |
+| `09-mobile-dark.png` | Dark selected/applied, 412x915 | 380px workspace, one column, 3/5/3 counts, no overflow/Axe/unexpected error, no undersized control. Return action is now 126x44px instead of the baseline 126x21px. |
+| `10-mobile-rtl-cream.png` | Cream selected/applied, 320x800, Arabic RTL, reduced motion | 288px workspace, one column, correct logical mirroring/text direction, reduced-motion true, no overflow/Axe/error/undersized control. The incorrect timeline metaphor is absent in RTL too. |
+| `11-reflow-light.png` | Light selected/applied, 720x900 | 656px workspace, one column, no overflow/Axe/error/undersized control. All existing fields, actions and 3/5 reference items remain reachable in source order. |
+| `12-focus-return-cream.png` | Cream selected/applied, 1440x1000, keyboard focus | Return-to-Chapter remains the active element, has a 2px outline and correct bounded action treatment; route semantics and focus order are unchanged. |
+
+The pre-code baseline remains valid for raw geometry, counts, roles, focus, overflow and the 126x21px return-target finding, but its Dark/Cream filenames did not prove actual theme state: asynchronous canonical preference hydration could overwrite the forced selection before capture. This audit found that evidence defect and does not preserve the false theme claim. The ignored harness corrections are retained in order:
+
+1. The first after run completed but repeated the baseline theme race; it proved layout/count/accessibility only.
+2. A second run resolved an apparent blank promotion label as a stale raster: DOM text, computed color/background and the clean screenshot all showed the unchanged label.
+3. The first hydration-aware run stopped at the hidden mobile theme select because it incorrectly required visibility; the selector remains intentionally hidden in compact shell layout and was changed to value/state verification.
+4. Subsequent runs showed that the prior `/app` hydration event and React development-mode duplicate effects could satisfy an early wait and later overwrite the requested theme. Authentication and destination-page hydration were separated.
+5. A network-idle strategy was attempted and retained as invalid because the app has ongoing network activity; it timed out on the first artifact and was removed.
+6. The final strategy waits for canonical hydration, allows the duplicate effect to settle, applies the actual UI selection again immediately before Axe/capture, and records both selected and applied theme. Final6 established correct visual themes; final7 added the explicit theme fields and reproduced the same 12-state result.
+
+No product file changed during these harness repairs. The harness and artifacts are ignored; no test source, timeout, threshold, dependency, product copy or behavior was weakened.
+
+#### Local functional, stress, build, security, and regression evidence
+
+All deterministic and S19-I-owning checks ran against the final two-file product implementation without changing assertions, thresholds, timeouts, skips, dependencies or workflows:
+
+| Check | Result | Exact evidence |
+| --- | --- | --- |
+| Focused ESLint and typecheck | PASS | `npx eslint components/research/ResearchWorkspace.tsx` exited 0; `npm run typecheck` exited 0. |
+| Notes/Research unit/service/component/accessibility/stress | PASS | Five specified Vitest files passed, **16/16 tests**, in 8.18 seconds. The jsdom Canvas notice is an existing environment limitation, not a failed assertion. |
+| Focused real browser | PASS | `tests/e2e/timeline-research.spec.ts`: **3 passed, 3 declared desktop/mobile project skips**, 0 failed, in 1.8 minutes. Both desktop capability tests and the mobile responsive test passed. |
+| Full lint | PASS | `npm run lint` exited 0 with `--max-warnings=0`. |
+| Complete coverage | PASS | **107/107 files and 410/410 tests** passed. Statements 87.97% (5012/5697), branches 77.18% (2963/3839), functions 85.71% (1254/1463), lines 90.51% (4380/4839). `ResearchWorkspace.tsx`: 94.89% statements, 79.16% branches, 88.88% functions, 94.68% lines. Existing jsdom Canvas/scroll/navigation notices did not fail assertions or thresholds. |
+| Security suite | PASS | `npm run test:security`: **2/2 files, 10/10 tests**. |
+| Dependency audit | PASS | `npm audit --audit-level=high`: **0 vulnerabilities**. |
+| Launch audit | PASS | Source/repository/document inventories matched: 14 critical E2Es, 6 visual dimensions, 7 causal acceptance items, 16 doctrine questions, 11 launch conditions, 18 original Sub-gates; AI remains disabled and future boundary intact. |
+| Production build | PASS | Next.js 16.3.4 optimized build compiled in 10.6 seconds, TypeScript completed in 9.2 seconds, 22/22 static-generation tasks completed, and all routes including Notes/Research were emitted. Build-only `next-env.d.ts` path churn was reverted with `apply_patch`; it is absent from the product diff. |
+| Diff integrity | PASS | `git diff --check` passed. Before this Path entry the exact product diff remained 53 insertions/12 deletions across only the two authorized product files. WorkPlan SHA-256 remained `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. |
+
+The complete local eight-file browser run is retained and is **not** relabeled as a pass: **24 passed, 28 declared project skips, 8 failed in 21.1 minutes**. Both S19-I desktop Timeline/Research tests passed in that stressed run, and the separately isolated owning suite passed all three applicable tests. The eight failures were command-palette exact route/causal handoff, two Context asynchronous projections, Continuation navigation timeout, Language metadata, Structure anchor, and mobile Universe creation. Server evidence showed the long-lived Windows Webpack process compiling routes on demand in 5-11 seconds and finally returning a development-hot-reload `SyntaxError` on mobile Universe creation. A fresh Webpack process and new local Prisma instance were then used to rerun exactly those cases: Continuation passed; seven older asynchronous cases reproduced, including one route taking 24.6 seconds to compile and another dev-only `SyntaxError`. None touches `ResearchWorkspace.tsx` or a `.research-workspace` rule.
+
+These failures cannot establish a regression caused by this class/CSS-only slice, but they also cannot be silently waived. The exact pre-code object passed the unchanged hosted matrix 32/28/0/0. Therefore the forthcoming exact implementation commit must pass the same hosted production-grade `s18-regression` job cleanly; any hosted failure reopens S19-I. No test or product workaround is authorized in this bounded slice.
+
+#### Side-by-side S19-I compliance audit
+
+| WorkPlan / Bible / Phase 7 requirement | Implementation and evidence | Decision |
+| --- | --- | --- |
+| Notes remain durable references, not Capture hierarchy | Text, data, actions and Notes ordering are unchanged; hooks/CSS only. 3 Notes including tagged, untagged and RTL content remain exact in every populated render. | PASS |
+| Promotion is explicit and provenance-preserving | Existing form, targets, handler, idempotency/version payload and `S11-UI-007` trace are unchanged; uncommitted draft and selection states prove no automatic promotion. | PASS |
+| Research retains five exact kinds and conditional fields | NOTE/URL/EXCERPT/CITATION fixtures plus actual FILE upload render unchanged; kind switching and focused real-browser suite pass. | PASS |
+| Private file privacy/scanning/access | Existing file input, storage/scanner/service/API paths and signed access action are unchanged; actual local scan/upload succeeded; trace comments/calls retain explicit private exclusions. | PASS |
+| No false causality, chronology or canonization | Removed inherited spine/dots only under `.research-workspace`; no Timeline rule or semantic link changed; cards remain references and promotion remains explicit. | PASS |
+| Quiet premium hierarchy without IA redesign | Exact header/intro/forms/actions/cards/status refinements are visible in all final screenshots; source order, columns, labels, roles, routes and page ownership are unchanged. | PASS |
+| Light, Dark and Cream | Final7 records `selectedTheme === appliedTheme` for every artifact; all three themes were visually inspected with correct tokens and readable states. | PASS |
+| Desktop/mobile/reflow/RTL/reduced motion | 1440/1180/720/412/320 widths, one/two columns, RTL and reduced-motion true all pass with 0 overflow and 0 Axe violations. | PASS |
+| Binding-width target geometry and focus | 0 undersized measured controls at 720/412/320; return action improves from 126x21 to 126x44; focused Add/Promotion/Draft/Return states visibly retain 2px outlines. | PASS |
+| Status/error truth | Existing role and message are unchanged; controlled 503 remains the sole expected resource error and produces the exact localized live text. | PASS |
+| Presentation-only minimality | Product diff is restricted to class/data hooks and `.research-workspace` CSS. No route/domain/API/schema/migration/service/entitlement/pricing/telemetry/dependency/workflow/test source changed. | PASS |
+| Console-at-every-operational-step requirement | All five existing Notes/Research operational boundaries retain their identifying comment/call pairs and privacy-safe payloads; no fake decorative log was added for styling. | PASS |
+| Mandatory ordering and WorkPlan integrity | S19-H closure and S19-I pre-code objects passed exact remote gates before code; WorkPlan hash is unchanged; S19-J/S20 remain locked. | PASS |
+| Local owning verification | 16/16 focused tests, 3/3 applicable browser tests, 410/410 full tests, lint/typecheck/security/audit/launch/build and corrected 12-state visual matrix pass. | PASS |
+| Exact-hash cross-product remote acceptance | Not yet available for the uncommitted implementation; required because the local long-run matrix retained unrelated development-host failures. | PENDING |
+
+No in-scope S19-I implementation or visual gap remains locally. The baseline theme-evidence defect and all long-run browser failures are explicitly retained rather than concealed. Current decision: **S19-I IMPLEMENTATION, OWNING FUNCTIONAL/STRESS EVIDENCE, CORRECTED ACTUAL-PRODUCT VISUAL AUDIT AND LOCAL SIDE-BY-SIDE COMPLIANCE PASS. EXACT-HASH HOSTED VERIFY, CLEAN S18-REGRESSION, PULL-REQUEST SECURITY AND PUSH SECURITY REMAIN PENDING. S19-I IS NOT CLOSED; S19-J THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.

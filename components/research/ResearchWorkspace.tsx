@@ -284,8 +284,11 @@ export function ResearchWorkspace({
   };
 
   return (
-    <section className="chronicle-workspace" aria-labelledby="research-title">
-      <header>
+    <section
+      className="chronicle-workspace research-workspace"
+      aria-labelledby="research-title"
+    >
+      <header className="chronicle-header research-header">
         <div>
           <p className="eyebrow">{messages.referenceWithoutContextSwitching}</p>
           <h1 id="research-title">{messages.notesAndResearch}</h1>
@@ -302,15 +305,16 @@ export function ResearchWorkspace({
             : messages.returnToProjectHome}
         </a>
       </header>
-      <p>
+      <p className="chronicle-intro research-intro">
         {
           messages.notesAreDurableReferencesNotCaptureInboxEntriesTagsAndBacklinksReplace
         }
       </p>
-      <div className="chronicle-columns">
-        <section>
+      <div className="chronicle-columns research-columns">
+        <section className="research-column notes-column">
           <h2>{messages.notes}</h2>
           <form
+            className="research-form note-create-form"
             onSubmit={(event) => {
               event.preventDefault();
               void createNote();
@@ -344,6 +348,7 @@ export function ResearchWorkspace({
           </form>
           {notes.length ? (
             <form
+              className="research-form note-promotion-form"
               onSubmit={(event) => {
                 event.preventDefault();
                 void promoteNote();
@@ -382,9 +387,9 @@ export function ResearchWorkspace({
               <button type="submit">{messages.promoteWithProvenance}</button>
             </form>
           ) : null}
-          <ul className="chronicle-list">
+          <ul className="chronicle-list research-list notes-list">
             {notes.map((note) => (
-              <li key={note.id}>
+              <li className="note-item" key={note.id}>
                 <div>
                   <strong>{note.title}</strong>
                   <span>{note.tags.join(" · ") || messages.noTags}</span>
@@ -397,9 +402,10 @@ export function ResearchWorkspace({
             ))}
           </ul>
         </section>
-        <section>
+        <section className="research-column research-library-column">
           <h2>{messages.research}</h2>
           <form
+            className="research-form research-create-form"
             onSubmit={(event) => {
               event.preventDefault();
               void createResearch();
@@ -444,7 +450,7 @@ export function ResearchWorkspace({
               />
             </label>
             <button type="submit">{messages.addResearch}</button>
-            <label>
+            <label className="research-file-control">
               {messages.privateFile}
               <input
                 type="file"
@@ -456,9 +462,9 @@ export function ResearchWorkspace({
               />
             </label>
           </form>
-          <ul className="chronicle-list">
+          <ul className="chronicle-list research-list research-item-list">
             {items.map((item) => (
-              <li key={item.id}>
+              <li className="research-item" data-kind={item.kind} key={item.id}>
                 <div>
                   <strong>{item.title}</strong>
                   <span>{localizedEnumLabel(messages, item.kind)}</span>
@@ -477,7 +483,9 @@ export function ResearchWorkspace({
           </ul>
         </section>
       </div>
-      <p role="status">{status}</p>
+      <p className="chronicle-status research-status" role="status">
+        {status}
+      </p>
     </section>
   );
 }
