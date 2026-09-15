@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-H remotely closed; S19-I pre-code audit and visual contract recorded** | Sections 27–28 below | S19-H closure `708e91c4a55c3f8a195967ad6323f282880a68f0` passed CI `34777882158` and Security `34777882160`/`34777880831`; S19-I product work is locked until this pre-code record passes the same exact-hash gates |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-H remotely closed; S19-I implementation exact-hash verified and closure ledger pending** | Sections 27–28 below | S19-I implementation `56889df09727d9dce647f6210d32620d2c8d1ee4` passed CI attempt 2 `34866058119` and Security `34866058095`/`34866051862`; S19-J remains locked until this closure record passes the same exact-hash gates |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7645,3 +7645,53 @@ These failures cannot establish a regression caused by this class/CSS-only slice
 | Exact-hash cross-product remote acceptance | Not yet available for the uncommitted implementation; required because the local long-run matrix retained unrelated development-host failures. | PENDING |
 
 No in-scope S19-I implementation or visual gap remains locally. The baseline theme-evidence defect and all long-run browser failures are explicitly retained rather than concealed. Current decision: **S19-I IMPLEMENTATION, OWNING FUNCTIONAL/STRESS EVIDENCE, CORRECTED ACTUAL-PRODUCT VISUAL AUDIT AND LOCAL SIDE-BY-SIDE COMPLIANCE PASS. EXACT-HASH HOSTED VERIFY, CLEAN S18-REGRESSION, PULL-REQUEST SECURITY AND PUSH SECURITY REMAIN PENDING. S19-I IS NOT CLOSED; S19-J THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.33 S19-I exact-hash implementation proof and remote compliance closure
+
+#### Pushed object and immutable identity
+
+S19-I implementation and its contemporaneous local evidence were committed as `56889df09727d9dce647f6210d32620d2c8d1ee4` (`Polish Notes and Research visual system`) and pushed to `origin/agent/workplan-subgates-audit`. Before hosted acceptance was evaluated, local `HEAD`, the upstream tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to that full SHA. The commit contains exactly three tracked files: `Path.md` 127 insertions/6 deletions, `app/globals.css` 33 insertions, and `components/research/ResearchWorkspace.tsx` 20 insertions/12 deletions, for a total of 180 insertions and 18 deletions. No schema, route, domain, service, test, dependency, workflow, environment or generated file is present.
+
+The product portion remains exactly the audited two-file 53-insertion/12-deletion presentation diff from 28.32. `WorkPlan.md` remains unchanged with SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`. The ignored evidence harness and render artifacts are absent from the commit.
+
+#### Exact hosted CI proof, including retained first-attempt flake
+
+Pull-request CI run `34866058119` checked out exact `headSha` `56889df09727d9dce647f6210d32620d2c8d1ee4`. Its two attempts are both retained because a green workflow with a retry-dependent browser case is not treated as a strict clean gate.
+
+| CI attempt/job | Exact result | Interpretation |
+| --- | --- | --- |
+| Attempt 1 `verify`, job `104050069312`, 16:02:22–16:07:25 UTC | **Passed in 5 minutes 3 seconds.** Clean install and Prisma generation passed; lint was zero-warning; typecheck passed; 107/107 Vitest files and 410/410 tests passed in 174.55 seconds; aggregate coverage was 87.97% statements, 77.18% branches, 85.71% functions and 90.51% lines; production build compiled in 17.9 seconds and generated 22/22 static tasks. | Static, complete-test and production-build acceptance passed on the exact product object. |
+| Attempt 1 `s18-regression`, job `104050069073`, 16:02:22–16:10:05 UTC | Workflow passed in 7 minutes 43 seconds after Playwright reported **31 passed, 28 declared project skips and 1 flaky** in 5.9 minutes. The retry-dependent case was the existing command-palette route/context test. All database, migration and native verification steps passed. | Retained as non-authoritative for the strict clean browser gate. It does not close S19-I and is not relabeled as clean. |
+| Unchanged-object attempt 2 `verify`, job `104053178513`, 16:10:58–16:15:35 UTC | **Passed in 4 minutes 37 seconds.** Clean install, Prisma generation, zero-warning lint and typecheck passed; 107/107 files and 410/410 tests passed in 165.82 seconds at the identical aggregate coverage; production build compiled in 16.2 seconds and generated 22/22 static tasks. | Confirms the unchanged commit remains deterministic across the complete non-browser gate. |
+| Unchanged-object attempt 2 `s18-regression`, job `104053178857`, 16:10:58–16:19:08 UTC | **Passed in 8 minutes 10 seconds.** PostgreSQL initialization, migrations, alert/Structure/archive/pagination/OIDC/Portability native verifiers and Chromium setup all passed. The unchanged 60-test matrix finished **32 passed, 28 declared project skips, 0 failed and 0 flaky** in 6.6 minutes. | Authoritative strict clean browser acceptance for S19-I. It resolves the first attempt's retry classification on the identical SHA without a source, test, fixture, threshold, timeout, dependency, configuration or workflow change. |
+
+The 28 skips are the repository's declared project-applicability exclusions and remain skips rather than passes. Attempt 2 proves the exact S19-I object preserves Command Palette, Capture, Search/Language, Continuation, Context, Structure, Universe and Timeline/Research protected paths. It also resolves the stale/local Windows development-host failures retained in 28.32: the hosted environment passed the unchanged production-grade browser matrix cleanly, while no workaround was introduced into the S19-I slice.
+
+The GitHub Actions Node 20-to-24 action-runtime transition annotation appeared again and remains informational. It did not fail or bypass any product, test, database, build or security step.
+
+#### Independent exact-SHA Security proof
+
+| Trigger | Run/job and timing | Exact result |
+| --- | --- | --- |
+| Pull request | Security run `34866058095`, job `104050069019`, 16:02:21–16:03:01 UTC | **Passed in 40 seconds.** Clean install, `npm audit --audit-level=high`, the unchanged 2-file/10-test security suite, and committed environment/key-material rejection passed. |
+| Push | Security run `34866051862`, job `104050049010`, 16:02:18–16:03:00 UTC | **Passed in 42 seconds.** The same dependency, security-test, privacy and secret-material boundaries passed independently for the branch update. |
+
+Both runs report exact `headSha` `56889df09727d9dce647f6210d32620d2c8d1ee4`. The CI rerun did not require a Security rerun because both independent Security triggers had already verified the same immutable Git object, and no repository state changed between attempts.
+
+#### Remote side-by-side S19-I closure audit
+
+| Mandatory acceptance boundary | Exact remote evidence | Decision |
+| --- | --- | --- |
+| Audited local object equals hosted and pushed object | Local `HEAD`, upstream, remote branch and every CI/Security `headSha` equal `56889df09727d9dce647f6210d32620d2c8d1ee4`. | PASS |
+| Authorized presentation-only ownership | Commit contains only the two authorized product files plus `Path.md`; hosted lint, typecheck, full tests and build pass. | PASS |
+| Notes/Research behavior and privacy remain unchanged | The owning Timeline/Research paths pass inside the clean hosted matrix; no API/domain/storage/scanner/provenance/log payload changed; both Security triggers pass. | PASS |
+| Corrected visual/accessibility contract remains backed by executable behavior | The locally inspected 12-state actual-product matrix in 28.32 passed theme, RTL, reflow, focus, 44px, Axe, overflow and expected-error requirements; the exact commit then passed the complete hosted functional matrix. | PASS |
+| Cross-product compatibility | Attempt 2 passed all 32 applicable tests across eight suites with 28 declared skips, 0 failed and 0 flaky. | PASS |
+| Database, portability and operations compatibility | All native deployment and alert/Structure/archive/pagination/OIDC/Portability verifiers passed in both CI attempts. | PASS |
+| Complete deterministic and production gates | Attempt 2 passed 410/410 tests at unchanged coverage, lint, typecheck and the 22/22 production build. | PASS |
+| Dependency, security and committed-secret boundaries | Pull-request and push Security jobs independently passed on the exact SHA. | PASS |
+| Failure transparency | Local dev-host failures and attempt 1's one flaky case remain recorded; clean attempt 2 resolves rather than erases them. No test or threshold changed. | PASS |
+| Mandatory predecessor ordering and plan integrity | S19-H closure and S19-I pre-code proofs were green before code; WorkPlan hash is unchanged; S19-J was not started while S19-I implementation proof was pending. | PASS |
+| Closure-ledger durability | This 28.33 record exists only in the current uncommitted `Path.md` working tree and has not yet been independently checked out by hosted workflows. | PENDING |
+
+No S19-I product, visual, functional, privacy, accessibility, responsive, security, operational or cross-product compliance gap remains. The first browser attempt is explicitly preserved and the clean unchanged-object rerun is the authoritative regression evidence. Current decision: **S19-I IMPLEMENTATION IS EXACT-HASH REMOTELY VERIFIED. S19-I REMAINS OPEN ONLY FOR THIS PATH-ONLY CLOSURE COMMIT/PUSH AND ITS EXACT-HASH CI `verify`, CLEAN `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY PROOF. S19-J THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
