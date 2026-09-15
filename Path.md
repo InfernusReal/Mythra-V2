@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-H remotely closed; S19-I implementation exact-hash verified and closure ledger pending** | Sections 27–28 below | S19-I implementation `56889df09727d9dce647f6210d32620d2c8d1ee4` passed CI attempt 2 `34866058119` and Security `34866058095`/`34866051862`; S19-J remains locked until this closure record passes the same exact-hash gates |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-I remotely closed; S19-J pre-code audit in progress** | Sections 27–28 below | S19-I closure ledger `5075a0412a0437abe6577c6640b918720463dcb9` passed CI attempt 3 `34984084402` and Security `34984084336`/`34984075458`; S19-J remains implementation-locked until its pre-code record passes the same exact-hash gates |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7695,3 +7695,107 @@ Both runs report exact `headSha` `56889df09727d9dce647f6210d32620d2c8d1ee4`. The
 | Closure-ledger durability | This 28.33 record exists only in the current uncommitted `Path.md` working tree and has not yet been independently checked out by hosted workflows. | PENDING |
 
 No S19-I product, visual, functional, privacy, accessibility, responsive, security, operational or cross-product compliance gap remains. The first browser attempt is explicitly preserved and the clean unchanged-object rerun is the authoritative regression evidence. Current decision: **S19-I IMPLEMENTATION IS EXACT-HASH REMOTELY VERIFIED. S19-I REMAINS OPEN ONLY FOR THIS PATH-ONLY CLOSURE COMMIT/PUSH AND ITS EXACT-HASH CI `verify`, CLEAN `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY PROOF. S19-J THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.34 S19-I closure-ledger proof and S19-J pre-code visual contract
+
+#### S19-I closure-ledger exact remote proof
+
+Path-only closure commit `5075a0412a0437abe6577c6640b918720463dcb9` (`Record S19-I remote implementation proof`) was pushed to `origin/agent/workplan-subgates-audit`. Local `HEAD`, the upstream tracking ref and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolve to that exact SHA. The commit contains only `Path.md`; the WorkPlan remains unchanged with SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+
+Pull-request CI run `34984084402` checked out exact `headSha` `5075a0412a0437abe6577c6640b918720463dcb9`. All three attempts are retained because neither workflow success nor automatic retry classification is accepted as a substitute for a clean protected browser pass.
+
+| Attempt/job | Exact result | Gate decision |
+| --- | --- | --- |
+| Attempt 1 `verify`, job `104431586213`, 14:48:05–14:52:56 UTC | **Passed in 4 minutes 51 seconds.** Clean install/generation, zero-warning lint, typecheck, all 107 files/410 tests at unchanged aggregate coverage, and the 22/22 production build passed. | PASS for deterministic/build gate. |
+| Attempt 1 `s18-regression`, job `104431586688`, 14:48:05–14:56:26 UTC | Workflow passed in 8 minutes 21 seconds but Playwright reported **31 passed, 28 declared skips and 1 flaky**. The retry-dependent case was Command Palette. | REJECTED as the strict clean browser gate; retained, not relabeled. |
+| Attempt 2 `verify`, job `104435168706`, 14:57:21–15:01:36 UTC | **Passed in 4 minutes 15 seconds.** 107/107 files and 410/410 tests passed at 87.97% statements, 77.18% branches, 85.71% functions and 90.51% lines; build compiled in 14.7 seconds and generated 22/22 tasks. | PASS for unchanged-object deterministic/build gate. |
+| Attempt 2 `s18-regression`, job `104435168521`, 14:57:21–15:05:59 UTC | Workflow passed in 8 minutes 38 seconds but Playwright reported **30 passed, 28 declared skips and 2 flaky**. The retry-dependent cases were desktop Context pinned-item handling and mobile Command Palette Continue Writing. | REJECTED as the strict clean browser gate; retained, not relabeled. |
+| Attempt 3 `verify`, job `104438979947`, 15:07:07–15:12:07 UTC | **Passed in 5 minutes.** Clean install/generation, lint and typecheck passed; **107/107 files and 410/410 tests** passed in 175.03 seconds at the identical aggregate coverage; production build compiled in 17.6 seconds and generated 22/22 tasks. | Authoritative deterministic/build acceptance. |
+| Attempt 3 `s18-regression`, job `104438979620`, 15:07:06–15:15:12 UTC | **Passed cleanly in 8 minutes 6 seconds.** Database initialization, all migrations, alert/Structure/archive/pagination/OIDC/Portability native verifiers and Chromium setup passed; the 60-test protected matrix finished **32 passed, 28 declared project skips, 0 failed and 0 flaky** in 6.5 minutes. | Authoritative strict browser acceptance on the identical immutable object. |
+
+The attempt-3 clean rerun resolved, rather than erased, the two earlier retry-dependent results. No repository file, test, fixture, timeout, threshold, dependency, workflow or environment contract changed between attempts.
+
+Independent Security also passed on exact SHA `5075a0412a0437abe6577c6640b918720463dcb9`:
+
+- Pull-request Security run `34984084336`, job `104431584802`, passed from 14:48:05–14:48:44 UTC. Clean install, `npm audit --audit-level=high`, 2 security files/10 tests and committed environment/key-material rejection passed.
+- Push Security run `34984075458`, job `104431553151`, passed from 14:48:00–14:48:38 UTC with the same dependency, security-test, privacy and secret-material boundaries.
+
+The recurring GitHub Actions Node runtime transition annotation remained informational; no checked step was skipped or failed. S19-I's product object and closure ledger are therefore independently durable and remotely reproducible. **S19-I IS CLOSED. S19-J became eligible only after attempt 3 supplied clean exact-SHA CI/regression proof.**
+
+#### S19-J run identity, authority, and bounded scope
+
+- **Date/time and timezone:** 15 September 2026, Asia/Karachi. S19-J remains open until product implementation, local visual/functional/security evidence, exact commit/push identity, hosted CI/regression/Security and a separate closure-ledger cycle pass.
+- **Delivery phase / visual slice:** Phase 7, S19-J — Billing/settings/operations/supporting surfaces. It is a bounded visual-review slice, not a new functional Sub-gate.
+- **Verified predecessor:** S19-I closure commit `5075a0412a0437abe6577c6640b918720463dcb9`, exact hosted evidence immediately above.
+- **Baseline branch/commit:** clean tracked branch `agent/workplan-subgates-audit` at `5075a0412a0437abe6577c6640b918720463dcb9`; local, upstream and remote branch refs matched before discovery. Ignored `tmp/` harness/artifacts do not enter product history.
+- **Authority reviewed:** Phase 7 prompt lines 490–519 (binding geometry/accessibility/theme/responsive rules), 522–564 (per-slice execution method), 567–584 (shared CSS safety), 587–635 (premium quality bar), 638–681 (mandatory surfaces), and 684–711 (non-interference). `WorkPlan.md` strict sequencing and writing-sovereignty rules, Pricing Decision section 3.1, Sub-gates 13–17, Phase 5 and Phase 6 acceptance rules were checked side by side.
+- **Product source inspected before code:** `app/app/settings/page.tsx`; billing settings route and `components/billing/BillingPanel.tsx`; project home and `components/portability/PortabilityPanel.tsx`; Suggestions route and `components/suggestions/SuggestionInbox.tsx`; admin route, `components/operations/AdminOperationsPanel.tsx`, and `components/operations/RecoveryActionControl.tsx`; `components/shell/DegradedNetworkStatus.tsx`; related billing/operations/portability/suggestion domains, services, component/accessibility/stress/E2E suites; and the owning selectors in `app/globals.css`.
+
+The intended capability remains exactly the already implemented product: USD 15/month Mythra Core with full deterministic V2 access; future-only USD 25/month Intelligence; transparent cost-driver usage; safe provider failure; content-safe operations; explicit token/phrase recovery; verified snapshots; preview-before-import; explicit restore/export/download; and non-canonical Suggestions resolved only by author decision. S19-J may improve comprehension, hierarchy, density, focus, reflow and state clarity only.
+
+#### Executable actual-product baseline and retained harness history
+
+A disposable local Prisma Postgres instance was migrated with all 19 repository migrations and seeded. A fresh Next.js 16.3.4 Turbopack process served the actual application at a loopback URL. The browser harness authenticated through the real development sign-in flow, created real projects/chapters/Suggestions through the application APIs, created a verified snapshot and full-project archive through the actual UI, and inserted only content-safe local operational fixture rows required to display an existing failed-job recovery path. No production or remote data was used.
+
+The first full run produced artifacts 01–12, then failed before the RTL state because its sign-in selector depended on the English button label while `Accept-Language: ar` correctly localized that page. That is a harness defect, not a product defect. The selector was changed only in the ignored harness to the sign-in form's semantic submit control. The complete rerun then captured all 17 states successfully. This failed attempt remains disclosed; no product/test source, locale behavior, timeout or assertion was weakened.
+
+The complete baseline recorded selected and applied themes, direction, reduced-motion state, full-page and owning-surface geometry, focus outline, control geometry, open/disabled state, browser/page errors and Axe results:
+
+| Artifact | Actual state exercised | Baseline observation and decision |
+| --- | --- | --- |
+| `01-settings-light-desktop.png` | Settings, Light, 1440x1000, focused billing link | No overflow/Axe/error; 2px focus visible. The 680px panel is vertically centered at approximately mid-page, leaving excessive blank space; Theme plus two bare text links provide no premium navigation hierarchy. |
+| `02-settings-dark-mobile.png` | Settings, Dark, 412x915 | No overflow/Axe/error. All three measured interactive elements are below 44px and the bare links remain visually undifferentiated. |
+| `03-billing-light-desktop.png` | Billing/usage, Light, 1440x1000 | Correct Core/Intelligence pricing and all seven resource meters render with no overflow/Axe/error. Status, plan card and usage rows are flat; four controls measure 42px or less. |
+| `04-billing-error-dark-desktop.png` | Billing controlled 503, Dark, 1180x900 | Existing exact safe error remains legible and Writing remains available. The sole console resource error is the deliberately injected 503; no unexpected application error. |
+| `05-billing-checkout-cream-desktop.png` | Billing fixture checkout handoff, Cream, 1180x900 | Focus restores visibly to Manage billing after the fixture return; pricing and future-only state remain exact. No overflow/Axe/error. |
+| `06-billing-dark-mobile.png` | Billing, Dark, 412x915 | No overflow/Axe/error, but action density and two-column meter labels produce awkward wraps; all four controls are below the 44px compact target. |
+| `07-portability-light-expanded.png` | Snapshot and export detail groups open, Light, 1440x1000 | Actual verified snapshot/export render with both restore choices and Download; no overflow/Axe/error. Nine controls/summaries measure below 44px and the high-risk/history hierarchy is too visually uniform. |
+| `08-portability-cream-import-preview.png` | Real Markdown import preview, Cream, 1180x900 | Exact preview-only warning, chapter/body excerpt, confirm and Cancel render before mutation; no overflow/Axe/error. Eleven controls are below 44px and import confirmation needs stronger bounded-state hierarchy without becoming destructive styling. |
+| `09-portability-dark-mobile-offline.png` | Offline/degraded, Dark, 412x915 | No horizontal overflow; all seven unsafe portability controls are disabled while writing/navigation remain available. The offline fetch error is expected. Axe found one real minor violation: `role=status` is not permitted on the current `aside.degraded-network`; all nine measured controls/summaries are below 44px. |
+| `10-suggestions-light-desktop.png` | Three open Suggestions, Light, 1440x1000 | Data, evidence/action/confidence counts, author notes and four decisions per card render with no overflow/Axe/error. Cards and decisions are visually flat; status is unbounded plain text. |
+| `11-suggestions-dark-draft.png` | Uncommitted author note and focused modification decision, Dark, 1180x900 | Draft remains unchanged/unsubmitted; 2px focus outline is visible; no overflow/Axe/error. The decision hierarchy does not distinguish affirmative, qualified, reject and intentional outcomes. |
+| `12-suggestions-error-light.png` | Controlled PATCH 503, Light, 1180x900 | The exact existing failure message renders and all three proposals/drafts remain present. The only console resource error is the deliberate 503. Error copy is currently an unbounded final paragraph rather than a clear status surface. |
+| `13-suggestions-rtl-cream-mobile.png` | Arabic RTL, Cream, 320x800, reduced motion | Direction and reduced-motion preference apply, but the deliberately long unbroken category expands the card's intrinsic width and clips content at the inline end. This is a real long-label/RTL defect even though `.shell-main` clips page overflow. Thirteen of sixteen measured controls are below 44px. |
+| `14-suggestions-empty-dark-desktop.png` | Empty Suggestions, Dark, 1180x900 | No overflow/Axe/error. The empty copy is truthful but visually stranded because the component is vertically centered with no bounded empty-state surface. |
+| `15-admin-light-desktop.png` | Operations, Light, 1440x1000, focused Jobs region | Content-safe summary, quotas, Jobs, Exports, Snapshots, Alerts, audits and operational events render; 2px region focus is visible; no Axe/page overflow. Word-breaking damages status/event readability and raw audit/event lists produce an excessively long undifferentiated page. |
+| `16-admin-dark-recovery-preview.png` | Actual failed-job recovery preview, Dark, 1180x900 | Required phrase, expiry, content-safety explanation, disabled confirmation and Cancel render without exposing token/payload; 2px input focus is visible. The preview is cramped inside a table cell; four controls are under 44px and table columns break identifiers/status into fragments. |
+| `17-admin-cream-reflow.png` | Operations, Cream, 720x900, Arabic RTL, reduced motion | Root does not overflow and themes/direction/motion apply, but tables shrink every column and break words into unreadable fragments rather than providing an explicit scrollable data viewport. Lists remain excessively tall; two controls are below 44px. |
+
+Aggregate baseline: **17/17 captures completed; 0 root-overflow states; one real Axe violation; three console resource errors, all exactly attributable to the deliberately injected billing 503, offline state and Suggestion 503; no page exceptions.** Visual inspection was performed on every full-resolution artifact, not inferred from CSS or metrics.
+
+#### Locked defects, objectives, expected files, and non-interference contract
+
+S19-J will address only the defects established above:
+
+1. Top-align and card the Settings surface; turn the two existing destinations into quiet, full-width, 44px navigational rows while retaining role-based visibility and exact hrefs.
+2. Strengthen Billing plan/status/usage/future/invoice hierarchy; preserve the exact USD 15 Core and future-only USD 25 Intelligence truth; use 44px actions and reflow meter rows cleanly on compact screens.
+3. Improve Portability header status, action grouping, preview, details rows and state geometry; retain exact disabled-offline behavior, preview-before-confirm, both restore modes and signed-download handoff.
+4. Improve Suggestions header, return action, cards, status/metric presentation, author-note field, decision hierarchy, error/empty states and 44px compact controls; make every nested grid/card child shrinkable and long labels break safely in RTL. Exact proposal text/data/status and author-decision requests remain unchanged.
+5. Group Operations sections into bounded visual surfaces; make Jobs/Exports/Snapshots/Alerts true horizontally scrollable data regions with readable minimum column widths; bound the existing audit/event lists in keyboard-scrollable regions; preserve every content-safe row and recovery workflow. The recovery preview must gain breathing room without changing token, expiry, phrase, permissions or request bodies.
+6. Repair the offline status semantics by removing the invalid explicit `status` role from the `aside` while retaining its existing polite live-region behavior and text.
+
+Expected tracked product files are exactly:
+
+- `app/app/settings/page.tsx` for presentation-only class structure around the existing Settings content;
+- `components/billing/BillingPanel.tsx`, `components/portability/PortabilityPanel.tsx`, `components/suggestions/SuggestionInbox.tsx`, `components/operations/AdminOperationsPanel.tsx`, and `components/operations/RecoveryActionControl.tsx` for presentation hooks/semantic grouping only;
+- `components/shell/DegradedNetworkStatus.tsx` for the Axe-proven ARIA correction;
+- `app/globals.css` for selectors scoped to `.settings-panel`, `.billing-panel`, `.portability-panel`, `.suggestion-inbox`, `.admin-panel`, `.admin-recovery` and `.degraded-network`.
+
+No token value or unscoped shared primitive is planned. If implementation shows a listed component needs no hook, it will remain unchanged and be removed from the actual diff inventory. No other product file is authorized without a new recorded justification before editing.
+
+Immutable negative contract:
+
+- no persistence, migration, schema, canonical model, service, repository, API/route, command, Search, editor/save/focus restoration, Capture, causality, timeline, localization catalog or dependency change;
+- no price, provider adapter, entitlement, quota, invoice, checkout/portal request, plan availability or downgrade change;
+- no snapshot/export/import/restore/download request, idempotency, verification or offline-availability change;
+- no admin role, content-safe field set, alert rule, recovery target/token/expiry/required phrase/request or audit payload change;
+- no Suggestion model, pagination, evidence/action count, proposal status, author-note requirement, decision endpoint/body, tool permission or non-canonical boundary change;
+- no fabricated loading state, status, icon, illustration, marketing copy, data, navigation destination or new information architecture.
+
+#### Console-log and validation plan
+
+This slice introduces no new operational step, so it will not add deceptive decorative logging. Existing adjacent comment/call pairs must remain byte-for-byte operationally equivalent. Final line numbers will be regenerated after markup edits and recorded with exact comments and `console.log`/`clientTrace` calls. The relevant current boundaries are Billing `S14-UI-001`/`002`/`003` plus server-render `S14-UI-004`, Portability `S13-UI-001` through `006`, recovery `S16-RECOVERY-003`/`004`, and Suggestions `S17-SUGGESTION-UI-001` plus server-render `S17-SUGGESTION-UI-002`. No log may gain provider destinations, confirmation tokens, manuscript/import text, proposal findings/notes, file content or job payloads.
+
+After implementation, validation must include focused ESLint/typecheck; owning billing, operations, portability and Suggestions unit/component/accessibility/stress suites; their real-browser suites; full lint, complete coverage, security, dependency audit, launch audit and production build; a corrected rerun of all 17 visual states with manual full-resolution inspection; exact control/overflow/theme/direction/reduced-motion/Axe/error evidence; diff and WorkPlan-hash integrity; and exact-hash hosted `verify`, clean protected `s18-regression`, pull-request Security and push Security. Controlled 503/offline resource errors remain expected but must be isolated from page exceptions or unintended console errors.
+
+Current decision: **S19-I IS CLOSED. S19-J DISCOVERY, ACTUAL-PRODUCT BASELINE, MANUAL VISUAL INSPECTION, DEFECT LIST, EXPECTED FILES, BEHAVIOR LOCK AND VALIDATION PLAN ARE COMPLETE LOCALLY. THIS PRE-CODE PATH RECORD MUST NOW BE COMMITTED, PUSHED AND PASS EXACT-HASH HOSTED CI, CLEAN PROTECTED REGRESSION, PULL-REQUEST SECURITY AND PUSH SECURITY BEFORE ANY S19-J PRODUCT FILE IS MODIFIED. S19-J IMPLEMENTATION AND S19-K THROUGH S19-L/S20 REMAIN LOCKED; PHASE 7 INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
