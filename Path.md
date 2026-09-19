@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-I remotely closed; S19-J implementation exact-hash remotely verified, closure-ledger proof pending** | Sections 27–28 below | S19-J product/evidence object `d3767f3ce6c7babaf31c1f0106c5955468ac8ba8` passed CI `35438535043`, PR Security `35438534970`, and push Security `35438533371`; this remote-proof ledger must now be committed/pushed and independently verified before S19-J closes |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-J remotely closed; S19-K pre-code responsive contract awaiting exact-hash remote proof** | Sections 27–28 below | S19-J closure ledger `759d13829238f5b035fbd6463a186c36c33f9e0b` passed CI `35438990974`, PR Security `35438990972`, and push Security `35438987674`; section 28.37 defines the bounded S19-K pre-code object that must pass independently before product edits |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7948,3 +7948,74 @@ GitHub's Node-action transition and future `ubuntu-latest` migration annotations
 | Durable remote-proof ledger | This section exists only in the current uncommitted `Path.md`; it has not yet been checked out by hosted workflows. | PENDING |
 
 No implementation-commit gap remains. Current decision: **S19-J IMPLEMENTATION COMMIT IS EXACT-HASH REMOTELY VERIFIED. S19-J REMAINS OPEN ONLY FOR THIS PATH-ONLY REMOTE-PROOF COMMIT/PUSH AND ITS OWN EXACT-HASH CI `verify`, CLEAN `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY EVIDENCE. S19-K THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.37 S19-J closure-ledger proof and S19-K pre-code responsive contract
+
+#### S19-J independently durable closure
+
+The section 28.36 remote-proof ledger was committed as `759d13829238f5b035fbd6463a186c36c33f9e0b` (`Record S19-J remote implementation proof`) and pushed to `origin/agent/workplan-subgates-audit`. Local `HEAD`, `@{upstream}`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact SHA before hosted results were accepted. The commit changed only `Path.md` (31 insertions and one status-line replacement); product code and `WorkPlan.md` were unchanged.
+
+- Pull-request CI run `35438990974` completed successfully on exact `headSha` `759d13829238f5b035fbd6463a186c36c33f9e0b`.
+- `verify` job `105886430007` passed in 3m57s after clean checkout/install, Prisma generation, lint, typecheck, full coverage, and production build.
+- Protected `s18-regression` job `105886430000` passed in 8m38s. Database deployment and alert, Structure, archive, pagination, OIDC and Portability native verifiers all passed. The unchanged eight-suite Playwright matrix then passed **32 applicable tests with 28 declared device-project skips in 7.0m**, with zero failed, retried or flaky test; evidence upload also passed.
+- Pull-request Security run `35438990972`, job `105886429962`, passed the high-severity dependency audit, 2 files/10 security and accessibility tests, privacy checks, and committed environment/key-material rejection.
+- Push Security run `35438987674`, job `105886422238`, independently passed the same controls.
+- GitHub's Node-action runtime and future Ubuntu-image messages were informational annotations only. No checked step was skipped, tolerated or failed.
+
+This independently verifies the remote-proof ledger itself. **S19-J IS CLOSED.** S19-K became eligible only after this exact-SHA protected regression completed at 16:10:36 Asia/Karachi on 19 September 2026.
+
+#### S19-K run identity, authority, and source audit
+
+- **Date/time and timezone:** 19 September 2026, Asia/Karachi. S19-K remains open until its pre-code record, implementation/evidence object and separate closure ledger each pass their required commit/push/exact-hash hosted gates.
+- **Delivery phase / visual slice:** Phase 7, S19-K — mobile/compact/responsive consistency. It is a bounded S19 visual-review slice, not an original capability Sub-gate and not permission to alter product behavior.
+- **Predecessor evidence:** S19-J closure ledger `759d13829238f5b035fbd6463a186c36c33f9e0b` and the four hosted jobs above are green. S19-K was not started before that final protected job passed.
+- **Baseline branch/object:** clean `agent/workplan-subgates-audit` at `759d13829238f5b035fbd6463a186c36c33f9e0b`, identical locally, upstream, and on the remote branch.
+- **Authority:** Phase 7 prompt S19 execution method and S19-K line 541; retained WorkPlan responsive/mobile, accessibility, Light/Dark/Cream, RTL, reduced-motion, touch-target, non-displaced-manuscript and truthful-state constraints. WorkPlan SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+- **Forbidden scope:** no schema, migration, domain, repository, application service, API, route, command, information architecture, workflow, state ownership, copy, localization string, price, entitlement, operational transition, telemetry payload, dependency or desktop visual redesign. S19-L and S20 remain locked.
+
+#### Current rendered-product inspection before code
+
+No product file changed during this inspection. Because the only commit after the final S19-J render was Path-only, the accepted S19-B through S19-J captures are exact renders of the current product object. Thirty-two representative full-resolution current-product captures were reopened and manually inspected across 320, 412 and 720px widths, mobile/compact/text-reflow conditions, Light/Dark/Cream, English/Arabic RTL, reduced motion, overlays, dense content, empty/error/offline states and long labels:
+
+- Shell/Project Home/Editor/Structure: `s19-b-after/04`, `05`, `06`, `08`; `s19-c-after/04`; `s19-d-after/05`, `11`, `13`.
+- Universe/Timeline/Capture/Search/Ctrl+K: `s19-e-after/04`, `05`, `11`, `13`; `s19-f-after/03`, `07`, `08`; `s19-g-after/05`, `06`, `11`, `12`.
+- Context/Peek/Notes/Research: `s19-h-after/08` through `12`; `s19-i-after-final7/09` through `11`.
+- Settings/Billing/Portability/Suggestions/Operations: `s19-j-final-semantic/02`, `06`, `09`, `13`, `17`.
+
+The corresponding accepted JSON observations for S19-G through S19-J report zero document-root horizontal overflow, zero Axe violations, exact requested theme/direction/motion state, and no measured touch target below 44px in the relevant compact/mobile matrices. The sole recorded offline resource errors are deliberate `ERR_INTERNET_DISCONNECTED` or controlled 503 stimuli. Manual review confirms mobile single-column writing, 48px/collapsed navigation behavior, readable forms/cards/tables, shrink-safe long labels, scroll-contained overlays and no horizontally displaced manuscript.
+
+#### Defects owned by S19-K
+
+1. **Offline mobile grid ordering is wrong.** In both `tmp/s19-g-after/06-search-offline-cream-mobile.png` (320px Search) and `tmp/s19-j-final-semantic/09-portability-dark-mobile-offline.png` (412px Project Home/Portability), the optional `.degraded-network` element consumes the normal mobile main-content grid row. `.app-rail` is explicitly pinned to row 3, so Navigation renders immediately below the offline banner while `.shell-main` is auto-placed in a later implicit row. Navigation therefore appears above the product content instead of remaining the final bottom row. The status copy and offline capability truth are correct; only responsive placement is defective.
+2. **The offline label uses a physical direction margin.** `.degraded-network strong` uses `margin-right`, so spacing is not direction-safe in Arabic/RTL. This contradicts the otherwise logical-property responsive system.
+3. **No browser assertion protects offline shell geometry.** Existing tests correctly verify degraded capability text and disabled operations, but none asserts banner-before-main and main-before-bottom-navigation geometry on the mobile project. The visually proven regression could therefore recur without failing CI.
+
+No other S19-K defect is accepted from this inspection. High content height in Capture, Notes/Research, Suggestions and Operations is real bounded content rather than horizontal failure; Admin tables intentionally scroll inside named regions; command/Context/Capture overlays intentionally scroll inside the viewport; 320px action wrapping and 720px table containment remain usable and accessible. S19-K will not churn those already accepted surfaces.
+
+#### Exact visual objectives and expected files
+
+S19-K will make the optional degraded banner a first-class responsive grid row while preserving all existing dimensions and behavior:
+
+1. On wide/compact layouts, render the command bar first, optional offline banner second, and rail/main/context in the following content row; without the banner, preserve the existing two-row shell exactly.
+2. On mobile, render the command bar, optional offline banner, single-column main content, then the 52px bottom Navigation row in that order; without the banner, preserve the existing command/main/navigation arrangement.
+3. Use logical inline spacing for the offline label so LTR and RTL have identical separation.
+4. Add a mobile-browser geometry assertion proving the offline banner ends before main begins, Navigation begins only after main ends, root horizontal overflow is absent, and the truthful offline status remains exposed.
+5. Preserve exact offline doctrine, live-region semantics, network console trace, navigation behavior, all product workflows and every accepted S19-A–J visual decision.
+
+Expected tracked files are strictly bounded:
+
+| Expected file | Authorized change |
+| --- | --- |
+| `app/globals.css` | Explicit normal/offline shell grid placement for wide, compact and mobile breakpoints; logical offline-label spacing only. No token or unrelated owner change. |
+| `tests/e2e/timeline-research.spec.ts` | One mobile-only degraded-shell geometry regression assertion using the actual authenticated product and existing offline transition. No skip, timeout or assertion weakening. |
+| `Path.md` | This pre-code object, later exact changed-file/log-line ledger, current renders, validation, negative proof and side-by-side decision. |
+
+#### Implementation, logging, validation, and rollback contract
+
+- **Method:** use owner-scoped `.app-shell`, `.command-bar`, `.degraded-network`, `.app-rail`, `.shell-main` and `.context-reservation` placement rules plus an offline-presence selector. Preserve 48px desktop command geometry, 48px collapsed rail, 52px mobile navigation row, shell padding, context reservation width and all surface-specific CSS.
+- **Instrumentation:** this repair introduces no operational transition. The existing adjacent `S11-OFFLINE-003` comment and `console.log` in `components/shell/DegradedNetworkStatus.tsx` must remain byte-identical and content-safe. Adding a decorative log for CSS placement or a test assertion is prohibited because it would create false telemetry. Final line numbers will be re-indexed after implementation.
+- **Validation:** fresh actual-product screenshots at minimum cover 320px Cream offline Search, 412px Dark offline Portability/Project Home, 720px compact offline Search, 320px Arabic RTL offline Search, and matched online controls; every state must report zero root overflow, zero Axe violations and zero sub-44 visible controls. Run owning E2E on both configured device projects, the protected eight-suite matrix, relevant component/accessibility tests, lint, typecheck, full coverage, build, Security, dependency and launch audits in proportion to the shared stylesheet risk.
+- **Global CSS safety:** every major shell consumer is affected only when `.degraded-network` exists. Online Project Home, editor, Structure, Universe, Timeline, Capture, Search, Context, Notes/Research, Settings/Billing, Portability, Suggestions and Operations must remain geometrically unchanged; the visual matrix must include online negative controls. No root token changes are authorized.
+- **Rollback:** the repair is CSS and one additive E2E assertion. Reverting the eventual product commit returns the exact S19-J object; no data rollback or migration exists.
+
+Current pre-code decision: **S19-J IS CLOSED. S19-K CURRENT-PRODUCT INSPECTION, DEFECT LIST, EXACT OBJECTIVES, EXPECTED FILES, BEHAVIOR/LOGGING LOCK AND VALIDATION PLAN ARE COMPLETE LOCALLY. NO S19-K PRODUCT OR TEST FILE HAS CHANGED. THIS PATH-ONLY CHECKPOINT MUST BE COMMITTED, PUSHED AND PASS EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY BEFORE PRODUCT CODE CHANGES. S19-K IMPLEMENTATION, S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
