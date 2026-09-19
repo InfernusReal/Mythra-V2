@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-I remotely closed; S19-J implementation and local audit passed, exact-hash hosted acceptance pending** | Sections 27–28 below | S19-J pre-code checkpoint `f50ff51faccf96df00464d0998038db0297824e5` passed CI `34989675650`, PR Security `34989675690`, and push Security `34989670320`; the current implementation remains uncommitted until the evidence entry below is complete |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-I remotely closed; S19-J implementation exact-hash remotely verified, closure-ledger proof pending** | Sections 27–28 below | S19-J product/evidence object `d3767f3ce6c7babaf31c1f0106c5955468ac8ba8` passed CI `35438535043`, PR Security `35438534970`, and push Security `35438533371`; this remote-proof ledger must now be committed/pushed and independently verified before S19-J closes |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -7918,3 +7918,33 @@ Negative diff proof: no migration/schema, domain, repository, application servic
 | Commit/push/exact-hash hosted acceptance | Not available until this implementation and ledger are committed and pushed. | PENDING |
 
 No in-scope S19-J visual, behavior, accessibility, responsive, privacy, performance-bounding, instrumentation, security, or WorkPlan compliance gap remains locally. Current decision: **S19-J IMPLEMENTATION, ACTUAL-PRODUCT VISUAL AUDIT, FUNCTIONAL/STRESS/SECURITY/BUILD EVIDENCE AND LOCAL SIDE-BY-SIDE COMPLIANCE PASS. S19-J IS NOT CLOSED UNTIL ITS IMPLEMENTATION COMMIT IS PUSHED AND THE EXACT SHA PASSES HOSTED CI `verify`, A CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY, FOLLOWED BY A SEPARATE CLOSURE-LEDGER COMMIT AND REMOTE PROOF. S19-K THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.36 S19-J exact-hash implementation proof and remote compliance closure pending ledger verification
+
+#### Pushed object and immutable identity
+
+Implementation/evidence commit `d3767f3ce6c7babaf31c1f0106c5955468ac8ba8` (`Polish S19-J supporting surfaces`) was pushed to `origin/agent/workplan-subgates-audit`. Before hosted acceptance was read, local `HEAD`, `@{upstream}`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to that exact SHA. The commit contains only the eight authorized product files and `Path.md`: Settings, Billing, Portability, Suggestions, Admin Operations, Recovery, degraded-network semantics, scoped CSS, and the local evidence entry. WorkPlan remains byte-identical with SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+
+#### Exact-SHA hosted results
+
+- Pull-request CI run `35438535043` completed successfully on the exact SHA from 10:51:30–10:59:52 UTC on 19 September 2026.
+- `verify` job `105885242883` passed from 10:51:33–10:54:55 UTC. Clean checkout/install, Prisma generation, zero-warning lint and typecheck passed. Coverage passed 107/107 files and 410/410 tests in 111.57s at unchanged 87.97% statements, 77.18% branches, 85.71% functions and 90.51% lines. Next.js 16.3.4 compiled in 12.5s, completed TypeScript in 14.6s and generated 22/22 static tasks.
+- Protected `s18-regression` job `105885242785` passed cleanly from 10:51:33–10:59:51 UTC. Database deployment plus alert, Structure, archive, pagination, OIDC and Portability native verifiers all passed before browser execution. The unchanged cross-product Playwright command passed **32 applicable tests with 28 declared device-project skips in 6.6m**, with zero failure, retry or flaky result. The job uploaded browser evidence and completed in 8m18s; no rerun was needed.
+- Pull-request Security run `35438534970`, job `105885242590`, passed from 10:51:32–10:52:09 UTC. Clean install, `npm audit --audit-level=high`, 2 security files/10 tests, privacy boundaries and committed environment/key-material rejection passed.
+- Push Security run `35438533371`, job `105885238053`, independently passed from 10:51:30–10:52:05 UTC with the same dependency, security/accessibility, privacy and secret-material controls.
+
+GitHub's Node-action transition and future `ubuntu-latest` migration annotations were informational. No checked step was skipped, tolerated or failed. The implementation commit is therefore exact-hash remotely reproducible across deterministic, database, browser, accessibility, security, dependency, privacy and production-build boundaries.
+
+#### Remote side-by-side decision
+
+| Required closure property | Exact remote evidence | Decision |
+| --- | --- | --- |
+| Immutable implementation identity | Local/upstream/remote all `d3767f3ce6c7babaf31c1f0106c5955468ac8ba8`; every hosted run reports the same `headSha`. | PASS |
+| Deterministic product correctness | Hosted 410/410 coverage plus lint/typecheck/build and unchanged percentages. | PASS |
+| Cross-product non-interference | First-attempt clean protected regression: 32 passed, 28 intentional skips, zero failure/retry/flaky. | PASS |
+| Database/native compatibility | Deploy and every S18 alert/Structure/archive/pagination/OIDC/Portability verifier passed. | PASS |
+| Security/privacy/dependency | Both PR and push Security workflows independently passed audit, 10 tests and secret-material rejection. | PASS |
+| WorkPlan order and content integrity | S19-I closure and S19-J pre-code proof preceded implementation; WorkPlan hash unchanged; S19-K was not started. | PASS |
+| Durable remote-proof ledger | This section exists only in the current uncommitted `Path.md`; it has not yet been checked out by hosted workflows. | PENDING |
+
+No implementation-commit gap remains. Current decision: **S19-J IMPLEMENTATION COMMIT IS EXACT-HASH REMOTELY VERIFIED. S19-J REMAINS OPEN ONLY FOR THIS PATH-ONLY REMOTE-PROOF COMMIT/PUSH AND ITS OWN EXACT-HASH CI `verify`, CLEAN `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY EVIDENCE. S19-K THROUGH S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
