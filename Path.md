@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-J remotely closed; S19-K pre-code responsive contract awaiting exact-hash remote proof** | Sections 27–28 below | S19-J closure ledger `759d13829238f5b035fbd6463a186c36c33f9e0b` passed CI `35438990974`, PR Security `35438990972`, and push Security `35438987674`; section 28.37 defines the bounded S19-K pre-code object that must pass independently before product edits |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-J remotely closed; S19-K implementation and local audit passed, exact-hash product push pending** | Sections 27–28 below | S19-J closure ledger `759d13829238f5b035fbd6463a186c36c33f9e0b` passed CI `35438990974`, PR Security `35438990972`, and push Security `35438987674`; S19-K pre-code object `0212ab11aae712270cbfaf13d6484ac602ce7191` passed CI `35439727114`, PR Security `35439726958`, and push Security `35439725437`; section 28.38 records the locally passing S19-K implementation and audit |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8019,3 +8019,113 @@ Expected tracked files are strictly bounded:
 - **Rollback:** the repair is CSS and one additive E2E assertion. Reverting the eventual product commit returns the exact S19-J object; no data rollback or migration exists.
 
 Current pre-code decision: **S19-J IS CLOSED. S19-K CURRENT-PRODUCT INSPECTION, DEFECT LIST, EXACT OBJECTIVES, EXPECTED FILES, BEHAVIOR/LOGGING LOCK AND VALIDATION PLAN ARE COMPLETE LOCALLY. NO S19-K PRODUCT OR TEST FILE HAS CHANGED. THIS PATH-ONLY CHECKPOINT MUST BE COMMITTED, PUSHED AND PASS EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY BEFORE PRODUCT CODE CHANGES. S19-K IMPLEMENTATION, S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.38 S19-K pre-code remote proof, implementation, visual evidence, and local compliance audit
+
+#### Pre-code predecessor proof and immutable authorization boundary
+
+The section 28.37 pre-code object was committed as `0212ab11aae712270cbfaf13d6484ac602ce7191` (`Record S19-K responsive pre-code contract`) and pushed to `origin/agent/workplan-subgates-audit`. Local `HEAD`, `@{upstream}`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact SHA before hosted results were accepted. The commit changed only `Path.md`; no product or test file was changed before all four gates below passed.
+
+- Pull-request CI run `35439727114` passed on the exact SHA. `verify` job `105888342133` passed in 4m48s after clean checkout/install, Prisma generation, zero-warning lint, typecheck, full coverage, and production build.
+- Protected `s18-regression` job `105888342008` passed in 7m50s. Database deployment and all native verifiers passed, followed by **32 applicable browser tests, 28 declared device-project skips, zero failures, zero retries, and zero flaky tests in 6.3m**.
+- Pull-request Security run `35439726958`, job `105888341951`, passed. Push Security run `35439725437`, job `105888337183`, independently passed. Both verified the high-severity dependency audit, security/accessibility tests, privacy boundaries, and committed environment/key-material rejection.
+- No product edit began until all four jobs were green. S19-J therefore remained closed and S19-K acquired exact-hash implementation authority without weakening the predecessor rule.
+
+#### Files changed and implementation method
+
+| File | Exact implementation | Scope/compliance classification |
+| --- | --- | --- |
+| `app/globals.css` | Made the optional degraded-network state an explicit shell grid row. Online wide layout remains command row plus rail/main/context row; offline wide layout becomes command/banner/content. Online mobile remains command/main/navigation; offline mobile becomes command/banner/main/navigation. Assigned explicit logical columns/rows, changed the offline label to `margin-inline-end`, and preserved the 48px desktop command row, 52px mobile navigation row, rail width, context reservation, and owner surface geometry. | **Verified** against the exact pre-code defect/objective. No token, shared color, route, copy, workflow, state, or data behavior changed. |
+| `app/globals.css` | Raised the mobile Commands trigger, Project Home Structure/Repair/recent-chapter controls, and editor project breadcrumb to at least 44px. The existing appearance, label, action, and DOM ownership remain unchanged. Updated the editor-title selector from the former terminal `span` to `h1`. | **Verified corrective expansion.** The document-wide post-change audit found controls the surface-scoped pre-code metric had missed. Accessibility/touch-target conformance required correcting them before S19-K could pass. |
+| `components/editor/ChapterEditor.tsx` | Replaced the visual chapter-title `span` with the page's semantic `h1`, and replaced a `footer role="status"` with a neutral `div role="status"`. Class names, visible content, child order, status live-region behavior, commands, state, save behavior, and instrumentation are unchanged. | **Verified corrective file expansion from the expected-file table.** Full Axe found `page-has-heading-one` and `aria-allowed-role`; fixing invalid semantics was mandatory and did not expand product behavior. |
+| `tests/e2e/timeline-research.spec.ts` | Added a mobile-only real-offline geometry regression: banner ends before main, navigation begins after main, no root horizontal overflow, Commands is at least 44px, and a screenshot is retained. Added a mobile Project Home/Editor regression that scans every visible interactive element for 44px dimensions, runs complete Axe on both routes, asserts no root overflow, requires the chapter `h1`, and retains editor visual evidence. | **Verified.** Additive assertions only; no timeout, existing assertion, project, or skip contract was weakened. |
+| `Path.md` | Records authorization, exact files/code/method, all intermediate failures, final actual-product evidence, console/comment lines, validation, negative proof, divergence, and side-by-side compliance. | **Verified locally; exact-hash remote durability pending.** |
+
+No schema, migration, seed, domain, repository, application service, API, route, command, localization catalog, price, entitlement, telemetry payload, dependency, infrastructure contract, or operational transition changed. The temporary actual-product harness and all PNG/JSON/test artifacts remain ignored under `tmp/` or `test-results/` and are not product files.
+
+#### Retained discovery history and corrections
+
+The audit retains every non-passing intermediate result; none is relabeled as a pass:
+
+1. The pre-code audit correctly found the offline mobile row-order and physical RTL-margin defects, but its surface-scoped target metric did not inspect every shell/document control. The first real post-change screenshot exposed a 32px mobile Commands trigger. The trigger was raised to 44px and its height became a browser assertion.
+2. The first document-wide Project Home/Editor matrix found a 32px Repair button, seven 40px destination links, a 24px recent-chapter anchor, a 36px editor-project breadcrumb, and two Axe violations: `aria-allowed-role` on the status footer and `page-has-heading-one`. The CSS and editor semantics were corrected. This is why `components/editor/ChapterEditor.tsx` is a justified tracked-file expansion from section 28.37 rather than an unrecorded deviation.
+3. The first expanded two-test run failed because the later `.live-model-freshness button { min-height: 2rem; }` rule had equal specificity and overrode the initial mobile Repair rule. The selector was bounded to `.project-home .live-model-freshness button`; the unchanged test then passed. The failed run is evidence that the final assertion can detect the defect.
+4. The first nominal final matrix, `tmp/s19-k-final`, produced an invalid Light control for `07-search-light-720-online.png`: late theme-preference hydration changed the requested state after capture. That image was rejected as evidence. The harness applied the selected theme, waited for hydration, and reapplied it before Axe/offline transition. `tmp/s19-k-final2` is the authoritative matrix.
+5. The first complete `timeline-research.spec.ts` run loaded `.env.example`, whose documented `MYTHRA_SCANNER_URL` is a nonexistent deployment placeholder. The private-file test correctly rendered `A supporting service is temporarily unavailable.` and failed while all three S19-K mobile cases passed. The failure was classified as an invalid local dependency configuration, not accepted as product proof. Restarting with the URL absent activated the intended deterministic non-production scanner; the exact failed test passed in 18.3s, then passed again inside the protected matrix. Product code and the test were not changed to bypass the scanner.
+
+#### Authoritative actual-product visual, geometry, direction, motion, and Axe evidence
+
+The authoritative matrix is `tmp/s19-k-final2/observations.json` plus eight full-page actual-product PNGs. Every image was opened at original resolution and manually reviewed; the JSON was then checked against the rendered image rather than treated as a substitute for review.
+
+| Evidence state | Exact result |
+| --- | --- |
+| `01-search-cream-320-offline.png` | 320px Cream LTR; banner 53–201, main 201–748, navigation 748–800; correct order, 0 overflow, 0 under-44 controls, 0 Axe, 0 errors. |
+| `02-search-cream-320-rtl-offline.png` | 320px Cream Arabic RTL with reduced motion; same exact row boundaries, logical label spacing, 0 overflow, 0 under-44, 0 Axe, 0 errors. |
+| `03-project-dark-412-offline.png` | 412px Dark Project Home; banner 53–180, main 180–1644, navigation 1644–1696; all 18 visible controls at least 44px, 0 overflow/Axe/errors. |
+| `04-search-light-720-offline.png` | 720px Light compact; banner 53–138, main 138–848, navigation 848–900; correct order and 0 overflow/under-44/Axe/errors. |
+| `05-search-cream-320-online.png` | Matched online 320px control; no banner or blank row, main begins at 53, navigation begins at 748, 0 overflow/under-44/Axe/errors. |
+| `06-project-dark-412-online.png` | Matched online Project Home; no banner/blank row, all 18 controls at least 44px, 0 overflow/Axe/errors. |
+| `07-search-light-720-online.png` | Corrected hydrated Light control; selected/applied theme both `light`, main begins at 53, navigation at 848, 0 overflow/under-44/Axe/errors. |
+| `08-editor-dark-320-online.png` | 320px Dark reduced-motion editor; semantic chapter `h1`, status live region, writing actions and bottom Navigation remain visible and ordered; all 20 visible controls at least 44px, 0 overflow/Axe/errors. |
+
+Aggregate result: **8/8 exact requested/applied themes; Arabic direction exact; reduced motion exact where requested; 4/4 offline orders true; 4/4 online orders true; zero root overflow; zero visible document controls below 44px; zero Axe violations of any impact; zero console or page errors.** Manual inspection found no clipping, horizontal manuscript displacement, blank online banner row, inaccessible action, or theme/direction mismatch.
+
+#### Console trace and adjacent identifying-comment index
+
+S19-K adds no operational transition and therefore no decorative telemetry. The relevant existing network transition remained byte-identical. Because the semantic editor file was necessarily touched, every operational `console.log` in that file was re-indexed and verified adjacent to its identifying comment:
+
+| File | Step | Comment line | `console.log` line | Payload boundary |
+| --- | --- | ---: | ---: | --- |
+| `components/shell/DegradedNetworkStatus.tsx` | `S11-OFFLINE-003` | 11 | 12 | Availability only; excludes route and content. |
+| `components/editor/ChapterEditor.tsx` | `S3-BLOCK-001` | 121 | 122 | Repair counts/anchors only; prose excluded. |
+| `components/editor/ChapterEditor.tsx` | `S16-FRICTION-001` | 186 | 187 | Writable timing and stable chapter identity; manuscript excluded. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-001` | 196 | 197 | Initialization metadata; document content excluded. |
+| `components/editor/ChapterEditor.tsx` | `S16-FRICTION-002` | 222 | 223 | First-keystroke duration and stable chapter identity; entered text excluded. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-002` | 239 | 240 | Document-change counts only. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-004` | 275 | 276 | Hard-stop metadata; prose excluded. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-005` | 306 | 307 | Paste rejection metadata; clipboard/prose excluded. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-006` | 386 | 387 | Keyboard Focus toggle; editor content excluded. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-007` | 406 | 407 | Escape focus-restoration request only. |
+| `components/editor/ChapterEditor.tsx` | `S1-EDITOR-CLIENT-003` | 424 | 425 | Focus-mode state only. |
+| `components/editor/ChapterEditor.tsx` | `S4-UI-015` | 491 | 492 | Structure-navigation request after continuation capture; editor content excluded. |
+
+CSS placement and browser assertions are not operational steps; adding `console.log` to them would manufacture false telemetry. This exactly follows the WorkPlan rule requiring logs at real operational transitions, adjacent identifying comments, and content-safe payloads.
+
+#### Local validation and stress evidence
+
+| Check | Result | Exact evidence |
+| --- | --- | --- |
+| Pre-code database setup | PASS after one retained invalid attempt | Direct deploy against `.env.example`'s sample `127.0.0.1:5432/mythra` failed because no database existed. `npm run db:dev` with the sample URL first exposed normal config resolution, then started isolated Prisma Postgres at `localhost:51305`; `npm run db:deploy` applied/verified all 19 migrations with no pending migration. |
+| Lint | PASS | `npm run lint`; zero warnings/errors. |
+| TypeScript | PASS | `npm run typecheck`; zero errors. |
+| Diff integrity | PASS | `git diff --check`; no whitespace error. |
+| Focused component/accessibility/service | PASS | 4 files, 14 tests in 50.71s: responsive performance, responsive accessibility, shell, and writing service. jsdom's unsupported Canvas/scroll messages were informational; exit was 0. |
+| Focused S19-K browser tests | PASS after retained Repair failure | Final two-test run: 2/2 passed in 10.5s after the specificity correction. |
+| Replayed research dependency case | PASS | Exact previously failed private-file scenario passed 1/1 in 18.3s with intended local deterministic scanner. |
+| Protected eight-suite browser matrix | PASS | Exact CI suite list on both projects: **34 passed, 30 intentional device-project skips, zero failed/retried/flaky in 7.1m**. The two new tests increased the historical matrix by two applicable mobile passes and two declared desktop skips. |
+| Full coverage | PASS | `npm run test:coverage`: 107/107 files and 410/410 tests in 94.97s; 87.97% statements, 77.18% branches, 85.71% functions, 90.51% lines. |
+| Stress | PASS | `npm run test:stress`: 17/17 files, 32/32 tests in 12.44s. |
+| Security/accessibility | PASS | `npm run test:security`: 2/2 files, 10/10 tests in 3.01s. |
+| Dependency audit | PASS | `npm audit --audit-level=high`: 0 vulnerabilities. |
+| Production build | PASS | Next.js 16.3.4 compiled in 8.7s, TypeScript finished in 8.6s, and 22/22 static-generation tasks completed. |
+| Cross-product launch audit | PASS | `P6-AUDIT-001` through `006`: 14 critical E2Es, 6 visual dimensions, 7 causal checks, 16 doctrine questions, 11 launch conditions, 40 numbered sections, 5 appendices, and 18 original sub-gates; no paid-cohort claim and AI remains disabled. |
+| WorkPlan integrity | PASS | SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`; no WorkPlan byte changed. |
+
+#### Side-by-side S19-K and WorkPlan compliance decision
+
+| Binding requirement | Final implementation/evidence | Decision |
+| --- | --- | --- |
+| Predecessor and pre-code gate before implementation | S19-J independently closed; S19-K pre-code SHA passed CI, protected regression and both Security workflows before the first product edit. | PASS |
+| Optional banner has coherent responsive ordering | Explicit online/offline grid contracts on wide and mobile; four offline and four online matrices report correct order. | PASS |
+| Mobile manuscript/content remains before bottom Navigation | Real offline browser geometry asserts banner → main → navigation; 320, 412 and 720px rendered boundaries are recorded above. | PASS |
+| RTL and logical layout | Physical margin replaced with `margin-inline-end`; Arabic/RTL reduced-motion render has exact direction and no overflow/Axe gap. | PASS |
+| Mobile controls meet 44px minimum | Document-wide scanner covers all visible buttons, links, inputs, selects, textareas, summaries and focusable controls; Project Home and Editor have no undersized target. | PASS |
+| Semantic accessibility/live-state validity | Valid chapter `h1`; valid neutral status container; full Axe returns zero violation of any impact in all eight states and in browser assertions. | PASS |
+| Online layout remains unchanged when banner absent | `:has(> .degraded-network)` scopes extra rows; matched online controls have no blank row and correct original main/navigation starts. | PASS |
+| No product-behavior or data-contract drift | Negative diff and 410 tests show only placement, target sizing, semantics and additive assertions; no schema/API/domain/workflow/copy/state change. | PASS |
+| Shared CSS does not regress protected product flows | 34-pass protected browser matrix, focused tests, complete coverage, production build, visual matrix and launch audit all pass. | PASS |
+| Logs exist only at real operational steps with adjacent comments | Existing network and editor pairs are fully indexed; no fake CSS/test log was added; payload boundaries remain content-safe. | PASS |
+| Expected-file divergence is explicit and repaired | Editor semantic file and additional bounded touch targets were added only because real full-document Axe/geometry found mandatory accessibility gaps; divergence, cause and non-behavior proof are recorded above. | PASS |
+| Commit/push/exact-hash hosted implementation acceptance | Product/test/ledger object has not yet been committed or pushed. | PENDING |
+
+No in-scope S19-K responsive, touch-target, semantic, theme, RTL, reduced-motion, online-negative-control, behavior, logging, privacy, security, performance, launch-audit, or WorkPlan contradiction remains locally. Current decision: **S19-K IMPLEMENTATION, ACTUAL-PRODUCT VISUAL REVIEW, FUNCTIONAL/STRESS/SECURITY/BUILD EVIDENCE AND LOCAL SIDE-BY-SIDE COMPLIANCE PASS. S19-K IS NOT CLOSED UNTIL THIS IMPLEMENTATION/LEDGER OBJECT IS COMMITTED, PUSHED, AND ITS EXACT SHA PASSES CI `verify`, A CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY, FOLLOWED BY A SEPARATE PATH-ONLY CLOSURE-LEDGER COMMIT AND ITS OWN REMOTE PROOF. S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.

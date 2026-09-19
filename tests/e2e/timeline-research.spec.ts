@@ -51,3 +51,76 @@ test.describe("Sub-gate 11 Timeline + Research", () => {
 test("keeps Timeline and Research responsive on mobile", async ({ page }, testInfo) => {
   test.setTimeout(120_000); test.skip(testInfo.project.name !== "mobile-chromium", "S11 mobile flow runs in mobile Chromium."); const data = await fixture(page); await page.goto(`/app/projects/${data.projectId}/timeline?returnChapterId=${data.chapterId}`); await expect(page.getByRole("heading", { name: "Timeline" })).toBeVisible(); await page.screenshot({ path: "test-results/timeline-mobile.png", fullPage: true }); await page.goto(`/app/projects/${data.projectId}/research?returnChapterId=${data.chapterId}`); await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible(); await page.screenshot({ path: "test-results/research-mobile.png", fullPage: true });
 });
+
+test("keeps degraded mobile shell content before bottom navigation", async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
+  test.skip(testInfo.project.name !== "mobile-chromium", "S19-K degraded shell geometry runs in mobile Chromium.");
+  const data = await fixture(page);
+  await page.goto(`/app/projects/${data.projectId}/search?returnChapterId=${data.chapterId}`);
+  await page.context().setOffline(true);
+  await page.evaluate(() => window.dispatchEvent(new Event("offline")));
+  await expect(page.getByRole("status").filter({ hasText: "Offline limited mode" })).toBeVisible();
+
+  const geometry = await page.evaluate(() => {
+    const bounds = (selector: string) => {
+      const element = document.querySelector(selector);
+      if (!(element instanceof HTMLElement)) throw new Error(`Missing ${selector}`);
+      const rect = element.getBoundingClientRect();
+      return { top: rect.top, bottom: rect.bottom };
+    };
+    return {
+      banner: bounds(".degraded-network"),
+      main: bounds(".shell-main"),
+      navigation: bounds(".app-rail"),
+      hasHorizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    };
+  });
+
+  expect(geometry.main.top).toBeGreaterThanOrEqual(geometry.banner.bottom - 1);
+  expect(geometry.navigation.top).toBeGreaterThanOrEqual(geometry.main.bottom - 1);
+  expect(geometry.hasHorizontalOverflow).toBe(false);
+  const commandTrigger = await page.locator(".command-trigger").boundingBox();
+  expect(commandTrigger?.height ?? 0).toBeGreaterThanOrEqual(44);
+  await page.screenshot({ path: "test-results/s19-k-degraded-shell-mobile.png", fullPage: true });
+});
+
+test("keeps mobile shell and core writing touch targets accessible", async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
+  test.skip(testInfo.project.name !== "mobile-chromium", "S19-K touch-target audit runs in mobile Chromium.");
+  const data = await fixture(page);
+  const audit = async () => page.evaluate(async () => {
+    const controls = [...document.querySelectorAll("button, a, input, select, textarea, summary, [tabindex='0']")]
+      .filter((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.visibility !== "hidden" && style.display !== "none" && rect.width > 0 && rect.height > 0;
+      })
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          name: element.getAttribute("aria-label") ?? element.textContent?.trim().slice(0, 80) ?? element.tagName,
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+        };
+      });
+    const axeResult = await (window as typeof window & {
+      axe: { run(): Promise<{ violations: Array<{ id: string }> }> };
+    }).axe.run();
+    return {
+      under44: controls.filter((control) => control.width < 44 || control.height < 44),
+      axeViolationIds: axeResult.violations.map((violation) => violation.id),
+      hasHorizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    };
+  });
+
+  await page.goto(`/app/projects/${data.projectId}`);
+  await page.addScriptTag({ path: path.resolve("node_modules/axe-core/axe.min.js") });
+  await expect(page.getByRole("link", { name: "Harbor Chronicle" })).toBeVisible();
+  expect(await audit()).toEqual({ under44: [], axeViolationIds: [], hasHorizontalOverflow: false });
+
+  await page.goto(`/app/chapters/${data.chapterId}`);
+  await page.addScriptTag({ path: path.resolve("node_modules/axe-core/axe.min.js") });
+  await expect(page.getByRole("heading", { name: "Harbor Chronicle", level: 1 })).toBeVisible();
+  expect(await audit()).toEqual({ under44: [], axeViolationIds: [], hasHorizontalOverflow: false });
+  await page.screenshot({ path: "test-results/s19-k-editor-mobile.png", fullPage: true });
+});

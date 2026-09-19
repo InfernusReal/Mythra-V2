@@ -479,7 +479,7 @@ export function ChapterEditor({
             {model.project.title}
           </a>
           <span>/</span>
-          <span>{model.chapter.title}</span>
+          <h1>{model.chapter.title}</h1>
         </nav>
         <FocusMode active={focusMode} onChange={changeFocusMode} />
       </header>
@@ -577,10 +577,10 @@ export function ChapterEditor({
           }
         />
       ) : null}
-      <footer className="editor-status" role="status">
+      <div className="editor-status" role="status">
         <WordTarget wordCount={wordCount} delta={delta} />
         <span>{messages.autosaveOn}</span>
-      </footer>
+      </div>
       <MobileWritingActions
         projectId={model.project.id}
         chapterId={model.chapter.id}
