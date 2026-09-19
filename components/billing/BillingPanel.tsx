@@ -133,7 +133,7 @@ export function BillingPanel({
 
   return (
     <section className="billing-panel" aria-labelledby="billing-heading">
-      <header>
+      <header className="billing-plan-header">
         <div>
           <p className="eyebrow">{messages.planAndUsage}</p>
           <h1 id="billing-heading">{messages.mythraCore}</h1>
@@ -143,13 +143,13 @@ export function BillingPanel({
             }
           </p>
         </div>
-        <strong>
+        <strong className="billing-price">
           {formattedAmount(core.amountUsdCents)}/{messages.monthlyInterval}
         </strong>
       </header>
       <div className="billing-status" aria-label={messages.subscriptionStatus}>
         <span>{messages.status}</span>
-        <strong>
+        <strong className="billing-status-value">
           {localizedEnumLabel(
             messages,
             initialState.entitlements.subscriptionStatus,
@@ -178,12 +178,14 @@ export function BillingPanel({
             ? messages.openingProviderPortal
             : messages.manageBillingAndInvoices}
         </button>
-        <a href="/app">{messages.returnToWriting}</a>
+        <a className="billing-return" href="/app">
+          {messages.returnToWriting}
+        </a>
       </div>
       <p className="billing-message" role="status" aria-live="polite">
         {message}
       </p>
-      <section aria-labelledby="usage-heading">
+      <section className="billing-usage" aria-labelledby="usage-heading">
         <h2 id="usage-heading">{messages.transparentUsage}</h2>
         <ul className="usage-list">
           {Object.entries(initialState.entitlements.usage).map(
@@ -211,7 +213,7 @@ export function BillingPanel({
             },
           )}
         </ul>
-        <p>
+        <p className="billing-ownership-note">
           {messages.ownedWorkStaysReadableAndExportableIfACostLimitIsReached}
         </p>
       </section>
@@ -228,7 +230,10 @@ export function BillingPanel({
         </button>
       </section>
       {initialState.invoices.length ? (
-        <section aria-labelledby="invoices-heading">
+        <section
+          className="billing-invoices"
+          aria-labelledby="invoices-heading"
+        >
           <h2 id="invoices-heading">{messages.invoices}</h2>
           <ul>
             {initialState.invoices.map((invoice) => (

@@ -20,11 +20,13 @@ export function DegradedNetworkStatus() {
   }, [online]);
   if (online) return null;
   return (
-    <aside className="degraded-network" role="status" aria-live="polite">
-      <strong>{messages.offlineLimitedMode}</strong>{" "}
-      {
-        messages.manuscriptWritingRemainsLocalAndCaptureRemainsQueuedSearchIsLimitedTo
-      }{" "}
+    <aside className="degraded-network">
+      <div role="status">
+        <strong>{messages.offlineLimitedMode}</strong>{" "}
+        {
+          messages.manuscriptWritingRemainsLocalAndCaptureRemainsQueuedSearchIsLimitedTo
+        }{" "}
+      </div>
     </aside>
   );
 }

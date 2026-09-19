@@ -284,7 +284,7 @@ export function PortabilityPanel({
             {messages.snapshotsRestoreImportAndExport}
           </h2>
         </div>
-        <span role="status" aria-live="polite">
+        <span className="portability-state" role="status" aria-live="polite">
           {!isOnline
             ? messages.unavailableOffline
             : unavailable
@@ -338,7 +338,11 @@ export function PortabilityPanel({
           />
         </label>
       </div>
-      {message ? <p role="status">{message}</p> : null}
+      {message ? (
+        <p className="portability-message" role="status">
+          {message}
+        </p>
+      ) : null}
       {preview ? (
         <section
           className="import-preview"
@@ -357,7 +361,7 @@ export function PortabilityPanel({
               </li>
             ))}
           </ol>
-          <div>
+          <div className="import-preview-actions">
             <button
               type="button"
               disabled={disabled}
@@ -371,7 +375,7 @@ export function PortabilityPanel({
           </div>
         </section>
       ) : null}
-      <details>
+      <details className="portability-history">
         <summary>
           {messages.verifiedSnapshots}
           {formatNumber(locale, status?.snapshots.length ?? 0)})
@@ -407,7 +411,7 @@ export function PortabilityPanel({
           ))}
         </ul>
       </details>
-      <details>
+      <details className="portability-history">
         <summary>
           {messages.exportArtifacts}
           {formatNumber(locale, status?.artifacts.length ?? 0)})

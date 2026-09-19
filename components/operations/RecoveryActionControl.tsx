@@ -111,7 +111,7 @@ export function RecoveryActionControl({ targetId }: { targetId: string }) {
   };
   if (!preview)
     return (
-      <div className="admin-recovery">
+      <div className="admin-recovery" data-state="idle">
         <button
           type="button"
           disabled={busy}
@@ -123,7 +123,7 @@ export function RecoveryActionControl({ targetId }: { targetId: string }) {
       </div>
     );
   return (
-    <div className="admin-recovery">
+    <div className="admin-recovery" data-state="preview">
       <p>
         {messages.thisActionRequeuesOneFailedOutboxEventItDoesNotEditAuthor}{" "}
         <time dateTime={preview.expiresAt}>

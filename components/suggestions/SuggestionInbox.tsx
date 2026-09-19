@@ -97,11 +97,11 @@ export function SuggestionInbox({
           <p className="eyebrow">{messages.authorControlledReview}</p>
           <h1 id="suggestion-title">{messages.suggestions16c1d601}</h1>
         </div>
-        <a href={`/app/projects/${projectId}`}>
+        <a className="suggestion-return" href={`/app/projects/${projectId}`}>
           {messages.returnToProjectHome}
         </a>
       </header>
-      <p>
+      <p className="suggestion-intro">
         {
           messages.agentsMayDiagnoseExplainAndProposeYourDecisionIsRecordedHereNo
         }
@@ -115,7 +115,7 @@ export function SuggestionInbox({
         .
       </p>
       {suggestions.length ? (
-        <ol>
+        <ol className="suggestion-list">
           {suggestions.map((suggestion) => (
             <li key={suggestion.id} data-status={suggestion.status}>
               <header>
@@ -123,10 +123,12 @@ export function SuggestionInbox({
                   <strong>{suggestion.category}</strong>
                   <small>{suggestion.sourceAgent}</small>
                 </div>
-                <span>{statusLabels[suggestion.status]}</span>
+                <span className="suggestion-status">
+                  {statusLabels[suggestion.status]}
+                </span>
               </header>
-              <p>{suggestion.finding}</p>
-              <dl>
+              <p className="suggestion-finding">{suggestion.finding}</p>
+              <dl className="suggestion-metrics">
                 <div>
                   <dt>{messages.evidence}</dt>
                   <dd>
@@ -171,12 +173,17 @@ export function SuggestionInbox({
                       }
                     />
                   </label>
-                  <div>
-                    <button disabled={busyId === suggestion.id} type="submit">
+                  <div className="suggestion-decisions">
+                    <button
+                      data-decision="accepted"
+                      disabled={busyId === suggestion.id}
+                      type="submit"
+                    >
                       {messages.acceptFinding}
                     </button>
                     <button
                       disabled={busyId === suggestion.id}
+                      data-decision="modified"
                       type="button"
                       onClick={() => void decide(suggestion, "modified")}
                     >
@@ -184,6 +191,7 @@ export function SuggestionInbox({
                     </button>
                     <button
                       disabled={busyId === suggestion.id}
+                      data-decision="rejected"
                       type="button"
                       onClick={() => void decide(suggestion, "rejected")}
                     >
@@ -191,6 +199,7 @@ export function SuggestionInbox({
                     </button>
                     <button
                       disabled={busyId === suggestion.id}
+                      data-decision="intentional"
                       type="button"
                       onClick={() => void decide(suggestion, "intentional")}
                     >
@@ -208,9 +217,11 @@ export function SuggestionInbox({
           ))}
         </ol>
       ) : (
-        <p>{messages.noSuggestionsRequireReview}</p>
+        <p className="suggestion-empty">
+          {messages.noSuggestionsRequireReview}
+        </p>
       )}
-      <p role="status" aria-live="polite">
+      <p className="suggestion-message" role="status" aria-live="polite">
         {status}
       </p>
     </section>

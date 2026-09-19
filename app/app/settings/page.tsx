@@ -8,21 +8,26 @@ export default async function SettingsPage() {
   const actor = await requireActor();
   return (
     <AppShell>
-      <section className="settings-panel">
-        <h1>{messages.preferences}</h1>
-        <ThemeMenu />
-        <p>
+      <section className="settings-panel" aria-labelledby="settings-title">
+        <header className="settings-header">
+          <h1 id="settings-title">{messages.preferences}</h1>
+        </header>
+        <div className="settings-theme">
+          <ThemeMenu />
+        </div>
+        <nav
+          className="settings-destinations"
+          aria-label={messages.preferences}
+        >
           <a className="primary-link" href="/app/settings/billing">
             {messages.planUsageAndInvoices}
           </a>
-        </p>
-        {actor.role === "OWNER" || actor.role === "ADMIN" ? (
-          <p>
+          {actor.role === "OWNER" || actor.role === "ADMIN" ? (
             <a className="primary-link" href="/app/admin">
               {messages.restrictedOperations}
             </a>
-          </p>
-        ) : null}
+          ) : null}
+        </nav>
       </section>
     </AppShell>
   );
