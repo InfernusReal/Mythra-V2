@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-K remotely closed; S19-L implementation and local compliance pass, exact-hash remote proof pending** | Sections 27–28 below | S19-L pre-code `107c737176e4ec843ed65afd226874bbb92a8615` passed CI `35500655125` (`verify` `106051716765`, protected regression `106051716867`), PR Security `35500655130`, and push Security `35500652632`; section 28.41 records the bounded implementation and local proof pending its implementation commit and hosted gates |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-K remotely closed; S19-L implementation exact-hash verified, closure-ledger proof pending** | Sections 27–28 below | S19-L implementation `c0ac14c13c2ea4217f4f5cbf3348f53c71eb6195` passed CI `35519474660` (`verify` `106100948354`, protected regression `106100948274`), PR Security `35519474684`, and push Security `35519472048`; section 28.42 records the exact remote proof that must itself be committed and verified before S19-L closes |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8332,3 +8332,33 @@ Both pairs are byte-identical to the S19-K baseline. `app/globals.css` and `test
 | Commit/push/exact-hash implementation acceptance | Product/test/ledger object has not yet been committed or pushed. | PENDING |
 
 No in-scope S19-L visual, responsive, accessibility, theme, RTL, reduced-motion, behavior, logging, privacy, security, stress, production-build, launch-audit, or WorkPlan contradiction remains locally. Current decision: **S19-L IMPLEMENTATION, 109-STATE ACTUAL-PRODUCT RERUN, MANUAL CROSS-PRODUCT REVIEW, FUNCTIONAL/STRESS/SECURITY/BUILD EVIDENCE AND LOCAL SIDE-BY-SIDE COMPLIANCE PASS. S19-L IS NOT CLOSED UNTIL THIS IMPLEMENTATION/LEDGER OBJECT IS COMMITTED, PUSHED, AND ITS EXACT SHA PASSES CI `verify`, A CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY, FOLLOWED BY A SEPARATE PATH-ONLY CLOSURE-LEDGER COMMIT AND ITS OWN REMOTE PROOF. S20 REMAINS LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.42 S19-L exact-hash implementation proof and closure-ledger checkpoint
+
+#### Pushed implementation object and immutable identity
+
+Implementation/evidence commit `c0ac14c13c2ea4217f4f5cbf3348f53c71eb6195` (`Polish S19-L cross-product consistency`) contains exactly three tracked files: `app/globals.css`, `tests/e2e/structure-core.spec.ts`, and `Path.md`. It was pushed to `origin/agent/workplan-subgates-audit`; local `HEAD`, `@{upstream}`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to that exact SHA before hosted acceptance was read. WorkPlan remains byte-identical at SHA-256 `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+
+#### Exact-SHA hosted acceptance
+
+- Pull-request CI run `35519474660` completed successfully on exact `headSha` `c0ac14c13c2ea4217f4f5cbf3348f53c71eb6195` from 15:24:26–15:33:16 UTC on 20 September 2026.
+- `verify` job `106100948354` passed from 15:24:28–15:29:17 UTC in 4m49s. Clean checkout/install, Prisma generation, zero-warning lint and typecheck passed. Coverage passed **107/107 files and 410/410 tests in 171.54s** at the unchanged 87.97% statements, 77.18% branches, 85.71% functions and 90.51% lines. Next.js 16.3.4 compiled in 16.4s and generated 22/22 static tasks.
+- Protected `s18-regression` job `106100948274` passed from 15:24:29–15:33:16 UTC in 8m47s. Database deployment found and applied all 19 migrations; alert, Structure, archive, pagination, OIDC and Portability native verifiers then passed. The exact eight-suite Playwright command passed **35 applicable tests with 31 declared device-project skips in 7.0m**, including the new real Project List destination test, with zero failure, retry or flaky result.
+- The protected job uploaded 26 files as browser-evidence artifact `10607733755`, final size 7,966,943 bytes, with archive SHA-256 `8ed3430ad3ec65b6e846c6198047384fca2de6fd153baded27fb192ca7a773fc`.
+- Pull-request Security run `35519474684`, job `106100948267`, passed from 15:24:28–15:24:59 UTC. Push Security run `35519472048`, job `106100941179`, independently passed from 15:24:25–15:25:01 UTC. Both clean runs passed `npm audit --audit-level=high`, 2 files/10 security-accessibility tests, privacy checks, and committed environment/key-material rejection.
+- GitHub's Node-action transition and future `ubuntu-latest` migration notices were informational. No required step was skipped, tolerated, retried or failed.
+
+#### Remote side-by-side reconciliation
+
+| Required closure property | Exact hosted evidence | Decision |
+| --- | --- | --- |
+| Immutable implementation identity | Local, upstream, remote and every hosted `headSha` equal `c0ac14c13c2ea4217f4f5cbf3348f53c71eb6195`. | PASS |
+| Deterministic product correctness | Clean hosted lint/typecheck, 410/410 coverage and production build passed at unchanged coverage. | PASS |
+| S19-L regression and cross-product non-interference | Protected matrix passed the new mobile Project List test plus every applicable legacy flow: 35 passed, 31 intentional skips, zero failure/retry/flaky. | PASS |
+| Database/native compatibility | All 19 migrations and every alert/Structure/archive/pagination/OIDC/Portability native verifier passed before browser execution. | PASS |
+| Security/privacy/dependency | PR and push Security independently passed audit, 10 tests, privacy and secret-material rejection. | PASS |
+| Browser evidence durability | 26-file artifact upload passed with recorded ID, size and SHA-256. | PASS |
+| WorkPlan and gate order | S19-K closure and S19-L pre-code exact proof preceded implementation; S20 was not started; WorkPlan hash is unchanged. | PASS |
+| Durable record of this exact remote proof | This section exists only in the current uncommitted `Path.md`; it has not yet been checked out by hosted workflows. | PENDING |
+
+No implementation-object gap remains. Current decision: **S19-L IMPLEMENTATION COMMIT IS EXACT-HASH REMOTELY VERIFIED. S19-L REMAINS OPEN ONLY FOR THIS PATH-ONLY REMOTE-PROOF COMMIT/PUSH AND ITS OWN EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY. S20 REMAINS LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
