@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-J remotely closed; S19-K implementation exact-hash verified, closure-ledger proof pending** | Sections 27–28 below | S19-K implementation `bd505a2a3fc000e10205fcd3894be44cb88dc7d0` passed CI `35456065987` (`verify` `105931428814`, protected regression `105931428981`), PR Security `35456066153`, and push Security `35456064107`; section 28.39 records the exact remote proof that must itself be committed and verified before S19-K closes |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and S19-A through S19-K remotely closed; S19-L pre-code contract pending remote proof** | Sections 27–28 below | S19-K closure ledger `5266257697123077e613749e167d3cdb6e5aac51` passed CI `35456503760` (`verify` `105932616167`, protected regression `105932616147`), PR Security `35456503842`, and push Security `35456500670`; section 28.40 records S19-L's inspected cross-product contract, which must pass the same exact-hash gates before implementation |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8158,3 +8158,90 @@ Implementation/evidence commit `bd505a2a3fc000e10205fcd3894be44cb88dc7d0` (`Poli
 | Durable record of this exact remote proof | This section exists only in the current uncommitted `Path.md` and has not yet been checked out by hosted workflows. | PENDING |
 
 No implementation-object gap remains. Current decision: **S19-K IMPLEMENTATION COMMIT IS EXACT-HASH REMOTELY VERIFIED. S19-K REMAINS OPEN ONLY FOR THIS PATH-ONLY REMOTE-PROOF COMMIT/PUSH AND ITS OWN EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY. S19-L AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
+
+### 28.40 S19-K closure-ledger proof and S19-L cross-product pre-code contract
+
+#### S19-K independently durable closure
+
+The section 28.39 exact-hash implementation proof was committed as `5266257697123077e613749e167d3cdb6e5aac51` (`Record S19-K remote implementation proof`) and pushed to `origin/agent/workplan-subgates-audit`. Local `HEAD`, `@{upstream}`, and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` resolved to that exact SHA before hosted results were accepted. The commit changed only `Path.md`; product code, tests, and `WorkPlan.md` were unchanged.
+
+- Pull-request CI run `35456503760` completed successfully on exact `headSha` `5266257697123077e613749e167d3cdb6e5aac51` from 16:56:09–17:04:33 UTC on 19 September 2026.
+- `verify` job `105932616167` passed from 16:56:12–17:01:06 UTC in 4m54s after clean checkout/install, Prisma generation, lint, typecheck, full coverage, and production build.
+- Protected `s18-regression` job `105932616147` passed from 16:56:11–17:04:33 UTC in 8m22s. Database deployment and all native alert, Structure, archive, pagination, OIDC and Portability verifiers passed. The exact eight-suite Playwright matrix then passed **34 applicable tests with 30 declared device-project skips in 6.8m**, with zero failure, retry or flaky result; browser-evidence upload passed.
+- Pull-request Security run `35456503842`, job `105932616300`, passed from 16:56:12–16:56:51 UTC. Push Security run `35456500670`, job `105932607981`, independently passed from 16:56:08–16:56:45 UTC. Both passed the high-severity dependency audit, 2 files/10 security-accessibility tests, privacy controls, and committed environment/key-material rejection.
+- GitHub's Node-action runtime and future Ubuntu-image notices were informational. No required step was skipped, tolerated or failed.
+
+The remote-proof ledger itself is therefore exact-hash reproducible. **S19-K IS CLOSED.** S19-L became eligible only after the final protected S19-K closure-ledger job passed.
+
+#### S19-L run identity, authority, and immutable boundary
+
+- **Date/time and timezone:** 20 September 2026, Asia/Karachi. S19-L remains open until this pre-code record, its implementation/evidence object, and a separate closure ledger each pass their required commit/push/exact-hash hosted gates.
+- **Delivery phase / visual slice:** Phase 7, S19-L — cross-product final visual consistency pass. It is the last bounded S19 visual-review slice, not an original capability Sub-gate and not authorization to redesign product behavior.
+- **Predecessor evidence:** S19-K closure-ledger commit `5266257697123077e613749e167d3cdb6e5aac51` and all four hosted gates above are green. No tracked S19-L product or test file changed before this record.
+- **Baseline branch/object:** clean `agent/workplan-subgates-audit` at `5266257697123077e613749e167d3cdb6e5aac51`, identical locally, upstream, and on the remote branch.
+- **Authority:** Phase 7 prompt S19 execution method and S19-L line 542, plus every retained WorkPlan cross-product visual, accessibility, theme, responsive, RTL, reduced-motion, truthful-state, writing-first and non-interference contract. WorkPlan SHA-256 remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`.
+- **Forbidden scope:** no schema, migration, seed, domain model, repository, application service, API, route, command, navigation hierarchy, workflow, state ownership, copy, localization string, semantic ranking, pricing, entitlement, analytics payload, dependency, operational transition, or design-token change. S20 remains locked.
+
+The applicable visual-production skill required review of real visual outputs. No callable visual-board tool exists in this environment, so the audit used full-resolution actual-product browser renders and generated contact sheets solely to make all states manually inspectable. No synthetic image generation was appropriate because the subject is the repository-native UI. These inspection artifacts are ignored under `tmp/`; they are evidence, not product changes.
+
+#### Complete current-product inspection before code
+
+The authenticated app was run against an isolated local Prisma Postgres instance. `npm run db:deploy` found all 19 migrations and no pending migration. Nine actual-product audit families produced **109 current-product states**, each with a JSON observation record and full-page PNG. Every individual entry state and representative high-risk state was opened at original resolution; all nine family contact sheets were also opened at original detail, covering every screenshot in the matrix.
+
+| Product family | States | Required dimensions inspected |
+| --- | ---: | --- |
+| Sign-in, Project List, Project Home, first chapter/editor | 8 | Authenticated/unauthenticated entry, populated list, project continuity and editor in desktop/mobile Light/Dark/Cream. |
+| Structure lenses | 13 | Outline, Plot, Volume, Chapter Outline, Scene, Milestone, Causal and Semantic Zoom; desktop/compact/mobile/RTL. |
+| Universe and Timeline | 14 | Entity/index and chronology surfaces; populated/empty, desktop/mobile/RTL, all themes. |
+| Capture | 9 | Project/chapter overlays, Inbox, lifecycle, mobile and queued-error truth. |
+| Search and Ctrl+K | 13 | Populated/empty/offline Search and command palette; desktop/mobile/RTL. |
+| Context and Peek | 15 | Relevant Now, overlays, desktop/mobile, reduced motion and controlled 503 unavailability. |
+| Notes and Research | 12 | Notes, citations/files, empty/error, desktop/mobile/RTL. |
+| Settings, Billing, Portability, Suggestions and Operations | 17 | Pricing/status, restore/export, proposal decisions, admin/recovery and controlled error/offline states through 720px/RTL. |
+| Responsive shell and degraded-network controls | 8 | 320/412/720px, online/offline, LTR/RTL, Light/Dark/Cream and reduced motion. |
+
+Aggregate machine-observed result before any code change:
+
+- **109 states inspected; zero unexpected error states; zero Axe violation states; zero document-root overflow states; zero requested/applied theme mismatches.**
+- Expected induced dependency/offline evidence was retained rather than hidden: one queued-Capture offline resource error, one offline-Search resource error, two Context 503 resource errors, one Research error, one Billing error, one Portability offline error, and one Suggestion error. Every corresponding screen exposed the intended truthful state.
+- Sign-in does not own a theme selector. An early aggregate script incorrectly treated that absence as a theme mismatch; the source metrics and actual render showed the requested theme was applied. The false aggregate was rejected.
+- A full-document Axe run while an `aria-modal="true"` Context overlay was active reported contrast on the intentionally dimmed, inactive background. The modal itself returned zero Axe violations when the audit was correctly scoped to the active modal; every non-modal screen retained full-document Axe. This was an audit-scope defect, not a product accessibility defect.
+- Manual cross-product review confirmed consistent serif display/editor typography, sans-serif control text, violet action hierarchy, neutral borders, coherent Light/Dark/Cream surfaces, correct RTL mirroring, readable loading/degraded/error/offline/disabled states, bounded overlays, and no horizontal manuscript/content displacement.
+
+#### Retained audit execution history
+
+No invalid attempt is converted into passing evidence:
+
+1. The first Structure audit used an overly strict full-load authentication wait and timed out after successful navigation; the ignored harness was corrected to wait for `domcontentloaded` with a bounded 90-second authentication transition, then rerun.
+2. Concurrent Structure and Capture fixture writes against one project correctly triggered the product's optimistic structural conflict. The runs were serialized. The first Capture shortcut also fired before client hydration; a bounded hydration wait was added to the audit harness, and the complete family was rerun.
+3. The first entry-flow harness waited for a nonexistent `.project-list` selector. It was corrected to the actual `.empty-shell` owner and rerun.
+4. Legacy Search/Context theme harnesses captured late preference hydration and produced mislabeled states. Those images were rejected; selected and applied theme metrics plus a post-hydration reapplication were added before clean reruns.
+5. The supporting-surfaces harness initially used a stale development-auth subject, treated a transient hydration console event as durable evidence, waited for a hidden mobile theme selector as if visible, and ran once without `FEATURE_ADMIN_RECOVERY`. The ignored harness/environment was corrected; the authoritative 17-state rerun has zero Axe/overflow gap and an operational recovery preview.
+6. The detached development database stopped between sessions and authentication returned 500. Prisma Postgres was restarted and all 19 migrations were reverified with none pending. No product code or test was changed to mask the infrastructure failure.
+7. The modal/background Axe scope issue described above was corrected by auditing the active `aria-modal` subtree while retaining full-document audits everywhere else. The final Context/Peek family has zero accessibility violation state.
+
+#### Accepted defect, exact objective, and expected tracked files
+
+The matrix found one genuine cross-product consistency gap:
+
+- In `tmp/s19-l-current-entry/04-project-list-light-mobile.png` at 412px, all three `.project-summary .primary-link` controls named `Open project` measure **124×36px**, below the 44px mobile touch-target minimum. Every other compact/mobile state in the 109-state matrix reports zero visible target below 44px.
+- The project-title link currently passes only because the long fixture titles wrap above 44px. A short real title could leave `.project-summary h2 a` below the same minimum. The correction must therefore bind both project-summary destinations rather than encode current fixture length as an accessibility assumption.
+
+S19-L's exact objective is to make both links inside each Project List summary at least 44px high on mobile while preserving their distinct visual roles, current wording, destinations, project order, card layout, typography, themes, hover/focus behavior, and desktop sizing. No other visual change is authorized.
+
+| Expected file | Authorized change |
+| --- | --- |
+| `app/globals.css` | Inside the existing mobile breakpoint, make `.project-summary h2 a` and `.project-summary .primary-link` inline-flex/aligned controls with at least 44px block size. Do not change global anchors, tokens, desktop summary geometry, or unrelated surfaces. |
+| `tests/e2e/structure-core.spec.ts` | Add one mobile-only real Project List regression after creating representative projects. Assert every visible project-summary destination is at least 44px, no root overflow exists, full-document Axe has no violation, and retain a screenshot. Do not weaken an existing assertion, timeout, project selection, or skip. |
+| `Path.md` | Record the exact patch, all changed files, final line-indexed operational logs/comments for affected product files, complete rerender/validation evidence, negative proof, deviations, and side-by-side decision. |
+
+#### Implementation, logging, validation, and rollback contract
+
+- **Method:** scope the target-size rule to `.project-summary` inside `@media (max-width: 767px)`. Preserve the existing single-column mobile card, `justify-self: start`, border/accent treatment and link semantics. Validate both the title and explicit `Open project` destination at actual rendered geometry.
+- **Instrumentation:** CSS target sizing and browser assertions are not operational transitions. No new `console.log` is authorized because it would create false telemetry. `app/app/page.tsx` is not expected to change; its existing adjacent `S0-SHELL-001` server trace/comment must remain byte-identical. Final evidence must re-index that pair and prove no content-bearing title is logged.
+- **Focused visual proof:** rerun the entry family after the change and retain desktop/mobile Light/Dark/Cream controls. Then rerun the full 109-state cross-product matrix and regenerate/open all nine contact sheets so the final slice cannot pass from a local one-screen correction alone.
+- **Functional and accessibility proof:** run the new mobile Project List browser assertion, both projects of the owning `structure-core.spec.ts`, zero-warning lint, typecheck, complete coverage, stress, Security, high-severity dependency audit, production build, cross-product launch audit, and the protected eight-suite Playwright matrix. No skip, timeout, threshold, assertion, or suite reduction is permitted.
+- **Negative proof:** inspect the diff for absence of component/domain/API/data/copy/token/workflow changes; require zero root overflow, zero Axe violation, zero theme mismatch and zero sub-44 mobile/compact target across the authoritative post-change matrix.
+- **Rollback:** the correction is one mobile-scoped CSS rule and one additive browser regression. Reverting the future implementation commit returns the exact S19-K product object; there is no data rollback or migration.
+
+Current pre-code decision: **S19-K IS CLOSED. S19-L CURRENT-PRODUCT INSPECTION, 109-STATE BASELINE, RETAINED FAILURE HISTORY, SINGLE ACCEPTED DEFECT, EXACT OBJECTIVE, EXPECTED FILES, BEHAVIOR/LOGGING LOCK AND VALIDATION PLAN ARE COMPLETE LOCALLY. NO TRACKED S19-L PRODUCT OR TEST FILE HAS CHANGED. THIS PATH-ONLY CHECKPOINT MUST BE COMMITTED, PUSHED AND PASS EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY BEFORE PRODUCT CODE CHANGES. S19-L IMPLEMENTATION AND S20 REMAIN LOCKED; PHASE 7 IS INCOMPLETE.** The Phase 7 completion phrase remains unauthorized.
