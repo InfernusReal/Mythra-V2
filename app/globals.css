@@ -541,6 +541,7 @@ kbd { color: var(--text-muted); font-size: 0.75rem; }
   .command-bar > .command-actions > .theme-menu { display: none; }
   .save-status { max-width: clamp(5.5rem, 30vw, 8.5rem); min-height: 26px; overflow: hidden; padding-inline: 8px; text-overflow: ellipsis; white-space: nowrap; }
   .project-summary { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .project-summary h2 a, .project-summary .primary-link { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; }
   .project-summary .primary-link { justify-self: start; }
   .new-project { padding: 20px; }
   .project-home .continue-writing { width: 100%; justify-content: center; }

@@ -165,3 +165,37 @@ test("keeps Structure usable in mobile Dark mode", async ({ page }, testInfo) =>
   await expect(page.getByTestId("semantic-zoom-lens")).toBeVisible();
   await page.screenshot({ path: "test-results/structure-core-mobile-dark.png", fullPage: true });
 });
+
+test("keeps every mobile Project List destination touch accessible", async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  test.skip(testInfo.project.name !== "mobile-chromium", "S19-L Project List target audit runs in mobile Chromium.");
+  await createProject(page, "A");
+  await page.goto("/app");
+  await expect(page.getByRole("heading", { name: "Your projects", level: 1 })).toBeVisible();
+  await page.addScriptTag({ path: path.resolve("node_modules/axe-core/axe.min.js") });
+
+  const audit = await page.evaluate(async () => {
+    const destinations = [...document.querySelectorAll(".project-summary a")].map((element) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        name: element.textContent?.trim() ?? "",
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      };
+    });
+    const violations = await (window as typeof window & {
+      axe: { run(): Promise<{ violations: Array<{ id: string }> }> };
+    }).axe.run();
+    return {
+      destinations,
+      hasHorizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      axeViolationIds: violations.violations.map((violation) => violation.id),
+    };
+  });
+
+  expect(audit.destinations.length).toBeGreaterThanOrEqual(2);
+  expect(audit.destinations.filter((destination) => destination.width < 44 || destination.height < 44)).toEqual([]);
+  expect(audit.hasHorizontalOverflow).toBe(false);
+  expect(audit.axeViolationIds).toEqual([]);
+  await page.screenshot({ path: "test-results/s19-l-project-list-mobile.png", fullPage: true });
+});
