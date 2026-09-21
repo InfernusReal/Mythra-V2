@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — local S20 release candidate passed; exact-hash hosted candidate and final-ledger proof pending** | Sections 27–29 below | S19-L is remotely closed at `d82092bc9e91986f1d9760b444fa4d8c469b439e`. S20 pre-code object `ef6f58f82202b0ced3373757306972dfd0d2be7e` passed CI `35522768625`, protected regression and both Security triggers. Sections 29.7–29.11 retain the R19 discovery/repair and local release-candidate proof. Phase 7 remains incomplete until the candidate and final Path-only ledger each pass exact-hash hosted gates. |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **Passed — S18, S19 and S20 complete; final Path-only ledger requires external exact-hash acceptance** | Sections 27–29 below | S20 candidate `5b73dcf6ddcd4dce87c002494fe219f27b8c6967` passed CI `35639429944`, clean protected regression and both Security triggers. Sections 29.12–29.13 record the exact proof and superseding closure. This final Path-only ledger is not externally accepted until its own checkout passes the same exact-hash hosted gates; that non-circular verification is reported outside the object after completion. |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8590,3 +8590,37 @@ Positive proof: R19's unsafe upsert transaction is mechanically bounded and dire
 `S20 LOCAL RELEASE-CANDIDATE AUDIT PASSED; REMOTE PROOF PENDING.`
 
 Current decision: **R19 IS LOCALLY CLOSED. S18'S R19 RECLOSURE AND S20'S LOCAL RELEASE CANDIDATE ARE READY FOR ONE SCOPED IMPLEMENTATION/EVIDENCE COMMIT. PHASE 7 REMAINS INCOMPLETE UNTIL THAT EXACT SHA PASSES CI `verify`, A CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY; THE RESULTING REMOTE PROOF MUST THEN BE RECORDED IN A SEPARATE PATH-ONLY LEDGER COMMIT AND THAT LEDGER SHA MUST PASS THE SAME REQUIRED HOSTED GATES. THE FINAL RELEASE-SEAL PHRASE REMAINS UNAUTHORIZED.**
+
+### 29.12 S20 candidate exact-hash hosted proof
+
+The scoped candidate was committed as `5b73dcf6ddcd4dce87c002494fe219f27b8c6967` (`Seal S20 release candidate and bound Search sync`) with exactly six paths: `.github/workflows/ci.yml`, `Path.md`, `domains/search/infrastructure/prisma-search-repository.ts`, `package.json`, new `scripts/verify-phase7-release-seal.ts`, and `tests/unit/search-domain.test.ts`. The commit contains 380 insertions and 6 deletions. `WorkPlan.md`, `package-lock.json`, schema/migrations and every UI/visual owner are unchanged. Before hosted results were accepted, local `HEAD`, `@{upstream}` and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` all resolved to the exact candidate SHA.
+
+#### CI and protected browser evidence
+
+- Pull-request CI run `35639429944` completed successfully on exact `headSha` `5b73dcf6ddcd4dce87c002494fe219f27b8c6967` from 18:36:07–18:44:31 UTC on 21 September 2026.
+- `verify` job `106464845419` passed from 18:36:10–18:41:07 UTC in 4m57s. Clean checkout/install, Prisma generation, lint, typecheck, **107/107 coverage files and 411/411 tests**, Phase 6 launch audit, S20 release-seal audit and production build all passed. The hosted release audit reported immutable WorkPlan hash `87372ec...44aa9`, 18 original gates, 9 command evidence owners, **192 changed paths / 0 deleted / 0 unaccounted**, 39 dependencies / 0 forbidden AI dependencies and candidate mode.
+- The hosted release audit reported `phase7Commits: 53` because pull-request checkout includes GitHub's synthetic merge object. The branch itself contains 52 commits after the Phase 7 baseline. This supersedes section 29.11's prediction that the hosted count would be 52; neither count is used as a hard-coded acceptance value, while path/gap/deletion counts are fail-closed.
+- Protected `s18-regression` job `106464844610` passed from 18:36:10–18:44:30 UTC in 8m20s. All 19 migrations and the alert, Structure, archive, pagination, OIDC and Portability native verifiers passed before the browser run. Raw Playwright output then passed **35 applicable tests with 31 declared cross-project skips in 6.8m**, with zero failure, retry or flaky classification. Evidence upload passed.
+- Protected artifact `s18-browser-evidence` has artifact ID `10658360500`, size 7,953,356 bytes and GitHub artifact digest `sha256:9864e73edd478e376d722f61a19d16e4a9f63448281906294c6b0885a913e0bf`. Its workflow object identifies the same branch and exact candidate SHA.
+
+#### Independent Security evidence
+
+- Pull-request Security run `35639429822`, job `106464843809`, passed on the candidate SHA from 18:36:10–18:36:48 UTC.
+- Push Security run `35639400071`, job `106464744081`, independently passed on the candidate SHA from 18:35:53–18:36:30 UTC.
+- Both completed clean checkout/install, high-severity dependency audit, the 2-file/10-test security-accessibility suite, and committed environment/private-key material rejection. GitHub's Node-action runtime and future Ubuntu-image notices were informational; no required step was skipped, tolerated or failed.
+
+This exact remote proof closes R19 under S18 ownership and verifies the S20 candidate. No candidate run was accepted by workflow name, branch, predecessor success or workflow-level status alone: SHA, job conclusions, raw test summary and artifact identity were all checked.
+
+### 29.13 Superseding S20 and Phase 7 closure
+
+The candidate proof resolves item 15 of section 29.10. All fifteen required S20 statements are now Verified: R01–R19 are closed; S10 registry/shortcut/ranking/execution is authoritative and tested; no unsupported Phase 1–6 claim remains; S19 changed visual quality without hierarchy/workflow/domain drift; no capability was removed; writing remains sovereign and Structure optional; hierarchy/chronology/causality remain distinct; deterministic Core contains no AI; all 192 Phase 7 changed paths are justified with zero deletion/unaccounted path; and local plus exact candidate remote proof pass.
+
+Final positive proof consists of the disclosed R19 bounded-transaction repair, deterministic S20 release audit, complete local quality/database/recovery/build/browser evidence, S19-L 109-state visual baseline, exact candidate CI/protected/Security proof and artifact digest. Final negative proof consists of the six-path surgical diff, unchanged WorkPlan/lockfile/schema/UI boundary, zero deleted or unaccounted Phase 7 path, zero forbidden AI dependency, clean zero-retry browser proof, and unchanged architecture/workflow/domain semantics.
+
+The only change in this closure object is `Path.md`: it records exact candidate evidence, corrects the pull-request merge-ref commit-count prediction, updates the Phase 7 status row and makes the final determination. Product code, tests, CI, dependencies, WorkPlan and the release-audit implementation are unchanged. The closure object must still pass its own exact-hash `verify`, clean protected `s18-regression`, pull-request Security and push Security before this determination is accepted outside the object; this requirement avoids treating an unverified ledger assertion as proof without creating an impossible self-referential commit chain.
+
+S20 IS CLOSED.
+
+Remaining Phase 7 gaps: **none**.
+
+**PHASE 7 PASS — MYTHRA V2 RELEASE SEAL RESTORED**
