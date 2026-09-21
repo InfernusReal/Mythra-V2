@@ -69,6 +69,7 @@
     "drill:backup-restore": "tsx scripts/drill-backup-restore.ts",
     "drill:release": "tsx scripts/verify-release-readiness.ts",
     "audit:launch": "tsx scripts/verify-final-launch-audit.ts",
+    "audit:release-seal": "tsx scripts/verify-phase7-release-seal.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {

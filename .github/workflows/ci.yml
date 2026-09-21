@@ -64,6 +64,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22.15.0
@@ -75,6 +77,8 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test:coverage
+      - run: npm run audit:launch
+      - run: npm run audit:release-seal
       - run: npm run build
         env:
           DATABASE_URL: postgresql://unused:unused@127.0.0.1:5432/unused?sslmode=require

@@ -39,7 +39,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — S18 and all S19 slices remotely closed; S20 pre-code checkpoint pending exact-hash hosted proof** | Sections 27–29 below | S19-L closure object `d82092bc9e91986f1d9760b444fa4d8c469b439e` passed CI `35520049348`: `verify` passed, the first protected attempt's one disclosed flake was rejected, and unchanged-SHA protected rerun job `106104122505` passed cleanly; PR Security `35520049355` and push Security `35520047145` passed. Section 28.43 records closure and the bounded S20 contract; no S20 product change is authorized before that Path-only checkpoint is remotely verified. |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **In progress — local S20 release candidate passed; exact-hash hosted candidate and final-ledger proof pending** | Sections 27–29 below | S19-L is remotely closed at `d82092bc9e91986f1d9760b444fa4d8c469b439e`. S20 pre-code object `ef6f58f82202b0ced3373757306972dfd0d2be7e` passed CI `35522768625`, protected regression and both Security triggers. Sections 29.7–29.11 retain the R19 discovery/repair and local release-candidate proof. Phase 7 remains incomplete until the candidate and final Path-only ledger each pass exact-hash hosted gates. |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8444,3 +8444,149 @@ S20 adds no product execution boundary. The only anticipated new logs belong to 
 | Pre-code record itself is durable and exact-hash remotely verified | This section is currently an uncommitted local `Path.md` change. | PENDING |
 
 Current decision: **S19-L IS CLOSED. S20 AUTHORITY, BASELINE, ZERO-CREATIVE BOUNDARY, RECONCILIATION OBJECTIVES, EXPECTED FILES, TRACE POLICY, FULL VALIDATION PLAN AND FAILURE OWNERSHIP ARE RECORDED. NO S20 IMPLEMENTATION OR PRODUCT FILE HAS CHANGED. THIS PATH-ONLY CHECKPOINT MUST BE COMMITTED, PUSHED AND PASS EXACT-HASH CI `verify`, CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY BEFORE THE S20 AUDIT SCRIPT OR CI WORKFLOW CHANGES. PHASE 7 REMAINS INCOMPLETE.** The release-seal phrase remains unauthorized.
+
+### 29.7 R19 Search synchronization transaction bound — S20 discovery returned to S18 ownership
+
+The exact pre-code checkpoint `ef6f58f82202b0ced3373757306972dfd0d2be7e` passed its required hosted gates before S20 evidence implementation began. Pull-request CI `35522768625` passed `verify` job `106109597226` in 4m56s and protected job `106109597305` in 6m51s. The raw protected summary was **35 passed, 31 intentional device-project skips, zero failed/retried/flaky in 5.2m**. Pull-request Security `35522768568`/`106109596987` and push Security `35522765385`/`106109588363` independently passed. The protected evidence artifact is `10608119192`, 7,947,711 bytes. Local, upstream and remote refs were the exact checkpoint hash and the WorkPlan hash remained unchanged before `.github/workflows/ci.yml`, `package.json`, and `scripts/verify-phase7-release-seal.ts` changed.
+
+The first S20 local batch retained one contention failure: running lint, accessibility and all stress workers concurrently caused `live-model.stress.test.ts` to measure 6,344ms against its unchanged 5,000ms CPU budget. After the concurrent processes completed, the exact unchanged stress suite passed **17/17 files and 32/32 tests in 11.22s**. Lint, typecheck, accessibility **10/10 files and 13/13 tests**, full coverage **107/107 files and 410/410 tests** at 87.97% statements / 77.18% branches / 85.71% functions / 90.51% lines, security **2/2 files and 10/10 tests**, zero-vulnerability high audit, Phase 6 launch audit and release rehearsal all passed. The first stress result remains evidence-run failure history; no threshold, assertion or production code changed to obtain the isolated pass.
+
+The isolated database `mythra_s20_release_20260920` reported all 19 migrations applied and current. Native verifiers for Foundation, Editor Core, Durability, Continuation, Structure, Milestones, Causality, Context, Capture and Universe passed sequentially. Search/Language then failed twice on unchanged code:
+
+1. In the integrated native sequence, `PrismaUniverseRepository.create` expired its existing 20,000ms interactive transaction after 20,419ms while resolving relation types (`P2028`).
+2. A separate unchanged Search/Language rerun progressed past Universe creation but `PrismaSearchRepository.synchronize` expired Prisma's default 5,000ms batch transaction after 5,294ms while upserting the new project's bounded SearchDocument set (`P2028`).
+
+Read-only diagnosis found zero ungranted database locks. The isolated database contained only 149 existing SearchDocument rows overall, while synchronization filters by the newly created project; this was not an unbounded whole-database query. Source inspection found the exact fault boundary: Search synchronizes up to `SOURCE_LIMIT = 25_000` through `BATCH_SIZE = 200`. Even the ten deterministic causal-relation descriptors plus the verifier's bounded project objects can therefore share one default five-second transaction. A repeatable integrated release gate cannot depend on that transaction narrowly completing under local database latency. This is a **verified R19 integrated-performance/recovery gap** discovered by S20. Under the Phase 7 contract it returns to S18 ownership; S20 does not waive or conceal it.
+
+#### R19 pre-code repair contract
+
+| Expected file | Smallest authorized repair | Preserved behavior and proof |
+| --- | --- | --- |
+| `domains/search/infrastructure/prisma-search-repository.ts` | Separate deletion and upsert batch bounds. Retain the existing 200-ID set-based stale deletion, but cap each upsert transaction at eight documents so the existing five-second fail-closed database boundary is honored without increasing a timeout. | Same source limit, collection, ownership, privacy, normalization, stable key, upsert fields, freshness, ranking and return counts. No search result, API, schema or user-visible change. |
+| `tests/unit/search-domain.test.ts` | Add a repository-bound regression using the ten deterministic causal relation descriptors and empty optional sources; prove the changed projection is split into transaction batches of 8 and 2 and reports all ten synchronized. | No database mock content is logged; the test directly fails if a future change recombines the writes into the unsafe default transaction. Existing domain/ranking/provider tests remain unchanged. |
+| `Path.md` | Preserve both failures, diagnosis, exact repair, rerun results, traces/non-traces and S18/S20 gate decisions. | Append-only correction; Phase 6 and earlier S18 history remain untouched. |
+
+No new operational transition is introduced, so no new product `console.log` is authorized. Search's existing content-safe synchronization service trace remains unchanged. The release-audit script's `S20-AUDIT-001` through `006` comments/log calls are evidence-process boundaries and will be indexed separately after their final lines stabilize.
+
+Required repair proof: focused unit red/green accountability, Search domain/service/unit coverage, unchanged-threshold complete coverage, isolated native Search/Language pass, continuation of every remaining native verifier, billing database stress, backup/restore, production build, complete browser matrix, final visual matrix, release audits, diff locality, then exact commit/push/CI/protected-regression/Security and separate final-ledger proof. The existing transaction timeout, source cap, test timeouts, skips, retries, assertions and coverage thresholds may not be increased or weakened.
+
+Current decision: **S18 IS REOPENED FOR R19 ONLY. S20 IS BLOCKED ON THE OWNED REPAIR AND COMPLETE AFFECTED RERUN. PHASE 7 REMAINS INCOMPLETE.** No R19 product file has changed before this record; the release-seal phrase remains unauthorized.
+
+### 29.8 R19 implementation, non-interference, and local reclosure evidence
+
+#### Actual files and surgical justification
+
+The R19 repair stayed inside the pre-code boundary in section 29.7. No schema, migration, API, route, component, CSS, copy, localization, Search ranking, source collection, result contract, timeout, retry, capability, dependency, or user workflow changed.
+
+| File | Actual change and necessity | Explicitly preserved behavior / negative proof |
+| --- | --- | --- |
+| `domains/search/infrastructure/prisma-search-repository.ts` | Replaced the shared `BATCH_SIZE = 200` with `DELETE_BATCH_SIZE = 200` and `UPSERT_TRANSACTION_BATCH_SIZE = 8`; stale-ID deletion retains 200-ID set batches, while SearchDocument upserts use bounded 8-document Prisma transactions. This is the smallest repair for the observed default five-second transaction expiry. | `SOURCE_LIMIT = 25_000`, project/workspace ownership, source adapters, normalization, stable keys, insert/update/remove calculation, freshness, ranking, privacy and returned counts are byte-semantically unchanged. The Prisma transaction timeout was not increased. |
+| `tests/unit/search-domain.test.ts` | Added a repository-bound regression containing ten deterministic causal-relation descriptors. A fake Prisma transaction seam proves all ten are synchronized in exactly two transactions of 8 and 2 and every upsert is issued. | Existing Search descriptor, ranking, query-provider and endpoint tests remain unchanged. The test contains no author content in logs and adds no skip, retry or threshold exception. |
+| `Path.md` | Preserves the two `P2028` failures, diagnosis, repair contract, post-repair evidence, infrastructure failures, browser-environment correction and release decision. | Earlier Phase 6/S18/S19 claims are not erased or rewritten; the new entry supersedes only the open R19/S20 decision. |
+
+R19 adds no operational boundary and therefore adds no product `console.log`. The existing content-safe `live_model.search_synchronized` and Search service traces remain unchanged. Focused proof passed `tests/unit/search-domain.test.ts` with **1 file / 4 tests**, and the complete post-repair coverage run passed **107 files / 411 tests**. The corrected native Search/Language verifier passed on a fresh database with 27 source documents, 11 active source types, exact alias priority, searchable reference facts, collaborator-Capture exclusion, cross-workspace rejection, vocabulary version 2 and all three Search indexes. Live Model then synchronized 20 sources repeatedly inside the same repaired repository boundary while completing projection/rebuild parity.
+
+#### Failure and recovery register retained by the release audit
+
+| Event | Classification | Correction and admissible result |
+| --- | --- | --- |
+| Concurrent lint/a11y/stress batch measured Live Model at 6,344ms against 5,000ms | Test-harness resource contention; failed run retained | Exact unchanged stress suite rerun alone passed 17 files / 32 tests. No budget, timeout or assertion changed. |
+| Integrated old proxy database expired Universe at 20,419ms, then isolated Search upsert at 5,294ms | First failure exposed slow shared harness; second isolated failure proved R19 product transaction-bound defect | R19 bounded upserts to 8 and added the 8+2 regression; native Search and Live Model subsequently passed on clean databases. |
+| Reusing one synthetic database across unrelated verifiers accumulated 1,139 outbox events and Live Model lost its proxy connection (`P1017`) | Invalid shared-fixture topology; not accepted as product evidence | Verifiers moved to fresh isolated databases. Live Model passed completely on a clean queue. |
+| The first dedicated PostgreSQL cluster lived under OneDrive and later logged Win32 error 1450, sharing violations and a TCP bind failure; an OIDC rerun consequently failed `P1001` | Infrastructure failure; result rejected | A new native PostgreSQL 18 cluster was initialized under local temporary storage on loopback port 55432. Fresh OIDC passed after all 19 migrations. |
+| `npm run verify:oidc` and `npm run test:accessibility` were invoked, but neither script name exists | Operator command-name errors; neither result counted | Repository-owned commands `npx tsx scripts/verify-s18-oidc-db.ts` and `npm run test:a11y` passed. |
+| First full local E2E configured `BILLING_PROVIDER=http` although `billing.spec.ts` intentionally verifies the deterministic local fixture redirect; billing timed out at `fixtureCheckout` and displayed the truthful provider error | Browser-harness configuration mismatch; failed run and trace retained | The billing spec passed alone with `BILLING_PROVIDER=fixture`; the database was destroyed/recreated, all 19 migrations redeployed, and the complete zero-retry inventory passed unchanged. No product/test file changed. |
+
+R19 positive proof is the repository regression plus native Search/Live Model passes. R19 negative proof is the unchanged public contract, timeouts, schema, UI and result semantics plus the complete regression stack below. **R19 is locally repaired and locally reclosed, but its S18 reclosure is not remote until the implementation/evidence commit passes exact-hash hosted proof.**
+
+### 29.9 S20 implementation and complete local release-candidate evidence
+
+#### Evidence implementation
+
+| File | S20 implementation | Boundary / non-interference |
+| --- | --- | --- |
+| `scripts/verify-phase7-release-seal.ts` | New deterministic fail-closed audit verifies gate chronology, immutable WorkPlan hash and Sub-gates 0–17, the S18 terminal register/reclosure, nine authoritative S10 command evidence owners, every Phase 7 changed path's Path justification, absence of tracked deletions, zero forbidden model dependency, retained launch audit, hosted audit wiring, and finite preflight/candidate/sealed states. | Reads repository/Git metadata only; performs no database, network, external-service or product mutation and emits no authored content. |
+| `package.json` | Adds only `audit:release-seal = tsx scripts/verify-phase7-release-seal.ts`. | No dependency, version, engine, threshold or existing command changed; `package-lock.json` is unchanged. |
+| `.github/workflows/ci.yml` | Gives `verify` full Git history and invokes the existing launch audit plus the S20 release-seal audit after the production build. | No PostgreSQL/native verifier, protected browser scope, retry, timeout, coverage, build or Security control was removed or weakened. |
+| `Path.md` | Records actual implementation, all corrections, complete local proof, trace ledger, side-by-side reconciliation, diff locality and the remote-pending decision. | Historical evidence is append-only and Phase 7 is not marked Passed locally. |
+
+The R19 source/test files are the only product-boundary exception to the four expected S20 evidence files. Section 29.7 documented why that cross-boundary repair could not remain evidence-only, its minimum behavior change, preserved behavior and required proof before either file changed.
+
+#### S20 console trace ledger
+
+All six new calls are evidence-process logs, not product telemetry. Each comment is immediately adjacent to its call. Metadata is limited to fixed event/step names, booleans, counts, the immutable WorkPlan hash and finite audit mode. The script never reads or emits manuscript prose, Capture text, Note/Research bodies, search queries, selected/clipboard text, entity/outline/causal prose, credentials, secrets, tokens, environment values or private payloads.
+
+| Trace | File | Comment line | `console.log` line | Purpose and safe fields |
+| --- | --- | ---: | ---: | --- |
+| `S20-AUDIT-001` | `scripts/verify-phase7-release-seal.ts` | 63 | 64 | Gate order; historical Phase 6 preservation and S18/S19 closure booleans. |
+| `S20-AUDIT-002` | same | 82 | 83 | WorkPlan SHA-256, original Sub-gate count and directive-collection count. |
+| `S20-AUDIT-003` | same | 120 | 121 | Count of command evidence files and authoritative-registry/shared-ranking booleans. |
+| `S20-AUDIT-004` | same | 134 | 135 | Phase 7 changed/deleted/unaccounted path counts and commit count; no file content. |
+| `S20-AUDIT-005` | same | 146 | 147 | Dependency count, forbidden-AI count and retained release-check booleans. |
+| `S20-AUDIT-006` | same | 161 | 162 | Finite preflight/candidate/sealed mode, remaining-gap count and seal boolean. |
+
+#### Complete local validation and stress evidence
+
+| Layer | Exact result | Decision |
+| --- | --- | --- |
+| Static quality | `npm run lint` zero warnings; `npm run typecheck` passed; focused Search repository test 1 file / 4 tests passed. | PASS |
+| Complete coverage | `npm run test:coverage`: **107/107 files, 411/411 tests**; 86.85% statements, 75.55% branches, 83.87% functions, 89.25% lines. Known jsdom canvas/navigation/scroll notices were informational. No threshold changed. | PASS |
+| Stress | Isolated unchanged `npm run test:stress`: **17/17 files, 32/32 tests**. Billing database stress: 32 webhook attempts at peak concurrency 4, 200 distinct plus 200 replayed usage attempts at peak concurrency 2, exactly one webhook/audit row and 200 usage rows; 8,557ms. | PASS |
+| Accessibility/security/dependencies | `npm run test:a11y`: 10 files / 13 tests; `npm run test:security`: 2 files / 10 tests; `npm audit --audit-level=high`: zero vulnerabilities. | PASS |
+| Build/release audits | Next.js 16.3.4 production build compiled/typechecked, generated 22 static pages and the full route map. Launch audit retained 14 critical E2Es, 6 visual dimensions, 7 causal acceptances, 16 doctrine questions, 11 launch conditions, 18 Sub-gates and zero AI. Release rehearsal passed 4 environments, 6 alert rules, worker schema 1 and cost model. | PASS |
+| Migration/native database | Fresh native PostgreSQL 18 databases deployed all **19 migrations** from empty. Foundation through Universe passed before R19; post-repair clean Search/Language, Timeline/Research and Live Model passed. Independent clean Portability, Billing, Operations, alerts, Agent Seam, archive concurrency, tied-timestamp pagination and OIDC passed. | PASS |
+| Recovery | Real `pg_dump` / `pg_restore --exit-on-error` reproduced 68 tables, 19 migrations, 4 workspaces and 7 audit events exactly, then removed the isolated restore database. | PASS |
+| Billing/commercial doctrine | Native Billing verified USD 15 Core, dormant USD 25 Intelligence, replay/out-of-order safety, provider versioning, quotas, owned-export exemption, cross-workspace denial and checkout validation; database contention stress passed. | PASS |
+| Full browser inventory | After the disclosed provider-config correction and fresh database reset: **73 passed, 65 declared project-specific skips, 0 failed, 0 retried, 0 flaky in 7.7m** across Chromium desktop and Pixel 7 mobile. This exercised all Sub-gates represented by the repository plus command, RTL, accessibility, theme and degraded-state paths. | PASS |
+| Visual/current-product | S19-L retains **109 actual-product states**, nine observation records and nine contact sheets across entry/editor, Structure, Universe/Timeline, Capture, Search/palette, Context/Peek, Notes/Research, support surfaces and responsive/degraded states. The S20/R19 diff changes no route, component, CSS, token, localization or visual owner; the current full E2E run regenerated representative desktop/mobile screenshots with zero assertion or axe failure. Therefore the S19-L rendered matrix remains the valid visual baseline with no render-affecting diff to rerender. | PASS |
+| Scope/whitespace | `WorkPlan.md` hash remains `87372EC08C80951E8321379019AAB4E622F916DD3E62C09FBE2C60705CE44AA9`; `package-lock.json` unchanged; no migration/schema/UI file changed; unstaged and staged `git diff --check` both passed. | PASS |
+
+The full native proof preserves intentional error-path events rather than misclassifying them: Live Model's unsupported event retried exactly seven times and dead-lettered on attempt eight, billing rejected unsafe states, and visual/E2E controlled offline/503 states remained truthful. These are passing recovery assertions, not hidden failures.
+
+### 29.10 Final side-by-side Phase 7 reconciliation
+
+| # | Binding S20 proof | Repository/test/Git evidence | Local classification |
+| ---: | --- | --- | --- |
+| 1 | Every discovered compliance gap is closed | Sections 27.1–27.35 close R01–R18; section 29.8 closes newly discovered R19 locally. No register item remains without code/test evidence. | Verified locally; R19 remote pending |
+| 2 | S10 command integration is genuinely compliant | Central registry consumption, contextual availability/execution, mixed ranking/history and focus/return are covered by nine source/test owners and the clean desktop/mobile command E2Es. | Verified |
+| 3 | Command registry is authoritative | `lib/commands/registry.ts` feeds `runtime.ts` and `CommandPalette.tsx`; release audit fails if that evidence disappears. | Verified |
+| 4 | Shortcut metadata is accurate | Registry collision/shortcut unit coverage and browser execution cover the Bible shortcuts including `Mod+Alt+C`; stale `Mod+.` metadata is absent from the authoritative path. | Verified |
+| 5 | Command/object ranking works | `ranking.ts`, unit/component tests and the 500-item stress test prove shared deterministic current-context/recency ranking and bounded successful-use history. | Verified |
+| 6 | No unsupported Phase 1–6 claim remains | Immutable WorkPlan + complete Path correction chain + launch/release audits + coverage/native/E2E evidence agree. Historical Phase 6 closure remains explicitly evidence-at-the-time, not rewritten. | Verified |
+| 7 | S19 changed visual quality, not hierarchy | Phase 7 diff/accountability and sections 28.1–28.43 show CSS/markup polish under existing routes/surfaces; S19-L's 109-state review and all route E2Es preserve hierarchy. | Verified |
+| 8 | S19 changed visual quality, not workflow semantics | Full E2E and domain/native suites pass current editor, Structure, Capture, Context, Search, timeline, portability, billing and tool flows; no S19 schema/domain/API semantic rewrite exists. | Verified |
+| 9 | No capability was removed | All original Sub-gates 0–17 remain Passed in the capability table; launch audit finds 18; full route/build/native/browser inventories remain present. | Verified |
+| 10 | Manuscript-first architecture remains intact | First-project/editor, exact continuation, offline journal, checkpoint, Focus and return tests pass; no setup or support surface blocks writing. | Verified |
+| 11 | Structure remains optional | Zero-structure editor and Structure E2Es pass; no schema/UI change in S20 adds a prerequisite. | Verified |
+| 12 | Hierarchy, chronology and causality remain distinct | Structure coordinate/unit/native evidence, neutral Timeline modes and causal graph/Why/Depends tests pass; milestones remain cross-cutting rather than containment. | Verified |
+| 13 | No AI was added | Release audit scans installed dependencies for model SDKs and reports zero; S17 remains a bounded proposal/tool seam and deterministic Core remains complete without model calls. | Verified |
+| 14 | Every Phase 7 changed file is justified | Release audit maps the baseline-to-candidate changed-path inventory to Path.md, rejects deletions/unaccounted paths, and sections 27–29 justify S18, every S19 slice, R19 and S20 files. | Verified locally; exact committed count pending candidate commit |
+| 15 | Local and remote evidence passes | Complete local stack passes. S19-L and the S20 pre-code checkpoint have exact remote proof; the new candidate and its final ledger do not yet. | **Remote pending** |
+
+Additional WorkPlan doctrine reconciliation remains safe:
+
+- `becauseItems[]` and `consequenceItems[]` remain explicit durable directive collections; the Live Model native verifier materialized directives and stable Semantic Coordinates.
+- Semantic Zoom remains `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`, with milestones cross-cutting; S20 changes no coordinate owner.
+- Timeline/entity-state/capture causal endpoints remain activated only by their owning later phases through the shared resolver; no impossible Phase 2 dependency was reintroduced.
+- Mythra Core remains USD 15/month with full deterministic V2 access; USD 25 Intelligence remains future-only and inactive. Downgrade/limit paths retain read/export safety.
+- Canonical author truth remains server-owned, local journals remain recovery state, projections remain rebuildable, proposals remain non-canonical until author approval, and telemetry remains content-safe.
+- Bounded project/graph reads, ownership scoping, pagination, private asset access, OIDC identity isolation, quota enforcement and operational recovery all passed their strongest applicable database/security tests.
+- No new domain, major capability, post-V2 behavior, pricing tier, architecture rewrite, information-architecture change, workflow change or feature removal entered S20.
+
+### 29.11 Diff locality and local candidate decision
+
+The candidate diff is surgical:
+
+1. three evidence/release files were added or modified exactly as planned: `.github/workflows/ci.yml`, `package.json`, `scripts/verify-phase7-release-seal.ts`;
+2. `Path.md` records the evidence;
+3. exactly two cross-boundary R19 files implement and verify the discovered Search transaction-bound repair: `domains/search/infrastructure/prisma-search-repository.ts` and `tests/unit/search-domain.test.ts`;
+4. `WorkPlan.md`, `package-lock.json`, schema/migrations, routes, API contracts, components, CSS, localization, product copy and all visual owners remain unchanged;
+5. no tracked file is deleted and no generated build/test artifact is intended for commit.
+
+After all six intended files were staged, `npm run audit:release-seal` passed in candidate mode with **192 changed Phase 7 paths, zero deleted paths, zero unaccounted paths, 51 already-committed Phase 7 commits, 39 installed dependencies and zero forbidden AI dependencies**. The count includes the newly staged audit script and R19 file boundary; the next hosted checkout will calculate the candidate commit as the 52nd Phase 7 commit.
+
+Positive proof: R19's unsafe upsert transaction is mechanically bounded and directly regression-tested; S20's release audit deterministically fails on plan drift, gate/order/evidence loss, unaccounted Phase 7 paths, deleted capability files, AI dependency drift, missing hosted wiring or an invalid final declaration. Negative proof: the complete local stack, isolated native databases, backup/restore, production build, zero-retry full E2E and unchanged visual-owner diff prove unrelated behavior remained intact.
+
+`S20 LOCAL RELEASE-CANDIDATE AUDIT PASSED; REMOTE PROOF PENDING.`
+
+Current decision: **R19 IS LOCALLY CLOSED. S18'S R19 RECLOSURE AND S20'S LOCAL RELEASE CANDIDATE ARE READY FOR ONE SCOPED IMPLEMENTATION/EVIDENCE COMMIT. PHASE 7 REMAINS INCOMPLETE UNTIL THAT EXACT SHA PASSES CI `verify`, A CLEAN PROTECTED `s18-regression`, PULL-REQUEST SECURITY AND PUSH SECURITY; THE RESULTING REMOTE PROOF MUST THEN BE RECORDED IN A SEPARATE PATH-ONLY LEDGER COMMIT AND THAT LEDGER SHA MUST PASS THE SAME REQUIRED HOSTED GATES. THE FINAL RELEASE-SEAL PHRASE REMAINS UNAUTHORIZED.**

@@ -25,7 +25,8 @@ import {
 
 const SOURCE_LIMIT = 25_000;
 const GROUP_LIMIT = 20;
-const BATCH_SIZE = 200;
+const DELETE_BATCH_SIZE = 200;
+const UPSERT_TRANSACTION_BATCH_SIZE = 8;
 
 type JsonRecord = Record<string, unknown>;
 
@@ -612,12 +613,21 @@ export class PrismaSearchRepository
         `${item.sourceVersion}:${item.sourceUpdatedAt.toISOString()}`,
     );
 
-    for (let index = 0; index < staleIds.length; index += BATCH_SIZE)
+    for (let index = 0; index < staleIds.length; index += DELETE_BATCH_SIZE)
       await this.prisma.searchDocument.deleteMany({
-        where: { id: { in: staleIds.slice(index, index + BATCH_SIZE) } },
+        where: {
+          id: { in: staleIds.slice(index, index + DELETE_BATCH_SIZE) },
+        },
       });
-    for (let index = 0; index < changed.length; index += BATCH_SIZE) {
-      const batch = changed.slice(index, index + BATCH_SIZE);
+    for (
+      let index = 0;
+      index < changed.length;
+      index += UPSERT_TRANSACTION_BATCH_SIZE
+    ) {
+      const batch = changed.slice(
+        index,
+        index + UPSERT_TRANSACTION_BATCH_SIZE,
+      );
       await this.prisma.$transaction(
         batch.map((item) =>
           this.prisma.searchDocument.upsert({

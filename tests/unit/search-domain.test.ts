@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
+import type { SessionActor } from "@/domains/accounts/domain/identity";
 import { SearchProviderRegistry } from "@/domains/search/domain/provider-registry";
 import { activeSearchDocumentTypes, normalizeSearchText, scoreSearchResult, searchOffset, searchQuerySchema } from "@/domains/search/domain/types";
+import { PrismaSearchRepository } from "@/domains/search/infrastructure/prisma-search-repository";
 
 describe("Search domain", () => {
   it("normalizes Unicode, validates bounded queries and decodes stable cursors", () => {
@@ -28,5 +30,54 @@ describe("Search domain", () => {
     expect(registry.provider("NOTE")).toBe(active);
     expect(() => registry.register(active)).toThrow(/already registered/u);
     expect(registry.provider("CHAPTER")).toBe(active); expect(registry.provider("TIMELINE_EVENT")?.state).toBe("ACTIVE");
+  });
+
+  it("keeps SearchDocument upserts inside bounded database transactions", async () => {
+    const projectId = "00000000-0000-4000-8000-000000000041";
+    const actor: SessionActor = {
+      userId: "00000000-0000-4000-8000-000000000042",
+      workspaceId: "00000000-0000-4000-8000-000000000043",
+      role: "OWNER",
+      sessionId: "00000000-0000-4000-8000-000000000044",
+    };
+    const emptyModel = () => ({ findMany: vi.fn().mockResolvedValue([]) });
+    const transaction = vi.fn(async (queries: Array<Promise<unknown>>) => Promise.all(queries));
+    const searchDocument = {
+      findMany: vi.fn().mockResolvedValue([]),
+      deleteMany: vi.fn().mockResolvedValue({ count: 0 }),
+      upsert: vi.fn().mockResolvedValue({}),
+    };
+    const prisma = {
+      project: {
+        findFirst: vi.fn().mockResolvedValue({
+          id: projectId,
+          workspaceId: actor.workspaceId,
+          structuralVersion: 1,
+          updatedAt: new Date("2026-09-20T00:00:00.000Z"),
+        }),
+      },
+      chapter: emptyModel(),
+      chapterOutline: emptyModel(),
+      plotOutline: emptyModel(),
+      volumeOutline: emptyModel(),
+      milestone: emptyModel(),
+      storyEntity: emptyModel(),
+      storyChange: emptyModel(),
+      relationType: emptyModel(),
+      storyReference: emptyModel(),
+      capture: emptyModel(),
+      timelineEvent: emptyModel(),
+      note: emptyModel(),
+      researchItem: emptyModel(),
+      searchDocument,
+      $transaction: transaction,
+    } as unknown as ConstructorParameters<typeof PrismaSearchRepository>[0];
+
+    const result = await new PrismaSearchRepository(prisma).synchronize(actor, projectId);
+
+    expect(result).toMatchObject({ insertedOrUpdated: 10, removed: 0, sourceCount: 10 });
+    expect(transaction).toHaveBeenCalledTimes(2);
+    expect(transaction.mock.calls.map(([batch]) => batch.length)).toEqual([8, 2]);
+    expect(searchDocument.upsert).toHaveBeenCalledTimes(10);
   });
 });
