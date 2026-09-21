@@ -2,14 +2,14 @@
 
 ## 1. Authority, purpose, and execution contract
 
-This is the implementation plan for **Mythra V2 Product + Engineering Implementation Bible, version 2.2, dated 12 August 2026** (the **Bible**). The Bible is the product and engineering authority. This file sequences its practical implications; it does not replace, weaken, or reinterpret them.
+This is the implementation plan for **Mythra V2 Product + Engineering Implementation Bible, version 2.2, dated 12 August 2026** (the **Bible**). The Bible is the product and engineering authority. This file sequences its practical implications; it does not replace, weaken, or reinterpret them, except for the narrowly scoped, user-authorized post-freeze implementation rulings in section 3.1.
 
 The repository was empty when this plan was created. Consequently, every path below is an intended implementation path rather than a claim that code already exists. Actual paths, code, test results, deviations, and Git evidence must be recorded in `Path.md` as work occurs.
 
 If this plan and the Bible ever disagree:
 
 1. Stop implementation at the affected gate.
-2. Treat the Bible as authoritative.
+2. Treat the Bible as authoritative unless the discrepancy is exactly covered by a ruling in section 3.1; those rulings override only their named ambiguity or commercial decision.
 3. Correct `WorkPlan.md` before writing more product code.
 4. Record the discrepancy, correction, and evidence in `Path.md`.
 5. Re-run the coverage and contradiction audits in section 12.
@@ -25,23 +25,26 @@ If this plan and the Bible ever disagree:
 
 ### 1.2 Phase and Git protocol
 
-The Bible's original capability phases 0–17 are consolidated into six dependency-ordered delivery phases. This reduces handoff count without merging unrelated acceptance gates.
+The six delivery phases are project-management containers only. The Bible's original capability phases 0–17 remain eighteen mandatory, dependency-ordered execution sub-gates. Consolidation reduces management overhead but never merges, skips, weakens, or defers an original writing-flow gate.
 
-For every phase:
+The execution state machine is strict: **Sub-gate 0 → Sub-gate 1 → ... → Sub-gate 17**. Work on the next original capability may not start until the preceding sub-gate is verified, audited, committed, pushed, and remotely confirmed. Work may prepare a dormant interface for a later capability, but it may not activate, advertise, or claim support for that capability before its own sub-gate.
 
-1. Start from the last verified and pushed phase.
-2. Update the phase entry in `Path.md` before coding with the intended slice and baseline commit.
-3. Implement the whole phase scope through thin routes, domain services, repositories, and screen-oriented read models.
-4. Run focused, integration, E2E, accessibility, performance, security, migration, and recovery checks required by that phase.
-5. Compare actual work against this plan and the Bible source sections listed for the phase.
+For every sub-gate:
+
+1. Start from the immediately preceding verified and pushed Sub-gate (Sub-gate 0 starts from the verified planning baseline).
+2. Create/update the Sub-gate entry in `Path.md` before coding with predecessor evidence, intended slice, and baseline commit.
+3. Implement only the current original capability through thin routes, domain services, repositories, and screen-oriented read models; later-capability interfaces remain dormant.
+4. Run focused, integration, E2E, accessibility, performance, security, migration, recovery, observability, and writing-flow checks required by that sub-gate.
+5. Compare actual work against the sub-gate row in section 4.1, its containing delivery phase, and the Bible source sections listed for that phase.
 6. Record all files, code behavior, commands, results, screenshots/artifacts where applicable, gaps, and deviations in `Path.md`.
-7. Fix every in-scope audit gap before calling the phase complete.
-8. Commit the phase as one auditable capability boundary (additional safety commits are allowed).
-9. Push the completed phase to `https://github.com/InfernusReal/Mythra-V2` and verify the remote commit. Record branch, commit, and remote verification in `Path.md`.
+7. Fix every in-scope audit gap before calling the Sub-gate complete.
+8. Commit the sub-gate as its own auditable capability boundary (additional safety commits are allowed).
+9. Push the completed sub-gate to `https://github.com/InfernusReal/Mythra-V2` and verify the remote commit. Record branch, commit, and remote verification in `Path.md`.
+10. When the last sub-gate inside a delivery phase passes, run and record the macro-phase summary gate; this summary cannot substitute for any sub-gate evidence.
 
-No phase advances merely because code compiles. The writing-flow gate and the global acceptance contract must pass.
+No sub-gate advances merely because code compiles. Its original writing-flow gate and the global acceptance contract must pass.
 
-## 2. Product constitution that binds every phase
+## 2. Product constitution that binds every sub-gate and phase
 
 Every design, schema, endpoint, component, job, warning, quota, and test must preserve these Bible laws:
 
@@ -89,10 +92,19 @@ The implementation must not introduce:
 - manuscript/capture/note/selected prose in logs or product analytics;
 - a theme marketplace, theme builder, social network, marketplace, forum, competition platform, publisher portal, rights system, or generative-AI dependency in V2;
 - premature microservices, real-time coauthoring, competitor-specific import breadth, community surfaces, or China-specific deployment claims before their stated validation gates.
+- the superseded Entry/Pro split for deterministic V2 features; USD 15 Mythra Core includes full deterministic V2 access, while USD 25 Mythra Intelligence remains unavailable until a real AI product exists.
 
 ## 3. Implementation baseline and repository shape
 
 The implementation will be a TypeScript modular monolith using a server-capable React framework, PostgreSQL through Prisma, a ProseMirror-compatible editor behind a Mythra adapter, IndexedDB for the local draft journal, object storage behind an adapter, and a durable transactional outbox/worker. Exact supported versions are pinned at implementation time and recorded in an architecture decision; they are not guessed in this planning document.
+
+### 3.1 Authorized implementation rulings and commercial errata
+
+These decisions were authorized after V2.2 was frozen. They are deliberately isolated so the plan does not silently mutate the source specification.
+
+1. **Semantic-coordinate ruling.** The implementation ladder is `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`. `PlotOutline` and `VolumeOutline` are first-class semantic coordinates. `Milestone/Thread` is a cross-cutting relevance/dependency coordinate, never an ownership parent. `ChapterOutline → Chapter` is abstraction order for zoom, not a requirement that an outline exist before a writable chapter. Projects skip absent optional coordinates without placeholders. This ruling resolves the ambiguity between Bible sections 3.1/3.4 and the shorter ladder in 4.8.
+2. **Narrative Directive contract clarification.** Because and Consequences are first-class Relevant Now outputs in Bible section 4.9. `NarrativeDirectiveProjection` therefore includes explicit `becauseItems[]` and `consequenceItems[]` collections in addition to the fields listed in Bible section 7.6. They are provenance-aware, deterministic, optional when no direct causal data exists, and never hidden inside `rankedContextItems[]`.
+3. **Pricing Decision ADR.** Phase 5 must create `docs/adr/0005-pricing-and-entitlements.md` and implement **Mythra Core at USD 15/month with full deterministic V2 access**. **Mythra Intelligence at USD 25/month is future-only and may become sellable only when the AI product exists**; V2 may reserve its plan/entitlement keys but must not charge for or enable nonexistent AI. This commercial erratum replaces the frozen `$10 Entry / $25 Pro` non-AI tier split only. Data safety, configurable pricing, entitlement centralization, usage accounting, quota transparency, and downgrade protections from Bible section 22 remain binding.
 
 The baseline repository will converge on this shape:
 
@@ -214,14 +226,42 @@ The Bible's schema and API catalogs are minimum contracts, not illustrative sugg
 
 The consolidation is contiguous: no original capability phase is skipped, reordered ahead of its prerequisites, or mapped to more than one completion owner.
 
+### 4.1 Mandatory original-capability sub-gates
+
+The following gates are the controlling implementation sequence. “Pass” means the capability satisfies its stated writing-flow exit, the global acceptance contract, its focused tests/observability/migration safety, a complete `Path.md` entry, and remote Git verification. A macro phase is incomplete until every sub-gate assigned to it has passed in order.
+
+| Sub-gate | Original capability | Delivery phase | Mandatory capability scope | Writing-flow exit gate |
+| --- | --- | --- | --- | --- |
+| **Sub-gate 0** | Foundation | 1 | Repository baseline, auth adapter, User/Workspace, PostgreSQL/Prisma, structured logger, stable errors, test harness, theme tokens, shell skeleton | User authenticates and reaches an empty Mythra shell; no story workflow is claimed. |
+| **Sub-gate 1** | Project + Chapter + Editor Core | 1 | Minimal project/chapter creation, versioned structured editor document, chapter route, local editor state | Project title → New Chapter → typing in a minimal UI. Sub-gate 0 evidence is verified first. |
+| **Sub-gate 2** | Durability | 1 | IndexedDB journal, autosave, optimistic version protocol, conflict safety, manual checkpoint, recovery | Never-lose-text tests pass under reload, browser close, offline/network failure, retry, and conflict. Sub-gate 1 is verified first. |
+| **Sub-gate 3** | Continuation | 1 | Continuation read model, session restoration, active chapter, one-click resume | A returning author reaches the exact active chapter, cursor/scroll anchor, and working state immediately. Sub-gate 2 is verified first. |
+| **Sub-gate 4** | Structure Core | 2 | Volumes, Plot Outline, Volume Outline, Chapter Outline, ordering, bulk chapter scaffold, ruled Semantic Zoom coordinates | A planner structures the story without making any structural layer mandatory. Sub-gate 3 is verified first. |
+| **Sub-gate 5** | Milestones | 2 | Many-to-many chapter links, roles, target ranges, dependencies, progress projections | Serialized planning works without milestone ownership constraints. Sub-gate 4 is verified first. |
+| **Sub-gate 6** | Causal Story Fabric Core | 2 | StoryChange, active endpoint adapters, CausalRelation semantics, cause/effect composer, bounded neighborhood/impact, chronology sanity | The author records A because of B / A causes C and traces Why now?/What changes? without AI, mandatory plotting, or unavailable-domain endpoints. Sub-gate 5 is verified first. |
+| **Sub-gate 7** | Contextual Writing Field v1 | 3 | Context shell, chapter outline/milestone/causal cards, pin/Peek, resolver API | Planning and direct causal context are inspected/edited without leaving the chapter. Sub-gate 6 is verified first. |
+| **Sub-gate 8** | Capture | 3 | Global overlay, local/offline queue, inbox, attachments, conversions, causal Capture actions and adapter activation | Idea capture completes without route change and can later become structured/causal state. Sub-gate 7 is verified first. |
+| **Sub-gate 9** | Universe | 3 | Entity templates/types, quick create, custom fields, relations, backlinks, entity-state snapshots/Peek and adapter activation | Characters, world facts, and state transitions live in the contextual environment. Sub-gate 8 is verified first. |
+| **Sub-gate 10** | Search + Language | 3 | Universal SearchDocument, command palette, deterministic dictionary/synonyms, causal Why/Depends actions | Project, word, and explicit causal context are retrieved without external tools. Sub-gate 9 is verified first. |
+| **Sub-gate 11** | Timeline + Research | 3 | Timeline modes, event links, research/notes/files, context cards, chronology-causality integration and timeline adapter activation | Chronology/reference workflows join the environment without conflating before/after with because/therefore. Sub-gate 10 is verified first. |
+| **Sub-gate 12** | Live Story Model | 4 | Transactional outbox, rebuilds, structural versions, causal/directive/semantic-coordinate propagation jobs | One canonical decision reliably updates dependent structural, contextual, directive, and causal views with truthful freshness. Sub-gate 11 is verified first. |
+| **Sub-gate 13** | Revisions + Snapshots + Export | 4 | History/restore, project snapshots, full archive including causal data, import basics | Long-term trust, reversibility, restore safety, and portability gates pass. Sub-gate 12 is verified first. |
+| **Sub-gate 14** | Billing + Quotas | 5 | Provider adapter, centralized entitlements, usage accounting, USD 15 Mythra Core pricing ADR, dormant future Intelligence keys, downgrade/data safety | Mythra Core can charge without risking author data or withholding deterministic V2 features. Sub-gate 13 is verified first. |
+| **Sub-gate 15** | Performance + Accessibility + Mobile | 5 | Virtualization/profiling, bounded causal performance, mobile editor/context, accessibility audit, IME hardening | Large projects and global input paths are production-ready. Sub-gate 14 is verified first. |
+| **Sub-gate 16** | Launch Analytics + Operations | 5 | Friction/causal-tool metrics, alerts, content-safe admin, backup drills, launch funnel | Mythra learns safely from real paying users and can be operated/recovered without content exposure. Sub-gate 15 is verified first. |
+| **Sub-gate 17** | AI Seam — no AI required | 6 | MCP-compatible tool layer, causal read/propose tools, Suggestion model, permissions, bounded readers | A future agent uses hierarchy, chronology, and author-approved causality without DB access, silent mutation, or architecture rewrite. Sub-gate 16 is verified first. |
+
+An implementation run may touch only the current sub-gate plus non-active scaffolding required by it. Scaffolding for a later endpoint/provider must be inert, reject unsupported activation, and receive no “implemented” or “verified” status until its own row passes.
+
 ## 5. Phase 1 — Trusted Writing Foundation
 
 **Bible roadmap coverage:** phases 0–3.
 **Primary source coverage:** sections 0–2, 8, 9, 13–19, 23–27, 29, 31–32, 34–36; appendices B–D where foundational.
+**Mandatory capability sequence:** Sub-gate 0 → Sub-gate 1 → Sub-gate 2 → Sub-gate 3. Each receives a separate gate result, `Path.md` entry, commit, push, and remote verification.
 
 ### 5.1 Scope
 
-#### Repository, architecture, and identity
+#### Repository, architecture, and identity — Sub-gate 0
 
 - Initialize the TypeScript/server-capable React repository, supported runtime pins, lint/type/test/build commands, CI, environment validation, and local disposable PostgreSQL development path.
 - Record ADRs for framework/runtime, auth adapter, editor adapter, persistence, object storage boundary, jobs/outbox boundary, testing, and deployment assumptions.
@@ -231,7 +271,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Establish stable mutation envelopes and error codes: `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`, `CONFLICT`, `QUOTA_EXCEEDED`, `RATE_LIMITED`, `DEPENDENCY_UNAVAILABLE`, `RETRYABLE`, `INTEGRITY_ERROR`, `INTERNAL`.
 - Implement structured, content-safe logging with request/correlation IDs. Establish metrics/tracing seams without collecting prose.
 
-#### Minimal product and shell
+#### Minimal product and shell — Sub-gate 0
 
 - Implement the 48px desktop command bar, 48px collapsed rail, calm manuscript-centered canvas, save indicator, status strip seam, theme menu, and empty shell. No dashboard widgets in the shell.
 - Implement mandatory Light and Dark token sets exactly from the Bible; include Cream/Parchment tokens without requiring that optional theme to ship in this phase.
@@ -239,7 +279,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Establish responsive layouts: persistent context region only as a reserved desktop seam; overlay/drawer/sheet behavior for smaller screens is completed in Phase 5.
 - Establish i18n resource boundaries on day one: no product strings in domain logic, Unicode data, locale-aware primitives, longer-label tolerance, and localized entity-template seam.
 
-#### Minimal project, chapter, and editor core
+#### Minimal project, chapter, and editor core — Sub-gate 1
 
 - Implement `POST /api/v2/projects`, minimal project creation with only a title required, and a dominant **Write first chapter** action. Description, genre, premise, length, volumes, world schema, and outline remain optional.
 - Implement chapter creation with optional placement, a chapter route/read model, and versioned `ChapterDocument` JSON with stable `blockId` values, derived plain text, word count, and document schema version.
@@ -251,22 +291,25 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Implement advisory word targets and delta display. An author-configured hard character stop may exist only as an explicit chapter/project opt-in, never as the default.
 - Implement compact Project / optional Volume / Chapter breadcrumbs without adding a second navigation row; preserve nearby-object switching and Return-to-Chapter history seams.
 
-#### Durability, offline writing, conflicts, and continuation
+#### Durability, offline writing, and conflicts — Sub-gate 2
 
 - Implement editor memory state plus debounced IndexedDB draft journal. Local draft state is authoritative between a keystroke and acknowledged server save.
 - Implement save states `CLEAN`, `DIRTY_LOCAL`, `SAVING`, `OFFLINE_DIRTY`, `CONFLICT`, and `RECOVERABLE_LOCAL` with non-alarmist status copy.
 - Implement versioned autosave using `baseVersion` and `clientSaveId`; duplicate retries are idempotent. The server increments a monotonically increasing chapter version only on a valid base version.
 - Preserve local content on conflict and offer Compare, Keep Local as New Version, Keep Server, and Duplicate as Recovery Copy. Never silently use last-write-wins.
 - Implement explicit checkpoint save. Checkpoint current state on session boundaries, significant intervals, destructive seams, and author labels; do not create permanent revisions per keystroke.
+
+#### Continuation — Sub-gate 3
+
 - Restore active chapter, block/cursor anchor, scroll anchor, context-panel mode seam, pin IDs seam, and timestamp independently from product analytics.
 - Implement `ProjectContinuationReadModel` and Project Home with dominant Continue Writing, recent chapter context, empty-project behavior, and one-click restoration.
 - Follow the editor loading order: shell/local content, canonical read model/version comparison, stable hydration, independent context seed seam, journal/autosave start, session restoration; secondary analytics and projections load last.
 - Offline active-chapter writing remains fully available. Basic Capture will be queued in Phase 3; unavailable server-only functions must be plainly labeled.
 
-#### Safety, tests, and operational baseline
+#### Safety, tests, and operational baseline — staged by sub-gate
 
 - Add TLS/secure cookie/CSRF configuration seams, secrets validation, rate-limit boundary, audit event model, archive-versus-delete patterns, grace-window fields, and content-safe logs.
-- Add `Project`, `Chapter`, `ChapterRevision`, `DraftConflict`, `AuditEvent`, and reserved `OutboxEvent` persistence needed by the vertical slice; include indexes and optimistic constraints.
+- Stage persistence by capability: identity/`AuditEvent`/reserved `OutboxEvent` foundations in Sub-gate 0; `Project` and `Chapter` in Sub-gate 1; `ChapterRevision` and `DraftConflict` in Sub-gate 2; continuation/session state in Sub-gate 3. Each migration is independently reversible and cannot claim a later gate.
 - Add migration and rich-document migration harnesses. Document additive/two-phase SQL migration policy and pure/testable document migrations.
 - Add unit, service, repository, component, E2E, offline, conflict, accessibility, theme, IME, and visual-regression harnesses.
 
@@ -283,14 +326,11 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 
 ### 5.3 How the code will be produced
 
-1. Define transport schemas and domain types before route components.
-2. Write schema migrations and repository constraints with real-PostgreSQL tests.
-3. Implement services with actor/workspace/project context and stable error mapping.
-4. Expose screen-oriented read models and thin routes.
-5. Build the editor adapter and local journal as independently tested state machines.
-6. Wire optimistic autosave and conflict recovery before visual polish.
-7. Build shell/editor UI from tokens, then verify keyboard, themes, responsive baseline, IME, and no layout shift.
-8. Implement telemetry last and assert content redaction.
+1. Complete Sub-gate 0 transport/domain foundations, identity, shell, migrations, safety harnesses, and content-safe telemetry; verify and push it.
+2. Complete Sub-gate 1 Project/Chapter/editor schemas, repositories, services, read model, thin routes, adapter, and minimal UI; verify and push it.
+3. Complete Sub-gate 2 local journal, optimistic autosave, conflict/recovery state machines, checkpoints, repository constraints, and failure tests; verify and push it.
+4. Complete Sub-gate 3 continuation/session read models and exact restoration; verify and push it.
+5. Within each sub-gate, define transport schemas/domain types before routes, exercise real PostgreSQL constraints, and build UI only over verified services/read models.
 
 ### 5.4 Exit gate
 
@@ -300,45 +340,53 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Continue Writing restores exact active chapter and writing position.
 - Context/search/billing/telemetry failures do not block the writable editor.
 - Light and Dark, keyboard navigation, reduced motion, Unicode/IME, content-safe logging, ownership, and migration rollback tests pass.
-- `Path.md` contains implementation evidence, audit results, commit, push, and remote verification.
+- Sub-gates 0, 1, 2, and 3 each have distinct passing evidence, audit, commit, push, and remote verification in `Path.md`; only then may the Phase 1 macro gate pass.
 
 ## 6. Phase 2 — Progressive and Causal Story Core
 
 **Bible roadmap coverage:** phases 4–6.
-**Primary source coverage:** sections 3, 5, 7, 10, 12.1/12.5, 16–18, 20, 26, 35, 37; appendices B, C, and E.
+**Primary source coverage:** sections 3, 5, 7, 10, 12.1/12.5, 16–18, 20, 26, 35, 37; appendices B, C, and E; Semantic Zoom order follows the authorized section 3.1 ruling.
+**Mandatory capability sequence:** Sub-gate 4 → Sub-gate 5 → Sub-gate 6. Sub-gate 4 cannot start until Sub-gate 3 is verified; each receives separate evidence and remote Git proof.
 
 ### 6.1 Scope
 
-#### Canonical hierarchy and progressive structure
+#### Canonical hierarchy and progressive structure — Sub-gate 4
 
-- Implement `Plot`, `PlotOutline`, `Volume`, `VolumeOutline`, `ChapterOutline`, optional `Scene`, `Milestone`, `ChapterMilestoneLink`, `MilestoneDependency`, `NarrativeIntent`, and generalized non-causal `StoryReference`.
-- Preserve ownership versus relevance: volumes contain ordered chapters; milestones relate many-to-many; scenes are optional lenses; entities and references are cross-cutting.
+- Implement `Plot`, `PlotOutline`, `Volume`, `VolumeOutline`, `ChapterOutline`, optional `Scene`, `NarrativeIntent`, and generalized non-causal `StoryReference`. Milestone persistence belongs to Sub-gate 5.
+- Preserve ownership versus relevance: volumes contain ordered chapters; scenes are optional lenses; references are cross-cutting. Define the milestone relationship seam without creating milestone-owned chapters.
 - Allow chapters with no volume or outline; create missing outline records only when actual outline content exists.
 - Implement rich/freeform chapter outlines plus optional purpose, emotional movement, revealed information, entities, locations, milestone links, word targets, and scene stubs.
 - Implement Discovery, Guided, and Architect as presentation modes over one schema, not restrictive project types.
-- Implement deterministic scaffolding: N volumes, chapter ranges, milestone placeholders, cadence-derived soft dates, bulk chapter-outline placeholders, advisory allocation expectations, and preview-before-apply rebalance.
-- Implement after-the-fact conversions/grouping while preserving provenance/backlinks: prose-first chapters into volumes, notes/captures into later objects, outline blocks into optional scenes.
+- Implement deterministic Structure Core scaffolding: N volumes, chapter ranges, bulk chapter-outline placeholders, advisory allocation expectations, and preview-before-apply rebalance. Milestone placeholders, milestone cadence dates, and milestone allocation begin only in Sub-gate 5.
+- Implement the after-the-fact operations whose source domains already exist: prose-first chapters into volumes and outline blocks into optional scenes, preserving provenance/backlinks. Define dormant conversion interfaces for future Notes and Capture sources, but do not activate or claim those conversions before Sub-gates 8 and 11 create the canonical source domains.
 - Keep creative constraints soft unless author-configured hard; warnings never become default gates.
-- Allow Narrative Intent on plot, volume, milestone, chapter, optional scene, paragraph selection, and entity arc with plain text first and optional tension/revelation/emotion/pacing/ambiguity/atmosphere/custom categories.
+- Allow Narrative Intent on currently existing plot, volume, chapter, optional scene, and paragraph-selection targets with plain text first and optional tension/revelation/emotion/pacing/ambiguity/atmosphere/custom categories. Register milestone and entity-arc target adapters only in Sub-gates 5 and 9.
 
-#### Structure workspace, Narrative Semantic Zoom, and semantic coordinate
+#### Structure workspace, Narrative Semantic Zoom, and semantic coordinate — Sub-gate 4
 
-- Build one Structure workspace with Outline, Volumes, Milestones, Chapters, Relationships, Semantic Zoom, and Causal lenses.
+- Build one Structure workspace shell in Sub-gate 4 with active Outline, Volumes, Chapters, Relationships, and Semantic Zoom lenses. Register the Milestones lens in Sub-gate 5 and Causal lens in Sub-gate 6; dormant lens slots render no fake empty product.
 - Add inline edit/create, transactional reordering, renumber/dependency preview, collapse/expansion persistence, promote/demote with reference preservation, and bulk scaffold.
-- Implement milestone ordered/range view as default, optional dependency graph, chapter matrix, semantic roles (`introduce`, `develop`, `escalate`, `turn`, `resolve`, `custom`), weights, ranges, and derived progress.
-- Implement `SemanticCoordinateProjection` shape and coordinate-preserving zoom from project/plot through volume, milestone/thread, chapter, outline, optional scene, and prose block. Skip absent levels.
+- Lock `SemanticCoordinateProjection` and the frontend ladder to `Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose`. Add `plotOutlineId?` and `volumeOutlineId?` to the coordinate contract and retain the ordered ancestor/semantic path. `Milestone/Thread` remains cross-cutting rather than an ownership parent; `ChapterOutline → Chapter` is abstraction order, not a writing prerequisite. Skip absent optional levels.
 - Preserve the active anchor, cursor, scroll, selection, and future pinned context across reversible zoom. Provide accessible controls; gestures are never required.
 - Virtualize/cluster large structure neighborhoods and use edge filtering/budgets. Never render every graph edge by default.
 
-#### Causal Story Fabric core
+#### Milestones — Sub-gate 5
+
+- Implement `Milestone`, `ChapterMilestoneLink`, and `MilestoneDependency` only after Sub-gate 4 has passed.
+- Implement milestone ordered/range view as default, optional dependency graph, chapter matrix, semantic roles (`introduce`, `develop`, `escalate`, `turn`, `resolve`, `custom`), weights, ranges, and derived progress.
+- Add milestone placeholders, target ranges, cadence-derived soft dates, advisory allocation, and previewed rebalance to the established structure scaffold.
+- Register milestone Narrative Intent targets and the Milestone/Thread semantic coordinate as cross-cutting relevance/dependency projections, never ownership containment.
+
+#### Causal Story Fabric core — Sub-gate 6
 
 - Implement `StoryChange` for event, decision, revelation, state change, setup, payoff, condition, outcome, and custom causal identity when another canonical object is unsuitable.
-- Support canonical causal endpoints for milestones, chapter outlines, scenes, timeline events, narrative-intent targets, entity-state snapshots, capture-derived objects, selected manuscript block anchors, and Story Changes. Heterogeneous endpoint types are valid inside one project.
-- Implement dedicated `CausalRelation` storage with explicit supported endpoint enums, block anchors where allowed, relation type, condition, strength/importance metadata, status, note, provenance, version, and project ownership.
+- Define the complete causal endpoint enum and resolver/adapter registry for milestones, chapter outlines, scenes, timeline events, narrative-intent targets, entity-state snapshots, capture-derived objects, selected manuscript block anchors, and Story Changes. In Sub-gate 6, activate only the domains that exist: milestones, chapter outlines, scenes, Narrative Intent targets, manuscript block anchors, and Story Changes. Heterogeneous active endpoint types are valid inside one project.
+- Reserve `timeline_event`, `entity_state`, and `capture_derived` endpoint discriminants and typed adapter interfaces in Sub-gate 6, but reject relation creation for them with a stable unsupported/dependency-unavailable result until Phase 3 registers their canonical resolvers. A reserved enum value is not implemented capability.
+- Implement dedicated `CausalRelation` storage with explicit supported endpoint enums, active-adapter validation, block anchors where allowed, relation type, condition, strength/importance metadata, status, note, provenance, version, and project ownership.
 - Ship the canonical relation vocabulary: `causes`, `enables`, `requires`, `motivates`, `triggers`, `escalates`, `prevents/blocks`, `reveals`, `transforms`, and `resolves`.
 - Reject self-edges and cross-project endpoints; make duplicate active edges idempotent; support active/tentative/retired states; preserve relations on endpoint archive through reattach/retire/archive choices.
 - Reject or explicitly override hard `requires` cycles without temporal progression/mutual-state semantics. Permit temporally sequenced feedback loops.
-- Implement chronology sanity only when story-time anchors exist. Warnings remain neutral; chapter/manuscript order never substitutes for story time; reveals use knowledge/discovery semantics.
+- Implement chronology sanity against currently resolvable story-time anchors only. Timeline-backed checks remain dormant until Sub-gate 11 registers the timeline endpoint adapter. Warnings remain neutral; chapter/manuscript order never substitutes for story time; reveals use knowledge/discovery semantics.
 - Implement application services `createRelation`, `getNeighborhood`, `traceImpact`, and `validateChronology` behind the causality domain boundary.
 - Implement bounded, budgeted, indexed upstream/downstream/impact traversal with direct edges first, status/filter controls, complete path provenance, and “potentially affected” language. Tracing never mutates prose or downstream objects.
 - Build inline cause/effect composer from writing and Structure context, one-line Story Change creation, causal trace/impact lists, accessible graph alternative, and optional local graph for Architect mode.
@@ -346,7 +394,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 
 #### API, events, and durability seams
 
-- Implement explicit project/structure/milestone/story-change/causal application endpoints from the Bible, including causal CRUD/neighborhood/impact endpoints and the stable mutation envelope.
+- Add endpoints in sub-gate order: Structure Core in Sub-gate 4, milestones in Sub-gate 5, then Story Change/causal CRUD/neighborhood/impact over active endpoint adapters in Sub-gate 6. Every endpoint uses the stable mutation envelope.
 - Increment `projectStructuralVersion` on structure/causality writes. Emit transactional outbox records for downstream invalidation even though the full projection worker arrives in Phase 4.
 - Apply indexes for order, milestone links, StoryReference source/target, StoryChange anchors/status, and CausalRelation directions/type/status/duplicate guards.
 - Make all list and neighborhood endpoints paginated/range/budget bounded.
@@ -358,9 +406,9 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Domains: `structure`, `milestones`, `references`, and `causality` with types/schemas/services/repositories/mappers and focused invariant tests.
 - Features/components: Structure lenses, outline tree, volume lane, milestone range/dependency views, chapter matrix/planning grid, bulk scaffold, semantic zoom viewport, causal composer/lens/trace/impact/accessible list.
 - Read models/projections: structure overview, milestone progress, semantic coordinate, bounded causal neighborhood, causal impact.
-- APIs: structure, outlines, volumes, chapters, milestones, Story Changes, causal relations, neighborhoods, and impact.
-- Docs: schema semantics, causal vocabulary, hierarchy/chronology/causality boundary, migration strategy, API contracts, graph budgets.
-- Tests: allocation/order property tests, milestone cycles, causal idempotency/cycles/chronology/path provenance/budgets, large-project viewport/load tests, and editor-focus restoration.
+- APIs: structure, outlines, volumes, chapters, milestones, Story Changes, causal relations, neighborhoods, and impact over active endpoints only.
+- Docs: schema semantics, ruled Semantic Zoom ladder, causal vocabulary, endpoint adapter lifecycle, hierarchy/chronology/causality boundary, migration strategy, API contracts, graph budgets.
+- Tests: allocation/order property tests, milestone cycles, causal idempotency/cycles/path provenance/budgets, rejection of inactive future endpoints, ruled semantic-coordinate paths, large-project viewport/load tests, and editor-focus restoration. Timeline chronology integration tests belong to Sub-gate 11.
 
 ### 6.3 How the code will be produced
 
@@ -380,12 +428,13 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - An author can create A because of B / A causes C from writing or Structure context, then trace bounded Why now?/What changes? paths with provenance.
 - No causal action changes prose, infers meaning, or loses the writing position.
 - Flashback/reveal chronology cases avoid false chapter-order errors.
-- All Phase 2 tests, global acceptance checks, `Path.md` evidence, audit, commit, and push pass.
+- Sub-gates 4, 5, and 6 each pass separately with `Path.md` and remote Git evidence; only then do the Phase 2 summary tests/audit pass and Sub-gate 7 become eligible.
 
 ## 7. Phase 3 — In-Flow Author Environment
 
 **Bible roadmap coverage:** phases 7–11.
 **Primary source coverage:** sections 4, 6, 8.5–8.10, 9–12, 15, 18, 21, 27; appendix A and relevant appendix E interactions.
+**Mandatory capability sequence:** Sub-gate 7 → Sub-gate 8 → Sub-gate 9 → Sub-gate 10 → Sub-gate 11. Sub-gate 7 cannot start until Sub-gate 6 is verified; each receives separate evidence and remote Git proof.
 
 ### 7.1 Scope
 
@@ -394,8 +443,8 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Implement the attention-aware field as a desktop region and smaller-screen overlay seam without treating it as a generic sidebar.
 - Implement deterministic precedence: pinned context, explicit selection, explicit Peek, idle-safe cursor-local context, chapter context, project fallback.
 - Stabilize automatic changes: no per-keystroke refresh, cursor idle debounce, continuous-typing suspension, no manuscript scroll movement, cancellable requests, and stale response discard by `contextKey`.
-- Implement `ContextFieldDescriptor` registry and typed cards for chapter outline, milestone, entity, timeline, capture, language, reference, and causal context.
-- Implement Chapter, Selection, Entity Peek, Milestone Peek, Outline, Search, Capture, and Causal Peek states with exact exit/focus behavior.
+- Implement the extensible `ContextFieldDescriptor` registry in Sub-gate 7 and activate typed cards only for domains then present: chapter outline, milestone, causal context, and existing references. Capture, entity, search/language, timeline, and research providers register in Sub-gates 8, 9, 10, and 11 respectively.
+- Implement Chapter, Selection, Milestone Peek, Outline, existing-reference Search, and Causal Peek states in Sub-gate 7 with exact exit/focus behavior. Entity Peek, full Search, Capture, Language, Timeline, and Research states become active only with their owning sub-gates.
 - Peek never changes browser history or discards selection/cursor; Open is intentional deep navigation. Deep pages provide Return to Chapter.
 - Add pin/unpin, session hide, project-level card mute, inline safe edits, freshness markers, and card caps/More links.
 - Use appendix A resolver inputs, ordering, and stability key exactly. Direct causal context precedes general references; indirect paths stay behind explicit actions.
@@ -403,6 +452,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 #### Compiled Narrative Directive v1
 
 - Add the concise Relevant Now surface with Purpose, Advance, Preserve, Reader Outcome, Next, Relevant Context, optional Because, and optional Consequences.
+- Represent causal directive outputs explicitly as `becauseItems[]` and `consequenceItems[]` from the first compiler contract. Do not encode them indirectly inside generic ranked context.
 - Compile only from author-owned data. Use source provenance on every line and provide Peek to source.
 - Rank explicit chapter links/pins, direct causal links, milestone roles, outline references, temporal proximity, entity references, and author pins without flooding.
 - Allow session dismissal, pinning, source edit, intentional deviation, and disabling. Never express creative drift as a red error.
@@ -414,7 +464,8 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Record route, chapter, outline, block, selection, entity context, timestamp, project, and user automatically. Plain text remains valid; quick targets are optional.
 - Implement local/offline queue and idempotent server sync.
 - Implement unprocessed, filed, converted, deferred, and dismissed lifecycles; keyboard/bulk inbox triage; attach/detach; convert while retaining source/provenance; defer/restore/retention behavior.
-- Implement conversion to entity, milestone, chapter note, timeline event, and Story Change. Add optional Because of/This causes relation actions without parsing arbitrary prose into canonical causality.
+- Implement a typed, idempotent Capture conversion registry. In Sub-gate 8 activate targets already present (milestone, Story Change, existing chapter/outline attachment, and capture-derived causal identity); keep entity, durable Note, and timeline-event targets dormant until their owning domains register adapters.
+- Register the `capture_derived` causal endpoint resolver in Sub-gate 8 only after the canonical Capture/conversion record exists. Add optional Because of/This causes actions without parsing arbitrary prose into canonical causality.
 
 #### Universe and references
 
@@ -423,17 +474,22 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Support stable common fields and text/rich text/number/boolean/date/select/multi-select/reference/reference-list/URL fields. Defer binary image/file field implementation only to the research/storage work in the same phase or record a Bible-sanctioned later-phase file boundary.
 - Implement selection-to-entity quick create requiring only type and optional note. Keep visible prose unchanged and add an invisible reference/backlink.
 - Implement full entity details, custom fields, relations/reverse labels, all required backlinks, and historical state snapshots. State transitions can serve as explicit causal endpoints.
+- In Sub-gate 9 register entity Capture conversion and the `entity_state` causal endpoint resolver only after `StoryEntity` and `EntityStateSnapshot` persistence, ownership, revisions, and export seams exist.
 
-#### Timeline, notes, research, search, and language
+#### Search and language — Sub-gate 10
+
+- Implement `SearchDocument` and universal search over all domains verified through Sub-gate 9: chapters, outlines, milestones, entities/aliases, Story Changes/relation types, references, and captures. Define search-provider interfaces for timeline events, notes, and research, but activate them only in Sub-gate 11.
+- Group and rank by current context, exactness, recency, and explicit references. Add Peek, Open, insert/attach reference, copy, block jump/return, and structured causal Why/Depends actions.
+- Integrate commands and objects in `Cmd/Ctrl+K`, prioritized by recency/current context.
+- Implement deterministic dictionary/synonym/antonym/saved-vocabulary selection card with single-click replacement preserving undo; never auto-correct style or encourage synonym spam.
+
+#### Timeline, notes, and research — Sub-gate 11
 
 - Implement timeline exact/absolute, approximate, relative, ordinal, and range modes without Gregorian assumptions; store display labels beside sortable mode-specific values.
 - Link timeline events to entities, milestones, chapters, other events, and causal sanity checks without implying causation.
 - Implement durable tagged/backlinked Notes distinct from raw Captures; allow promotion into structural objects without inventing notebook hierarchy.
 - Implement Research items for notes, URLs, user-authored excerpts, citations, and files behind storage/upload validation. Surface linked research in context.
-- Implement `SearchDocument` projection and universal search over chapters, all outlines, milestones, entities/aliases, Story Changes/relation types, timeline events, notes, research text, and captures using PostgreSQL full-text plus normalized/fuzzy matching.
-- Group and rank by current context, exactness, recency, and explicit references. Add Peek, Open, insert/attach reference, copy, block jump/return, and structured causal Why/Depends actions.
-- Integrate commands and objects in `Cmd/Ctrl+K`, prioritized by recency/current context.
-- Implement deterministic dictionary/synonym/antonym/saved-vocabulary selection card with single-click replacement preserving undo; never auto-correct style or encourage synonym spam.
+- Register durable Note/timeline Capture conversion targets, timeline/research/Note context and search providers, and the `timeline_event` causal endpoint resolver. Only then enable timeline-backed chronology sanity checks and directive invalidations.
 - Complete degraded-network behavior: recently cached/local chapter search is limited and labeled; cached context cards show staleness; structure mutations are disabled unless safely idempotent/queueable; export, snapshot, and billing actions remain unavailable until the server returns.
 
 ### 7.2 Files created or materially implemented
@@ -466,32 +522,33 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Universe schema is flexible/minimal, backlinks are complete, and historical state is not simulated by overwriting the current entity.
 - Timeline and causality remain distinct; search covers every required object; language replacement preserves undo.
 - Common planned-author writing uses no full-route navigation.
-- All Phase 3 tests, global acceptance checks, `Path.md` evidence, audit, commit, and push pass.
+- Sub-gates 7, 8, 9, 10, and 11 each pass separately with active-provider checks, `Path.md`, and remote Git evidence; only then do the Phase 3 summary tests/audit pass and Sub-gate 12 become eligible.
 
 ## 8. Phase 4 — Live Model, Automation, History, and Portability
 
 **Bible roadmap coverage:** phases 12–13.
-**Primary source coverage:** sections 7, 16.4–16.6, 18–21, 26–28, 31–32, 34.1–36; appendices B–C and E.6.
+**Primary source coverage:** sections 7, 16.4–16.6, 18–21, 26–28, 31–32, 34.1–36; appendices B–C and E.6; directive fields include the authorized section 3.1 clarification.
+**Mandatory capability sequence:** Sub-gate 12 → Sub-gate 13. Sub-gate 12 cannot start until Sub-gate 11 is verified; each receives separate evidence and remote Git proof.
 
 ### 8.1 Scope
 
-#### Durable Live Story Model
+#### Durable Live Story Model and deterministic automation — Sub-gate 12
 
 - Complete the transactional outbox worker: claim safely, retry with backoff, run idempotent handlers, mark processed, expose lag/failure metrics, and remain rolling-deployment compatible.
 - Implement rebuildable, versioned projections: continuation, chapter context, milestone progress, volume health, entity backlinks, timeline window, SearchDocument, quota seam, causal neighborhood/impact adjacency as measured, `NarrativeDirectiveProjection`, and `SemanticCoordinateProjection`.
-- Preserve the Bible's complete directive projection contract: structural/source versions, chapter, Purpose, Advance, Preserve, Reader Outcome, Next, ranked context, per-item provenance, generation time, and freshness. Preserve the complete semantic coordinate contract: active anchor, project/plot/volume/milestone/chapter/outline/scene/Story Change/block coordinates, ancestor path, neighborhood summaries, and structural version.
+- Preserve the complete directive projection contract: `projectStructuralVersion`, `chapterId`, `sourceObjectVersions`, `purpose`, `advanceItems[]`, `preserveItems[]`, `readerOutcomeItems[]`, `nextItems[]`, explicit `becauseItems[]`, explicit `consequenceItems[]`, `rankedContextItems[]`, provenance per item, `generatedAt`, and freshness state. Preserve the ruled semantic coordinate contract: active anchor; project, plot, Plot Outline, volume, Volume Outline, cross-cutting milestone/thread, Chapter Outline, chapter, optional scene, Story Change, and block coordinates; ordered ancestor/semantic path; neighborhood summaries; and structural version.
 - Implement project structural version and per-projection freshness markers/source object versions. Mutation responses carry canonical versions and invalidation keys.
 - Implement synchronous updates where cheap and async jobs where safe. After a structural write the UI either has the new projection or an honest Updating/stale state; stale results can never replace current data.
 - Implement one-project repair/rebuild commands from canonical tables. No projection-only canonical facts.
 - Implement the complete domain event catalog and directive invalidation set from Bible sections 7.4 and 7.6, including create/update/delete causal events and all structural source changes.
 
-#### Deterministic automation
+#### Deterministic automation catalog — Sub-gate 12
 
 - Implement chapter range scaffold, milestone allocation/progress/density, writing queue, context resolution, backlink maintenance, word/cadence summaries, previewed structure rebalance, Capture context, snapshot scheduling, directive compilation, causal neighborhood/impact, and causality/chronology sanity.
 - Implement warning taxonomy exactly as neutral, suppressible facts: range drift, density, orphan structure, broken reference, timeline order conflict, quota approach, backup health, causal-temporal conflict, hard prerequisite loop, and orphan causal endpoint.
 - Never implement literary scoring or automatic story meaning.
 
-#### Revisions, snapshots, backup, restore, and destructive safety
+#### Revisions, snapshots, backup, restore, and destructive safety — Sub-gate 13
 
 - Complete `ObjectRevision`, `ChapterRevision`, `ProjectSnapshot`, backup manifests, integrity hashes, object-storage archives, retention controls, and storage accounting.
 - Checkpoint before destructive/high-impact operations. Archive before delete; show backlinks and bounded causal impact with path provenance; offer move/reattach/retire options.
@@ -499,7 +556,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Run scheduled/manual snapshots, verify integrity, expose backup health, and practice restore into a safe copy.
 - Distinguish internal backup artifacts from user-owned export artifacts.
 
-#### Import, export, and portability
+#### Import, export, and portability — Sub-gate 13
 
 - Implement chapter, volume, full manuscript, and versioned full project archive export.
 - Export human-readable manuscript plus structured JSON/Markdown for all outlines, milestones, entities, entity states, entity relations, StoryReferences, Story Changes, CausalRelations, timelines, notes, research metadata, captures, narrative intents, and stable labels/IDs.
@@ -537,24 +594,26 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Revisions/checkpoints/snapshots restore without destroying the previous current state.
 - Export completeness checker proves every author-created object and relationship is represented; import/export causal round trip passes.
 - Destructive previews show backlinks and bounded causal impact without auto-mutating prose.
-- All Phase 4 tests, backup drill, global acceptance checks, `Path.md` evidence, audit, commit, and push pass.
+- Sub-gates 12 and 13 each pass separately with `Path.md` and remote Git evidence; only then do the Phase 4 summary tests/backup drill/audit pass and Sub-gate 14 become eligible.
 
 ## 9. Phase 5 — Commercial and Production Readiness
 
 **Bible roadmap coverage:** phases 14–16.
-**Primary source coverage:** sections 13–14, 15.7–15.8, 19.4–19.6, 22–26, 29, 31–32, 36, 38.3–39.3 as operational constraints.
+**Primary source coverage:** sections 13–14, 15.7–15.8, 19.4–19.6, 22–26, 29, 31–32, 36, 38.3–39.3 as operational constraints; pricing and tier names follow the authorized section 3.1 commercial erratum.
+**Mandatory capability sequence:** Sub-gate 14 → Sub-gate 15 → Sub-gate 16. Sub-gate 14 cannot start until Sub-gate 13 is verified; each receives separate evidence and remote Git proof.
 
 ### 9.1 Scope
 
-#### Billing, entitlements, and quotas
+#### Billing, entitlements, and quotas — Sub-gate 14
 
-- Implement provider-neutral customer/subscription adapter, verified idempotent webhook handling, configuration-driven Entry (~USD 10/month) and Pro (~USD 25/month) price references, invoices/provider portal link, and no AI usage charges.
-- Centralize feature flags and numeric limits in `EntitlementSnapshot`; frontend uses the same keys while backend enforcement is authoritative.
+- Implement provider-neutral customer/subscription adapter, verified idempotent webhook handling, invoices/provider portal link, and configuration-driven **USD 15/month Mythra Core** pricing with full deterministic V2 access.
+- Reserve **USD 25/month Mythra Intelligence** configuration and entitlement keys as dormant future schema only. Do not expose checkout, activation, usage charges, or feature claims until the AI product exists and receives its own approved implementation gate.
+- Centralize feature flags and numeric limits in `EntitlementSnapshot`; frontend uses the same keys while backend enforcement is authoritative. All deterministic V2 feature keys resolve enabled for an active Core subscription; quotas may control actual cost drivers without recreating a hidden Entry/Pro feature split.
 - Implement actual cost-driver accounting: binary storage, snapshots, revisions, export generation, row growth, bandwidth seams, and future AI seam. Avoid arbitrary tiny prose limits.
 - Gate creation/high-cost writes, never basic read or export of owned work. Downgrades preserve prose and metadata, allow grace, and do not immediately delete history or data.
 - Implement transparent plan/usage UI and stable quota errors with actionable resource details.
 
-#### Performance, scale, responsive, accessibility, and localization
+#### Performance, scale, responsive, accessibility, and localization — Sub-gate 15
 
 - Profile and meet the Bible interaction budgets: network-independent keystrokes, Capture <100ms perceived, non-shifting Peek hydration, cancellable context, near-instant cached routes, virtualized large lists/structure/graphs.
 - Enforce pagination/range bounds, active-chapter-only editor loads, N+1 prevention, background heavy work, object storage for binaries, and causal depth/node/edge budgets.
@@ -564,20 +623,20 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Complete Light/Dark and optional Cream visual regression, restrained UI geometry, mobile/compact/wide states, long titles, and international strings.
 - Complete i18n resource extraction and region adapters for payments, messaging, storage, analytics, and future AI. Do not claim China legal/hosting/payment compliance without expansion-time verification.
 
-#### Security, privacy, observability, deployment, and operations
+#### Security, privacy, observability, deployment, and operations — Sub-gate 16 completion over earlier baselines
 
 - Harden TLS/session/CSRF, rate limits, authorization, upload type/size validation and malware-scan boundary, signed URLs, audit trails, secrets, dependency scanning, destructive controls, and cross-workspace isolation.
 - Enforce the privacy doctrine: manuscript/world content is sensitive; analytics uses metadata; no content in logs, traces, alerts, or routine admin surfaces.
 - Implement logs/metrics/traces/alerts for save/context/search latency, errors, conflicts, jobs/outbox lag, backups, DB saturation, auth/storage failures, and export pipelines.
 - Implement friction analytics without prose: time to writable editor/first keystroke, Continue usage, route changes, Peek vs Open, Capture timing, search return time, recovery incidents, editor-only sessions, causal trace friction, and 30/90/180-day project retention.
-- Implement product health metrics: activation as first meaningful writing session, author retention, project depth, Pro conversion, export patterns, recovery, and Uninterrupted Writing Time.
+- Implement product health metrics: activation as first meaningful writing session, author retention, project depth, Core paid conversion, export patterns, recovery, and Uninterrupted Writing Time. Track future Intelligence interest separately from an active/sellable plan.
 - Implement local/preview/staging/production environments, synthetic staging data, separate credentials, versioned migrations, two-phase destructive migrations, feature flags, canary editor-save rollout, rollback criteria, backup verification, migration dry runs, worker compatibility, and restricted admin access.
 - Implement minimal content-safe admin surface: user/workspace, plan/status, quotas, export/snapshot jobs, non-content audit logs, and safe recovery actions.
 - Run backup restore drills, security checks, dependency scans, load tests, cost-per-writer/snapshot measurements, and launch alert rehearsals.
 
 ### 9.2 Files created or materially implemented
 
-- Billing/provider/entitlement/usage domains, webhook/API routes, config, pricing/usage/settings screens, and downgrade/quota tests.
+- `docs/adr/0005-pricing-and-entitlements.md` recording the post-V2.2 Pricing Decision, plus billing/provider/entitlement/usage domains, webhook/API routes, config, Core pricing/usage/settings screens, dormant Intelligence keys, and downgrade/quota tests.
 - Responsive/mobile shell/editor/context/structure components and styles; complete theme/a11y/i18n resources.
 - Security middleware, rate limiters, upload scanner adapter, signed asset/export access, audit coverage, dependency/security workflows, privacy tests.
 - Telemetry schemas/instrumentation/dashboards-as-code or documented queries, content-redaction assertions, alert rules, and friction metric definitions.
@@ -586,7 +645,7 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 
 ### 9.3 How the code will be produced
 
-1. Define entitlement keys and downgrade invariants once; test backend gates before UI meters.
+1. Write and approve the Pricing Decision ADR; define Core, dormant Intelligence, entitlement keys, quota semantics, and downgrade invariants once. Test that every deterministic V2 feature remains available to Core before building UI meters.
 2. Integrate billing through an adapter and replay-safe webhook fixtures.
 3. Profile real Phase 1–4 flows before adding cache/coordination infrastructure.
 4. Fix semantic accessibility and keyboard paths at component primitives, then audit screens.
@@ -596,22 +655,23 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 
 ### 9.4 Exit gate
 
-- Entry/Pro billing and quotas operate without making existing prose unreadable or unexportable.
+- USD 15 Mythra Core billing and cost-based quotas operate without withholding deterministic V2 capability or making existing prose unreadable/unexportable; USD 25 Mythra Intelligence remains dormant and unsellable while AI does not exist.
 - Large projects, causal neighborhoods, search, context, autosave, and export meet measured budgets.
 - Mobile authors can write, save, Capture, search, and Peek; deep structure remains possible.
 - Accessibility, IME, theme, localization, ownership, security, privacy, and cross-workspace tests pass.
 - Observability detects save/backup/outbox/auth/storage failures without logging content.
 - Backup restore, migration dry run/rollback, canary criteria, admin recovery, and operational alerts are verified.
-- All Phase 5 tests, global acceptance checks, `Path.md` evidence, audit, commit, and push pass.
+- Sub-gates 14, 15, and 16 each pass separately with `Path.md` and remote Git evidence; only then do the Phase 5 summary tests/audit pass and Sub-gate 17 become eligible.
 
 ## 10. Phase 6 — Agent Seam and Paid Launch Validation
 
 **Bible roadmap coverage:** phase 17 and the V2 launch gate.
 **Primary source coverage:** sections 30, 33.1, 38–39 and appendices D–E; all previous source sections are re-audited here.
+**Mandatory capability sequence:** Sub-gate 17 after verified Sub-gate 16, followed by the final cross-product launch audit. Sub-gate 17 and the launch audit receive separate evidence and remote Git proof.
 
 ### 10.1 Scope
 
-#### MCP-compatible application tool seam — no AI dependency
+#### MCP-compatible application tool seam — Sub-gate 17, no AI dependency
 
 - Expose stable, bounded application-tool contracts over services/read models, never direct database access.
 - Implement read tools: project map, plot/volume outline, milestone, chapter outline, bounded chapter text/range, project search, entities/entity, timeline window, backlinks, causal neighborhood, causal impact, and Story Change.
@@ -621,12 +681,12 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - Preserve diagnose → explain → suggest → author decides → reevaluate. Author-approved causal paths are privileged evidence; inferred missing links remain proposals and never silently become canonical.
 - Add evaluation harness definitions for continuity, POV knowledge, chronology, intent alignment, character state, usefulness, false-positive cost, causal path/attribution correctness, and authorship preservation. No model integration is required to pass V2.
 
-#### Final doctrine, launch, and paid-validation gate
+#### Final doctrine, launch, and paid-validation gate — after Sub-gate 17
 
-- Run all fourteen critical E2E scenarios from Bible sections 31.2–31.3, all causal coherence tests in appendix E.6, and every question in appendix D.
+- Run all fourteen critical E2E scenarios from Bible section 31.2, the separate visual-regression matrix from section 31.3, all causal coherence tests in appendix E.6, and every question in appendix D.
 - Verify all eleven launch conditions in section 38.1, including optional usable causality, billing, snapshots/restore, export, and friction instrumentation.
 - Establish the first paid validation plan around ten unrelated paying writers who repeatedly return to real projects; do not substitute free signup volume for retention evidence.
-- Instrument and review Week 1/month 1 paid retention, time to writing, voluntary structure adoption, context navigation reduction, Capture habit, causal friction/value, autosave trust, Entry-limit sentiment, and external-tool escape points.
+- Instrument and review Week 1/month 1 paid retention, time to writing, voluntary structure adoption, context navigation reduction, Capture habit, causal friction/value, autosave trust, Core pricing/value sentiment, future Intelligence interest, and external-tool escape points.
 - Keep future integrations, collaboration, publisher workspaces, regional/China-native operations, community, Story Intelligence, model fine-tuning, and specialized narrative models outside V2 until paid retention/economics and applicable regional verification justify them.
 - Document founder-led operational posture and hire only against proven bottlenecks.
 
@@ -655,11 +715,11 @@ The consolidation is contiguous: no original capability phase is skipped, reorde
 - A zero-AI deployment retains every V2 core capability.
 - All critical E2E, doctrine, causal coherence, launch, security, privacy, accessibility, performance, recovery, backup, export, and migration checks pass.
 - The final source coverage audit reports no omitted V2 requirement and no contradiction.
-- `Path.md` holds the evidence, final audit, commit, push, and remote verification.
+- Sub-gate 17 has its own passing `Path.md` and remote Git evidence; the subsequent final launch audit separately holds complete evidence, commit, push, and remote verification.
 
-## 11. Global acceptance contract for every phase
+## 11. Global acceptance contract for every sub-gate and phase
 
-Each phase must prove all applicable items below, not merely mention them:
+Each original-capability sub-gate must prove all applicable items below, not merely mention them. A macro phase then proves the integrated behavior of its already-passing sub-gates; it cannot absorb or waive their evidence.
 
 - User-visible capability works in Light and Dark; Cream where implemented.
 - No mandatory setup path precedes writing except unavoidable integrity/contract enforcement.
@@ -674,11 +734,11 @@ Each phase must prove all applicable items below, not merely mention them:
 - Archive/pre-checkpoint/impact behavior protects destructive operations.
 - Creative warnings remain neutral/suppressible; data-integrity rules remain enforceable.
 - `Path.md` records actual evidence and explicitly states conformance or deviation.
-- The phase is committed, pushed, and verified on the GitHub remote before the next phase begins.
+- The sub-gate is committed, pushed, and verified on the GitHub remote before the next original capability begins. Macro-phase completion is recorded after its final sub-gate.
 
 ## 12. Side-by-side audit protocol
 
-The audit is performed after every phase and once across the entire product in Phase 6.
+The audit is performed after every Sub-gate 0–17, after every macro phase, and once across the entire product in Phase 6.
 
 ### 12.1 Coverage audit
 
@@ -686,7 +746,7 @@ The audit is performed after every phase and once across the entire product in P
 2. Locate its implementation owner in this work plan.
 3. Locate actual implementation evidence in `Path.md` and the repository.
 4. Classify it as `Verified`, `Planned-later`, `Bible-optional`, `Bible-future`, or `Gap`.
-5. `Gap` blocks phase completion. `Planned-later` is legal only before its owning phase.
+5. `Gap` blocks Sub-gate and phase completion. `Planned-later` is legal only before its owning Sub-gate.
 6. For optional/future items, verify the required architectural seam exists when the Bible requires one.
 
 ### 12.2 Contradiction audit
@@ -716,10 +776,10 @@ Any contradiction is fixed in the earliest authoritative layer: domain invariant
 | 1. Product constitution | eleven laws, friction test, boundaries/non-goals | Sections 2 and 11; all phases |
 | 2. Eight compounding systems | continuation, field, structure, live model, causality, Capture, reliability, future intelligence | Phases 1–6 respectively |
 | 3. Information architecture/story model | hierarchy, ownership/relevance, milestones, outlines, optional scenes, flexible entities, intents, truth dimensions | Phases 2–3 |
-| 4. Contextual Writing Field | composition, precedence, states, Peek/Open, cards, selection, Focus, zoom, directive, causal context | Phases 1–3; propagation in 4 |
+| 4. Contextual Writing Field | composition, precedence, states, Peek/Open, cards, selection, Focus, outline-aware ruled zoom, directive, causal context | Phases 1–3; section 3.1 ruling; propagation in 4 |
 | 5. Progressive Structure | three modes/one model, zero setup, deterministic scaffold, after-the-fact structure, soft constraints, optional causality | Phases 1–2 |
 | 6. Capture | shortcut, lifecycle/inbox, data contract, causal Capture | Phase 3 |
-| 7. Live Story Model | projections, events, consistency, directives, coordinates, Causal Story Fabric invariants/traversal/impact | Phases 2 and 4 |
+| 7. Live Story Model | projections, events, consistency, explicit Because/Consequences directives, ruled coordinates, Causal Story Fabric invariants/traversal/impact | Phases 2 and 4; section 3.1 clarification |
 | 8. Manuscript editor | editor performance/schema/toolbar/references/targets/keyboard/session/directive/causal writing | Phases 1–3 |
 | 9. Project home/navigation | continuation home, rail, command palette, compact breadcrumbs | Phases 1 and 3 |
 | 10. Structure workspace | all lenses, inline/bulk work, semantic zoom, bounded causal trace/impact | Phase 2 |
@@ -734,7 +794,7 @@ Any contradiction is fixed in the earliest authoritative layer: domain invariant
 | 19. Autosave/recovery/history/backups | local journal, state machine, conflicts, checkpoint policy, snapshots, backup/export distinction | Phases 1 and 4; quotas in 5 |
 | 20. Automation | deterministic catalog, warning taxonomy, no literary scores | Phase 4 |
 | 21. Search/retrieval | universal projection/search/actions/causal filters | Phase 3; propagation in 4 |
-| 22. Billing/plans/quotas | configuration prices, entitlements, safe downgrade, cost accounting | Phase 5 |
+| 22. Billing/plans/quotas | configurable pricing, entitlements, safe downgrade, and cost accounting; post-freeze Pricing Decision ADR replaces only `$10 Entry / $25 Pro` with `$15 Core / future $25 Intelligence` | Phase 5 and section 3.1 erratum |
 | 23. Auth/account/ownership | provider adapter, lifecycle/grace, project-scoped guards | Phases 1 and 5 |
 | 24. Security/privacy | prioritized threats, controls, content doctrine | Phase 1 baseline; Phase 5 hardening; Phase 6 tools |
 | 25. Observability/analytics | technical signals, friction metrics, health metrics/UWT | Phase 1 baseline; Phase 5 completion; Phase 6 validation |
@@ -745,7 +805,7 @@ Any contradiction is fixed in the earliest authoritative layer: domain invariant
 | 30. Future AI/MCP | stable tools/permissions/suggestions/approval/evaluation, no AI requirement | Phase 6 |
 | 31. Testing | entire pyramid, 14 critical E2E cases, visual regression | Every phase; final Phase 6 suite |
 | 32. DevOps/deployment | environments, safe migrations, rollouts, admin | Phase 1 baseline; Phase 5 completion |
-| 33. Original roadmap | all phases 0–17 and acceptance template | Sections 4–11 |
+| 33. Original roadmap | all phases 0–17, their strict predecessor gates, and the acceptance template | Sections 4.1–11 |
 | 34. Screen specification | every named screen, loading order, destructive pattern | Phases 1–5 |
 | 35. Backend invariants | project, order, chapter, milestone, entity, reference, Capture, timeline, revision, delete, billing, causality | Phases 1–5; global tests |
 | 36. Error/fallback UX | writing survives support failures, stable error copy | All phases |
@@ -762,10 +822,10 @@ Any contradiction is fixed in the earliest authoritative layer: domain invariant
 
 Mythra V2 is complete only when:
 
-1. Every six-phase exit gate is `Verified` in `Path.md` with repository evidence.
+1. Every original Sub-gate 0–17 is separately `Verified` in strict order in `Path.md` with repository and remote Git evidence, and every six-phase summary gate is also verified.
 2. The source coverage audit has no `Gap` and no illegal `Planned-later` status.
 3. The contradiction audit has no unresolved conflict.
-4. Every original Bible roadmap phase 0–17 has a verified owner in the consolidation.
+4. Every original Bible roadmap phase 0–17 has a verified owner and distinct gate result in the consolidation; no later capability started before its predecessor passed.
 5. All launch conditions, critical E2E cases, doctrine questions, and causal coherence tests pass.
 6. The product remains excellent with zero AI/model calls.
 7. The final `WorkPlan.md` and `Path.md` audit is committed and pushed to the GitHub repository, and the remote commit is verified.

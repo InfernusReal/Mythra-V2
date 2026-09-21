@@ -1,0 +1,4 @@
+import { portabilityHttp } from "@/lib/portability/http";
+import { artifactTokens, portabilityRepository } from "@/lib/portability/runtime";
+import { errors } from "@/lib/contracts/errors";
+export async function POST(request: Request, { params }: { params: Promise<{ id: string; artifactId: string }> }) { const { id, artifactId } = await params; return portabilityHttp(request, "portability.artifact-access", async (actor) => { const artifact = await portabilityRepository().artifact(actor, id, artifactId); if (!artifact || artifact.status !== "VERIFIED" || (artifact.expiresAt && artifact.expiresAt <= new Date())) throw errors.notFound(); const token = artifactTokens().issue(actor, id, artifactId); return { downloadUrl: `/api/v2/projects/${id}/portability/artifacts/${artifactId}/download?token=${encodeURIComponent(token)}`, expiresInSeconds: 300 }; }); }

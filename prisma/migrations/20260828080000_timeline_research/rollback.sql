@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS "ResearchItemLink";
+DROP TABLE IF EXISTS "ResearchItem";
+DROP TABLE IF EXISTS "StoredAsset";
+DROP TABLE IF EXISTS "NotePromotion";
+DROP TABLE IF EXISTS "Note";
+DROP TABLE IF EXISTS "TimelineEventLink";
+DROP TABLE IF EXISTS "TimelineEvent";
+DROP TYPE IF EXISTS "AssetScanStatus";
+DROP TYPE IF EXISTS "ResearchItemKind";
+DROP TYPE IF EXISTS "TimelineLinkTargetType";
+DROP TYPE IF EXISTS "TimelineMode";

@@ -1,0 +1,17 @@
+DELETE FROM "ContextPin" WHERE "cardType" = 'ENTITY';
+DELETE FROM "CaptureConversion" WHERE "conversionType" = 'ENTITY';
+DELETE FROM "CausalRelation" WHERE "sourceType" = 'ENTITY_STATE' OR "targetType" = 'ENTITY_STATE';
+DELETE FROM "StoryReference" WHERE "sourceType" = 'ENTITY' OR "targetType" = 'ENTITY';
+DROP TABLE IF EXISTS "EntityRevision";
+DROP TABLE IF EXISTS "EntityStateSnapshot";
+DROP TABLE IF EXISTS "EntityRelation";
+DROP TABLE IF EXISTS "RelationType";
+DROP TABLE IF EXISTS "EntityFieldValue";
+DROP TABLE IF EXISTS "StoryEntity";
+DROP TABLE IF EXISTS "EntityFieldDefinition";
+DROP TABLE IF EXISTS "EntityType";
+DROP TYPE IF EXISTS "EntityStateAnchorType";
+DROP TYPE IF EXISTS "StoryEntityStatus";
+DROP TYPE IF EXISTS "EntityFieldType";
+CREATE TYPE "CaptureConversionType" AS ENUM ('MILESTONE','STORY_CHANGE','CHAPTER_ATTACHMENT','OUTLINE_ATTACHMENT','CAPTURE_DERIVED_CAUSAL');
+ALTER TABLE "CaptureConversion" ALTER COLUMN "conversionType" TYPE "CaptureConversionType" USING "conversionType"::"CaptureConversionType";

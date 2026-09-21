@@ -1,0 +1,77 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { AuthenticateUser } from "@/domains/accounts/application/authenticate";
+import { ManagePreferences } from "@/domains/accounts/application/preferences";
+import type { ExternalAuthAdapter } from "@/domains/accounts/application/ports";
+import { DevelopmentAuthAdapter } from "@/domains/accounts/infrastructure/development-auth-adapter";
+import { OidcAuthAdapter } from "@/domains/accounts/infrastructure/oidc-auth-adapter";
+import { PrismaIdentityRepository } from "@/domains/accounts/infrastructure/prisma-identity-repository";
+import type { SessionActor } from "@/domains/accounts/domain/identity";
+import { getPrisma } from "@/lib/db/prisma";
+import { getEnv } from "@/lib/env";
+import { logger } from "@/lib/observability/logger";
+import { noOpMetrics } from "@/lib/observability/metrics";
+import { getMessages } from "@/lib/i18n/messages";
+import { readSessionToken, SESSION_COOKIE } from "./session";
+
+export function createAuthAdapter(): ExternalAuthAdapter {
+  const env = getEnv();
+  if (env.AUTH_MODE === "development") {
+    return new DevelopmentAuthAdapter(
+      {
+        provider: "development",
+        subject: env.DEV_AUTH_SUBJECT ?? "local-author",
+        email: env.DEV_AUTH_EMAIL ?? "author@example.test",
+        displayName: env.DEV_AUTH_NAME ?? getMessages("en").localAuthor,
+        emailVerified: true,
+      },
+      env.DEV_AUTH_SUBJECT ?? "local-author",
+    );
+  }
+  return new OidcAuthAdapter(
+    env.AUTH_JWKS_URL!,
+    env.AUTH_ISSUER!,
+    env.AUTH_AUDIENCE!,
+  );
+}
+
+export function createAuthenticateUser(): AuthenticateUser {
+  return new AuthenticateUser(
+    createAuthAdapter(),
+    new PrismaIdentityRepository(getPrisma()),
+    logger.child({ module: "accounts" }),
+    noOpMetrics,
+  );
+}
+
+export function createPreferenceService(): ManagePreferences {
+  return new ManagePreferences(
+    new PrismaIdentityRepository(getPrisma()),
+    logger.child({ module: "preferences" }),
+  );
+}
+
+export async function optionalActor(): Promise<SessionActor | null> {
+  const env = getEnv();
+  const store = await cookies();
+  const token = store.get(SESSION_COOKIE)?.value;
+  if (!token) return null;
+  const claimed = readSessionToken(token, {
+    current: env.SESSION_SECRET,
+    currentKeyId: env.SESSION_KEY_ID,
+    previous: env.SESSION_PREVIOUS_SECRET,
+    previousKeyId: env.SESSION_PREVIOUS_KEY_ID,
+  });
+  if (!claimed) return null;
+  return new PrismaIdentityRepository(getPrisma()).findActor(
+    claimed.userId,
+    claimed.workspaceId,
+    claimed.sessionId,
+  );
+}
+
+export async function requireActor(): Promise<SessionActor> {
+  const actor = await optionalActor();
+  if (!actor) redirect("/sign-in");
+  return actor;
+}

@@ -1,0 +1,10 @@
+DELETE FROM "ContextPin" WHERE "cardType" = 'CAPTURE';
+DROP TABLE IF EXISTS "CaptureRevision";
+DROP TABLE IF EXISTS "CaptureConversion";
+DROP TABLE IF EXISTS "CaptureAttachment";
+DROP TABLE IF EXISTS "Capture";
+DROP TYPE IF EXISTS "CaptureConversionType";
+DROP TYPE IF EXISTS "CaptureAttachmentTargetType";
+DROP TYPE IF EXISTS "CaptureLifecycle";
+CREATE TYPE "ContextCardType" AS ENUM ('CHAPTER_OUTLINE', 'MILESTONE', 'CAUSAL', 'REFERENCE', 'NARRATIVE_INTENT');
+ALTER TABLE "ContextPin" ALTER COLUMN "cardType" TYPE "ContextCardType" USING "cardType"::"ContextCardType";

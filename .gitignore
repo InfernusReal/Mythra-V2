@@ -1,0 +1,15 @@
+node_modules/
+.next/
+coverage/
+playwright-report/
+test-results/
+.mythra-private-storage/
+.env
+.env.local
+app/generated/prisma/
+prisma/dev.db/
+tmp/
+output/
+*.log
+*.tsbuildinfo
+.DS_Store
