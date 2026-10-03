@@ -59,7 +59,7 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
     changed.set("components/shell/RenamedThemeMenu.tsx", changed.get(path)!); changed.delete(path);
     expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(`Foundation file deleted or moved: ${path}`);
   });
-  it.each(["## 34.", "### 35.1"])("preserves the entire published execution history including %s", (anchor) => {
+  it.each(["## 34.", "### 35.1", "### 35.2", "### 35.3", "### 35.4", "### 35.5", "### 35.6", "### 35.7"])("preserves the entire published execution history including %s", (anchor) => {
     const changed = new Map(current); const ledger = changed.get("Path.md")!.toString();
     expect(ledger).toContain(anchor);
     changed.set("Path.md", Buffer.from(ledger.replace(anchor, `${anchor} altered`)));

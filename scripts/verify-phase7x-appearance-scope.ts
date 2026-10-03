@@ -112,7 +112,7 @@ export function assertBaselineScope(foundation: FoundationFiles, current: Founda
   }
 }
 
-export const prerequisiteCheckpoint = "2ae6ac1df5b111f0328e49f501b172b230ffedda";
+export const prerequisiteCheckpoint = "bb34d85e15b7575b41e198555ec4416ca31ab159";
 export const prerequisiteAdditions = new Set([
   "tests/fixtures/shell-appearance-contract.ts",
   "tests/unit/appearance-prerequisites.test.ts",
