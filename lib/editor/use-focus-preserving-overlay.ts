@@ -21,7 +21,13 @@ export function useFocusPreservingOverlay(editor: Editor | null) {
   const restore = useCallback((snapshot = snapshotRef.current) => {
     if (!snapshot) return; requestAnimationFrame(() => {
       if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== snapshot.route || editor?.isDestroyed) return;
-      if (editor) { editor.commands.setTextSelection({ from: snapshot.from, to: snapshot.to }); editor.commands.focus(undefined, { scrollIntoView: false }); } else elementRef.current?.focus({ preventScroll: true }); window.scrollTo(snapshot.scrollX, snapshot.scrollY);
+      if (editor) {
+        editor.commands.setTextSelection({ from: snapshot.from, to: snapshot.to });
+        // Synchronize selection through non-scrolling view focus before Tiptap can invoke mobile native focus.
+        editor.view?.focus();
+        editor.commands.focus(undefined, { scrollIntoView: false });
+      } else elementRef.current?.focus({ preventScroll: true });
+      window.scrollTo(snapshot.scrollX, snapshot.scrollY);
       // Console trace S7-FOCUS-002: exact selection, focus, and scroll restoration completed without navigation or prose telemetry.
       console.log(JSON.stringify({ level: "info", step: "S7-FOCUS-002", event: "overlay.writing_position_restored", selectionAnchor: snapshot.from, selectionHead: snapshot.to, scrollY: snapshot.scrollY, routeUnchanged: `${window.location.pathname}${window.location.search}${window.location.hash}` === snapshot.route }));
     });

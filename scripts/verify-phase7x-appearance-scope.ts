@@ -112,12 +112,16 @@ export function assertBaselineScope(foundation: FoundationFiles, current: Founda
   }
 }
 
-export const prerequisiteCheckpoint = "bb34d85e15b7575b41e198555ec4416ca31ab159";
+export const prerequisiteCheckpoint = "6f62154bd095bf0fcc14fa3b72f18896dd7e0033";
 export const prerequisiteAdditions = new Set([
   "tests/fixtures/shell-appearance-contract.ts",
   "tests/unit/appearance-prerequisites.test.ts",
   "tests/accessibility/command-landmark-accessibility.test.tsx",
   "tests/e2e/appearance-contract-reconciliation.spec.ts",
+]);
+export const captureRepairAdditions = new Set([
+  "tests/component/overlay-focus-order.test.tsx",
+  "tests/stress/overlay-focus-order.stress.test.ts",
 ]);
 type ExactRevision = readonly [from: string, to: string, count?: number];
 /** Literal recipes are independent of current bytes; the baseline and old strict guard are not repinned. */
@@ -145,9 +149,17 @@ export const prerequisiteRevisions: Readonly<Record<string, readonly ExactRevisi
   ],
 };
 
+/** Separately authorized Capture repair; every byte outside this exact focus-order substitution stays frozen. */
+export const captureRepairRevisions: Readonly<Record<string, readonly ExactRevision[]>> = {
+  "lib/editor/use-focus-preserving-overlay.ts": [
+    ['      if (editor) { editor.commands.setTextSelection({ from: snapshot.from, to: snapshot.to }); editor.commands.focus(undefined, { scrollIntoView: false }); } else elementRef.current?.focus({ preventScroll: true }); window.scrollTo(snapshot.scrollX, snapshot.scrollY);',
+      '      if (editor) {\n        editor.commands.setTextSelection({ from: snapshot.from, to: snapshot.to });\n        // Synchronize selection through non-scrolling view focus before Tiptap can invoke mobile native focus.\n        editor.view?.focus();\n        editor.commands.focus(undefined, { scrollIntoView: false });\n      } else elementRef.current?.focus({ preventScroll: true });\n      window.scrollTo(snapshot.scrollX, snapshot.scrollY);'],
+  ],
+};
+
 export function expectedPrerequisiteFoundation(foundation: FoundationFiles): Map<string, Buffer> {
   const expected = new Map(foundation);
-  for (const [path, revisions] of Object.entries(prerequisiteRevisions)) {
+  for (const [path, revisions] of [...Object.entries(prerequisiteRevisions), ...Object.entries(captureRepairRevisions)]) {
     const original = foundation.get(path);
     if (!original) throw new Error(`Prerequisite baseline absent: ${path}`);
     let text = original.toString("utf8");
@@ -181,7 +193,7 @@ export function assertCurrentAppearanceScope(foundation: FoundationFiles, curren
   expected.delete("Path.md");
   expected.set("Path.md", publishedPrerequisiteHistory());
   const projected = new Map(current);
-  for (const path of prerequisiteAdditions) {
+  for (const path of [...prerequisiteAdditions, ...captureRepairAdditions]) {
     if (!projected.has(path)) throw new Error(`Required prerequisite test absent: ${path}`);
     projected.delete(path);
   }
@@ -237,8 +249,8 @@ export async function verifyAppearanceBaseline() {
   console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-002", event: "appearance.baseline_validated", fileCount: foundation.size, routeCount: manifest.routes.length }));
   const current = readCurrentFoundation(foundation);
   assertCurrentAppearanceScope(foundation, current);
-  // Console trace 7X-SCOPE-003: report the separately authorized semantic/test revisions and complete frozen-source boundary.
-  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1 - Object.keys(prerequisiteRevisions).length, additiveFileCount: current.size - foundation.size, semanticRevisionCount: 1, verificationRevisionCount: 2, productChanged: true }));
+  // Console trace 7X-SCOPE-003: report separately authorized semantic/test/Capture revisions and the complete frozen-source boundary.
+  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1 - Object.keys(prerequisiteRevisions).length - Object.keys(captureRepairRevisions).length, additiveFileCount: current.size - foundation.size, semanticRevisionCount: 1, verificationRevisionCount: 2, reliabilityRevisionCount: 1, productChanged: true }));
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

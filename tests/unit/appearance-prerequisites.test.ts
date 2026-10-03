@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import baseline from "../../docs/audits/phase-7x-foundation-baseline.json";
 import {
   assertBaselineScope, assertCurrentAppearanceScope, canonicalBytes, expectedPrerequisiteFoundation,
-  loadFoundation, prerequisiteAdditions, prerequisiteRevisions, readCurrentFoundation, sourceSignature,
+  loadFoundation, prerequisiteAdditions, prerequisiteRevisions, captureRepairAdditions, captureRepairRevisions, readCurrentFoundation, sourceSignature,
 } from "../../scripts/verify-phase7x-appearance-scope";
 import { expectedShellBackground, fallbackBodyColors, type ResolvedShellTheme } from "../fixtures/shell-appearance-contract";
 
@@ -16,6 +16,8 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
     assertCurrentAppearanceScope(foundation, current);
     expect(Object.keys(prerequisiteRevisions)).toHaveLength(3);
     expect(prerequisiteAdditions.size).toBe(4);
+    expect(Object.keys(captureRepairRevisions)).toHaveLength(1);
+    expect(captureRepairAdditions.size).toBe(2);
   });
   it("retains the old strict checker which rejects the semantic revision", () => {
     expect(() => assertBaselineScope(foundation, current)).toThrow("Frozen foundation changed");
@@ -38,6 +40,11 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
   it.each(Object.keys(prerequisiteRevisions))("requires exact independent source recipe for %s", (path) => {
     expect(canonicalBytes(current.get(path)!)).toEqual(expectedPrerequisiteFoundation(foundation).get(path));
   });
+  it.each(Object.keys(captureRepairRevisions))("requires exact separately authorized Capture recipe for %s", (path) => {
+    expect(canonicalBytes(current.get(path)!)).toEqual(expectedPrerequisiteFoundation(foundation).get(path));
+    const restored = canonicalBytes(current.get(path)!).toString().replace(captureRepairRevisions[path]![0]![1], captureRepairRevisions[path]![0]![0]);
+    expect(Buffer.from(restored)).toEqual(foundation.get(path));
+  });
   it.each(baseline.files.map((file) => file.path))("rejects any extra current foundation mutation: %s", (path) => {
     const changed = new Map(current);
     const bytes = changed.get(path)!;
@@ -46,7 +53,7 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
       : Buffer.concat([bytes, Buffer.from("\n/* synthetic extra revision */\n")]));
     expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(path === "Path.md" ? "Execution history rewritten" : `Frozen foundation changed: ${path}`);
   });
-  it.each([...prerequisiteAdditions])("requires authorized supporting test %s", (path) => {
+  it.each([...prerequisiteAdditions, ...captureRepairAdditions])("requires authorized supporting test %s", (path) => {
     const changed = new Map(current); changed.delete(path);
     expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(`Required prerequisite test absent: ${path}`);
   });
@@ -59,7 +66,7 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
     changed.set("components/shell/RenamedThemeMenu.tsx", changed.get(path)!); changed.delete(path);
     expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(`Foundation file deleted or moved: ${path}`);
   });
-  it.each(["## 34.", "### 35.1", "### 35.2", "### 35.3", "### 35.4", "### 35.5", "### 35.6", "### 35.7"])("preserves the entire published execution history including %s", (anchor) => {
+  it.each(["## 34.", "### 35.1", "### 35.2", "### 35.3", "### 35.4", "### 35.5", "### 35.6", "### 35.7", "### 35.8", "### 35.9", "### 36.1"])("preserves the entire published execution history including %s", (anchor) => {
     const changed = new Map(current); const ledger = changed.get("Path.md")!.toString();
     expect(ledger).toContain(anchor);
     changed.set("Path.md", Buffer.from(ledger.replace(anchor, `${anchor} altered`)));
