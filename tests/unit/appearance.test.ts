@@ -1,29 +1,31 @@
 // @vitest-environment node
-import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { beforeAll, describe, expect, it } from "vitest";
 import designBaseline from "../../docs/audits/phase-7x-foundation-baseline.json";
 import {
-  appearanceBaseline, assertBaselineScope, assertCosmeticCss, baselineAdditions,
-  canonicalBytes, loadFoundation, sourceSignature, validateManifest,
+  appearanceBaseline, assertBaselineScope, assertCurrentAppearanceScope, assertCosmeticCss, baselineAdditions,
+  canonicalBytes, loadFoundation, readCurrentFoundation, sourceSignature, validateManifest,
   type FoundationManifest,
 } from "../../scripts/verify-phase7x-appearance-scope";
 
 let foundation: Map<string, Buffer>;
 let current: Map<string, Buffer>;
+let originalScope: Map<string, Buffer>;
 let manifest: FoundationManifest;
 beforeAll(async () => {
   foundation = await loadFoundation();
   manifest = JSON.parse(readFileSync("docs/audits/phase-7x-foundation-baseline.json", "utf8")) as FoundationManifest;
-  const paths = new Set([...foundation.keys(), ...execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard"], { encoding: "utf8" }).trim().split("\n")]);
-  current = new Map([...paths].map((path) => [path, readFileSync(path)]));
+  current = readCurrentFoundation(foundation);
+  originalScope = new Map(foundation);
+  for (const path of baselineAdditions) originalScope.set(path, current.get(path)!);
 });
 
 describe("7X-0 pinned foundation and integration parity", () => {
   it("validates every independently archived file, AST, import and control-order fingerprint", () => {
     expect(appearanceBaseline).toBe("fd60f7f0035cc9cf49ab50264941d0fbdc36a846");
     expect(foundation.size).toBe(665); expect(manifest.routes).toHaveLength(16);
-    validateManifest(manifest, foundation); assertBaselineScope(foundation, current);
+    validateManifest(manifest, foundation); assertBaselineScope(foundation, originalScope);
+    assertCurrentAppearanceScope(foundation, current);
   });
   it("permits only the six documented additive baseline files", () => {
     expect(baselineAdditions.size).toBe(6);
@@ -38,23 +40,23 @@ describe("7X-0 pinned foundation and integration parity", () => {
     "tests/unit/command-reliability-boundary.test.ts", "tests/e2e/command-palette.spec.ts", "WorkPlan.md",
   ])("rejects synthetic changes to a protected file: %s", (path) => {
     expect(foundation.has(path)).toBe(true);
-    const changed = new Map(current); changed.set(path, Buffer.concat([foundation.get(path)!, Buffer.from("\n/* synthetic violation */\n")]));
+    const changed = new Map(originalScope); changed.set(path, Buffer.concat([foundation.get(path)!, Buffer.from("\n/* synthetic violation */\n")]));
     expect(() => assertBaselineScope(foundation, changed)).toThrow(`Frozen foundation changed: ${path}`);
   });
   it("rejects deletion, including a formerly permitted integration file", () => {
-    const changed = new Map(current); changed.delete("components/shell/ThemeMenu.tsx");
+    const changed = new Map(originalScope); changed.delete("components/shell/ThemeMenu.tsx");
     expect(() => assertBaselineScope(foundation, changed)).toThrow("Foundation file deleted or moved");
   });
   it("rejects a rename rather than treating it as a cosmetic addition", () => {
-    const changed = new Map(current); changed.set("components/shell/RenamedThemeMenu.tsx", changed.get("components/shell/ThemeMenu.tsx")!);
+    const changed = new Map(originalScope); changed.set("components/shell/RenamedThemeMenu.tsx", changed.get("components/shell/ThemeMenu.tsx")!);
     changed.delete("components/shell/ThemeMenu.tsx"); expect(() => assertBaselineScope(foundation, changed)).toThrow("deleted or moved");
   });
   it.each(["app/appearance.css", "lib/theming/appearance.ts", "app/new-route/page.tsx", "docs/unknown.md"])("rejects out-of-gate or unlisted additions: %s", (path) => {
-    const changed = new Map(current); changed.set(path, Buffer.from("synthetic"));
+    const changed = new Map(originalScope); changed.set(path, Buffer.from("synthetic"));
     expect(() => assertBaselineScope(foundation, changed)).toThrow("Unlisted gate-0 addition");
   });
   it("preserves historical Path except the two declared current dashboard rows", () => {
-    const changed = new Map(current); changed.set("Path.md", Buffer.from(foundation.get("Path.md")!.toString().replace("## 33.", "## 999.")));
+    const changed = new Map(originalScope); changed.set("Path.md", Buffer.from(foundation.get("Path.md")!.toString().replace("## 33.", "## 999.")));
     expect(() => assertBaselineScope(foundation, changed)).toThrow("Execution history rewritten");
   });
   it.each(["baselineCommit", "gate", "schemaVersion"] as const)("rejects a repinned manifest policy: %s", (key) => {

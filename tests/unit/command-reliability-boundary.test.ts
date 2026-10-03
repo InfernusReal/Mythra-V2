@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
 import JSZip from "jszip";
+import { assertCurrentAppearanceScope, loadFoundation, readCurrentFoundation } from "../../scripts/verify-phase7x-appearance-scope";
 import { beforeAll, describe, expect, it } from "vitest";
 
 const checkpoint = "50c93c4157892aa71dd0bf3184512656ea78b8a2";
 const original = new Map<string, string>();
-const current = new Map<string, string>();
+const acceptedRepair = new Map<string, string>();
 const normalize = (value: string) => value.replaceAll("\r\n", "\n");
 const fingerprint = (bytes: Buffer) => {
   const text = bytes.toString("utf8");
@@ -39,11 +39,12 @@ const repairs: Record<string, readonly (readonly [string, string])[]> = {
 };
 
 beforeAll(async () => {
+  const acceptedSnapshot = await loadFoundation();
   const archive = await JSZip.loadAsync(execFileSync("git", ["archive", "--format=zip", checkpoint], { maxBuffer: 64 * 1024 * 1024 }));
   for (const [path, entry] of Object.entries(archive.files)) {
     if (entry.dir) continue;
     const value = fingerprint(await entry.async("nodebuffer"));
-    original.set(path, value); current.set(path, fingerprint(readFileSync(path)));
+    original.set(path, value); acceptedRepair.set(path, fingerprint(acceptedSnapshot.get(path)!));
   }
 });
 
@@ -59,25 +60,29 @@ function assertProtected(files: Map<string, string>) {
   }
 }
 
-describe("separately authorized reliability boundary against published checkpoint", () => {
+describe("historical reliability evidence and current authorized appearance boundary", () => {
   it("preserves every existing file except the five exact reviewed leaf substitutions and Path ledger", () => {
     expect(original.size).toBeGreaterThan(640);
-    assertProtected(current);
-    const ledger = current.get("Path.md")!;
+    assertProtected(acceptedRepair);
+    const ledger = acceptedRepair.get("Path.md")!;
     const historical = original.get("Path.md")!;
     const historyWithoutDashboards = (text: string) => text.split("\n").filter((line) => !line.startsWith("| 7X. Appearance") && !line.startsWith("| 7X-0 |")).join("\n");
     expect(historyWithoutDashboards(ledger)).toContain(historyWithoutDashboards(historical).trimEnd());
   });
+  it("audits the complete current working tree in addition to the immutable accepted repair", async () => {
+    const foundation = await loadFoundation();
+    assertCurrentAppearanceScope(foundation, readCurrentFoundation(foundation));
+  });
   it.each(["lib/commands/registry.ts", "tests/e2e/command-palette.spec.ts", "package-lock.json", "WorkPlan.md", "prisma/schema.prisma"])("rejects a synthetic frozen-file edit: %s", (path) => {
-    const changed = new Map(current); changed.set(path, `${changed.get(path)}\nmutation`);
+    const changed = new Map(acceptedRepair); changed.set(path, `${changed.get(path)}\nmutation`);
     expect(() => assertProtected(changed)).toThrow(`Protected source differs: ${path}`);
   });
   it.each(Object.keys(repairs))("rejects even an unlisted extra change inside a permitted file: %s", (path) => {
-    const changed = new Map(current); changed.set(path, `${changed.get(path)}\nmutation`);
+    const changed = new Map(acceptedRepair); changed.set(path, `${changed.get(path)}\nmutation`);
     expect(() => assertProtected(changed)).toThrow(`Protected source differs: ${path}`);
   });
   it("rejects an existing-source deletion", () => {
-    const changed = new Map(current); changed.delete("lib/commands/registry.ts");
+    const changed = new Map(acceptedRepair); changed.delete("lib/commands/registry.ts");
     expect(() => assertProtected(changed)).toThrow("Protected source differs: lib/commands/registry.ts");
   });
 });

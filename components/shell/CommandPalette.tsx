@@ -467,7 +467,7 @@ export function CommandPalette() {
               }
             }}
           >
-            <header>
+            <header role="none">
               <h2 id="command-title">{messages.commandPalette}</h2>
               <button type="button" onClick={() => closePalette()}>
                 {messages.close}

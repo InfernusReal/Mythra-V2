@@ -1,5 +1,6 @@
 import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
+import { expectCurrentShellBackground } from "../fixtures/shell-appearance-contract";
 
 async function signIn(page: Page): Promise<void> {
   await page.goto("/sign-in");
@@ -24,7 +25,7 @@ test.describe("Sub-gate 0 authenticated shell", () => {
 
     await page.getByRole("combobox", { name: "Theme" }).selectOption("dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(17, 18, 20)");
+    await expectCurrentShellBackground(page, "dark");
     await page.screenshot({ path: "test-results/foundation-dark.png", fullPage: true });
     await expect.poll(async () => page.evaluate(async () => {
       const response = await fetch("/api/v2/preferences/theme");
@@ -32,7 +33,7 @@ test.describe("Sub-gate 0 authenticated shell", () => {
       return envelope.data?.theme;
     })).toBe("dark");
     await page.getByRole("combobox", { name: "Theme" }).selectOption("light");
-    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(250, 250, 249)");
+    await expectCurrentShellBackground(page, "light");
     await page.screenshot({ path: "test-results/foundation-light.png", fullPage: true });
     expect(browserErrors).toEqual([]);
   });

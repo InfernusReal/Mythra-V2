@@ -111,6 +111,82 @@ export function assertBaselineScope(foundation: FoundationFiles, current: Founda
   }
 }
 
+export const prerequisiteCheckpoint = "2ae6ac1df5b111f0328e49f501b172b230ffedda";
+export const prerequisiteAdditions = new Set([
+  "tests/fixtures/shell-appearance-contract.ts",
+  "tests/unit/appearance-prerequisites.test.ts",
+  "tests/accessibility/command-landmark-accessibility.test.tsx",
+  "tests/e2e/appearance-contract-reconciliation.spec.ts",
+]);
+type ExactRevision = readonly [from: string, to: string, count?: number];
+/** Literal recipes are independent of current bytes; the baseline and old strict guard are not repinned. */
+export const prerequisiteRevisions: Readonly<Record<string, readonly ExactRevision[]>> = {
+  "components/shell/CommandPalette.tsx": [
+    ['            <header>\n              <h2 id="command-title">', '            <header role="none">\n              <h2 id="command-title">'],
+  ],
+  "tests/e2e/foundation.spec.ts": [
+    ['import { expect, test, type Page } from "@playwright/test";\n', 'import { expect, test, type Page } from "@playwright/test";\nimport { expectCurrentShellBackground } from "../fixtures/shell-appearance-contract";\n'],
+    ['await expect(page.locator("body")).toHaveCSS("background-color", "rgb(17, 18, 20)");', 'await expectCurrentShellBackground(page, "dark");'],
+    ['await expect(page.locator("body")).toHaveCSS("background-color", "rgb(250, 250, 249)");', 'await expectCurrentShellBackground(page, "light");'],
+  ],
+  "tests/unit/command-reliability-boundary.test.ts": [
+    ['import { readFileSync } from "node:fs";\n', ""],
+    ['import JSZip from "jszip";\n', 'import JSZip from "jszip";\nimport { assertCurrentAppearanceScope, loadFoundation, readCurrentFoundation } from "../../scripts/verify-phase7x-appearance-scope";\n'],
+    ["const current = new Map<string, string>();", "const acceptedRepair = new Map<string, string>();"],
+    ["current.set(path,", "acceptedRepair.set(path,"],
+    ["assertProtected(current);", "assertProtected(acceptedRepair);"],
+    ['const ledger = current.get("Path.md")!;', 'const ledger = acceptedRepair.get("Path.md")!;'],
+    ["new Map(current)", "new Map(acceptedRepair)", 3],
+    ['beforeAll(async () => {\n', 'beforeAll(async () => {\n  const acceptedSnapshot = await loadFoundation();\n'],
+    ["fingerprint(readFileSync(path))", "fingerprint(acceptedSnapshot.get(path)!)"],
+    ['describe("separately authorized reliability boundary against published checkpoint",', 'describe("historical reliability evidence and current authorized appearance boundary",'],
+    ['  it.each(["lib/commands/registry.ts",', '  it("audits the complete current working tree in addition to the immutable accepted repair", async () => {\n    const foundation = await loadFoundation();\n    assertCurrentAppearanceScope(foundation, readCurrentFoundation(foundation));\n  });\n  it.each(["lib/commands/registry.ts",'],
+  ],
+};
+
+export function expectedPrerequisiteFoundation(foundation: FoundationFiles): Map<string, Buffer> {
+  const expected = new Map(foundation);
+  for (const [path, revisions] of Object.entries(prerequisiteRevisions)) {
+    const original = foundation.get(path);
+    if (!original) throw new Error(`Prerequisite baseline absent: ${path}`);
+    let text = original.toString("utf8");
+    for (const [from, to, count = 1] of revisions) {
+      if (text.split(from).length - 1 !== count) throw new Error(`Prerequisite anchor count differs: ${path}`);
+      text = text.replaceAll(from, to);
+    }
+    expected.set(path, Buffer.from(text));
+  }
+  return expected;
+}
+
+let publishedHistory: Buffer | undefined;
+/** Cache only immutable published evidence; current filesystem reads are always fresh. */
+function publishedPrerequisiteHistory(): Buffer {
+  publishedHistory ??= canonicalBytes(execFileSync("git", ["show", `${prerequisiteCheckpoint}:Path.md`], { maxBuffer: 8 * 1024 * 1024 }));
+  return publishedHistory;
+}
+
+export function readCurrentFoundation(foundation: FoundationFiles): Map<string, Buffer> {
+  const paths = new Set([...foundation.keys(), ...execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { encoding: "utf8" }).split("\0").filter(Boolean)]);
+  const current = new Map<string, Buffer>();
+  for (const path of paths) current.set(path, readFileSync(path));
+  return current;
+}
+
+/** Separately authorized prerequisites only; no future palette wiring or general source exemption. */
+export function assertCurrentAppearanceScope(foundation: FoundationFiles, current: FoundationFiles): void {
+  const expected = expectedPrerequisiteFoundation(foundation);
+  // Check smaller protected sources before the 1.5 MB ledger; the same complete history proof remains mandatory.
+  expected.delete("Path.md");
+  expected.set("Path.md", publishedPrerequisiteHistory());
+  const projected = new Map(current);
+  for (const path of prerequisiteAdditions) {
+    if (!projected.has(path)) throw new Error(`Required prerequisite test absent: ${path}`);
+    projected.delete(path);
+  }
+  assertBaselineScope(expected, projected);
+}
+
 const colorProperties = new Set([
   "color", "background", "background-color", "background-image", "border-color",
   "border-top-color", "border-bottom-color", "border-left-color", "border-right-color",
@@ -152,18 +228,16 @@ export function assertCosmeticCss(css: string): void {
 
 export async function verifyAppearanceBaseline() {
   // Console trace 7X-SCOPE-001: begin the read-only pinned foundation audit without runtime or author data.
-  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-001", event: "appearance.scope_started", version: 1 }));
+  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-001", event: "appearance.scope_started", version: 2 }));
   const foundation = await loadFoundation();
   const manifest = JSON.parse(readFileSync("docs/audits/phase-7x-foundation-baseline.json", "utf8")) as FoundationManifest;
   validateManifest(manifest, foundation);
   // Console trace 7X-SCOPE-002: report validated source inventory counts only.
   console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-002", event: "appearance.baseline_validated", fileCount: foundation.size, routeCount: manifest.routes.length }));
-  const paths = new Set([...foundation.keys(), ...execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard"], { encoding: "utf8" }).trim().split("\n")]);
-  const current = new Map<string, Buffer>();
-  for (const path of paths) { try { current.set(path, readFileSync(path)); } catch { /* Missing files are rejected by the complete scope comparison. */ } }
-  assertBaselineScope(foundation, current);
-  // Console trace 7X-SCOPE-003: complete the no-product-mutation gate-0 scope proof with bounded counts.
-  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1, additiveFileCount: current.size - foundation.size, productChanged: false }));
+  const current = readCurrentFoundation(foundation);
+  assertCurrentAppearanceScope(foundation, current);
+  // Console trace 7X-SCOPE-003: report the separately authorized semantic/test revisions and complete frozen-source boundary.
+  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1 - Object.keys(prerequisiteRevisions).length, additiveFileCount: current.size - foundation.size, semanticRevisionCount: 1, verificationRevisionCount: 2, productChanged: true }));
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
