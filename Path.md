@@ -39,7 +39,8 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 4. Live Model, Automation, History, and Portability | 12–13 | **Passed — macro audit and remote CI complete** | Entries S12, S13 and Phase 4 macro audit/reconciliation below | Macro audit `fdbaae58399ac8a5e040d0059190cb5c74d110d4`; CI `33324897620`/`99293191100` passed |
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
-| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **Passed — S18, S19 and S20 complete; final Path-only ledger requires external exact-hash acceptance** | Sections 27–29 below | S20 candidate `5b73dcf6ddcd4dce87c002494fe219f27b8c6967` passed CI `35639429944`, clean protected regression and both Security triggers. Sections 29.12–29.13 record the exact proof and superseding closure. This final Path-only ledger is not externally accepted until its own checkout passes the same exact-hash hosted gates; that non-circular verification is reported outside the object after completion. |
+| 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **Passed — exact closure object independently accepted remotely** | Sections 27–29; baseline-proof reconciliation in 30.2 | Closure `f8fa1d061a91e748642e10387c6318df116f6ca0`; CI `35641083190` passed verify and clean protected regression; Security PR `35641083161` and push `35641075737` passed on that exact hash. Historical evidence remains unchanged. |
+| 7X. Appearance Renewal and Curated Palettes | User-authorized post-release appearance-only addendum | **Planned — product implementation Not started; verification prerequisite open** | WorkPlan section 14; planning entry 30 | Separate branch `codex/phase-7x-appearance-plan` from the verified Phase 7 closure. Plan/evidence publication is distinct from implementation verification; 30.7 records the legacy WorkPlan-hash prerequisite. |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8624,3 +8625,142 @@ S20 IS CLOSED.
 Remaining Phase 7 gaps: **none**.
 
 **PHASE 7 PASS — MYTHRA V2 RELEASE SEAL RESTORED**
+
+## 30. Phase 7X — Appearance Renewal and Curated Palettes: planning baseline
+
+### 30.1 Authorization, source study, and planning-only boundary
+
+- **Date/time context:** 3 October 2026, Asia/Karachi.
+- **Request:** add Phase 7X to WorkPlan after detailed review of the repository, previous phases, and Path; strictly preserve all underlying foundations, product structure, and rigid UI hierarchy; permit only appearance polish and palette choices.
+- **Preceding visual direction retained:** replace the generic gray/violet Dark appearance; independently choose surface palette and accent; preserve workflows, panel/navigation positions and hierarchy; permit mode-specific visual finish, Command Palette presentation, and restrained motion only. The rejected hierarchy/progressive-disclosure redesign is not reintroduced.
+- **Predecessor and original working branch:** clean `agent/workplan-subgates-audit` at `f8fa1d061a91e748642e10387c6318df116f6ca0`; local and remote matched before edits. All original Sub-gates 0–17 and Phase 7 S18–S20 evidence is retained.
+- **Planning branch:** `codex/phase-7x-appearance-plan`, created from that exact predecessor. It isolates the requested plan amendment from the still-green sealed branch. No PR, merge, deployment, product release, service launch, or production-data action is part of this run.
+- **Actual authorized work in this run:** WorkPlan phase addition and Path planning/evidence/dashboard reconciliation only. Every proposed appearance file, code path, palette, chooser, screenshot, new test, scope checker, ADR and 7X gate remains Planned/Not started.
+
+The repository review read all 648 tracked files through full-content inventory/source scans, computed per-file hashes, inspected module/import/export/test/schema boundaries, and performed detailed source reading of the affected theme/shell/layout/command/editor seams and architecture contracts. The full Path source was scanned for every entry, heading, gate, decision, correction and closure; detailed review followed the original phase scopes/macro audits, S18 repair history, S19 A–L visual contracts and their negative proofs, and S20 release seal. This combines repository-wide mechanical inspection with targeted detailed human-readable review; it is not a claim that every implementation line received a new manual proof or that all tests were re-executed.
+
+Reviewed authority includes complete WorkPlan sections 1–13, strict original gate ordering, all six macro-phase scope/file/method/exit contracts, authorized zoom/directive/pricing rulings, global acceptance, source coverage, contradiction protocol and completion definition. Historical Path claims are evidence-at-the-time, not permission to change current foundations; notably S18 corrected the earlier S10 command completeness claim rather than deleting that history.
+
+### 30.2 Exact Phase 7 predecessor acceptance reconciled
+
+The previous dashboard left independent external acceptance of the final Path-only closure object pending inside that object. Read-only GitHub inspection now proves it, so the current Phase 7 dashboard is reconciled without rewriting sections 27–29.
+
+| Check | Exact evidence | Result |
+| --- | --- | --- |
+| Local and remote predecessor identity | `git rev-parse HEAD` before branch creation and `git ls-remote origin refs/heads/agent/workplan-subgates-audit` both returned `f8fa1d061a91e748642e10387c6318df116f6ca0` | Verified |
+| Existing PR identity and status | PR #1 remains Open on `agent/workplan-subgates-audit`; read-only `gh pr view 1 --json number,url,state,headRefName,headRefOid,statusCheckRollup` | Verified; no PR write performed |
+| Exact closure CI | Run `35641083190`, attempt 1, `headSha` exactly the closure object, conclusion success; verify job `106470279441` and protected regression job `106470279740` | Verified |
+| Protected browser cleanliness | Job `106470279740` log reports **35 passed (6.9m), 31 declared project skips**, with no failed/flaky retry summary; prior native DB checks passed in the same job | Verified for that historical object; not a fresh 7X execution |
+| Pull-request Security | Run `35641083161`, attempt 1, exact closure `headSha`, conclusion success; job `106470278874` | Verified |
+| Push Security | Run `35641075737`, attempt 1, exact closure `headSha`, conclusion success; job `106470254121` | Verified |
+
+One initial metadata query used the unsupported GitHub CLI JSON field `runAttempt`; it was rejected without changing external state. The corrected query used `attempt` and returned the exact results above. A CLI query failure is not relabeled a passing query or a product defect.
+
+### 30.3 Repository-wide baseline and protected foundations
+
+The pre-edit inventory was taken at the predecessor object, not inferred from the new plan:
+
+| Category | Tracked files | Planning disposition |
+| --- | ---: | --- |
+| Root | 17 | Only WorkPlan/Path documentation changes; package/lockfile/config/guidance frozen |
+| `.github` | 2 | CI and Security workflows frozen |
+| `app` | 109 | Routes/pages and current stylesheet untouched; only narrowly named cosmetic integration is proposed for later |
+| `components` | 55 | All unchanged now; future existing component exception is ThemeMenu's bounded appearance entry only |
+| `docs` | 53 | Existing architecture, APIs, ADRs, operations, security, launch and evaluation contracts preserved |
+| `domains` | 120 | All 20 domain modules/layers and canonical/application/repository semantics frozen |
+| `lib` | 90 | All existing theme, command, editor, writing, journal, auth/security, observability and runtime foundations frozen |
+| `prisma` | 40 | Schema, 19 migration/rollback pairs and seed frozen |
+| `scripts` | 30 | Existing workers/verifiers/release checks frozen |
+| `tests` | 131 | Existing assertions/fixtures/gates/configuration unchanged; future 7X tests additive only |
+| `types` | 1 | Existing type declaration frozen |
+| **Total** | **648** | Full tracked-source scan, zero unreadable file |
+
+The scan read 4,850,803 bytes and counted 80,790 physical split lines, including each file's terminal split line. These are inventory measurements, not production performance metrics. Static extraction found 2,335 imports, 1,018 export declarations, 67 Prisma models and 489 syntactic test declarations; syntactic declaration count is not an executed-test result. All 236 direct source `console.log` call sites have an immediately preceding identifying Console trace comment; no call was added or moved in this planning run.
+
+- Whole tracked inventory digest, SHA-256 of sorted `path + NUL + file SHA-256 + newline` records: `8b5ee5566322b051e7a92aae2a38f29c69e5671ce3c722b2c1512ea5b204294b`.
+- Frozen planning set: all **646** tracked files except WorkPlan.md and Path.md. Its corresponding digest is `e6a71df1e7a2fa8ddb777e1b7b4b0bdab84a159f172cfa89ac62d47996159790`.
+- Original WorkPlan file SHA-256: `87372ec08c80951e8321379019aab4e622f916dd3e62c09fbe2c60705ce44aa9`.
+- Original Path file SHA-256: `0d529677d2d192c0c037490355d02f650843997bb2d4b46b36702c74a9296b47`.
+- Existing page inventory: 16 page routes, including entry/sign-in, shell/project list/Home, chapter, Structure, Universe/list/detail, Timeline, Capture, Search, Research, Suggestions, Settings/Billing and Admin. Future visual coverage must include those actual routes and existing overlay states.
+
+Key source findings constrain the plan rather than justify a redesign:
+
+1. `ThemeProvider.tsx` owns local/canonical base-mode hydration, `mythra.theme`, version guards and the theme endpoint; `theme.ts` permits exactly Light/Dark/Cream/System. Palette/accent state therefore uses a separate finite browser-local record, never a new base-mode enum or account/schema change.
+2. `AppShell.tsx` composes the command bar, SaveIndicator, CommandPalette, ThemeMenu, degraded banner, rail, main and Context reservation. Its component tree and workflow positions stay frozen. Cosmetic inputs belong only in the existing theme slot; no rail/settings/command expansion is planned.
+3. The 959-line `app/globals.css` already owns responsive grids, current 48px desktop shell/rail and 52px mobile navigation, surfaces and state selectors. A separate appearance stylesheet avoids rewriting that foundation; layout/property checks must guard against visual overrides that secretly change geometry.
+4. `CommandPalette.tsx` consumes the existing command registry/ranker/runtime, bounded history and exact focus/IME/modal/cancellation semantics repaired in S18. Only its existing CSS selectors may change; no new grouping, order, command, shortcut or action is authorized.
+5. The editor adapter/document/block/reference contracts, durable hook/journal, continuation and Context are independent foundations. No palette action may enter those state machines, mutate a document, remount the editor, or trigger canonical writes.
+6. `lib/performance/budgets.ts`, S15 accessibility/RTL/mobile/IME evidence, S19-L's 109-state matrix and S20 protected gates remain inherited constraints, not targets that can be weakened for a new color design.
+
+### 30.4 Files changed and code produced in this run
+
+| Actual file | Actual change | Code/behavior consequence |
+| --- | --- | --- |
+| `WorkPlan.md` | Append section 14, Phase 7X, with authority/ruling, freeze, finite file allowlist, palettes/accents, cosmetic persistence, every surface, seven ordered gates, coding method, detailed audit/stress/visual requirements, logs/Path obligations, release-verifier prerequisite and rollback | Documentation only; existing sections 1–13 preserved; no product capability implemented |
+| `Path.md` | Add this detailed planning/evidence entry and separate 7X status table; reconcile the existing Phase 7 dashboard with actual exact closure proof; add a Planned 7X dashboard row | Documentation only; old gate rows and historical implementation entries retained |
+
+Application code produced: **none**. Schema/migration/API/domain/editor/command/runtime/dependency/workflow changes: **none**. Services started, routes created, author data touched, deployment/tag/PR performed: **none**. New `console.log` statements/comments/line indices: **none**; the existing 236 pairs remain unchanged. Future real appearance lifecycle traces and their exact final line records are specified by WorkPlan 14.9, not claimed implemented here.
+
+### 30.5 Planned gate status and predecessor barriers
+
+| 7X gate | Capability | Current state | Required predecessor / unresolved condition |
+| --- | --- | --- | --- |
+| 7X-0 | Baseline and appearance contract | **Not started** | Verified historical Phase 7 product exists; WorkPlan 14.11 current-verifier reconciliation requires separate authority and exact remote verification first |
+| 7X-1 | Curated palettes and accent controls | **Locked / Planned-later** | 7X-0 must pass and be remotely accepted |
+| 7X-2 | Shell and writing chrome | **Locked / Planned-later** | 7X-1 must pass and be remotely accepted |
+| 7X-3 | All supporting product surfaces | **Locked / Planned-later** | 7X-2 must pass and be remotely accepted |
+| 7X-4 | Command presentation and motion | **Locked / Planned-later** | 7X-3 must pass and be remotely accepted |
+| 7X-5 | Cross-product accessibility, visual and stress audit | **Locked / Planned-later** | 7X-4 must pass and be remotely accepted |
+| 7X-6 | Final conformity and delivery seal | **Locked / Planned-later** | 7X-5 must pass; all local/current-code/remote/ledger proof required |
+
+No original Sub-gate status is replaced by a 7X row. Creating/publishing the plan does not start 7X-0 implementation or claim a new release seal.
+
+### 30.6 Side-by-side planning conformance and contradiction audit
+
+| Request / inherited contract | WorkPlan owner | Actual planning proof | Classification |
+| --- | --- | --- | --- |
+| Read previous phases/Path and inspect entire tracked repository before adding phase | 14.1, 14.7 | Complete plan reading; full-content tracked-source/ledger scans, AST/contract inventory and detailed source/phase-audit review described in 30.1–30.3, performed before edits | Verified planning review; not fresh product runtime certification |
+| New phase named 7X, original gate chain unchanged | 14 introduction, 14.6 | One new Phase 7X section; seven distinct 7X-0–7X-6 gates; original 0–17 and six-phase contract retained | Verified planning structure |
+| Underlying foundations and rigid UI structure cannot change | 14.1–14.2 | Freeze table plus default-deny file allowlist; existing components/pages/domain/runtime sources frozen; named additive cosmetic wiring only | Verified plan constraint; future enforcement Planned-later |
+| Appearance changes materially, palettes and independent accents | 14.3–14.5 | Five surface families, six accent enums, 90 mode combinations, signature default, accessible state roles and complete surface map | Planned, not implemented |
+| Do not reintroduce rejected hierarchy redesign | 14.1–14.2, 14.5 | Explicit no hiding/relocation/control removal/reordering/mode/navigation redesign; manuscript metrics fixed | Verified planning exclusion |
+| Preserve base themes and no theme builder | 14.1, 14.3–14.4 | Narrow post-freeze color ruling; existing mode/API/provider frozen; finite first-party choices, no arbitrary CSS/colors/marketplace | Verified contradiction resolution |
+| Correct local cosmetic state and graceful failure | 14.4 | Separate versioned enum-only browser record, bounded validation/fallback/reset and no canonical/network/editor side effects | Planned, not implemented |
+| Explain scope/files/code/method and every surface | 14.2, 14.5–14.7 | Named new files and two narrowly scoped existing wiring surfaces, labels, additive tests/checker/docs; coding order and exit/negative proof per gate | Verified plan completeness |
+| Command polish and motion do not alter behavior | 14.1, 14.5–14.6 | CSS-only command presentation; registry/ranking/runtime/markup untouched; short non-layout motion with immediate focus/reduced-motion support | Planned appearance; protected contracts retained |
+| Deep stress/accessibility/visual/regression evidence | 14.8, 14.10 | Exhaustive token combinations, representative declared real-product matrix, inherited 109-state coverage, 1,000-change stress, negative parity, existing budgets/thresholds and exact hosted gates | Planned, not executed as 7X proof |
+| Log every real step safely and maintain entire Path | 14.9 | Adjacent content-safe trace/comment requirement and final one-based line ledger; CSS/pure helpers do not fabricate events; current phase/gate tables updated | Verified planning obligation; future logs Planned-later |
+| No blanket launch/pass claim from docs | 14.10–14.11 | Release-hash conflict explicitly disclosed and separately gated; planning publication distinct from implementation/CI completion | Known verification prerequisite, not waived |
+| Rollback without data/foundation mutation | 14.12 | Isolated cosmetic layer reverts; reset touches only the appearance key; old style/mode foundation retained | Planned rollback contract |
+
+The contradiction review covers optional structure, milestone ownership, hierarchy/chronology/causality separation, canonical versus projection/local state, freshness, creative versus integrity constraints, quota/export, focus/deep navigation, privacy, bounded reads, no-AI/paid-plan boundaries, and V2/future scope. The only new authority is presentation: no original functional requirement is weakened. Exact original color preservation is explicitly superseded only by the user's finite-palette appearance request, rather than silently contradicting the original plan. Local appearance preference is not client-owned story truth. Visual mode treatment is not new product information architecture. New appearance inputs are the only intentional additive control exception and remain in the existing theme area.
+
+### 30.7 Release-verification prerequisite and evidence limits
+
+The existing release verifier hardcodes the full original WorkPlan hash, and existing CI invokes it unconditionally. The requested appended phase necessarily changes that hash; frozen original plan text alone cannot satisfy a whole-file digest comparison. This is disclosed in WorkPlan 14.11.
+
+**Required separate authority:** verification-only plan-version reconciliation retaining the old Phase 7 hash/snapshot, verifying original content plus the approved appendix, and preserving all current-code required checks. The user has not authorized editing the existing verifier/workflow in this appearance-only request. Neither file was changed. Do not silently retarget/delete/bypass that audit or claim the new documentation object has inherited the old object's green CI.
+
+The new documentation branch preserves the independently green original branch. Branch publication is authorized by the prior phase-push protocol, but it is not a passing implementation gate. Phase 7X stays Planned, and every implementation gate stays Not started/Locked until the prerequisite is separately authorized, resolved and remotely verified. No new UI screenshot or 7X runtime/stress result is claimed by this planning entry.
+
+### 30.8 Planning validation and publication
+
+The planning audit checks documentation completeness and immutable foundations; it cannot certify unimplemented appearance code. A failed legacy release check is retained as a prerequisite, never converted into a pass.
+
+| Validation / evidence | Exact result | Disposition |
+| --- | --- | --- |
+| Repository-wide inventory, source/AST/trace scan | 648 tracked files read; zero unreadable; inventory and protected digests in 30.3; 236 direct logs with zero missing adjacent trace comment | Passed source-review/inventory check; not runtime proof |
+| Original WorkPlan comparison against `f8fa1d0:WorkPlan.md` | Existing sections 1–13 match the predecessor text; only the appended phase is new. Compare normalized LF/CRLF text and retain the historical whole-file hash separately. | Passed |
+| Gate/phase completeness scan | Original rows uniquely cover 0–17; new WorkPlan and Path tables each uniquely cover 7X-0–7X-6; new subsections cover 14.1–14.12 | Passed |
+| Protected-file digest and changed-path audit | All 646 non-documentation files retain digest `e6a71df1e7a2fa8ddb777e1b7b4b0bdab84a159f172cfa89ac62d47996159790`; only WorkPlan/Path appear in the diff | Passed; zero product/foundation modification |
+| Path historical preservation audit | Final corrected comparison returned `ledgerHistoryPreservedApartFromDashboard: true`; all prior text is retained apart from the declared current Phase 7 dashboard reconciliation/additive 7X row. Original S20 terminal statements remain before the new section. | Passed after the documented insertion-order correction |
+| `git diff --check` | Exit 0; no whitespace error. Git reports its existing LF-to-CRLF checkout normalization notice. | Passed; notice is not a code/test failure |
+| `npm run audit:launch` | Exit 0; 14 critical E2E inventory entries, six visual dimensions, seven causal acceptance cases, 16 doctrine questions, 11 launch conditions, 40 numbered sections, five appendices and 18 original sub-gates retained; zero-AI boundary intact | Passed inventory/document audit; does not re-execute those scenarios |
+| `npm run audit:release-seal` | Exit 1 at `scripts/verify-phase7-release-seal.ts:68`; expected original hash `87372ec08c80951e8321379019aab4e622f916dd3e62c09fbe2c60705ce44aa9`, actual appended WorkPlan hash `889ea7c5a25c856c3e915dc8f58dc06fbfebbf16d82c95b8ac9dd95a80278420` | **Known verification prerequisite remains open**; script/workflow unchanged; not a passing current release seal |
+| Fresh UI implementation, screenshots, complete runtime/coverage/E2E/stress/build | Not executed for an unimplemented phase in this documentation-only run | Not applicable as planning proof; all required future checks remain mandatory |
+
+Two planning-audit failures were retained and corrected, not relabeled as initial passes. First, the ad hoc historical comparison exceeded Node's default `execFileSync` output buffer on the 1.4 MB Path file (`ENOBUFS`); the read-only harness was rerun with an 8 MiB limit and bounded output. Second, it detected that the first insertion anchor placed the new section before the old S20 terminal statements. The appendix was corrected to follow those statements, restoring the complete historical section before the new entry. Neither correction changed executable code, tests, safety thresholds, or an old evidence statement. The final preservation comparison is required after this correction.
+
+Planning conformance decision: the requested phase is fully specified, the protected product remains unchanged, and appearance implementation is **Not started**. The release-verifier prerequisite is explicit and unresolved; this run is not called a new passing product phase or release. Exact planning publication and remote acceptance are recorded in the subsequent reconciliation/final handoff.
+
+Final local documentation check returned: 646 frozen files with the unchanged digest; `originalPlanPreserved: true`; `ledgerHistoryPreservedApartFromDashboard: true`; 18 original gates, seven new plan gates and seven matching Path gate rows; all twelve 14.1–14.12 subsections present; WorkPlan SHA-256 `889ea7c5a25c856c3e915dc8f58dc06fbfebbf16d82c95b8ac9dd95a80278420`; exactly two changed files; `git diff --check` exit 0. The final planning diff adds the phase and evidence only. No implementation begins in this run.
