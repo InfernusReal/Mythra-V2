@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useEditor } from "@tiptap/react";
 import { Extension, Mark, mergeAttributes } from "@tiptap/core";
 import { Plugin, TextSelection } from "@tiptap/pm/state";
+import { captureWritingSelection } from "@/lib/editor/writing-selection";
 import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import StarterKit from "@tiptap/starter-kit";
@@ -347,7 +348,9 @@ export function ChapterEditor({
       projectId: model.project.id,
       chapterId: model.chapter.id,
       capture: () => {
-        const { anchor, head } = editor.state.selection;
+        const { anchor, head, source, engineBehind } = captureWritingSelection(editor);
+        // Console trace REL-FOCUS-001: command focus captures the latest valid coordinate source without prose or identifiers.
+        console.log(JSON.stringify({ level: "info", step: "REL-FOCUS-001", event: "command.writing_selection_captured", source, engineBehind }));
         return () => {
           if (editor.isDestroyed) return;
           const size = editor.state.doc.content.size;

@@ -9,6 +9,7 @@ import {
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useSyncExternalStore,
@@ -48,6 +49,7 @@ import {
   recordCommandUse,
 } from "@/lib/commands/ranking";
 import { modalControls } from "@/lib/editor/use-modal-keyboard";
+import { claimEarlyCommandIntent } from "@/lib/commands/early-intent";
 
 type Envelope<T> = { data?: T; error?: { message: string } };
 const navigate = (href: string) => window.location.assign(href);
@@ -180,7 +182,7 @@ export function CommandPalette() {
     });
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.isComposing || event.keyCode === 229) return;
       if (matchesCommandShortcut(event, "command.palette")) {
@@ -231,7 +233,11 @@ export function CommandPalette() {
       }
     };
     window.addEventListener("keydown", onKeyDown, true);
-    return () => window.removeEventListener("keydown", onKeyDown, true);
+    const releaseIntent = claimEarlyCommandIntent(openPalette);
+    return () => {
+      releaseIntent();
+      window.removeEventListener("keydown", onKeyDown, true);
+    };
   }, [closePalette, closePeek, context, open, openPalette, peek, runCommand]);
 
   useEffect(() => {

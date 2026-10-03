@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type RefObject } from "react";
+import { useLayoutEffect, type RefObject } from "react";
 
 export function modalControls(dialog: HTMLElement): HTMLElement[] {
   return [...dialog.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],input:not(:disabled):not([type="hidden"]),select:not(:disabled),textarea:not(:disabled),[tabindex="0"]')]
@@ -9,7 +9,7 @@ export function modalControls(dialog: HTMLElement): HTMLElement[] {
 
 /** Keyboard containment belongs to the topmost existing modal, including nested Peek. */
 export function useModalKeyboard(ref: RefObject<HTMLElement | null>, open: boolean, close: () => void, canClose = true): void {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
       const dialog = ref.current;
