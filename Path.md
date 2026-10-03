@@ -40,7 +40,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
 | 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **Passed — exact closure object independently accepted remotely** | Sections 27–29; baseline-proof reconciliation in 30.2 | Closure `f8fa1d061a91e748642e10387c6318df116f6ca0`; CI `35641083190` passed verify and clean protected regression; Security PR `35641083161` and push `35641075737` passed on that exact hash. Historical evidence remains unchanged. |
-| 7X. Appearance Renewal and Curated Palettes | User-authorized post-release appearance-only addendum | **Planned — product implementation Not started; verification prerequisite open** | WorkPlan section 14; planning entry 30 | Separate branch `codex/phase-7x-appearance-plan` from the verified Phase 7 closure. Plan/evidence publication is distinct from implementation verification; 30.7 records the legacy WorkPlan-hash prerequisite. |
+| 7X. Appearance Renewal and Curated Palettes | User-authorized post-release appearance-only addendum | **Planned — appearance Not started; authorized prerequisite repair in progress; Security gap open** | WorkPlan section 14; planning entry 30; authorized prerequisite entry 31 | Separate branch `codex/phase-7x-appearance-plan`. Plan-version reconciliation now implemented locally; published dependency fixes applied, but the unpatched braces tooling chain prevents Security acceptance. No 7X gate is passed. |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8705,7 +8705,7 @@ Application code produced: **none**. Schema/migration/API/domain/editor/command/
 
 | 7X gate | Capability | Current state | Required predecessor / unresolved condition |
 | --- | --- | --- | --- |
-| 7X-0 | Baseline and appearance contract | **Not started** | Verified historical Phase 7 product exists; WorkPlan 14.11 requires separate authority and exact remote proof for plan-version reconciliation and the current dependency-Security prerequisite first |
+| 7X-0 | Baseline and appearance contract | **Not started** | Separate user authority granted in 31.1; plan-version reconciliation and available dependency patches implemented, pending required remote acceptance; unpatched braces Security chain remains open. Both prerequisites must pass first. |
 | 7X-1 | Curated palettes and accent controls | **Locked / Planned-later** | 7X-0 must pass and be remotely accepted |
 | 7X-2 | Shell and writing chrome | **Locked / Planned-later** | 7X-1 must pass and be remotely accepted |
 | 7X-3 | All supporting product surfaces | **Locked / Planned-later** | 7X-2 must pass and be remotely accepted |
@@ -8803,3 +8803,64 @@ Security selection is grounded in published upstream advisories and npm package 
 **Known unresolved upstream case:** [braces GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) currently lists affected versions through `3.0.3` and **no patched version**. Registry metadata confirms `3.0.3` is latest; micromatch `4.0.8` still requires it, and even Next ESLint plugin `16.3.8` still requires fast-glob `3.3.1`. The installed path is `eslint-config-next → @next/eslint-plugin-next → fast-glob → micromatch → braces`, development tooling, not a direct author-data dependency. The npm suggestion to downgrade Next ESLint configuration to `14.2.35` is rejected as an incompatible major-family change. Do not fabricate a patched version, rename/vendor an affected package to evade npm audit, remove a lint rule, alter workflow/audit thresholds, or treat development-only exposure as a passing Security gate. Published fixes can proceed while this prerequisite remains open.
 
 This checkpoint records planned work before code. Actual implementation and acceptance follow in later entries; no current pass is claimed here.
+
+### 31.2 Actual implementation, state ownership and immutable-scope proof
+
+Pre-code checkpoint `e184ccfd3a37f1010d23aef88455797882aed5d7`, `docs: record authorized pre-7X prerequisite checkpoint`, was committed and pushed successfully before executable changes. No 7X capability was started in that checkpoint.
+
+| Actual changed/new file | Implementation and exact consequence |
+| --- | --- |
+| `scripts/phase7-plan-authority.ts` (new) | Pure validator pins sealed commit `f8fa1d0`, original plan SHA-256 `87372ec…aa9`, and approved-current SHA-256 `510bcfa…15`. It validates the historical object, requires the current source to start with the complete original source, checks the exact Section 14 boundary and entire approved plan digest, and rejects any arbitrary additional appendix/content. Only CRLF→LF normalization is permitted. Finite historical/current validation policies are explicit; unknown runtime policy is rejected. No I/O, application import, storage, network or logging side effect. |
+| `scripts/verify-phase7-release-seal.ts` (modified) | Reads the exact historical WorkPlan from the pinned Git object, invokes the pure validator with mandatory `phase7x` policy, and emits both hashes/version in the existing authority step. All chronology, original-gate inventory, command evidence, changed-file accounting, deletion prohibition, zero-AI dependency checks, launch audit/CI invocation checks and historical terminal-state checks remain intact. No environment switch, opt-out or audit bypass is added. Its `sealed`/zero-gap event still refers to the recorded original Phase 7 contract, **not** passing Security or completed Phase 7X. |
+| `tests/unit/phase7-plan-authority.test.ts` (new) | Fifteen additive tests cover independent historical authority, approved append-only current authority, Git line endings, forged historical object, altered/removed original prefix, missing/reordered/edited/extra/truncated appendix, historical/current policy mismatch, unsupported runtime policy, mutation of all twelve appendix sections, and 1,000 distinct unauthorized tails followed by unchanged accepted authority. Uses Node environment and real pinned repository plan fixtures; existing tests/configuration untouched. |
+| `package.json` (modified) | Next.js and matching ESLint config `16.3.4→16.3.6`; fast-uri override `3.1.7→3.1.8`; separate brace-expansion major-qualified overrides to `1.1.21` and `5.0.12`; Undici override `7.29.1`. Existing framework/dependency major families retained; no forced downgrade or audit exception. |
+| `package-lock.json` (generated change) | Regenerated with normal npm resolution. Exactly sixteen resolved package entries change versions/integrity: twelve matching Next-related entries (Next, env, ESLint config/plugin, eight platform SWC packages), two brace-expansion entries, fast-uri and Undici. No unrelated resolved package version changes. npm also recalculates dev/devOptional metadata (134/131 entries); these are disclosed generated classification changes, not extra upgrades. |
+| `Path.md` (modified) | Pre-code authority/scope, actual implementation, safe trace line inventory, tests/failures, fresh unresolved advisory chain and updated phase/gate dashboard. Historical failed audits and earlier lack of authority remain recorded. |
+
+No production UI, component, CSS, route/API, domain, schema/migration, editor/journal/state machine, command, theme provider, translation, price/entitlement, application hook, test threshold/configuration, previous test, CI/Security workflow or old ADR was intentionally changed. The existing six-step release-verifier trace is retained; only its authority payload/comment changes. No project/user/manuscript/route/secret data is added to logs. The pure helper and tests do not fabricate runtime traces.
+
+The production build regenerated `next-env.d.ts` to its production `.next/types` paths, as documented by installed Next.js. That generator side effect was inspected and restored with a targeted patch to the starting `.next/dev/types` references; it is **not** part of the committed change scope. No other existing source is authorized to differ. Generated Prisma client/build/test artifacts are ignored, not added to the repository. Local schema generation uses an inert synthetic URL and does not connect to or migrate an author database.
+
+### 31.3 Exact console/comment inventory at the prerequisite implementation
+
+All rows refer to `scripts/verify-phase7-release-seal.ts`; line numbers are one-based after the authority repair. There are six real audit steps, six adjacent identifying comments and six direct console logs. Other logs throughout the product remain unchanged. Dependency resolution/build steps run package tooling; no synthetic application console log is added for those external commands.
+
+| Step | Comment line | `console.log` line | Exact adjacent comment |
+| --- | --- | --- | --- |
+| S20-AUDIT-001 | 62 | 63 | `// Console trace S20-AUDIT-001: records only gate-order and historical-preservation outcomes.` |
+| S20-AUDIT-002 | 81 | 82 | `// Console trace S20-AUDIT-002: records pinned historical/current plan hashes, approved version and bounded gate counts without product content.` |
+| S20-AUDIT-003 | 119 | 120 | `// Console trace S20-AUDIT-003: reports only the count of verified S10 command evidence owners.` |
+| S20-AUDIT-004 | 133 | 134 | `// Console trace S20-AUDIT-004: records only Git path/status and commit counts; no file content is emitted.` |
+| S20-AUDIT-005 | 145 | 146 | `// Console trace S20-AUDIT-005: emits only dependency and release-check counts plus the zero-AI outcome.` |
+| S20-AUDIT-006 | 160 | 161 | `// Console trace S20-AUDIT-006: records only the finite audit mode and terminal gap count.` |
+
+### 31.4 Validation chronology and unresolved acceptance
+
+This is a prerequisite run, not an appearance completion report. Current results are recorded without discarding failed attempts; terminal local/hosted reconciliation follows when available.
+
+| Command / check | Observed result | Classification / limitation |
+| --- | --- | --- |
+| `npm install --package-lock-only --ignore-scripts` | Exit 0; resolved 791-package audit reports five high entries | Lock generation succeeds; Security still fails |
+| `npm ci --ignore-scripts`; `npm rebuild` | Exit 0; 790 packages installed, rebuild successful | Local reproducible install and install-script execution; hosted workflow must still run its unchanged `npm ci` |
+| First `npm run db:generate` | Exit 1, missing `DATABASE_URL` configuration | Environment precondition failure, not waived |
+| `npm run db:generate` with inert synthetic URL | Exit 0; Prisma 7.9.1 client generated in 1.28 s; no database connection | Configuration failure resolved; schema/source unchanged |
+| Initial new authority suite | Fourteen tests passed, 4.83 s | Before adding the separate 1,000-mutation stress case |
+| Authority suite plus unchanged search stress, isolated from production build | Sixteen tests passed across two files, 4.61 s; unchanged search threshold asserted | Fifteen authority cases including 1,000 mutations plus one search stress case; exact search elapsed is not printed, so only `<2,000 ms` assertion success is claimed |
+| First full `npm run test:coverage`, alongside lint/build | **Failed**: 107 files/425 tests passed; one existing search stress test failed, 2,468.5985 ms versus `<2,000 ms`; total 165.62 s | Failure retained; suspected resource contention requires repeat without competing build. No test, threshold, timeout, product search code or skip is changed |
+| `npm run lint`, `npm run typecheck` | Both exit 0 | Existing rules and TypeScript contract retained |
+| `npm run audit:launch`, `npm run audit:release-seal` | Both exit 0, all six audit steps execute | Authority compatibility repaired locally; audits are inventory/current-source/historical-contract checks, not substitutes for fresh runtime or Security acceptance |
+| Production `npm run build` with unchanged CI-style synthetic OIDC/billing environment | Exit 0 on Next.js 16.3.6; compilation 54 s, TypeScript 27.8 s, 22 static generation entries; existing routes/proxy generated | No server started, deployment or author DB operation; generated next-env side effect restored |
+| Fresh post-patch `npm audit --json` | **Exit 1**, zero critical/moderate/low and five high affected entries | All five entries are the single unpatched braces chain; package fixes do not earn a passing Security gate |
+| Full repeat coverage, Security/a11y suites, exact hosted CI/native-Postgres regression/Security | In progress / not yet accepted | No passing result claimed until actual completion and exact-object evidence |
+
+Current prerequisite dashboard: plan-version repair **Implemented, locally verified; hosted proof pending**. Available compatible dependency patches **Implemented, locally build/type/lint verified; full regression/hosted proof pending**. Unpatched braces chain **Gap — Security prerequisite unresolved**. Phase 7X-0 **Not started**; 7X-1–7X-6 **Locked / Planned-later**. No visual renewal, palette selection, appearance persistence, new screenshots, 90-combination audit, visual stress, geometry comparison or 7X scope manifest is claimed implemented. WorkPlan 14.11's barrier is preserved.
+
+Additional retained results before candidate publication:
+
+- The attempted second `npm run test:coverage -- --maxWorkers=2` invocation emitted `Unknown cli config --maxWorkers`; the PowerShell/npm forwarding path did not deliver the intended Vitest worker limit. The runner displayed its unmodified command, so this was **not** a bounded-worker result. It failed one live-model timing test at `4,489.9215 ms` versus `<4,000 ms`; 107 files/425 tests passed, total `175.63 s`. No threshold/test/source change followed.
+- The corrected direct invocation is `node node_modules/vitest/vitest.mjs run --coverage --maxWorkers=2`; it is in progress. Its command-palette/Capture handoff test has reported a failure; final diagnostics/acceptance remain pending. Neither an isolated pass nor suspected host contention erases a full-suite failure. Appearance stays locked and no full local regression pass is claimed.
+- `npm run test:security`: two files/ten tests passed, `20.44 s`; `npm run test:a11y`: ten files/thirteen tests passed, `36.12 s`. These are the exact existing suites, not the npm dependency audit. JSDOM reports its existing unimplemented canvas/navigation/scroll diagnostics; no canvas dependency or suppression is added.
+- Independent source-scope verification returned **644 existing tracked Git blobs unchanged** against `e184ccfd3a37f1010d23aef88455797882aed5d7`, excluding only Path, package/lock and the named release verifier. Path-aware Git-filtered blob-manifest SHA-256: `1729bd86910dc221acbe9623f6d1a3b6b1c9239e48d51f54cec0c119d7259be2`. The only new source paths are the named authority helper and new unit test. This is exact source-preservation proof, not freshly verified behavior of those 644 files.
+- AST inspection found exactly six audit `console.log` calls, all with adjacent identifying comments; all six one-based comment/log locations and literal comments match 31.3. WorkPlan's entire hash is unchanged at `510bcfad…15`; `git diff --check` returns exit 0.
+
+Candidate publication is authorized by the user's phase/run push protocol. A draft prerequisite PR will target the unchanged historical product branch to schedule the existing CI and native-Postgres protected regression without changing either workflow. An implementation candidate with open Security/local-regression findings is **not** a passing prerequisite, gate, new phase or release. No merge/tag/deployment is performed. Exact candidate object, hosted results and superseding acceptance are recorded after they exist, not predicted here.
