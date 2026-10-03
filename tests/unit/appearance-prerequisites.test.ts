@@ -20,6 +20,21 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
   it("retains the old strict checker which rejects the semantic revision", () => {
     expect(() => assertBaselineScope(foundation, current)).toThrow("Frozen foundation changed");
   });
+  it("matches the original canonical-byte algorithm for every archived file and line-ending/binary cases", () => {
+    const originalCanonical = (bytes: Buffer) => {
+      const text = bytes.toString("utf8");
+      return bytes.includes(0) || !Buffer.from(text, "utf8").equals(bytes)
+        ? bytes : Buffer.from(text.replaceAll("\r\n", "\n"), "utf8");
+    };
+    for (const bytes of [...foundation.values(), Buffer.from(""), Buffer.from("Unicode café\r\nline\r"), Buffer.from([0, 13, 10, 255]), Buffer.from([255, 13, 10]), Buffer.from([255, 10])]) {
+      expect(canonicalBytes(bytes).equals(originalCanonical(bytes))).toBe(true);
+    }
+    for (let index = 0; index < 1000; index++) {
+      const bytes = Buffer.from(Array.from({ length: 24 }, (_, offset) => (index * 73 + offset * 31) % 256));
+      if (index % 2 === 0) { bytes[4] = 13; bytes[5] = 10; }
+      expect(canonicalBytes(bytes).equals(originalCanonical(bytes))).toBe(true);
+    }
+  });
   it.each(Object.keys(prerequisiteRevisions))("requires exact independent source recipe for %s", (path) => {
     expect(canonicalBytes(current.get(path)!)).toEqual(expectedPrerequisiteFoundation(foundation).get(path));
   });

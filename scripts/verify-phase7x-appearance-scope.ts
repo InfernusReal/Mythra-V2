@@ -30,6 +30,7 @@ export type FoundationManifest = {
 
 /** Git normalizes text checkout line endings; binary identity is never decoded lossily. */
 export function canonicalBytes(bytes: Buffer): Buffer {
+  if (!bytes.includes(13)) return bytes;
   const text = bytes.toString("utf8");
   return bytes.includes(0) || !Buffer.from(text, "utf8").equals(bytes)
     ? bytes : Buffer.from(text.replaceAll("\r\n", "\n"), "utf8");
@@ -169,7 +170,7 @@ function publishedPrerequisiteHistory(): Buffer {
 export function readCurrentFoundation(foundation: FoundationFiles): Map<string, Buffer> {
   const paths = new Set([...foundation.keys(), ...execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { encoding: "utf8" }).split("\0").filter(Boolean)]);
   const current = new Map<string, Buffer>();
-  for (const path of paths) current.set(path, readFileSync(path));
+  for (const path of paths) current.set(path, canonicalBytes(readFileSync(path)));
   return current;
 }
 
