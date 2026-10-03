@@ -1,0 +1,37 @@
+# ADR 0014: Rule-preserving Next lint-directory tooling migration
+
+Status: Implemented candidate; acceptance requires the recorded local and exact-source hosted checks in Path entry 32. Not an appearance gate or release.
+
+## Authority and problem
+
+The user separately authorized a lint-tooling migration on 3 October 2026. Mythra's pinned Next.js/ESLint configuration remains 16.3.6. The only remaining advisory chain was `@next/eslint-plugin-next → fast-glob → micromatch → braces`. [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) lists no patched braces release at the time of this decision. Removing development dependencies from the audit, downgrading the framework, disabling a rule, modifying CI policy, or relabeling vulnerable code is not an acceptable repair.
+
+The complete installed Next ESLint guide and the pinned plugin implementation were inspected. The [upstream root resolver](https://github.com/vercel/next.js/blob/v16.3.6/packages/eslint-plugin-next/src/utils/get-root-dirs.ts) calls only `globSync(rootDir, { onlyDirectories: true })`. Exactly one runtime asset imports fast-glob. Next's subsequent `path.join` uses these results to locate Pages/App routes for its unchanged internal-link rule. Default `context.cwd`, string/array settings and Windows separator conversion remain in Next's own helper.
+
+## Decision and ownership
+
+Replace only that pinned consumer's dependency with the private local package `@mythra/lint-root-glob@0.1.0`, backed by `tinyglobby@0.2.17`. No upstream rule, parser, configuration, setting, ignore or severity is edited. `eslint.config.mjs`, existing lint commands, workflows and thresholds remain byte-identical. The replacement package truthfully identifies itself; it contains no copied fast-glob, micromatch or braces implementation.
+
+The direct development dependency is a reviewed file alias `fast-glob: file:tooling/lint-root-glob`; its actual manifest truthfully remains `@mythra/lint-root-glob@0.1.0`. The version-qualified Next consumer override references that same direct definition with `$fast-glob`. This makes npm install and dependency-tree validation agree on the workspace-owned target. No affected implementation is renamed or retained. Earlier relative-file overrides failed clean-install validation or produced an invalid consumer link; an intermediate valid runtime link still failed `npm ls`. All rejected attempts are retained in Path. The final regenerated lock links `fast-glob` directly to `tooling/lint-root-glob`; the verifier confirms the actual plugin `require` resolves that reviewed implementation.
+
+The adapter is synchronous ESM with an explicit package type and no top-level await. [Node's module documentation](https://nodejs.org/docs/latest-v22.x/api/modules.html#loading-ecmascript-modules-using-require) supports synchronous ESM loading through `require` in the project's existing Node >=22.12 family; local and hosted execution use 22.15.0. This preserves Next's untouched CommonJS call and obeys Mythra's unchanged no-require-imports lint rule. The initial CJS adapter was rejected by that rule; no disable comment or config exemption was added.
+
+This adapter is deliberately **not** a general fast-glob implementation. It accepts only a nonempty string plus the exact directory-only option. Unsupported options throw and abort lint rather than silently returning no roots. It does not support arbitrary consumers of the fast-glob API. Any Next upgrade or new consumer requires re-review and baseline refresh with explicit authority; the verifier pins both installed Next lint packages and all their distribution assets.
+
+## Compatibility and bounded failure
+
+The [maintainer's migration guidance](https://superchupu.dev/tinyglobby/migration) explicitly requires disabling automatic directory expansion when replacing fast-glob. This adapter also converts terminal `**` to `**/*` so the base directory itself is excluded. Directory results are normalized absolute paths, not promised identical raw strings: prefixes such as `./`, parent traversals and trailing separators must resolve the same directory through Next's `path.join`. Tests compare canonical directory identities captured from the original implementation, not a falsely claimed complete API substitution.
+
+On Windows, an existing absolute static prefix is resolved with `realpathSync.native` before discovery, so 8.3 aliases/junction roots match filesystem spelling; dynamic suffixes are never passed to realpath. Missing roots remain empty, files are excluded, and normal dot-directory behavior is preserved. Root settings are operator-controlled configuration, not authored content. A length limit of 8,192 characters, no NUL and nesting limit 32 fail closed before excessive parser recursion. These bounds reject pathological configurations explicitly; they are a documented security boundary, not a change to any lint rule. No diagnostic echoes the raw setting.
+
+The adapter reads only the directories specified by lint configuration. It has no cache, persistent state, network call, author database access, app import, initialization mutation or logging side effect. All instrumentation is at real verification boundaries in the separate CLI. Counts and a finite tooling version are the only log metadata.
+
+## Proof and maintenance
+
+`docs/audits/phase7x-lint-tooling-baseline.json` was captured and published before executable migration at checkpoint `1998507`. It records all 545 existing tracked lintable paths: 543 share the complete 113-rule TypeScript config, one uses the 90-rule JavaScript config, and `next-env.d.ts` is ignored. Fingerprints cover the **entire** serialized effective configuration, including options, parsers, plugins, settings, globals and ignores—not just rule names. Sixty-two Next plugin/configuration distribution assets have exact byte digests. Twenty-one root-pattern fixture expectations came from the old resolver.
+
+The additive unit suite runs the immutable-baseline verifier during the unchanged full CI coverage command, compares all original directory fixtures, exercises absolute/default/Windows/array resolution through Next's actual helper, and reports real internal-link, image and synchronous-script violations with their original severities. Negative tests reject changed config/implementation fingerprints, invalid contracts and advisory-shaped nested input. A 1,000-operation alternating discovery/rejection stress case must preserve the initial nonempty result after completion. Test files/route data are synthetic, temporary and deleted only after checking their dedicated owner prefix and absolute parent.
+
+Required acceptance additionally includes `npm ci`, `npm ls`, fresh full dependency audit, unchanged lint/types/coverage/security/accessibility/stress/audits/build, exact-source hosted verify/Security and clean protected PostgreSQL/browser regression. Zero current npm findings is time-bound evidence, not a perpetual security guarantee. Existing local coverage timing/focus discrepancies remain separately recorded; this migration does not authorize their source or assertion repair.
+
+Rollback is the published pre-code checkpoint; reverting manifest/lock together restores the prior lint tree **and its known advisory**, not a safe production release. Do not deploy/merge/tag merely because this tooling candidate passes. The appearance phase remains separate and ordered.
