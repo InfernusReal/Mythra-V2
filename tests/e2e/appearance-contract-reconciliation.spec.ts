@@ -1,5 +1,5 @@
 import path from "node:path";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { expectCurrentShellBackground, fallbackBodyColors, type ResolvedShellTheme } from "../fixtures/shell-appearance-contract";
 
 test("retains exact historical fallback colors in an independent stylesheet document", async ({ page }) => {
@@ -75,4 +75,75 @@ test("checks the current authenticated shell without disabling an installed appe
   await expect(dialog).toHaveCount(0);
   expect(await page.locator("html").evaluate((root) => ({ palette: root.getAttribute("data-appearance-palette"), accent: root.getAttribute("data-appearance-accent") }))).toEqual(previous);
   expect(errors).toEqual([]);
+});
+
+type CaretProbeWindow = typeof window & { __mythraScreenshotProbe?: { mutations: number; observer: MutationObserver } };
+
+/** Observe transient style changes as well as final styles; restoration alone must not hide caret injection. */
+async function startCaretProbe(page: Page) {
+  await page.evaluate(() => {
+    const state = { mutations: 0, observer: null as unknown as MutationObserver };
+    state.observer = new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.target instanceof Element && ((record.oldValue ?? "").includes("caret-color")
+          || (record.target.getAttribute("style") ?? "").includes("caret-color"))) state.mutations++;
+      }
+    });
+    state.observer.observe(document.documentElement, { subtree: true, attributes: true, attributeOldValue: true, attributeFilter: ["style"] });
+    (window as CaretProbeWindow).__mythraScreenshotProbe = state;
+  });
+}
+
+async function finishCaretProbe(page: Page) {
+  return page.evaluate(() => {
+    const state = (window as CaretProbeWindow).__mythraScreenshotProbe;
+    if (!state) throw new Error("Synthetic screenshot probe absent");
+    state.observer.disconnect();
+    delete (window as CaretProbeWindow).__mythraScreenshotProbe;
+    return state.mutations;
+  });
+}
+
+test("captures real hydrated Research without injecting transient caret styles or hiding browser errors", async ({ page }, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.name));
+  page.on("console", (message) => { if (message.type() === "error") errors.push("console.error"); });
+  await page.goto("/sign-in");
+  await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.waitForURL(/\/app$/u);
+  await page.getByLabel("Project title").fill(`Synthetic screenshot proof ${Date.now()}`);
+  await page.getByRole("button", { name: "Write first chapter" }).click();
+  await page.waitForURL(/\/app\/chapters\/[0-9a-f-]+$/u);
+  const project = await page.getByRole("navigation", { name: "Breadcrumb" }).getByRole("link").getAttribute("href");
+  if (!project) throw new Error("Synthetic Research destination absent");
+  const researchPath = `${project}/research`;
+  const hydrated = page.waitForEvent("console", {
+    predicate: (message) => page.url().endsWith(researchPath) && message.text().includes('"step":"S0-THEME-002"'),
+  });
+  await page.goto(researchPath);
+  await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible();
+  await hydrated;
+  const inputs = page.locator(".chronicle-workspace input,.chronicle-workspace textarea,.chronicle-workspace select");
+  const styles = () => inputs.evaluateAll((elements) => elements.map((element) => element.getAttribute("style")));
+  const before = await styles();
+  expect(before.length).toBeGreaterThan(0);
+  await startCaretProbe(page);
+  try {
+    for (let index = 0; index < 3; index++) {
+      await page.screenshot({ path: info.outputPath(`research-caret-unchanged-${index}.png`), fullPage: true, caret: "initial" });
+      expect(await styles()).toEqual(before);
+    }
+  } finally { expect(await finishCaretProbe(page)).toBe(0); }
+  expect(errors).toEqual([]);
+});
+
+test("the independent screenshot probe detects default caret injection even when final styles are restored", async ({ page }, info) => {
+  await page.setContent('<!doctype html><html lang="en"><head><title>Synthetic caret counterfactual</title></head><body><main><h1>Caret counterfactual</h1><label>Input<input></label><label>Text<textarea></textarea></label></main></body></html>');
+  const inputs = page.locator("input,textarea");
+  // The default screenshot restores CSS declarations but can leave an empty style attribute behind.
+  const before = await inputs.evaluateAll((elements) => elements.map((element) => (element as HTMLElement).style.cssText));
+  await startCaretProbe(page);
+  await page.screenshot({ path: info.outputPath("default-caret-counterfactual.png"), fullPage: true });
+  expect(await finishCaretProbe(page)).toBeGreaterThan(0);
+  expect(await inputs.evaluateAll((elements) => elements.map((element) => (element as HTMLElement).style.cssText))).toEqual(before);
 });

@@ -112,7 +112,7 @@ export function assertBaselineScope(foundation: FoundationFiles, current: Founda
   }
 }
 
-export const prerequisiteCheckpoint = "153b5f71a3989341276a81fa8049d228de179086";
+export const prerequisiteCheckpoint = "ef6d6e610d8165e54111cfc93cbe6579661cf085";
 export const prerequisiteAdditions = new Set([
   "tests/fixtures/shell-appearance-contract.ts",
   "tests/unit/appearance-prerequisites.test.ts",
@@ -168,9 +168,17 @@ export const lintExecutionRevisions: Readonly<Record<string, readonly ExactRevis
   ],
 };
 
+/** Separately authorized Research screenshot readiness; original actions/assertions/deadlines stay exact. */
+export const screenshotRepairRevisions: Readonly<Record<string, readonly ExactRevision[]>> = {
+  "tests/e2e/timeline-research.spec.ts": [
+    ['await page.goto(`/app/projects/${data.projectId}/research?returnChapterId=${data.chapterId}`); await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible();', 'const researchPath = `/app/projects/${data.projectId}/research?returnChapterId=${data.chapterId}`; const researchHydrated = page.waitForEvent("console", { predicate: (message) => page.url().endsWith(researchPath) && message.text().includes(\'"step":"S0-THEME-002"\') }); await page.goto(researchPath); await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible(); await researchHydrated;'],
+    ['await page.screenshot({ path: "test-results/research-mobile.png", fullPage: true });', 'await page.screenshot({ path: "test-results/research-mobile.png", fullPage: true, caret: "initial" });'],
+  ],
+};
+
 export function expectedPrerequisiteFoundation(foundation: FoundationFiles): Map<string, Buffer> {
   const expected = new Map(foundation);
-  for (const [path, revisions] of [...Object.entries(prerequisiteRevisions), ...Object.entries(captureRepairRevisions), ...Object.entries(lintExecutionRevisions)]) {
+  for (const [path, revisions] of [...Object.entries(prerequisiteRevisions), ...Object.entries(captureRepairRevisions), ...Object.entries(lintExecutionRevisions), ...Object.entries(screenshotRepairRevisions)]) {
     const original = foundation.get(path);
     if (!original) throw new Error(`Prerequisite baseline absent: ${path}`);
     let text = original.toString("utf8");
@@ -260,8 +268,8 @@ export async function verifyAppearanceBaseline() {
   console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-002", event: "appearance.baseline_validated", fileCount: foundation.size, routeCount: manifest.routes.length }));
   const current = readCurrentFoundation(foundation);
   assertCurrentAppearanceScope(foundation, current);
-  // Console trace 7X-SCOPE-003: report separately authorized semantic/test/Capture/lint revisions and the complete frozen-source boundary.
-  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1 - Object.keys(prerequisiteRevisions).length - Object.keys(captureRepairRevisions).length - Object.keys(lintExecutionRevisions).length, additiveFileCount: current.size - foundation.size, semanticRevisionCount: 1, verificationRevisionCount: 3, reliabilityRevisionCount: 1, productChanged: true }));
+  // Console trace 7X-SCOPE-003: report separately authorized semantic/test/Capture/lint/screenshot revisions and the complete frozen-source boundary.
+  console.log(JSON.stringify({ level: "info", step: "7X-SCOPE-003", event: "appearance.scope_verified", frozenFileCount: foundation.size - 1 - Object.keys(prerequisiteRevisions).length - Object.keys(captureRepairRevisions).length - Object.keys(lintExecutionRevisions).length - Object.keys(screenshotRepairRevisions).length, additiveFileCount: current.size - foundation.size, semanticRevisionCount: 1, verificationRevisionCount: 4, reliabilityRevisionCount: 1, productChanged: true }));
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
