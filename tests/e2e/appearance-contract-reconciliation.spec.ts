@@ -137,6 +137,39 @@ test("captures real hydrated Research without injecting transient caret styles o
   expect(errors).toEqual([]);
 });
 
+test("captures real hydrated Timeline without injecting transient caret styles or hiding browser errors", async ({ page }, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.name));
+  page.on("console", (message) => { if (message.type() === "error") errors.push("console.error"); });
+  await page.goto("/sign-in");
+  await page.getByRole("button", { name: "Continue to Mythra" }).click();
+  await page.waitForURL(/\/app$/u);
+  await page.getByLabel("Project title").fill(`Synthetic screenshot proof ${Date.now()}`);
+  await page.getByRole("button", { name: "Write first chapter" }).click();
+  await page.waitForURL(/\/app\/chapters\/[0-9a-f-]+$/u);
+  const project = await page.getByRole("navigation", { name: "Breadcrumb" }).getByRole("link").getAttribute("href");
+  if (!project) throw new Error("Synthetic Timeline destination absent");
+  const timelinePath = `${project}/timeline`;
+  const hydrated = page.waitForEvent("console", {
+    predicate: (message) => page.url().endsWith(timelinePath) && message.text().includes('"step":"S0-THEME-002"'),
+  });
+  await page.goto(timelinePath);
+  await expect(page.getByRole("heading", { name: "Timeline" })).toBeVisible();
+  await hydrated;
+  const inputs = page.locator(".chronicle-workspace input,.chronicle-workspace textarea,.chronicle-workspace select");
+  const styles = () => inputs.evaluateAll((elements) => elements.map((element) => element.getAttribute("style")));
+  const before = await styles();
+  expect(before.length).toBeGreaterThan(0);
+  await startCaretProbe(page);
+  try {
+    for (let index = 0; index < 3; index++) {
+      await page.screenshot({ path: info.outputPath(`timeline-caret-unchanged-${index}.png`), fullPage: true, caret: "initial" });
+      expect(await styles()).toEqual(before);
+    }
+  } finally { expect(await finishCaretProbe(page)).toBe(0); }
+  expect(errors).toEqual([]);
+});
+
 test("the independent screenshot probe detects default caret injection even when final styles are restored", async ({ page }, info) => {
   await page.setContent('<!doctype html><html lang="en"><head><title>Synthetic caret counterfactual</title></head><body><main><h1>Caret counterfactual</h1><label>Input<input></label><label>Text<textarea></textarea></label></main></body></html>');
   const inputs = page.locator("input,textarea");

@@ -112,7 +112,7 @@ export function assertBaselineScope(foundation: FoundationFiles, current: Founda
   }
 }
 
-export const prerequisiteCheckpoint = "ef6d6e610d8165e54111cfc93cbe6579661cf085";
+export const prerequisiteCheckpoint = "29369e96a1152501307a5faae4767564a532e4e5";
 export const prerequisiteAdditions = new Set([
   "tests/fixtures/shell-appearance-contract.ts",
   "tests/unit/appearance-prerequisites.test.ts",
@@ -168,9 +168,11 @@ export const lintExecutionRevisions: Readonly<Record<string, readonly ExactRevis
   ],
 };
 
-/** Separately authorized Research screenshot readiness; original actions/assertions/deadlines stay exact. */
+/** Separately authorized Research and Timeline screenshot readiness; all other original bytes stay exact. */
 export const screenshotRepairRevisions: Readonly<Record<string, readonly ExactRevision[]>> = {
   "tests/e2e/timeline-research.spec.ts": [
+    ['await page.goto(`/app/projects/${data.projectId}/timeline?returnChapterId=${data.chapterId}`); await expect(page.getByRole("heading", { name: "Timeline" })).toBeVisible(); await page.screenshot({ path: "test-results/timeline-mobile.png", fullPage: true });', 'const timelinePath = `/app/projects/${data.projectId}/timeline?returnChapterId=${data.chapterId}`; const timelineHydrated = page.waitForEvent("console", { predicate: (message) => page.url().endsWith(timelinePath) && message.text().includes(\'"step":"S0-THEME-002"\') }); await page.goto(timelinePath); await expect(page.getByRole("heading", { name: "Timeline" })).toBeVisible(); await timelineHydrated; await page.screenshot({ path: "test-results/timeline-mobile.png", fullPage: true });'],
+    ['await page.screenshot({ path: "test-results/timeline-mobile.png", fullPage: true });', 'await page.screenshot({ path: "test-results/timeline-mobile.png", fullPage: true, caret: "initial" });'],
     ['await page.goto(`/app/projects/${data.projectId}/research?returnChapterId=${data.chapterId}`); await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible();', 'const researchPath = `/app/projects/${data.projectId}/research?returnChapterId=${data.chapterId}`; const researchHydrated = page.waitForEvent("console", { predicate: (message) => page.url().endsWith(researchPath) && message.text().includes(\'"step":"S0-THEME-002"\') }); await page.goto(researchPath); await expect(page.getByRole("heading", { name: "Notes and Research" })).toBeVisible(); await researchHydrated;'],
     ['await page.screenshot({ path: "test-results/research-mobile.png", fullPage: true });', 'await page.screenshot({ path: "test-results/research-mobile.png", fullPage: true, caret: "initial" });'],
   ],

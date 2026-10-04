@@ -56,11 +56,23 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
     }
     expect(Buffer.from(restored)).toEqual(foundation.get(path));
   });
-  it.each(Object.keys(screenshotRepairRevisions))("requires exact separately authorized Research screenshot recipe for %s", (path) => {
+  it.each(Object.keys(screenshotRepairRevisions))("requires exact separately authorized Research and Timeline screenshot recipes for %s", (path) => {
     expect(canonicalBytes(current.get(path)!)).toEqual(expectedPrerequisiteFoundation(foundation).get(path));
     let restored = canonicalBytes(current.get(path)!).toString();
     for (const [from, to] of [...screenshotRepairRevisions[path]!].reverse()) restored = restored.replace(to, from);
     expect(Buffer.from(restored)).toEqual(foundation.get(path));
+  });
+  it.each([
+    ['await timelineHydrated;', '/* omitted hydration wait */'],
+    ['caret: "initial"', 'caret: "hide"'],
+    ['test.setTimeout(120_000); test.skip', 'test.setTimeout(240_000); test.skip'],
+    ['name: "Timeline" })).toBeVisible(); await timelineHydrated;', 'name: "Timeline" })).toBeHidden(); await timelineHydrated;'],
+  ])("rejects extra screenshot/error/assertion/deadline changes: %s", (from, to) => {
+    const path = "tests/e2e/timeline-research.spec.ts";
+    const changed = new Map(current);
+    expect(changed.get(path)!.toString()).toContain(from);
+    changed.set(path, Buffer.from(changed.get(path)!.toString().replace(from, to)));
+    expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(`Frozen foundation changed: ${path}`);
   });
   it.each(baseline.files.map((file) => file.path))("rejects any extra current foundation mutation: %s", (path) => {
     const changed = new Map(current);
@@ -83,7 +95,7 @@ describe("separately authorized finite prerequisites, not gate-1 integration", (
     changed.set("components/shell/RenamedThemeMenu.tsx", changed.get(path)!); changed.delete(path);
     expect(() => assertCurrentAppearanceScope(foundation, changed)).toThrow(`Foundation file deleted or moved: ${path}`);
   });
-  it.each(["## 34.", "### 35.1", "### 35.2", "### 35.3", "### 35.4", "### 35.5", "### 35.6", "### 35.7", "### 35.8", "### 35.9", "### 36.1", "### 36.2", "### 36.3", "### 36.4", "### 36.5", "### 36.6", "### 36.7", "### 37.1", "### 37.2", "### 37.3", "### 37.4", "### 37.5", "### 37.6", "### 37.7", "### 38.1"])("preserves the entire published execution history including %s", (anchor) => {
+  it.each(["## 34.", "### 35.1", "### 35.2", "### 35.3", "### 35.4", "### 35.5", "### 35.6", "### 35.7", "### 35.8", "### 35.9", "### 36.1", "### 36.2", "### 36.3", "### 36.4", "### 36.5", "### 36.6", "### 36.7", "### 37.1", "### 37.2", "### 37.3", "### 37.4", "### 37.5", "### 37.6", "### 37.7", "### 38.1", "### 38.2", "### 38.3", "### 38.4", "### 38.5", "### 38.6", "### 38.7", "### 39.1"])("preserves the entire published execution history including %s", (anchor) => {
     const changed = new Map(current); const ledger = changed.get("Path.md")!.toString();
     expect(ledger).toContain(anchor);
     changed.set("Path.md", Buffer.from(ledger.replace(anchor, `${anchor} altered`)));
