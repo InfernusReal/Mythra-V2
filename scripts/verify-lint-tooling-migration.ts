@@ -3,7 +3,6 @@ import { readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ESLint } from "eslint";
 
 const BASELINE_SHA256 = "da293fd359d7d58623d9eef42639a6f1c8042f87c641eda87d69aeb48e0ffd81";
 
@@ -43,6 +42,7 @@ export async function verifyLintToolingMigration(): Promise<{ paths: number; ass
   // Console trace LINT-MIGRATION-001: Accept the immutable pre-migration rule and source baseline.
   console.log(JSON.stringify({ event: "lint_migration_baseline_verified", groups: baseline.groups.length, assets: baseline.assets.length }));
 
+  const { ESLint } = await import("eslint");
   const lint = new ESLint();
   const configCache = new WeakMap<object, string>();
   let checked = 0;

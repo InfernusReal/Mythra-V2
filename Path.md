@@ -40,7 +40,7 @@ For each implementation run, original-capability sub-gate, and delivery phase:
 | 5. Commercial and Production Readiness | 14–16 | **Passed** | Entries S14–S16 and Phase 5 macro audit, sections 21–24 below | Macro reconciliation `b6e37dfc48269996e29bcd7bd6f007eed30220c3`; CI `33600547097`/`100153055024`, Security `33600547099`/`100153055048` and `33600543793`/`100153044549` passed |
 | 6. Agent Seam and Paid Launch Validation | 17 + launch | **Passed — final audit content is remotely verified** | Entry S17, section 25; final audit, section 26 below | Content `383a8b27eafb49a06d0290168725def53369616c`; CI `33889513781`/`101077471989`, Security push `33889508793`/`101077454417`, Security PR `33889513841`/`101077472434` passed |
 | 7. Compliance Closure and Product Polish | S18–S20 post-plan closure | **Passed — exact closure object independently accepted remotely** | Sections 27–29; baseline-proof reconciliation in 30.2 | Closure `f8fa1d061a91e748642e10387c6318df116f6ca0`; CI `35641083190` passed verify and clean protected regression; Security PR `35641083161` and push `35641075737` passed on that exact hash. Historical evidence remains unchanged. |
-| 7X. Appearance Renewal and Curated Palettes | User-authorized post-release appearance-only addendum | **7X-0 exit incomplete; separately bounded Capture repair independently verified** | WorkPlan section 14; baseline 34; prerequisites 35; Capture terminal receipt 36.7 | Exact writing return and 1,000-cycle proof pass; current hosted CI/Security/clean protected 35-case gate and disclosed one-worker local full coverage pass at `f2131ea`. Original default-local lint-child timeout remains; all failed runs retained. Complete baseline/manual evidence and later appearance work remain open. No styling/framework/tooling change; 7X-1–7X-6 stay Locked. |
+| 7X. Appearance Renewal and Curated Palettes | User-authorized post-release appearance-only addendum | **7X-0 exit incomplete; bounded lint optimization passes default local coverage, hosted proof pending** | WorkPlan section 14; baseline 34; prerequisites 35; Capture 36; lint execution 37 | Original default local coverage now passes 1,527 cases / 120 files with unchanged deadlines. All prior failures retained; latest predecessor hosted run has a Research screenshot/hydration warning despite passing tests. Complete stable baseline/manual evidence and later appearance gates remain open. No styling/framework change; 7X-1–7X-6 stay Locked. |
 
 ### 3.1 Mandatory capability sub-gate status
 
@@ -8705,7 +8705,7 @@ Application code produced: **none**. Schema/migration/API/domain/editor/command/
 
 | 7X gate | Capability | Current state | Required predecessor / unresolved condition |
 | --- | --- | --- | --- |
-| 7X-0 | Baseline and appearance contract | **Implemented-not-verified / exit incomplete** | Sections 34–36: original manifest remains pinned, separate Capture repair verified at `f2131ea` with exact hosted CI/Security/clean protected and disclosed one-worker local proof. Default-local lint-child timeout still fails; earlier server/browser failures remain historical and full 109-state/manual/composed/locale baseline is incomplete. No live appearance or next gate exists. |
+| 7X-0 | Baseline and appearance contract | **Implemented-not-verified / exit incomplete** | Sections 34–37: pinned manifest and verified bounded Capture repair retained. Lazy lint execution passes unchanged default local coverage; exact candidate hosted proof pending. Fresh predecessor Research hydration warning retained; complete stable 109-state/manual/design baseline remains incomplete. No live appearance or next gate exists. |
 | 7X-1 | Curated palettes and accent controls | **Locked / Planned-later** | 7X-0 must pass and be remotely accepted |
 | 7X-2 | Shell and writing chrome | **Locked / Planned-later** | 7X-1 must pass and be remotely accepted |
 | 7X-3 | All supporting product surfaces | **Locked / Planned-later** | 7X-2 must pass and be remotely accepted |
@@ -9663,3 +9663,63 @@ The first implementation candidate is deliberately minimal: remove the eager top
 Permitted files for this separate prerequisite are exactly `scripts/verify-lint-tooling-migration.ts` (the two import substitutions only), the already-new `scripts/verify-phase7x-appearance-scope.ts` (independent literal recipe, required additive proof and stronger accepted-history checkpoint), the already-new `tests/unit/appearance-prerequisites.test.ts` (additive recipe/history/required-proof cases), new `tests/unit/lint-migration-execution.test.ts` (pure-import isolation/equivalence/negative proof), and append/current-dashboard reconciliation in `Path.md`. The existing `tests/unit/lint-root-glob.test.ts`, its **41** cases, **12,000ms** child deadline and **15,000ms** outer deadline, lint configuration, adapter, baseline JSON, package/lockfile, workflows, existing release verifiers, and all production sources remain exact. Original strict scope functions and immutable 665-file baseline are not repinned or replaced by trusting current bytes.
 
 Verification will require source restoration/equivalence and fresh pure-import proof, original tooling cases, all-path negative scope tests, unchanged default `npm run test:coverage`, lint/types, applicable accessibility/stress/security/audits/build and exact hosted checks. No performance or full-phase pass is predeclared. Existing four lint lifecycle logs remain unchanged and will be re-indexed against the final candidate; no fabricated pure-helper log is added. Phase **7X-0 remains exit-incomplete; 7X-1–6 remain Locked** until complete stable 109-state/manual/design/source/predecessor evidence passes. No styling or chooser code accompanies this prerequisite.
+
+### 37.2 Produced code, complete containment and independent proof
+
+Pre-code **`153b5f71a3989341276a81fa8049d228de179086`** was committed/pushed before edits; it is the current guard's stronger immutable ledger checkpoint. The original **665-file** foundation and original strict functions remain pinned. Exactly the proposed two substitutions change the existing lint verifier: eager value import removed; same module dynamically imported immediately before the unchanged constructor. All verification loops/inputs/assertions remain byte-identical, as independently restored against `fd60f7f...` by the new four-case execution suite. No rule/config/hash algorithm/dependency/framework/adapter, test deadline or canonical runtime change occurs. The pure-import child proves fingerprint use initializes **zero ESLint API modules**; 1,000 nested/reordered/Unicode/array/numeric cases match independent original canonicalization; rule severity/options/ignore mutations still fail closed.
+
+The new current scope recipe independently encodes only those two exact substitutions. It does not exempt the verifier or accept current-file fingerprints as authority. All previous semantic, historical-vs-current test and Capture recipes remain mandatory. The new proof file is required, all unknown additions/future wiring rejected, and all existing paths still receive extra-mutation/deletion/history-negative proof. The new history checkpoint additionally freezes published 36.2–36.7 and 37.1. Initial in-progress patch briefly contains an invalid placeholder checkpoint; it is replaced with actual full pre-code SHA **before any source test/CLI run** and is never published or treated as valid evidence.
+
+Current scope CLI passes: **665 authenticated paths / 16 routes / 659 frozen files / 13 additive paths / one separately authorized semantic revision / three verification revisions / one Capture reliability revision**. `productChanged:true` remains truthful for the previously authorized command landmark/Capture changes; this lint optimization itself is verification-only. WorkPlan raw SHA remains **`510bcfad7920ac3fd87e631b5ffa4da324f429b1dfa4e7819d5c3be15045fe15`**, manifest raw SHA **`f783fe658645f61e084e202042640817e6de236aed64cb0c941fd6b9d1afd584`**. The final diff contains exactly the five 37.1 paths, with old test/config/asset/foundation byte checks intact. A PowerShell unquoted `^{tree}` diagnostic fails argument parsing; it is corrected to a quoted revision, not used as tree evidence. GitHub full-object API supplies predecessor merge tree **`221b4a92ed8287d3249520f17bb27f31ccca13df`** and parents sealed `f8fa1d0` / full `b10842bf...`; local quoted-tree comparison is required before publication.
+
+### 37.3 Exact current console/comment index and privacy
+
+Locations are **one-based in the final executable candidate**, not retroactive edits to prior historical indices. No new product or pure-helper lifecycle exists; moving module initialization does not fabricate a new log. All four existing lint audit events remain exact. Scope accounting changes only its authorized revision-count/comment fields. Capture comments/calls remain **17/18** and **31/32**.
+
+| File | Trace / literal identifying comment | Comment / call | Event and allowed fields |
+| --- | --- | --- | --- |
+| `scripts/verify-lint-tooling-migration.ts` | `// Console trace LINT-MIGRATION-001: Accept the immutable pre-migration rule and source baseline.` | **42 / 43** | `lint_migration_baseline_verified`; groups, assets |
+| Same | `// Console trace LINT-MIGRATION-002: Verify effective lint configuration for every baseline source.` | **61 / 62** | `lint_migration_effective_rules_verified`; paths, groups |
+| Same | `// Console trace LINT-MIGRATION-003: Confirm untouched Next implementation and actual scoped adapter resolution.` | **91 / 92** | `lint_migration_consumer_verified`; assets, adapterVersion |
+| Same | `// Console trace LINT-MIGRATION-004: Finish rule-preserving tooling verification without audit suppression.` | **112 / 113** | `lint_migration_verified`; paths, assets, affectedImplementations |
+| `scripts/verify-phase7x-appearance-scope.ts` | `// Console trace 7X-SCOPE-001: begin the read-only pinned foundation audit without runtime or author data.` | **254 / 255** | `appearance.scope_started`; level, step, version |
+| Same | `// Console trace 7X-SCOPE-002: report validated source inventory counts only.` | **259 / 260** | `appearance.baseline_validated`; level, step, fileCount, routeCount |
+| Same | `// Console trace 7X-SCOPE-003: report separately authorized semantic/test/Capture/lint revisions and the complete frozen-source boundary.` | **263 / 264** | `appearance.scope_verified`; level, step, frozen/additive/semantic/verification/reliability counts, productChanged |
+| Same | `// Console trace 7X-SCOPE-004: reject a failed scope check without source contents or raw exceptions.` | **269 / 270** | `appearance.scope_rejected`; level, step, passed |
+
+All metadata is fixed events, validated version or counts/booleans. No authored content, query, route/URL, user/project identifier, raw storage, credential or raw exception is emitted. Fresh pure-import child writes only two synthetic booleans to its assertion transport, not application telemetry. CSS has no operational log because no CSS is created here.
+
+### 37.4 Actual validation results and retained limitations
+
+| Executed check | Result |
+| --- | --- |
+| Focused original lint/new execution/current all-path/historical command guard | **Four files / 867 passing cases, 18.01s**, no timeout or config change; includes **809** current prerequisite cases, original **41** lint-tooling cases, historical/current **13** command boundary cases and **four** execution cases |
+| Original default `npm run test:coverage` | **120 files / 1,527 passing cases, 131.25s**, no worker override. **86.32% statements (5,335/6,180)** / **76.07% branches (3,180/4,180)** / **83.81% functions (1,305/1,557)** / **88.46% lines (4,662/5,270)**; original **80/75/80/80** thresholds and original **12,000/15,000ms** lint deadlines retained |
+| `npm run lint`, `npm run typecheck` | Both pass; zero-warning lint, existing TypeScript config unchanged |
+| `npm run test:a11y` | **11 files / 15 cases, 9.69s**, pass; existing jsdom canvas warnings retained, no suppressed findings |
+| `npm run test:stress` | **18 files / 33 cases, 17.54s**, pass; existing 1,000 real-editor Capture cycles included, not mislabeled appearance-switch stress |
+| `npm run test:security`; `npm audit --audit-level=high` | **Two files / ten cases, 3.51s**, pass; **zero vulnerabilities** |
+| `npm run audit:launch`; `npm run audit:release-seal` | Both pass unchanged. Historic release seal is not a new Phase 7X completion claim |
+| Production-shaped `npm run build` | Pass: compilation **10.9s**, TypeScript **8.0s**, **22** static entries **856ms**; original routes/APIs preserved. Synthetic production/OIDC/HTTPS/JWKS/HTTP-billing/TLS unused database and independent secrets; no author DB/provider/deployment |
+| Generated source after build | Next changes two `next-env.d.ts` imports to `.next/types`; exact diff inspected, targeted patch restores original `.next/dev/types`, no generated-file exemption or committed change |
+
+The default success is actual new evidence, not a rewriting of any previous timeout, four-failure run, one-worker supplement or hosted finding. It supports this bounded execution candidate at this run; no claim of universal scheduler-independent timing is made. Browser/manual/physical-device/appearance p95/composed-color acceptance is not inferred from unit coverage. Hosted checks on the new implementation remain pending until an exact committed object exists.
+
+### 37.5 Side-by-side 14.1–14.12 audit and publication decision
+
+| Requirement | Current result / classification |
+| --- | --- |
+| 14.1 frozen foundations/hierarchy | **Verified containment**: no new production/data/navigation/editor/business change; prior separately authorized repairs retained |
+| 14.2 exact allowed files | **Verified bounded separate prerequisite**: exactly 37.1 import-only verifier plus additive guard/proof/ledger, no general exemption |
+| 14.3 finite visual system | **Planned-later** runtime; candidate colors unchanged, no palette shipped |
+| 14.4 local bounded appearance preference | **Planned-later**, no browser/account/API preference change |
+| 14.5 complete product surfaces | **Incomplete baseline**, no polish or 109-state completion claim |
+| 14.6 strict gate order | **Verified sequencing**: 7X-0 incomplete; later gates Locked |
+| 14.7 pre-code/source/test method | **Verified** pushed 153b5f7 scope precedes code; installed Vitest/Playwright guidance read; independent literal source proof |
+| 14.8 unchanged local/remote acceptance | **Local candidate pass**, including original default coverage; exact candidate hosted/clean browser proof pending |
+| 14.9 logs/comments/privacy/Path | **Verified** all current pairs and allowed fields indexed in 37.3, no fake lifecycle |
+| 14.10 extreme conformity/gap decision | **Verified bounded local audit, not phase closure**: old deadlines/checks intact; all unresolved baseline/remote/manual gaps disclosed |
+| 14.11 predecessor/prerequisite proof | **Historical original repairs retained**; b108 full hosted tree/security verified, Research hydration warning prevents treating its protected log as clean |
+| 14.12 rollback/final preservation | **Verified bounded rollback**: restore eager import/revert additive proof, no SQL/story/preferences rollback; final phase seal pending |
+
+Decision: **bounded lint-audit candidate locally verified; exact implementation hosted proof pending. Phase 7X is not complete.** Commit/push this code and ledger automatically, inspect exact CI/Security/native protected execution/logs, then continue the existing gate-0 full-state/manual/design audit. No CSS/catalog/chooser/storage/bootstrap/label code may start before the actual gate-0 exit. No merge/tag/deployment or author-data action occurs.
