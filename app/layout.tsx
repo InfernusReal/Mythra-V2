@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theming/ThemeProvider";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import { getRequestI18n } from "@/lib/i18n/request";
+import { earlyCommandIntentScript } from "@/lib/commands/early-intent";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,6 +23,9 @@ export default async function RootLayout({
       <body>
         <Script id="mythra-theme-bootstrap" strategy="beforeInteractive">
           {themeScript}
+        </Script>
+        <Script id="mythra-command-intent-bootstrap" strategy="beforeInteractive">
+          {earlyCommandIntentScript}
         </Script>
         <LocaleProvider locale={locale}>
           <ThemeProvider>{children}</ThemeProvider>

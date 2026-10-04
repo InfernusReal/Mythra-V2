@@ -1,10 +1,9 @@
-import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { PHASE7_SEALED_COMMIT, verifyPhase7PlanAuthority } from "./phase7-plan-authority";
 
 const PHASE_7_BASELINE = "4cf7412d1f589d5e8e77124f8e90b3ad8fb3ad3e";
-const WORKPLAN_SHA256 = "87372ec08c80951e8321379019aab4e622f916dd3e62c09fbe2c60705ce44aa9";
 const FINAL_RELEASE_PHRASE = "PHASE 7 PASS — MYTHRA V2 RELEASE SEAL RESTORED";
 const LOCAL_CANDIDATE_PHRASE = "S20 LOCAL RELEASE-CANDIDATE AUDIT PASSED; REMOTE PROOF PENDING.";
 const PREFLIGHT_PHRASE = "S20 AUTHORITY, BASELINE, ZERO-CREATIVE BOUNDARY";
@@ -63,10 +62,10 @@ requireIncludes(pathway, "Path.md", [
 // Console trace S20-AUDIT-001: records only gate-order and historical-preservation outcomes.
 console.log(JSON.stringify({ level: "info", step: "S20-AUDIT-001", event: "release_seal.gate_order_verified", phase6HistoryPreserved: true, s18Closed: true, s19Closed: true }));
 
-const actualWorkPlanHash = createHash("sha256").update(workPlan).digest("hex");
-if (actualWorkPlanHash !== WORKPLAN_SHA256) {
-  throw new Error(`S20 WorkPlan hash changed: expected ${WORKPLAN_SHA256}, received ${actualWorkPlanHash}`);
-}
+const historicalWorkPlan = execFileSync("git", ["show", `${PHASE7_SEALED_COMMIT}:WorkPlan.md`], {
+  cwd: resolve("."), encoding: "utf8", maxBuffer: 1024 * 1024,
+});
+const planAuthority = verifyPhase7PlanAuthority(historicalWorkPlan, workPlan, "phase7x");
 requireIncludes(workPlan, "WorkPlan.md", [
   "Sub-gate 0 → Sub-gate 1 → ... → Sub-gate 17",
   "Series/Project → Plot → Plot Outline → Volume → Volume Outline → Milestone/Thread → Chapter Outline → Chapter → Scene → Prose",
@@ -79,8 +78,8 @@ for (let subGate = 0; subGate <= 17; subGate += 1) {
     throw new Error(`S20 original capability inventory is incomplete at Sub-gate ${subGate}.`);
   }
 }
-// Console trace S20-AUDIT-002: records the immutable plan hash and bounded gate count without product content.
-console.log(JSON.stringify({ level: "info", step: "S20-AUDIT-002", event: "release_seal.authority_verified", workPlanSha256: actualWorkPlanHash, originalSubGates: 18, directiveCollections: 2 }));
+// Console trace S20-AUDIT-002: records pinned historical/current plan hashes, approved version and bounded gate counts without product content.
+console.log(JSON.stringify({ level: "info", step: "S20-AUDIT-002", event: "release_seal.authority_verified", workPlanSha256: planAuthority.currentSha256, historicalWorkPlanSha256: planAuthority.historicalSha256, planVersion: planAuthority.version, originalSubGates: 18, directiveCollections: 2 }));
 
 const s18ClosureIndex = pathway.indexOf("### 27.29 R08 exact remote proof and superseding S18 closure dashboard");
 const s18ReclosureIndex = pathway.indexOf("### 27.34 R17/R18 exact remote proof and superseding S18 reclosure");

@@ -85,7 +85,7 @@
     "@tiptap/starter-kit": "3.30.5",
     "jose": "6.1.0",
     "mammoth": "1.11.0",
-    "next": "16.3.4",
+    "next": "16.3.6",
     "pg": "8.16.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -106,8 +106,9 @@
     "@vitest/coverage-v8": "4.1.11",
     "axe-core": "4.13.0",
     "eslint": "9.39.1",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.6",
     "fake-indexeddb": "6.2.5",
+    "fast-glob": "file:tooling/lint-root-glob",
     "jsdom": "29.1.1",
     "jszip": "^3.10.1",
     "prisma": "7.9.1",
@@ -119,6 +120,12 @@
     "esbuild": "0.28.1",
     "deepmerge-ts": "8.0.2",
     "mysql2": "3.24.3",
-    "fast-uri": "3.1.7"
+    "fast-uri": "3.1.8",
+    "brace-expansion@1": "1.1.21",
+    "brace-expansion@5": "5.0.12",
+    "undici": "7.29.1",
+    "@next/eslint-plugin-next@16.3.6": {
+      "fast-glob": "$fast-glob"
+    }
   }
 }

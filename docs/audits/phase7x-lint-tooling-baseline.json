@@ -1,0 +1,1687 @@
+{
+  "version": 1,
+  "sourceCommit": "1a2555a84586c22048cd424fbcf7ffaeb7ef03a5",
+  "eslintVersion": "9.39.1",
+  "nextPluginVersion": "16.3.6",
+  "nextConfigVersion": "16.3.6",
+  "configSourceHash": "06034950a544e923f1c2ee22496454d65acdf521c12bdd0b87959ade71a83554",
+  "groups": [
+    {
+      "configHash": "fc0d44347309e1d621f7db623352c6bddb73db22312d2dde7934b64a3c266905",
+      "rules": {
+        "react/display-name": [
+          2
+        ],
+        "react/jsx-key": [
+          2
+        ],
+        "react/jsx-no-comment-textnodes": [
+          2
+        ],
+        "react/jsx-no-duplicate-props": [
+          2
+        ],
+        "react/jsx-no-target-blank": [
+          0
+        ],
+        "react/jsx-no-undef": [
+          2
+        ],
+        "react/jsx-uses-react": [
+          2
+        ],
+        "react/jsx-uses-vars": [
+          2
+        ],
+        "react/no-children-prop": [
+          2
+        ],
+        "react/no-danger-with-children": [
+          2
+        ],
+        "react/no-deprecated": [
+          2
+        ],
+        "react/no-direct-mutation-state": [
+          2
+        ],
+        "react/no-find-dom-node": [
+          2
+        ],
+        "react/no-is-mounted": [
+          2
+        ],
+        "react/no-render-return-value": [
+          2
+        ],
+        "react/no-string-refs": [
+          2
+        ],
+        "react/no-unescaped-entities": [
+          2
+        ],
+        "react/no-unknown-property": [
+          0
+        ],
+        "react/no-unsafe": [
+          0
+        ],
+        "react/prop-types": [
+          0
+        ],
+        "react/react-in-jsx-scope": [
+          0
+        ],
+        "react/require-render-return": [
+          2
+        ],
+        "react-hooks/rules-of-hooks": [
+          2
+        ],
+        "react-hooks/exhaustive-deps": [
+          1
+        ],
+        "react-hooks/static-components": [
+          2
+        ],
+        "react-hooks/use-memo": [
+          2
+        ],
+        "react-hooks/preserve-manual-memoization": [
+          2
+        ],
+        "react-hooks/incompatible-library": [
+          1
+        ],
+        "react-hooks/immutability": [
+          2
+        ],
+        "react-hooks/globals": [
+          2
+        ],
+        "react-hooks/refs": [
+          2
+        ],
+        "react-hooks/set-state-in-effect": [
+          2
+        ],
+        "react-hooks/error-boundaries": [
+          2
+        ],
+        "react-hooks/purity": [
+          2
+        ],
+        "react-hooks/set-state-in-render": [
+          2
+        ],
+        "react-hooks/unsupported-syntax": [
+          1
+        ],
+        "react-hooks/config": [
+          2
+        ],
+        "react-hooks/gating": [
+          2
+        ],
+        "@next/next/google-font-display": [
+          1
+        ],
+        "@next/next/google-font-preconnect": [
+          1
+        ],
+        "@next/next/next-script-for-ga": [
+          1
+        ],
+        "@next/next/no-async-client-component": [
+          1
+        ],
+        "@next/next/no-before-interactive-script-outside-document": [
+          1
+        ],
+        "@next/next/no-css-tags": [
+          1
+        ],
+        "@next/next/no-head-element": [
+          1
+        ],
+        "@next/next/no-html-link-for-pages": [
+          2
+        ],
+        "@next/next/no-img-element": [
+          1
+        ],
+        "@next/next/no-location-assign-relative-destination": [
+          1
+        ],
+        "@next/next/no-page-custom-font": [
+          1
+        ],
+        "@next/next/no-styled-jsx-in-document": [
+          1
+        ],
+        "@next/next/no-sync-scripts": [
+          2
+        ],
+        "@next/next/no-title-in-document-head": [
+          1
+        ],
+        "@next/next/no-typos": [
+          1
+        ],
+        "@next/next/no-unwanted-polyfillio": [
+          1
+        ],
+        "@next/next/inline-script-id": [
+          2
+        ],
+        "@next/next/no-assign-module-variable": [
+          2
+        ],
+        "@next/next/no-document-import-in-page": [
+          2
+        ],
+        "@next/next/no-duplicate-head": [
+          2
+        ],
+        "@next/next/no-head-import-in-document": [
+          2
+        ],
+        "@next/next/no-script-component-in-head": [
+          2
+        ],
+        "import/no-anonymous-default-export": [
+          1
+        ],
+        "jsx-a11y/alt-text": [
+          1,
+          {
+            "elements": [
+              "img"
+            ],
+            "img": [
+              "Image"
+            ]
+          }
+        ],
+        "jsx-a11y/aria-props": [
+          1
+        ],
+        "jsx-a11y/aria-proptypes": [
+          1
+        ],
+        "jsx-a11y/aria-unsupported-elements": [
+          1
+        ],
+        "jsx-a11y/role-has-required-aria-props": [
+          1
+        ],
+        "jsx-a11y/role-supports-aria-props": [
+          1
+        ],
+        "constructor-super": [
+          0
+        ],
+        "getter-return": [
+          0,
+          {
+            "allowImplicit": false
+          }
+        ],
+        "no-class-assign": [
+          0
+        ],
+        "no-const-assign": [
+          0
+        ],
+        "no-dupe-args": [
+          0
+        ],
+        "no-dupe-class-members": [
+          0
+        ],
+        "no-dupe-keys": [
+          0
+        ],
+        "no-func-assign": [
+          0
+        ],
+        "no-import-assign": [
+          0
+        ],
+        "no-new-native-nonconstructor": [
+          0
+        ],
+        "no-new-symbol": [
+          0
+        ],
+        "no-obj-calls": [
+          0
+        ],
+        "no-redeclare": [
+          0,
+          {
+            "builtinGlobals": true
+          }
+        ],
+        "no-setter-return": [
+          0
+        ],
+        "no-this-before-super": [
+          0
+        ],
+        "no-undef": [
+          0,
+          {
+            "typeof": false
+          }
+        ],
+        "no-unreachable": [
+          0
+        ],
+        "no-unsafe-negation": [
+          0,
+          {
+            "enforceForOrderingRelations": false
+          }
+        ],
+        "no-var": [
+          2
+        ],
+        "no-with": [
+          0
+        ],
+        "prefer-const": [
+          2,
+          {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+          }
+        ],
+        "prefer-rest-params": [
+          2
+        ],
+        "prefer-spread": [
+          2
+        ],
+        "@typescript-eslint/ban-ts-comment": [
+          2
+        ],
+        "no-array-constructor": [
+          0
+        ],
+        "@typescript-eslint/no-array-constructor": [
+          2
+        ],
+        "@typescript-eslint/no-duplicate-enum-values": [
+          2
+        ],
+        "@typescript-eslint/no-empty-object-type": [
+          2
+        ],
+        "@typescript-eslint/no-explicit-any": [
+          2
+        ],
+        "@typescript-eslint/no-extra-non-null-assertion": [
+          2
+        ],
+        "@typescript-eslint/no-misused-new": [
+          2
+        ],
+        "@typescript-eslint/no-namespace": [
+          2
+        ],
+        "@typescript-eslint/no-non-null-asserted-optional-chain": [
+          2
+        ],
+        "@typescript-eslint/no-require-imports": [
+          2
+        ],
+        "@typescript-eslint/no-this-alias": [
+          2
+        ],
+        "@typescript-eslint/no-unnecessary-type-constraint": [
+          2
+        ],
+        "@typescript-eslint/no-unsafe-declaration-merging": [
+          2
+        ],
+        "@typescript-eslint/no-unsafe-function-type": [
+          2
+        ],
+        "no-unused-expressions": [
+          0,
+          {
+            "allowShortCircuit": false,
+            "allowTernary": false,
+            "allowTaggedTemplates": false,
+            "enforceForJSX": false,
+            "ignoreDirectives": false
+          }
+        ],
+        "@typescript-eslint/no-unused-expressions": [
+          1,
+          {
+            "allowShortCircuit": false,
+            "allowTaggedTemplates": false,
+            "allowTernary": false
+          }
+        ],
+        "no-unused-vars": [
+          0
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          1
+        ],
+        "@typescript-eslint/no-wrapper-object-types": [
+          2
+        ],
+        "@typescript-eslint/prefer-as-const": [
+          2
+        ],
+        "@typescript-eslint/prefer-namespace-keyword": [
+          2
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+          2
+        ]
+      },
+      "paths": [
+        "app/api/v2/admin/operations/route.ts",
+        "app/api/v2/admin/recovery/route.ts",
+        "app/api/v2/auth/development/route.ts",
+        "app/api/v2/auth/oidc/route.ts",
+        "app/api/v2/billing/checkout/route.ts",
+        "app/api/v2/billing/portal/route.ts",
+        "app/api/v2/billing/status/route.ts",
+        "app/api/v2/billing/webhooks/route.ts",
+        "app/api/v2/captures/route.ts",
+        "app/api/v2/chapters/[id]/checkpoint/route.ts",
+        "app/api/v2/chapters/[id]/context/route.ts",
+        "app/api/v2/chapters/[id]/draft/route.ts",
+        "app/api/v2/chapters/[id]/editor/route.ts",
+        "app/api/v2/draft-conflicts/[id]/route.ts",
+        "app/api/v2/health/live/route.ts",
+        "app/api/v2/health/ready/route.ts",
+        "app/api/v2/operations/events/route.ts",
+        "app/api/v2/preferences/theme/route.ts",
+        "app/api/v2/projects/[id]/captures/[captureId]/attachments/route.ts",
+        "app/api/v2/projects/[id]/captures/[captureId]/conversions/route.ts",
+        "app/api/v2/projects/[id]/captures/[captureId]/route.ts",
+        "app/api/v2/projects/[id]/captures/route.ts",
+        "app/api/v2/projects/[id]/causality/chronology/route.ts",
+        "app/api/v2/projects/[id]/causality/impact/route.ts",
+        "app/api/v2/projects/[id]/causality/neighborhood/route.ts",
+        "app/api/v2/projects/[id]/causality/relations/lifecycle/route.ts",
+        "app/api/v2/projects/[id]/causality/relations/route.ts",
+        "app/api/v2/projects/[id]/causality/route.ts",
+        "app/api/v2/projects/[id]/causality/story-changes/route.ts",
+        "app/api/v2/projects/[id]/chapters/route.ts",
+        "app/api/v2/projects/[id]/context/preferences/route.ts",
+        "app/api/v2/projects/[id]/context/sources/route.ts",
+        "app/api/v2/projects/[id]/continuation/route.ts",
+        "app/api/v2/projects/[id]/language/route.ts",
+        "app/api/v2/projects/[id]/live-model/rebuild/route.ts",
+        "app/api/v2/projects/[id]/live-model/route.ts",
+        "app/api/v2/projects/[id]/live-model/warnings/[warningId]/route.ts",
+        "app/api/v2/projects/[id]/milestones/dependencies/route.ts",
+        "app/api/v2/projects/[id]/milestones/links/route.ts",
+        "app/api/v2/projects/[id]/milestones/reorder/apply/route.ts",
+        "app/api/v2/projects/[id]/milestones/reorder/preview/route.ts",
+        "app/api/v2/projects/[id]/milestones/route.ts",
+        "app/api/v2/projects/[id]/milestones/scaffold/apply/route.ts",
+        "app/api/v2/projects/[id]/milestones/scaffold/preview/route.ts",
+        "app/api/v2/projects/[id]/notes/promotions/route.ts",
+        "app/api/v2/projects/[id]/notes/route.ts",
+        "app/api/v2/projects/[id]/portability/artifacts/[artifactId]/access/route.ts",
+        "app/api/v2/projects/[id]/portability/artifacts/[artifactId]/download/route.ts",
+        "app/api/v2/projects/[id]/portability/destructive-preview/route.ts",
+        "app/api/v2/projects/[id]/portability/exports/route.ts",
+        "app/api/v2/projects/[id]/portability/imports/[importId]/confirm/route.ts",
+        "app/api/v2/projects/[id]/portability/imports/preview/route.ts",
+        "app/api/v2/projects/[id]/portability/route.ts",
+        "app/api/v2/projects/[id]/portability/snapshots/[snapshotId]/restore/route.ts",
+        "app/api/v2/projects/[id]/portability/snapshots/route.ts",
+        "app/api/v2/projects/[id]/research/assets/[assetId]/access/route.ts",
+        "app/api/v2/projects/[id]/research/assets/[assetId]/route.ts",
+        "app/api/v2/projects/[id]/research/assets/route.ts",
+        "app/api/v2/projects/[id]/research/links/route.ts",
+        "app/api/v2/projects/[id]/research/route.ts",
+        "app/api/v2/projects/[id]/search/causal/route.ts",
+        "app/api/v2/projects/[id]/search/route.ts",
+        "app/api/v2/projects/[id]/structure/chapters/membership/route.ts",
+        "app/api/v2/projects/[id]/structure/intents/route.ts",
+        "app/api/v2/projects/[id]/structure/outlines/chapter/route.ts",
+        "app/api/v2/projects/[id]/structure/outlines/plot/route.ts",
+        "app/api/v2/projects/[id]/structure/outlines/volume/route.ts",
+        "app/api/v2/projects/[id]/structure/plots/route.ts",
+        "app/api/v2/projects/[id]/structure/references/route.ts",
+        "app/api/v2/projects/[id]/structure/reorder/apply/route.ts",
+        "app/api/v2/projects/[id]/structure/reorder/preview/route.ts",
+        "app/api/v2/projects/[id]/structure/route.ts",
+        "app/api/v2/projects/[id]/structure/scaffold/apply/route.ts",
+        "app/api/v2/projects/[id]/structure/scaffold/preview/route.ts",
+        "app/api/v2/projects/[id]/structure/scenes/route.ts",
+        "app/api/v2/projects/[id]/structure/view-state/route.ts",
+        "app/api/v2/projects/[id]/structure/volumes/route.ts",
+        "app/api/v2/projects/[id]/suggestions/[suggestionId]/route.ts",
+        "app/api/v2/projects/[id]/suggestions/route.ts",
+        "app/api/v2/projects/[id]/timeline/links/route.ts",
+        "app/api/v2/projects/[id]/timeline/route.ts",
+        "app/api/v2/projects/[id]/tools/route.ts",
+        "app/api/v2/projects/[id]/universe/entities/[entityId]/route.ts",
+        "app/api/v2/projects/[id]/universe/entities/[entityId]/snapshots/route.ts",
+        "app/api/v2/projects/[id]/universe/quick-create/route.ts",
+        "app/api/v2/projects/[id]/universe/relation-types/route.ts",
+        "app/api/v2/projects/[id]/universe/relations/route.ts",
+        "app/api/v2/projects/[id]/universe/route.ts",
+        "app/api/v2/projects/[id]/universe/types/route.ts",
+        "app/api/v2/projects/[id]/vocabulary/route.ts",
+        "app/api/v2/projects/route.ts",
+        "app/app/admin/page.tsx",
+        "app/app/chapters/[id]/page.tsx",
+        "app/app/page.tsx",
+        "app/app/projects/[id]/captures/page.tsx",
+        "app/app/projects/[id]/page.tsx",
+        "app/app/projects/[id]/research/page.tsx",
+        "app/app/projects/[id]/search/page.tsx",
+        "app/app/projects/[id]/structure/page.tsx",
+        "app/app/projects/[id]/suggestions/page.tsx",
+        "app/app/projects/[id]/timeline/page.tsx",
+        "app/app/projects/[id]/universe/[entityId]/page.tsx",
+        "app/app/projects/[id]/universe/page.tsx",
+        "app/app/settings/billing/page.tsx",
+        "app/app/settings/page.tsx",
+        "app/layout.tsx",
+        "app/page.tsx",
+        "app/sign-in/page.tsx",
+        "components/billing/BillingPanel.tsx",
+        "components/capture/CaptureInbox.tsx",
+        "components/capture/QuickCaptureOverlay.tsx",
+        "components/context/ContextCards.tsx",
+        "components/context/ContextualWritingField.tsx",
+        "components/context/PeekOverlay.tsx",
+        "components/context/RelevantNow.tsx",
+        "components/editor/CausalComposer.tsx",
+        "components/editor/ChapterEditor.tsx",
+        "components/editor/ConflictBanner.tsx",
+        "components/editor/EditorCanvas.tsx",
+        "components/editor/EditorToolbar.tsx",
+        "components/editor/FocusMode.tsx",
+        "components/editor/MobileWritingActions.tsx",
+        "components/editor/RecoveryDrawer.tsx",
+        "components/editor/RestoreActions.tsx",
+        "components/editor/RevisionDiff.tsx",
+        "components/editor/SaveIndicator.tsx",
+        "components/editor/WordTarget.tsx",
+        "components/i18n/LocaleProvider.tsx",
+        "components/language/EditorSearchBridge.tsx",
+        "components/live-model/LiveModelFreshness.tsx",
+        "components/operations/AdminOperationsPanel.tsx",
+        "components/operations/ContinueWritingLink.tsx",
+        "components/operations/NavigationAnalytics.tsx",
+        "components/operations/RecoveryActionControl.tsx",
+        "components/performance/VirtualList.tsx",
+        "components/portability/PortabilityPanel.tsx",
+        "components/projects/ProjectCreator.tsx",
+        "components/projects/StartFirstChapter.tsx",
+        "components/research/ResearchWorkspace.tsx",
+        "components/search/SearchPeek.tsx",
+        "components/search/SearchResultGroups.tsx",
+        "components/search/SearchWorkspace.tsx",
+        "components/shell/AppShell.tsx",
+        "components/shell/CommandPalette.tsx",
+        "components/shell/DegradedNetworkStatus.tsx",
+        "components/shell/MobileNavigationSheet.tsx",
+        "components/shell/ThemeMenu.tsx",
+        "components/structure/BulkScaffold.tsx",
+        "components/structure/CausalLens.tsx",
+        "components/structure/ChapterPlanningGrid.tsx",
+        "components/structure/MilestoneLens.tsx",
+        "components/structure/OutlineLens.tsx",
+        "components/structure/RelationshipLens.tsx",
+        "components/structure/SemanticZoomViewport.tsx",
+        "components/structure/StructureLensNav.tsx",
+        "components/structure/StructureWorkspace.tsx",
+        "components/structure/VolumeLane.tsx",
+        "components/suggestions/SuggestionInbox.tsx",
+        "components/theming/ThemeProvider.tsx",
+        "components/timeline/TimelineWorkspace.tsx",
+        "components/universe/EntityDetail.tsx",
+        "components/universe/EntityQuickCreate.tsx",
+        "components/universe/UniverseWorkspace.tsx",
+        "domains/accounts/application/authenticate.ts",
+        "domains/accounts/application/ports.ts",
+        "domains/accounts/application/preferences.ts",
+        "domains/accounts/domain/identity.ts",
+        "domains/accounts/infrastructure/development-auth-adapter.ts",
+        "domains/accounts/infrastructure/memory-identity-repository.ts",
+        "domains/accounts/infrastructure/oidc-auth-adapter.ts",
+        "domains/accounts/infrastructure/prisma-identity-repository.ts",
+        "domains/billing/application/ports.ts",
+        "domains/billing/application/service.ts",
+        "domains/billing/domain/catalog.ts",
+        "domains/billing/domain/quota.ts",
+        "domains/billing/domain/types.ts",
+        "domains/billing/infrastructure/prisma-billing-repository.ts",
+        "domains/billing/infrastructure/provider-adapters.ts",
+        "domains/capture/application/ports.ts",
+        "domains/capture/application/service.ts",
+        "domains/capture/domain/conversion-registry.ts",
+        "domains/capture/domain/types.ts",
+        "domains/capture/infrastructure/prisma-capture-repository.ts",
+        "domains/causality/application/ports.ts",
+        "domains/causality/application/service.ts",
+        "domains/causality/domain/chronology.ts",
+        "domains/causality/domain/endpoint-registry.ts",
+        "domains/causality/domain/graph.ts",
+        "domains/causality/domain/types.ts",
+        "domains/causality/infrastructure/prisma-causality-repository.ts",
+        "domains/causality/infrastructure/prisma-endpoint-adapters.ts",
+        "domains/context/application/ports.ts",
+        "domains/context/application/service.ts",
+        "domains/context/domain/directive.ts",
+        "domains/context/domain/registry.ts",
+        "domains/context/domain/resolver.ts",
+        "domains/context/domain/types.ts",
+        "domains/context/infrastructure/prisma-context-repository.ts",
+        "domains/language/application/ports.ts",
+        "domains/language/application/service.ts",
+        "domains/language/domain/types.ts",
+        "domains/language/infrastructure/prisma-vocabulary-repository.ts",
+        "domains/language/infrastructure/wordnet-dictionary-provider.ts",
+        "domains/live-model/application/ports.ts",
+        "domains/live-model/application/service.ts",
+        "domains/live-model/domain/automation.ts",
+        "domains/live-model/domain/events.ts",
+        "domains/live-model/domain/projections.ts",
+        "domains/live-model/domain/warnings.ts",
+        "domains/live-model/infrastructure/prisma-live-model-repository.ts",
+        "domains/live-model/infrastructure/projector.ts",
+        "domains/milestones/application/ports.ts",
+        "domains/milestones/application/service.ts",
+        "domains/milestones/domain/dependency.ts",
+        "domains/milestones/domain/types.ts",
+        "domains/milestones/infrastructure/prisma-milestone-repository.ts",
+        "domains/notes/application/ports.ts",
+        "domains/notes/application/service.ts",
+        "domains/notes/domain/types.ts",
+        "domains/notes/infrastructure/prisma-note-repository.ts",
+        "domains/operations/application/ports.ts",
+        "domains/operations/application/service.ts",
+        "domains/operations/infrastructure/prisma-operations-repository.ts",
+        "domains/portability/application/ports.ts",
+        "domains/portability/application/service.ts",
+        "domains/portability/domain/import.ts",
+        "domains/portability/domain/representations.ts",
+        "domains/portability/infrastructure/prisma-portability-repository.ts",
+        "domains/portability/infrastructure/prisma-project-archive-reader.ts",
+        "domains/portability/infrastructure/signed-artifact-access.ts",
+        "domains/references/domain/story-reference.ts",
+        "domains/research/application/ports.ts",
+        "domains/research/application/service.ts",
+        "domains/research/domain/types.ts",
+        "domains/research/infrastructure/local-storage.ts",
+        "domains/research/infrastructure/prisma-research-repository.ts",
+        "domains/research/infrastructure/signed-asset-access.ts",
+        "domains/search/application/ports.ts",
+        "domains/search/application/service.ts",
+        "domains/search/domain/provider-registry.ts",
+        "domains/search/domain/types.ts",
+        "domains/search/infrastructure/prisma-search-repository.ts",
+        "domains/structure/application/conversion.ts",
+        "domains/structure/application/ports.ts",
+        "domains/structure/application/service.ts",
+        "domains/structure/domain/invariants.ts",
+        "domains/structure/domain/scaffold.ts",
+        "domains/structure/domain/semantic-coordinate.ts",
+        "domains/structure/domain/types.ts",
+        "domains/structure/infrastructure/prisma-structure-repository.ts",
+        "domains/suggestions/application/ports.ts",
+        "domains/suggestions/application/service.ts",
+        "domains/suggestions/domain/types.ts",
+        "domains/suggestions/infrastructure/prisma-suggestion-repository.ts",
+        "domains/timeline/application/ports.ts",
+        "domains/timeline/application/service.ts",
+        "domains/timeline/domain/types.ts",
+        "domains/timeline/infrastructure/prisma-timeline-repository.ts",
+        "domains/tools/application/ports.ts",
+        "domains/tools/application/service.ts",
+        "domains/tools/domain/contracts.ts",
+        "domains/tools/domain/permissions.ts",
+        "domains/tools/evaluation/harness.ts",
+        "domains/tools/infrastructure/prisma-tool-audit-repository.ts",
+        "domains/tools/infrastructure/prisma-tool-read-model.ts",
+        "domains/universe/application/autocomplete.ts",
+        "domains/universe/application/ports.ts",
+        "domains/universe/application/service.ts",
+        "domains/universe/domain/collection.ts",
+        "domains/universe/domain/templates.ts",
+        "domains/universe/domain/types.ts",
+        "domains/universe/infrastructure/prisma-universe-repository.ts",
+        "domains/writing/application/commands.ts",
+        "domains/writing/application/continuation-ports.ts",
+        "domains/writing/application/continuation.ts",
+        "domains/writing/application/durability-ports.ts",
+        "domains/writing/application/durability.ts",
+        "domains/writing/application/ports.ts",
+        "domains/writing/domain/chapter-document.ts",
+        "domains/writing/domain/document-migrations.ts",
+        "domains/writing/infrastructure/prisma-continuation-repository.ts",
+        "domains/writing/infrastructure/prisma-durability-repository.ts",
+        "domains/writing/infrastructure/prisma-writing-repository.ts",
+        "lib/auth/runtime.ts",
+        "lib/auth/session.ts",
+        "lib/billing/http.ts",
+        "lib/billing/runtime.ts",
+        "lib/capture/http.ts",
+        "lib/capture/runtime.ts",
+        "lib/causality/http.ts",
+        "lib/causality/runtime.ts",
+        "lib/commands/ranking.ts",
+        "lib/commands/registry.ts",
+        "lib/commands/runtime.ts",
+        "lib/commands/use-command-handlers.ts",
+        "lib/context/http.ts",
+        "lib/context/runtime.ts",
+        "lib/context/use-context-field.ts",
+        "lib/contracts/envelope.ts",
+        "lib/contracts/errors.ts",
+        "lib/contracts/list-cursor.ts",
+        "lib/db/prisma.ts",
+        "lib/editor/adapter.ts",
+        "lib/editor/mobile-actions.ts",
+        "lib/editor/use-focus-preserving-overlay.ts",
+        "lib/editor/use-modal-keyboard.ts",
+        "lib/env.ts",
+        "lib/forms/numeric-input.ts",
+        "lib/http/api-rate-limit.ts",
+        "lib/http/csrf.ts",
+        "lib/http/rate-limit.ts",
+        "lib/http/request-context.ts",
+        "lib/http/request-security.ts",
+        "lib/i18n/messages.ts",
+        "lib/i18n/product-messages.ts",
+        "lib/i18n/request.ts",
+        "lib/indexed-db/capture-queue.ts",
+        "lib/indexed-db/draft-journal.ts",
+        "lib/language/http.ts",
+        "lib/language/runtime.ts",
+        "lib/live-model/http.ts",
+        "lib/live-model/runtime.ts",
+        "lib/milestones/http.ts",
+        "lib/milestones/runtime.ts",
+        "lib/notes/http.ts",
+        "lib/notes/runtime.ts",
+        "lib/observability/alerts.ts",
+        "lib/observability/client-operations.ts",
+        "lib/observability/client-trace.ts",
+        "lib/observability/logger.ts",
+        "lib/observability/metrics.ts",
+        "lib/observability/operations.ts",
+        "lib/observability/product-health.ts",
+        "lib/observability/trace.ts",
+        "lib/observability/writing-session.ts",
+        "lib/offline/degraded-mode.ts",
+        "lib/offline/use-network-status.ts",
+        "lib/operations/cost-model.ts",
+        "lib/operations/environments.ts",
+        "lib/operations/feature-flags.ts",
+        "lib/operations/health.ts",
+        "lib/operations/runtime.ts",
+        "lib/performance/budgets.ts",
+        "lib/performance/query-budget.ts",
+        "lib/performance/virtual-window.ts",
+        "lib/portability/http.ts",
+        "lib/portability/runtime.ts",
+        "lib/regions/capabilities.ts",
+        "lib/research/http.ts",
+        "lib/research/runtime.ts",
+        "lib/search/editor-events.ts",
+        "lib/search/http.ts",
+        "lib/search/runtime.ts",
+        "lib/security/authorization.ts",
+        "lib/security/destructive-confirmation.ts",
+        "lib/security/privacy.ts",
+        "lib/security/upload-policy.ts",
+        "lib/storage/object-storage.ts",
+        "lib/structure/http.ts",
+        "lib/structure/runtime.ts",
+        "lib/suggestions/http.ts",
+        "lib/suggestions/runtime.ts",
+        "lib/theming/theme.ts",
+        "lib/timeline/http.ts",
+        "lib/timeline/runtime.ts",
+        "lib/tools/http.ts",
+        "lib/tools/runtime.ts",
+        "lib/universe/http.ts",
+        "lib/universe/runtime.ts",
+        "lib/writing/runtime.ts",
+        "lib/writing/save-state-machine.ts",
+        "lib/writing/use-durable-chapter.ts",
+        "lib/writing/use-writing-continuation.ts",
+        "next.config.ts",
+        "playwright.config.ts",
+        "prisma.config.ts",
+        "prisma/seed.ts",
+        "proxy.ts",
+        "scripts/drill-backup-restore.ts",
+        "scripts/phase7-plan-authority.ts",
+        "scripts/process-live-model-outbox.ts",
+        "scripts/process-operational-alerts.ts",
+        "scripts/process-scheduled-snapshots.ts",
+        "scripts/rebuild-live-story-model.ts",
+        "scripts/stress-billing-db.ts",
+        "scripts/verify-agent-tool-seam-db.ts",
+        "scripts/verify-billing-db.ts",
+        "scripts/verify-capture-db.ts",
+        "scripts/verify-causality-db.ts",
+        "scripts/verify-context-db.ts",
+        "scripts/verify-continuation-db.ts",
+        "scripts/verify-durability-db.ts",
+        "scripts/verify-editor-core-db.ts",
+        "scripts/verify-final-launch-audit.ts",
+        "scripts/verify-foundation-db.ts",
+        "scripts/verify-launch-operations-db.ts",
+        "scripts/verify-live-story-model-db.ts",
+        "scripts/verify-milestones-db.ts",
+        "scripts/verify-phase7-release-seal.ts",
+        "scripts/verify-portability-db.ts",
+        "scripts/verify-release-readiness.ts",
+        "scripts/verify-s18-archive-db.ts",
+        "scripts/verify-s18-oidc-db.ts",
+        "scripts/verify-s18-operational-alerts-db.ts",
+        "scripts/verify-s18-pagination-db.ts",
+        "scripts/verify-search-language-db.ts",
+        "scripts/verify-structure-core-db.ts",
+        "scripts/verify-timeline-research-db.ts",
+        "scripts/verify-universe-db.ts",
+        "tests/accessibility/admin-operations-accessibility.test.tsx",
+        "tests/accessibility/billing-accessibility.test.tsx",
+        "tests/accessibility/capture-accessibility.test.tsx",
+        "tests/accessibility/live-model-accessibility.test.tsx",
+        "tests/accessibility/portability-accessibility.test.tsx",
+        "tests/accessibility/responsive-performance-accessibility.test.tsx",
+        "tests/accessibility/search-language-accessibility.test.tsx",
+        "tests/accessibility/suggestion-inbox-accessibility.test.tsx",
+        "tests/accessibility/timeline-research-accessibility.test.tsx",
+        "tests/accessibility/universe-accessibility.test.tsx",
+        "tests/component/admin-operations.test.tsx",
+        "tests/component/billing-ui.test.tsx",
+        "tests/component/capture-ui.test.tsx",
+        "tests/component/causal-composer.test.tsx",
+        "tests/component/causal-lens.test.tsx",
+        "tests/component/command-palette.test.tsx",
+        "tests/component/context-field.test.tsx",
+        "tests/component/list-pages.test.tsx",
+        "tests/component/milestone-lens.test.tsx",
+        "tests/component/portability-ui.test.tsx",
+        "tests/component/responsive-performance.test.tsx",
+        "tests/component/search-language-ui.test.tsx",
+        "tests/component/shell.test.tsx",
+        "tests/component/structure-interactions.test.tsx",
+        "tests/component/structure-workspace.test.tsx",
+        "tests/component/suggestion-inbox.test.tsx",
+        "tests/component/timeline-research-ui.test.tsx",
+        "tests/component/universe-ui.test.tsx",
+        "tests/component/writing-session-analytics.test.tsx",
+        "tests/e2e/agent-tool-seam.spec.ts",
+        "tests/e2e/billing.spec.ts",
+        "tests/e2e/capture.spec.ts",
+        "tests/e2e/causality.spec.ts",
+        "tests/e2e/command-palette.spec.ts",
+        "tests/e2e/context-field.spec.ts",
+        "tests/e2e/continuation.spec.ts",
+        "tests/e2e/durability.spec.ts",
+        "tests/e2e/editor-core.spec.ts",
+        "tests/e2e/foundation.spec.ts",
+        "tests/e2e/live-model.spec.ts",
+        "tests/e2e/milestones.spec.ts",
+        "tests/e2e/operations.spec.ts",
+        "tests/e2e/portability.spec.ts",
+        "tests/e2e/production-readiness.spec.ts",
+        "tests/e2e/search-language.spec.ts",
+        "tests/e2e/structure-core.spec.ts",
+        "tests/e2e/timeline-research.spec.ts",
+        "tests/e2e/universe.spec.ts",
+        "tests/fixtures/agent-evaluation.ts",
+        "tests/fixtures/causality.ts",
+        "tests/fixtures/milestones.ts",
+        "tests/fixtures/portability.ts",
+        "tests/repository/project-archive-reader.test.ts",
+        "tests/service/agent-tool-service.test.ts",
+        "tests/service/authenticate.test.ts",
+        "tests/service/billing-service.test.ts",
+        "tests/service/capture-service.test.ts",
+        "tests/service/causality-service.test.ts",
+        "tests/service/context-service.test.ts",
+        "tests/service/continuation-service.test.ts",
+        "tests/service/durability-service.test.ts",
+        "tests/service/live-model-service.test.ts",
+        "tests/service/milestone-service.test.ts",
+        "tests/service/portability-service.test.ts",
+        "tests/service/preferences.test.ts",
+        "tests/service/search-language-service.test.ts",
+        "tests/service/structure-service.test.ts",
+        "tests/service/timeline-research-service.test.ts",
+        "tests/service/universe-service.test.ts",
+        "tests/service/writing-service.test.ts",
+        "tests/setup.ts",
+        "tests/stress/agent-tool-seam.stress.test.ts",
+        "tests/stress/billing.stress.test.ts",
+        "tests/stress/capture-queue.stress.test.ts",
+        "tests/stress/causality.stress.test.ts",
+        "tests/stress/chapter-document.stress.test.ts",
+        "tests/stress/command-ranking.stress.test.ts",
+        "tests/stress/context-resolver.stress.test.ts",
+        "tests/stress/foundation.test.ts",
+        "tests/stress/live-model.stress.test.ts",
+        "tests/stress/milestones.stress.test.ts",
+        "tests/stress/operations-s16.stress.test.ts",
+        "tests/stress/performance-s15.stress.test.ts",
+        "tests/stress/portability.stress.test.ts",
+        "tests/stress/search-language.stress.test.ts",
+        "tests/stress/structure-core.stress.test.ts",
+        "tests/stress/timeline-research.stress.test.ts",
+        "tests/stress/universe.stress.test.ts",
+        "tests/unit/agent-evaluation.test.ts",
+        "tests/unit/agent-tool-contracts.test.ts",
+        "tests/unit/billing-domain.test.ts",
+        "tests/unit/billing-provider.test.ts",
+        "tests/unit/capture-domain.test.ts",
+        "tests/unit/capture-queue.test.ts",
+        "tests/unit/causality-domain.test.ts",
+        "tests/unit/chapter-document.test.ts",
+        "tests/unit/command-ranking.test.ts",
+        "tests/unit/command-registry.test.ts",
+        "tests/unit/context-resolver.test.ts",
+        "tests/unit/continuation-contract.test.ts",
+        "tests/unit/draft-journal.test.ts",
+        "tests/unit/editor-attribute-security.test.ts",
+        "tests/unit/env.test.ts",
+        "tests/unit/errors.test.ts",
+        "tests/unit/http-contracts.test.ts",
+        "tests/unit/i18n-complete-extraction.test.ts",
+        "tests/unit/language-domain.test.ts",
+        "tests/unit/list-cursor.test.ts",
+        "tests/unit/live-model-automation.test.ts",
+        "tests/unit/live-model-events.test.ts",
+        "tests/unit/live-model-projections.test.ts",
+        "tests/unit/logger.test.ts",
+        "tests/unit/milestone-domain.test.ts",
+        "tests/unit/numeric-input.test.ts",
+        "tests/unit/oidc-session.test.ts",
+        "tests/unit/operational-alert-producers.test.ts",
+        "tests/unit/operations-security.test.ts",
+        "tests/unit/performance-i18n-region.test.ts",
+        "tests/unit/phase7-plan-authority.test.ts",
+        "tests/unit/portability-import.test.ts",
+        "tests/unit/portability-representations.test.ts",
+        "tests/unit/rate-limit.test.ts",
+        "tests/unit/save-state-machine.test.ts",
+        "tests/unit/search-domain.test.ts",
+        "tests/unit/semantic-coordinate.test.ts",
+        "tests/unit/session.test.ts",
+        "tests/unit/story-reference.test.ts",
+        "tests/unit/structure-conversion.test.ts",
+        "tests/unit/structure-invariants.test.ts",
+        "tests/unit/structure-scaffold.test.ts",
+        "tests/unit/timeline-research-domain.test.ts",
+        "tests/unit/universe-domain.test.ts",
+        "types/wordpos.d.ts",
+        "vitest.config.ts"
+      ]
+    },
+    {
+      "configHash": "340e136364162d7f9548543e41d815c43bc65e19e112fcb71a0e78d269b54ed1",
+      "rules": {
+        "react/display-name": [
+          2
+        ],
+        "react/jsx-key": [
+          2
+        ],
+        "react/jsx-no-comment-textnodes": [
+          2
+        ],
+        "react/jsx-no-duplicate-props": [
+          2
+        ],
+        "react/jsx-no-target-blank": [
+          0
+        ],
+        "react/jsx-no-undef": [
+          2
+        ],
+        "react/jsx-uses-react": [
+          2
+        ],
+        "react/jsx-uses-vars": [
+          2
+        ],
+        "react/no-children-prop": [
+          2
+        ],
+        "react/no-danger-with-children": [
+          2
+        ],
+        "react/no-deprecated": [
+          2
+        ],
+        "react/no-direct-mutation-state": [
+          2
+        ],
+        "react/no-find-dom-node": [
+          2
+        ],
+        "react/no-is-mounted": [
+          2
+        ],
+        "react/no-render-return-value": [
+          2
+        ],
+        "react/no-string-refs": [
+          2
+        ],
+        "react/no-unescaped-entities": [
+          2
+        ],
+        "react/no-unknown-property": [
+          0
+        ],
+        "react/no-unsafe": [
+          0
+        ],
+        "react/prop-types": [
+          0
+        ],
+        "react/react-in-jsx-scope": [
+          0
+        ],
+        "react/require-render-return": [
+          2
+        ],
+        "react-hooks/rules-of-hooks": [
+          2
+        ],
+        "react-hooks/exhaustive-deps": [
+          1
+        ],
+        "react-hooks/static-components": [
+          2
+        ],
+        "react-hooks/use-memo": [
+          2
+        ],
+        "react-hooks/preserve-manual-memoization": [
+          2
+        ],
+        "react-hooks/incompatible-library": [
+          1
+        ],
+        "react-hooks/immutability": [
+          2
+        ],
+        "react-hooks/globals": [
+          2
+        ],
+        "react-hooks/refs": [
+          2
+        ],
+        "react-hooks/set-state-in-effect": [
+          2
+        ],
+        "react-hooks/error-boundaries": [
+          2
+        ],
+        "react-hooks/purity": [
+          2
+        ],
+        "react-hooks/set-state-in-render": [
+          2
+        ],
+        "react-hooks/unsupported-syntax": [
+          1
+        ],
+        "react-hooks/config": [
+          2
+        ],
+        "react-hooks/gating": [
+          2
+        ],
+        "@next/next/google-font-display": [
+          1
+        ],
+        "@next/next/google-font-preconnect": [
+          1
+        ],
+        "@next/next/next-script-for-ga": [
+          1
+        ],
+        "@next/next/no-async-client-component": [
+          1
+        ],
+        "@next/next/no-before-interactive-script-outside-document": [
+          1
+        ],
+        "@next/next/no-css-tags": [
+          1
+        ],
+        "@next/next/no-head-element": [
+          1
+        ],
+        "@next/next/no-html-link-for-pages": [
+          2
+        ],
+        "@next/next/no-img-element": [
+          1
+        ],
+        "@next/next/no-location-assign-relative-destination": [
+          1
+        ],
+        "@next/next/no-page-custom-font": [
+          1
+        ],
+        "@next/next/no-styled-jsx-in-document": [
+          1
+        ],
+        "@next/next/no-sync-scripts": [
+          2
+        ],
+        "@next/next/no-title-in-document-head": [
+          1
+        ],
+        "@next/next/no-typos": [
+          1
+        ],
+        "@next/next/no-unwanted-polyfillio": [
+          1
+        ],
+        "@next/next/inline-script-id": [
+          2
+        ],
+        "@next/next/no-assign-module-variable": [
+          2
+        ],
+        "@next/next/no-document-import-in-page": [
+          2
+        ],
+        "@next/next/no-duplicate-head": [
+          2
+        ],
+        "@next/next/no-head-import-in-document": [
+          2
+        ],
+        "@next/next/no-script-component-in-head": [
+          2
+        ],
+        "import/no-anonymous-default-export": [
+          1
+        ],
+        "jsx-a11y/alt-text": [
+          1,
+          {
+            "elements": [
+              "img"
+            ],
+            "img": [
+              "Image"
+            ]
+          }
+        ],
+        "jsx-a11y/aria-props": [
+          1
+        ],
+        "jsx-a11y/aria-proptypes": [
+          1
+        ],
+        "jsx-a11y/aria-unsupported-elements": [
+          1
+        ],
+        "jsx-a11y/role-has-required-aria-props": [
+          1
+        ],
+        "jsx-a11y/role-supports-aria-props": [
+          1
+        ],
+        "@typescript-eslint/ban-ts-comment": [
+          2
+        ],
+        "no-array-constructor": [
+          0
+        ],
+        "@typescript-eslint/no-array-constructor": [
+          2
+        ],
+        "@typescript-eslint/no-duplicate-enum-values": [
+          2
+        ],
+        "@typescript-eslint/no-empty-object-type": [
+          2
+        ],
+        "@typescript-eslint/no-explicit-any": [
+          2
+        ],
+        "@typescript-eslint/no-extra-non-null-assertion": [
+          2
+        ],
+        "@typescript-eslint/no-misused-new": [
+          2
+        ],
+        "@typescript-eslint/no-namespace": [
+          2
+        ],
+        "@typescript-eslint/no-non-null-asserted-optional-chain": [
+          2
+        ],
+        "@typescript-eslint/no-require-imports": [
+          2
+        ],
+        "@typescript-eslint/no-this-alias": [
+          2
+        ],
+        "@typescript-eslint/no-unnecessary-type-constraint": [
+          2
+        ],
+        "@typescript-eslint/no-unsafe-declaration-merging": [
+          2
+        ],
+        "@typescript-eslint/no-unsafe-function-type": [
+          2
+        ],
+        "no-unused-expressions": [
+          0,
+          {
+            "allowShortCircuit": false,
+            "allowTernary": false,
+            "allowTaggedTemplates": false,
+            "enforceForJSX": false,
+            "ignoreDirectives": false
+          }
+        ],
+        "@typescript-eslint/no-unused-expressions": [
+          1,
+          {
+            "allowShortCircuit": false,
+            "allowTaggedTemplates": false,
+            "allowTernary": false
+          }
+        ],
+        "no-unused-vars": [
+          0
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          1
+        ],
+        "@typescript-eslint/no-wrapper-object-types": [
+          2
+        ],
+        "@typescript-eslint/prefer-as-const": [
+          2
+        ],
+        "@typescript-eslint/prefer-namespace-keyword": [
+          2
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+          2
+        ]
+      },
+      "paths": [
+        "eslint.config.mjs"
+      ]
+    },
+    {
+      "configHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "rules": null,
+      "paths": [
+        "next-env.d.ts"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "path": "@next/eslint-plugin-next/dist/index.d.ts",
+      "sha256": "428fbb43ab6e964fc33a17eb50874986622a5ac108696b53ee0cbfb58e51aeb7"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/index.js",
+      "sha256": "d1d7f1de69b3a222f04a0d0485d0cf5552c9c6d614d03a07bd689f4a21c91c06"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/google-font-display.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/google-font-display.js",
+      "sha256": "4fd8cd476fae6e37f75ae54e46feee561040a04b01d9c73cab37b778e586f6cd"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/google-font-preconnect.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/google-font-preconnect.js",
+      "sha256": "7097aedd951e8909265c716323ade6d0887f4b54152774d7cfe3059812ced4d2"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/inline-script-id.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/inline-script-id.js",
+      "sha256": "fe7cc4883e52ae135e44eb3d2788b6a54eca0a11b559ff0636b51fcae550b69a"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/next-script-for-ga.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/next-script-for-ga.js",
+      "sha256": "a1d40c2b48d252f43b4f739d628748a50e4902b8b2f667d7cedb726689055149"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-assign-module-variable.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-assign-module-variable.js",
+      "sha256": "131993a0f769199a4e1fbcc006a5e798ef5234d344b89146a347cf9ba9703c64"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-async-client-component.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-async-client-component.js",
+      "sha256": "eb8252488bd89335d79c45d53872918f70bb03a98b87f633317a2b13ae294a1f"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-before-interactive-script-outside-document.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-before-interactive-script-outside-document.js",
+      "sha256": "b4606784338583e745f50a32da212034be6599513180e6d77ce6295c92d38d3c"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-css-tags.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-css-tags.js",
+      "sha256": "3ecea24c00cf779b1ce80cdd1176e3a21a4369bac16e2f48c1ec0ccaa8200568"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-document-import-in-page.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-document-import-in-page.js",
+      "sha256": "aa6622bc04ccc1d7e0289b42cedb5b10b70800d4ad9caa1165a4ce0c9ee2fc00"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-duplicate-head.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-duplicate-head.js",
+      "sha256": "2f3fe9b461c45f144e606ab989b409117af0e163edd2c9858d84cbf29426254c"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-head-element.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-head-element.js",
+      "sha256": "ce985a88bb226e3688c90c47da71d2c0ce0797d27d1b112d5e8e4f02b3e25a67"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-head-import-in-document.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-head-import-in-document.js",
+      "sha256": "64c3f1ecbab2a468641f85a2c4b1d746c316c2ba390f6780cc8882c456dd0bd4"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-html-link-for-pages.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-html-link-for-pages.js",
+      "sha256": "3b184e28aa8997eb8e7f7b43c8da327fd3e2a2acf826e6e328632e7006687baa"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-img-element.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-img-element.js",
+      "sha256": "e2945047059e846e58d67090de882821a4c39129acb1d51bea80eb955964dc5f"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-location-assign-relative-destination.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-location-assign-relative-destination.js",
+      "sha256": "61f2e7f61e2e9d72860ca15881533f63b9b169fc7774a5b6241771e32c717010"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-page-custom-font.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-page-custom-font.js",
+      "sha256": "e7b6b5dc6834b9eef90e72f024bdf0b1795a2ecfdc3fb37a8a3954556457a346"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-script-component-in-head.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-script-component-in-head.js",
+      "sha256": "2569a771e8a932ef566bccb49f2f31bd22f22e12bf8b282eca04f35821f4471f"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-styled-jsx-in-document.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-styled-jsx-in-document.js",
+      "sha256": "dc5ce51b254c4d28a34e2b2b103fb54601e7836d88c5909b2874710e443a906d"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-sync-scripts.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-sync-scripts.js",
+      "sha256": "d4b0d7c74cce675107755e5ccf7f02f6c1493cd80296c7eb483ace5f6bab53b0"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-title-in-document-head.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-title-in-document-head.js",
+      "sha256": "32a809a59b6ea3cb86eb603ccfb36835f2396720ba1553de543271e7e4b2aeca"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-typos.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-typos.js",
+      "sha256": "8e3faf5e72a97234579adcbecf2773082ea38ecc21188d261c2e6db9cdd95d85"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-unwanted-polyfillio.d.ts",
+      "sha256": "15e0d2ae63598741afe0503dfaca085552936706417285cd2c4d56c5bb71f25b"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/rules/no-unwanted-polyfillio.js",
+      "sha256": "84d1fe31dc0fba0fd1139b5adcaa9579dd31b33ab35f32faecc5a529edd773ab"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/define-rule.d.ts",
+      "sha256": "850d96a4136c9ff820fc16dcedfde9673e6cf8f8a6711994667e0af561bf9d4e"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/define-rule.js",
+      "sha256": "2d490d33f3a9db380fa01452091cb1daf81dbbf0e09fbc4eefdbc379f6aba633"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/get-root-dirs.d.ts",
+      "sha256": "ae8febcc67870c017aaf03205096c9c7c622c0a96fe3aa3a85e56968d86ba98f"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/get-root-dirs.js",
+      "sha256": "886677432990a735e5ebdfb345ff1cbd40e264f9947a8432eeeb254b3a926bde"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/node-attributes.d.ts",
+      "sha256": "9850a9cfd0844f488591435b87dd7cbf26cd9fc7352621a7b8cae1e89115e29a"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/node-attributes.js",
+      "sha256": "48fd96af82f72bd5ac5fd6e459a60768638d4f4fcd44b222f128c39e7336997a"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/url.d.ts",
+      "sha256": "cbdebf9a868e60d324fafd69404c39cced9f86727b211878989931ca7c91efe5"
+    },
+    {
+      "path": "@next/eslint-plugin-next/dist/utils/url.js",
+      "sha256": "219194728597d02d8f7cecafd14d91e681c99f9fa169e5b7577bdf866993ef5a"
+    },
+    {
+      "path": "eslint-config-next/dist/core-web-vitals.d.ts",
+      "sha256": "1e36d150c6ffb15c8817050f6992fea733a342e7a36ba43d45ee0be27a0a7e97"
+    },
+    {
+      "path": "eslint-config-next/dist/core-web-vitals.js",
+      "sha256": "c50f0df37eff59ea77f29060bb104a789c0e776d610aff2ceaeb0b83fcf0a27e"
+    },
+    {
+      "path": "eslint-config-next/dist/index.d.ts",
+      "sha256": "1e36d150c6ffb15c8817050f6992fea733a342e7a36ba43d45ee0be27a0a7e97"
+    },
+    {
+      "path": "eslint-config-next/dist/index.js",
+      "sha256": "b74a083bb67a558c32b5dba2925d1d2cbf806a11b5a034af17962d74d38a435d"
+    },
+    {
+      "path": "eslint-config-next/dist/parser.d.ts",
+      "sha256": "6ae17df9cb004f10999fdc8b8d7f66b99541ff991e6f7f014b978e86e1c0e318"
+    },
+    {
+      "path": "eslint-config-next/dist/parser.js",
+      "sha256": "bf9861fcd2318c860f1aeaef6cd0e5af3922213fe95429eadab607acb56a89db"
+    },
+    {
+      "path": "eslint-config-next/dist/typescript.d.ts",
+      "sha256": "1e36d150c6ffb15c8817050f6992fea733a342e7a36ba43d45ee0be27a0a7e97"
+    },
+    {
+      "path": "eslint-config-next/dist/typescript.js",
+      "sha256": "2ef66aece60b064a2111e1015d1ceddfc4503e3178cd9af49bf5043c821cf70e"
+    }
+  ],
+  "fixtureDirectories": [
+    "packages/alpha/pages",
+    "packages/alpha/app",
+    "packages/beta/src/pages",
+    "packages/beta/child",
+    "packages/gamma/.hidden",
+    "packages/1/pages",
+    "packages/2/pages",
+    "outside",
+    "packages/.private/pages"
+  ],
+  "fixtures": [
+    {
+      "pattern": "packages/alpha",
+      "resolved": [
+        "packages/alpha"
+      ]
+    },
+    {
+      "pattern": "packages/alpha/",
+      "resolved": [
+        "packages/alpha"
+      ]
+    },
+    {
+      "pattern": "./packages/*",
+      "resolved": [
+        "packages/1",
+        "packages/2",
+        "packages/alpha",
+        "packages/beta",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/*",
+      "resolved": [
+        "packages/1",
+        "packages/2",
+        "packages/alpha",
+        "packages/beta",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/**",
+      "resolved": [
+        "packages/1",
+        "packages/1/pages",
+        "packages/2",
+        "packages/2/pages",
+        "packages/alpha",
+        "packages/alpha/app",
+        "packages/alpha/pages",
+        "packages/beta",
+        "packages/beta/child",
+        "packages/beta/src",
+        "packages/beta/src/pages",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/**/",
+      "resolved": [
+        "packages/1",
+        "packages/1/pages",
+        "packages/2",
+        "packages/2/pages",
+        "packages/alpha",
+        "packages/alpha/app",
+        "packages/alpha/pages",
+        "packages/beta",
+        "packages/beta/child",
+        "packages/beta/src",
+        "packages/beta/src/pages",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/**/*",
+      "resolved": [
+        "packages/1",
+        "packages/1/pages",
+        "packages/2",
+        "packages/2/pages",
+        "packages/alpha",
+        "packages/alpha/app",
+        "packages/alpha/pages",
+        "packages/beta",
+        "packages/beta/child",
+        "packages/beta/src",
+        "packages/beta/src/pages",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/*/pages",
+      "resolved": [
+        "packages/1/pages",
+        "packages/2/pages",
+        "packages/alpha/pages"
+      ]
+    },
+    {
+      "pattern": "packages/{alpha,beta}",
+      "resolved": [
+        "packages/alpha",
+        "packages/beta"
+      ]
+    },
+    {
+      "pattern": "packages/{1..2}",
+      "resolved": [
+        "packages/1",
+        "packages/2"
+      ]
+    },
+    {
+      "pattern": "packages/@(alpha|beta)",
+      "resolved": [
+        "packages/alpha",
+        "packages/beta"
+      ]
+    },
+    {
+      "pattern": "packages/!(alpha)",
+      "resolved": [
+        "packages/.private",
+        "packages/1",
+        "packages/2",
+        "packages/beta",
+        "packages/gamma"
+      ]
+    },
+    {
+      "pattern": "packages/?eta",
+      "resolved": [
+        "packages/beta"
+      ]
+    },
+    {
+      "pattern": "packages/[ab]*",
+      "resolved": [
+        "packages/alpha",
+        "packages/beta"
+      ]
+    },
+    {
+      "pattern": "packages/**/pages",
+      "resolved": [
+        "packages/1/pages",
+        "packages/2/pages",
+        "packages/alpha/pages",
+        "packages/beta/src/pages"
+      ]
+    },
+    {
+      "pattern": "packages/.*",
+      "resolved": [
+        "packages/.private"
+      ]
+    },
+    {
+      "pattern": "missing/*",
+      "resolved": []
+    },
+    {
+      "pattern": "!packages/*",
+      "resolved": []
+    },
+    {
+      "pattern": "packages/{alpha,beta}/**",
+      "resolved": [
+        "packages/alpha/app",
+        "packages/alpha/pages",
+        "packages/beta/child",
+        "packages/beta/src",
+        "packages/beta/src/pages"
+      ]
+    },
+    {
+      "pattern": "packages/../outside",
+      "resolved": [
+        "outside"
+      ]
+    },
+    {
+      "pattern": "packages/../packages/*",
+      "resolved": [
+        "packages/1",
+        "packages/2",
+        "packages/alpha",
+        "packages/beta",
+        "packages/gamma"
+      ]
+    }
+  ]
+}
